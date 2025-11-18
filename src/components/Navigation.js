@@ -122,6 +122,17 @@ function Navigation() {
               className={`nav-link ${isActive('/bible/meme-generator') ? 'active' : ''}`}
               to="/bible/find-reference"
               className={`nav-link ${isActive('/bible/find-reference') ? 'active' : ''}`}
+              to="/translation-comparisons"
+              className={`nav-link ${isActive('/translation-comparisons') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Translation Notes
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/settings/translations"
+              className={`nav-link ${isActive('/settings') ? 'active' : ''}`}
               onClick={closeMenu}
             >
               Find the Reference

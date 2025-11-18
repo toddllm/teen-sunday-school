@@ -29,6 +29,7 @@ model Organization {
   aiFilterConfigs AIFilterConfig[]
   comparativeThemes ComparativeTheme[]
   parables     Parable[]
+  translationComparisonNotes TranslationComparisonNote[]
 
   @@index([slug])
 }
@@ -1117,6 +1118,35 @@ model Parable {
   // Related content
   crossReferences Json?   // Array of {ref: string, description?: string}
   relatedParables Json?   // Array of parable IDs or references
+// TRANSLATION COMPARISON NOTES (Teen-Friendly)
+// ============================================================================
+
+model TranslationComparisonNote {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Note metadata
+  title          String
+  description    String?  @db.Text
+  passageRef     String   // Primary passage reference (e.g., "John 3:16")
+
+  // Translation data
+  // Array of {code: "NIV", name: "New International Version", text: "passage text", focus?: "key phrase"}
+  translations   Json
+
+  // Comparison points (teen-friendly explanations)
+  // Array of {aspect: "Word Choice", difference: "NIV uses 'love' while KJV uses 'loved'", teenExplanation: "Both mean the same thing..."}
+  comparisonPoints Json
+
+  // Additional teen-friendly content
+  teenSummary    String?  @db.Text  // Simple summary for teens
+  whyItMatters   String?  @db.Text  // Why this comparison is important
+  keyTakeaway    String?  @db.Text  // Main point for teens to remember
+
+  // Categorization
+  category       String?  // e.g., "word-choice", "context", "cultural", "theological"
+  difficulty     String?  // "beginner", "intermediate", "advanced"
+  tags           Json?    // Array of tags for filtering
 
   // Visibility
   isPublic       Boolean  @default(false)
@@ -1138,6 +1168,17 @@ model Parable {
 model ParableMetric {
   id             String   @id @default(cuid())
   parableId      String
+  metrics      ComparisonNoteMetric[]
+
+  @@index([organizationId])
+  @@index([passageRef])
+  @@index([category])
+  @@index([difficulty])
+}
+
+model ComparisonNoteMetric {
+  id             String   @id @default(cuid())
+  noteId         String
   organizationId String
 
   // Tracking
@@ -1147,6 +1188,7 @@ model ParableMetric {
   // User engagement
   userId         String?  // User who viewed
   featureContext String?  // Where it was accessed (e.g., "explorer", "lesson", "search")
+  featureContext String?  // Where it was accessed (e.g., "browse", "passage_lookup", "search")
   timeSpentMs    Int?     // Time spent viewing in milliseconds
 
   // Lesson usage tracking
@@ -1158,6 +1200,14 @@ model ParableMetric {
   parable Parable @relation(fields: [parableId], references: [id], onDelete: Cascade)
 
   @@index([parableId])
+  // User feedback (optional)
+  wasHelpful     Boolean?  // Did the teen find this helpful?
+
+  createdAt      DateTime @default(now())
+
+  note TranslationComparisonNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+
+  @@index([noteId])
   @@index([organizationId])
   @@index([createdAt])
   @@index([userId])
