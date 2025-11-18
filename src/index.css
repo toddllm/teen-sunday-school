@@ -45,6 +45,54 @@
   --scrollbar-thumb-hover: #5a5f6a;
 }
 
+/* High Contrast Mode - Light Theme */
+[data-high-contrast="true"] {
+  --primary-color: #0000EE;
+  --secondary-color: #008000;
+  --accent-color: #CC0000;
+  --dark-color: #000000;
+  --light-gray: #E0E0E0;
+
+  /* High contrast light mode colors */
+  --bg-color: #FFFFFF;
+  --text-color: #000000;
+  --text-secondary: #000000;
+  --card-bg: #FFFFFF;
+  --border-color: #000000;
+  --hover-bg: #E0E0E0;
+  --input-bg: #FFFFFF;
+  --input-border: #000000;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  --scrollbar-track: #E0E0E0;
+  --scrollbar-thumb: #000000;
+  --scrollbar-thumb-hover: #333333;
+}
+
+/* High Contrast Mode - Dark Theme */
+[data-theme="dark"][data-high-contrast="true"] {
+  --primary-color: #00BFFF;
+  --secondary-color: #00FF00;
+  --accent-color: #FF4444;
+  --dark-color: #FFFFFF;
+  --light-gray: #333333;
+
+  /* High contrast dark mode colors */
+  --bg-color: #000000;
+  --text-color: #FFFFFF;
+  --text-secondary: #FFFFFF;
+  --card-bg: #000000;
+  --border-color: #FFFFFF;
+  --hover-bg: #1A1A1A;
+  --input-bg: #000000;
+  --input-border: #FFFFFF;
+  --shadow-color: rgba(255, 255, 255, 0.3);
+  --box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+  --scrollbar-track: #1A1A1A;
+  --scrollbar-thumb: #FFFFFF;
+  --scrollbar-thumb-hover: #CCCCCC;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -100,4 +148,48 @@ input, textarea, select {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover);
+}
+
+/* Reduced Motion Support */
+/* Respect system preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Manual reduced motion preference */
+[data-reduce-motion="true"] *,
+[data-reduce-motion="true"] *::before,
+[data-reduce-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* High Contrast Mode - Enhanced borders and focus states */
+[data-high-contrast="true"] * {
+  outline-width: 2px;
+}
+
+[data-high-contrast="true"] button,
+[data-high-contrast="true"] input,
+[data-high-contrast="true"] select,
+[data-high-contrast="true"] textarea {
+  border-width: 2px;
+}
+
+[data-high-contrast="true"] button:focus,
+[data-high-contrast="true"] input:focus,
+[data-high-contrast="true"] select:focus,
+[data-high-contrast="true"] textarea:focus,
+[data-high-contrast="true"] a:focus {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
 }

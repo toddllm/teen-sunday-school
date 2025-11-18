@@ -96,10 +96,19 @@ function Navigation() {
           <li className="nav-item">
             <Link
               to="/settings/translations"
-              className={`nav-link ${isActive('/settings') ? 'active' : ''}`}
+              className={`nav-link ${isActive('/settings/translations') ? 'active' : ''}`}
               onClick={closeMenu}
             >
-              Settings
+              Translation Settings
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/settings/accessibility"
+              className={`nav-link ${isActive('/settings/accessibility') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Accessibility
             </Link>
           </li>
           <li className="nav-item">

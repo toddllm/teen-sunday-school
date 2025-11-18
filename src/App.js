@@ -16,6 +16,7 @@ import PlanPreviewPage from './pages/PlanPreviewPage';
 import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
+import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
 import AIFiltersAdminPage from './pages/AIFiltersAdminPage';
 import ComparativeThemeViewPage from './pages/ComparativeThemeViewPage';
@@ -48,6 +49,7 @@ function App() {
             <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />
             <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
+            <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
