@@ -30,7 +30,7 @@ import { TopicProvider } from './contexts/TopicContext';
 import { IcebreakerProvider } from './contexts/IcebreakerContext';
 import { ProfileProvider } from './contexts/ProfileContext';
 import { CharacterProvider } from './contexts/CharacterContext';
-import { QuestionBankProvider } from './contexts/QuestionBankContext';
+import { FeedbackProvider } from './contexts/FeedbackContext';import { QuestionBankProvider } from './contexts/QuestionBankContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
@@ -86,8 +86,8 @@ root.render(
                                             <LexiconProvider>
                                               <ThematicJourneyProvider>
                                                 <CommentaryProvider>
-                                                  <App />
-                                                </CommentaryProvider>
+                                                  <FeedbackProvider>                                                  <App />
+                                                  </FeedbackProvider>                                                </CommentaryProvider>
                                               </ThematicJourneyProvider>
                                             </LexiconProvider>
                                           </OutlineProvider>

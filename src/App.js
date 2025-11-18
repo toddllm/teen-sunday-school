@@ -12,7 +12,8 @@ import AdminPage from './pages/AdminPage';
 import LessonCreatorPage from './pages/LessonCreatorPage';
 import GamesPage from './pages/GamesPage';
 import GamesAdminPage from './pages/GamesAdminPage';
-import TranslationAdminPage from './pages/TranslationAdminPage';
+import FeedbackFormPage from './pages/FeedbackFormPage';
+import FeedbackAdminPage from './pages/FeedbackAdminPage';import TranslationAdminPage from './pages/TranslationAdminPage';
 import PlansAdminPage from './pages/PlansAdminPage';
 import PlanCreatorPage from './pages/PlanCreatorPage';
 import PlanPreviewPage from './pages/PlanPreviewPage';
@@ -136,7 +137,7 @@ function AppContent() {
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
           <Route path="/admin/branding" element={<OrganizationSettingsPage />} />
           <Route path="/admin/translations" element={<TranslationAdminPage />} />
-          <Route path="/admin/plans" element={<PlansAdminPage />} />
+          <Route path="/admin/feedback" element={<FeedbackAdminPage />} />          <Route path="/admin/plans" element={<PlansAdminPage />} />
           <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
           <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
           <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
@@ -148,7 +149,7 @@ function AppContent() {
           <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
           <Route path="/bible/original-language" element={<OriginalLanguagePage />} />
           <Route path="/settings/translations" element={<TranslationSettingsPage />} />
-          <Route path="/journeys" element={<ThematicJourneysPage />} />
+          <Route path="/feedback" element={<FeedbackFormPage />} />          <Route path="/journeys" element={<ThematicJourneysPage />} />
           <Route path="/journeys/:journeyId" element={<JourneyDetailPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
@@ -262,7 +263,7 @@ function App() {
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
-            <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
+          <Route path="/feedback" element={<FeedbackFormPage />} />            <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
             <Route path="/settings/reading-metrics" element={<ReadingMetricsSettingsPage />} />
             <Route path="/settings/profile" element={<ProfileSettingsPage />} />
             <Route path="/parent" element={<ParentOverviewPage />} />
