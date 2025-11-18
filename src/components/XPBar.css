@@ -1,0 +1,123 @@
+.xp-bar-container {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.xp-bar-container.compact {
+  margin: 0.5rem 0;
+}
+
+.xp-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.xp-bar-label {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.xp-bar-amount {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #666);
+}
+
+.xp-bar-track {
+  width: 100%;
+  height: 24px;
+  background: var(--xp-bar-bg, #e0e0e0);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.xp-bar-container.compact .xp-bar-track {
+  height: 20px;
+  border-radius: 10px;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50 0%, #66BB6A 100%);
+  border-radius: 12px;
+  transition: width 0.5s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.75rem;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.xp-bar-container.compact .xp-bar-fill {
+  border-radius: 10px;
+  padding-right: 0.5rem;
+}
+
+.xp-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.xp-bar-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.xp-bar-footer {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.xp-bar-progress {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #666);
+  font-weight: 500;
+}
+
+/* Dark mode support */
+body.dark-mode .xp-bar-track {
+  background: var(--xp-bar-bg, #2a2a2a);
+}
+
+body.dark-mode .xp-bar-amount,
+body.dark-mode .xp-bar-progress {
+  color: var(--text-secondary, #999);
+}
+
+/* Animations */
+@keyframes xp-gain {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.xp-bar-fill.animating {
+  animation: xp-gain 0.3s ease-out;
+}

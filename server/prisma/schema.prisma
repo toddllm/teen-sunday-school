@@ -75,6 +75,11 @@ model User {
   parentLogins     ParentLogin[]
   parentFeedback   ParentFeedback[]
 
+  // XP & Level System
+  xp               UserXP?
+  xpEvents         XPEvent[]
+  rewards          UserReward[]
+
   @@index([email])
   @@index([organizationId])
   @@index([externalId])
@@ -2567,4 +2572,91 @@ model ParentFeedback {
   @@index([userId])
   @@index([createdAt])
   @@index([category])
+}
+model UserXP {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  xpTotal   Int      @default(0)
+  level     Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events XPEvent[]
+  rewards UserReward[]
+
+  @@index([userId])
+  @@index([level])
+}
+
+model XPEvent {
+  id          String   @id @default(cuid())
+  userId      String
+  userXPId    String
+  actionType  XPActionType
+  amount      Int
+  description String?
+  metadata    Json?    // Additional context (e.g., lessonId, chapterId, etc.)
+  createdAt   DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userXP UserXP @relation(fields: [userXPId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userXPId])
+  @@index([actionType])
+  @@index([createdAt])
+}
+
+enum XPActionType {
+  CHAPTER_READ         // 10 XP
+  READING_PLAN_DAY     // 15 XP
+  LESSON_COMPLETED     // 20 XP
+  QUIZ_CORRECT         // 5 XP per correct answer
+  PRAYER_LOGGED        // 10 XP
+  VERSE_MEMORIZED      // 25 XP
+  JOURNAL_ENTRY        // 10 XP
+  DAILY_LOGIN          // 5 XP
+  STREAK_BONUS         // Variable XP based on streak
+}
+
+model Reward {
+  id          String     @id @default(cuid())
+  type        RewardType
+  name        String
+  description String?
+  unlockLevel Int        // Level required to unlock
+  data        Json?      // Reward data (avatar URL, theme colors, etc.)
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+
+  userRewards UserReward[]
+
+  @@index([type])
+  @@index([unlockLevel])
+}
+
+enum RewardType {
+  AVATAR
+  THEME
+  BADGE
+  TITLE
+}
+
+model UserReward {
+  id         String   @id @default(cuid())
+  userId     String
+  userXPId   String
+  rewardId   String
+  unlockedAt DateTime @default(now())
+  isActive   Boolean  @default(false) // Whether user has this reward currently active
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userXP UserXP @relation(fields: [userXPId], references: [id], onDelete: Cascade)
+  reward Reward @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, rewardId])
+  @@index([userId])
+  @@index([userXPId])
+  @@index([rewardId])
 }
