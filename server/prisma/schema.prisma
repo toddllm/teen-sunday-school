@@ -26,6 +26,7 @@ model Organization {
   groups       Group[]
   integrations ExternalIntegration[]
   lessons      Lesson[]
+  sessions     Session[]
 
   @@index([slug])
 }
@@ -51,6 +52,7 @@ model User {
   organization     Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   groupMemberships GroupMember[]
   refreshTokens    RefreshToken[]
+  attendance       Attendance[]
 
   @@index([email])
   @@index([organizationId])
@@ -103,6 +105,7 @@ model Group {
   members      GroupMember[]
   mappings     ExternalGroupMapping[]
   lessons      LessonGroup[]
+  sessions     Session[]
 
   @@index([organizationId])
   @@index([externalId])
@@ -289,6 +292,7 @@ model Lesson {
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   groups       LessonGroup[]
+  sessions     Session[]
 
   @@unique([organizationId, quarter, unit, lessonNumber])
   @@index([organizationId])
@@ -307,4 +311,82 @@ model LessonGroup {
   @@unique([lessonId, groupId])
   @@index([lessonId])
   @@index([groupId])
+}
+
+// ============================================================================
+// SESSIONS & ATTENDANCE
+// ============================================================================
+
+model Session {
+  id             String   @id @default(cuid())
+  organizationId String
+  groupId        String
+  lessonId       String?
+
+  // Session details
+  title          String?
+  scheduledDate  DateTime
+  startTime      DateTime?
+  endTime        DateTime?
+  status         SessionStatus @default(SCHEDULED)
+
+  // Check-in settings
+  checkInEnabled Boolean  @default(true)
+  checkInOpensAt DateTime?
+  checkInClosesAt DateTime?
+
+  // Metadata
+  notes          String?  @db.Text
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  group        Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  lesson       Lesson? @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  attendance   Attendance[]
+
+  @@index([organizationId])
+  @@index([groupId])
+  @@index([scheduledDate])
+  @@index([status])
+}
+
+enum SessionStatus {
+  SCHEDULED     // Session is planned for the future
+  IN_PROGRESS   // Session is currently happening
+  COMPLETED     // Session has ended
+  CANCELLED     // Session was cancelled
+}
+
+model Attendance {
+  id           String   @id @default(cuid())
+  sessionId    String
+  userId       String
+  status       AttendanceStatus
+
+  // Check-in tracking
+  checkedInAt  DateTime?
+  checkedInBy  String?  // User ID (for manual check-ins by leaders)
+  checkedInMethod String? // "self" or "manual"
+
+  // Metadata
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  session      Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, userId])
+  @@index([sessionId])
+  @@index([userId])
+  @@index([status])
+}
+
+enum AttendanceStatus {
+  PRESENT       // Checked in (on time)
+  LATE          // Checked in late
+  ABSENT        // Did not attend
+  EXCUSED       // Excused absence
 }

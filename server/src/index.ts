@@ -9,6 +9,7 @@ import prisma from './config/database';
 // Import routes
 import authRoutes from './routes/auth.routes';
 import integrationRoutes from './routes/integration.routes';
+import sessionRoutes from './routes/session.routes';
 
 // Load environment variables
 dotenv.config();
@@ -87,6 +88,7 @@ app.get('/', (req, res) => {
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api', integrationRoutes);
+app.use('/api', sessionRoutes);
 
 // 404 handler
 app.use((req, res) => {

@@ -17,6 +17,8 @@ import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
+import SessionsAdminPage from './pages/SessionsAdminPage';
+import AttendancePage from './pages/AttendancePage';
 import './App.css';
 
 function App() {
@@ -44,6 +46,9 @@ function App() {
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
             <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
+            <Route path="/admin/sessions" element={<SessionsAdminPage />} />
+            <Route path="/sessions" element={<SessionsAdminPage />} />
+            <Route path="/attendance/:sessionId" element={<AttendancePage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
