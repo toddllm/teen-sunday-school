@@ -187,6 +187,7 @@ function App() {
             <Route path="/bible/maps" element={<BibleMapPage />} />
             <Route path="/characters" element={<CharactersPage />} />
             <Route path="/characters/:id" element={<CharacterDetailPage />} />
+            <Route path="/question-bank" element={<QuestionBankPage />} />
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />

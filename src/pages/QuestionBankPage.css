@@ -1,0 +1,168 @@
+.question-bank-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 1em;
+  margin-top: 8px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.results-header {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.results-count {
+  color: var(--text-secondary);
+  font-size: 0.95em;
+  font-weight: 500;
+}
+
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.question-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 25px;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+.question-card:hover {
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.question-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.question-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-success {
+  background-color: rgba(80, 200, 120, 0.15);
+  color: var(--secondary-color);
+}
+
+.badge-warning {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #FFC107;
+}
+
+.badge-danger {
+  background-color: rgba(255, 107, 107, 0.15);
+  color: var(--accent-color);
+}
+
+.badge-info {
+  background-color: rgba(74, 144, 226, 0.15);
+  color: var(--primary-color);
+}
+
+.badge-secondary {
+  background-color: var(--hover-bg);
+  color: var(--text-secondary);
+}
+
+.time-indicator {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.question-text {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: var(--text-color);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.verse-reference,
+.question-notes {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.question-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.tag {
+  background: var(--hover-bg);
+  color: var(--text-secondary);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.question-card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .question-bank-page {
+    padding: 20px 15px;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .header-actions .btn {
+    width: 100%;
+  }
+
+  .question-card-actions {
+    flex-direction: column;
+  }
+
+  .question-card-actions .btn {
+    width: 100%;
+  }
+}

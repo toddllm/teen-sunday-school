@@ -26,6 +26,7 @@ import { TopicProvider } from './contexts/TopicContext';
 import { IcebreakerProvider } from './contexts/IcebreakerContext';
 import { ProfileProvider } from './contexts/ProfileContext';
 import { CharacterProvider } from './contexts/CharacterContext';
+import { QuestionBankProvider } from './contexts/QuestionBankContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -54,8 +55,10 @@ root.render(
                                       <IcebreakerProvider>
                                         <ProfileProvider>
                                           <CharacterProvider>
+                                            <QuestionBankProvider>
                                   <SessionProvider>
                                     <App />
+                                            </QuestionBankProvider>
                                           </CharacterProvider>
                                         </ProfileProvider>
                                       </IcebreakerProvider>
