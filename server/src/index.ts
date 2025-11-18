@@ -11,7 +11,6 @@ import authRoutes from './routes/auth.routes';
 import integrationRoutes from './routes/integration.routes';
 import aiFilterRoutes from './routes/ai-filter.routes';
 import themeComparisonRoutes from './routes/theme-comparison.routes';
-<<<<<<< HEAD
 import notificationRoutes from './routes/notification.routes';
 import gameRoutes from './routes/game.routes';
 import weeklyWordRoutes from './routes/weekly-word.routes';
@@ -116,7 +115,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api', integrationRoutes);
 app.use('/api/admin/ai-filters', aiFilterRoutes);
 app.use('/api/themes', themeComparisonRoutes);
-<<<<<<< HEAD
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/weekly-word', weeklyWordRoutes);
