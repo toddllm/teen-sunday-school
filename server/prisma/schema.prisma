@@ -2141,3 +2141,69 @@ enum MapActionType {
   PASSAGE_CLICK      // User clicked to read a related passage
   LOCATION_HOVER     // User hovered over a location pin
 }
+model Poll {
+  id             String   @id @default(cuid())
+  organizationId String
+  lessonId       String?  // Optional: associate with a lesson (lessons act as "sessions")
+
+  // Poll content
+  question       String   @db.Text
+  options        Json?    // Array of options for multiple choice polls
+  type           PollType @default(MULTIPLE_CHOICE)
+  status         PollStatus @default(DRAFT)
+
+  // Metadata
+  createdBy      String   // User ID of the teacher/leader
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  activatedAt    DateTime? // When poll was made active
+  closedAt       DateTime? // When poll was closed
+
+  // Results configuration
+  showResultsLive Boolean  @default(true)  // Show results as responses come in
+  allowMultipleResponses Boolean @default(false) // Allow users to change their answer
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  lesson         Lesson? @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  responses      PollResponse[]
+
+  @@index([organizationId])
+  @@index([lessonId])
+  @@index([status])
+  @@index([createdBy])
+}
+
+model PollResponse {
+  id           String   @id @default(cuid())
+  pollId       String
+
+  // User identification (one must be provided)
+  userId       String?  // For logged-in users
+  anonymousId  String?  // For anonymous responses (session-based)
+
+  // Response data
+  answer       Json     // Flexible: single choice, multiple choices, or text
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  poll         Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  user         User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([pollId])
+  @@index([userId])
+  @@index([anonymousId])
+  @@unique([pollId, userId]) // Prevent duplicate responses from same user (unless allowMultipleResponses is true)
+}
+
+enum PollType {
+  MULTIPLE_CHOICE  // Single or multiple selection from options
+  OPEN_ENDED       // Free text response
+  RATING           // 1-5 star or numeric rating
+}
+
+enum PollStatus {
+  DRAFT            // Created but not yet launched
+  ACTIVE           // Currently accepting responses
+  CLOSED           // No longer accepting responses
+}
