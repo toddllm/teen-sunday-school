@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getVerseText } from '../services/bibleAPI';
 import CrossReferencePanel from '../components/CrossReferencePanel';
+import CommentaryPanel from '../components/CommentaryPanel';
 import PassageMetrics from '../components/PassageMetrics';
 import ReadAloudControls from '../components/ReadAloudControls';
 import { createBiblePassageSpeech } from '../services/readAloudService';
 import { useEngagementAnalytics } from '../contexts/EngagementAnalyticsContext';
 import { useTranslation } from '../contexts/TranslationContext';
+import { referenceToId } from '../services/commentaryService';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
@@ -178,6 +180,14 @@ const BibleToolPage = () => {
             <CrossReferencePanel
               verseReference={verse.reference}
               onReferenceClick={handleCrossReferenceClick}
+            />
+          )}
+
+          {/* Commentary Panel */}
+          {verse.reference && (
+            <CommentaryPanel
+              passageRef={referenceToId(verse.reference)}
+              passageReference={verse.reference}
             />
           )}
         </>
