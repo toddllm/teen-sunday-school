@@ -10,6 +10,7 @@ import ReadingControlsMenu from '../components/ReadingControlsMenu';
 import { createBiblePassageSpeech } from '../services/readAloudService';
 import { useEngagementAnalytics } from '../contexts/EngagementAnalyticsContext';
 import { useTranslation } from '../contexts/TranslationContext';
+import { useMemoryVerse } from '../contexts/MemoryVerseContext';
 import { referenceToId } from '../services/commentaryService';
 import './BibleToolPage.css';
 
@@ -17,12 +18,22 @@ const BibleToolPage = () => {
   const navigate = useNavigate();
   const { trackPassageRead, trackCrossReference } = useEngagementAnalytics();
   const { primaryTranslation, trackTranslationUsage } = useTranslation();
+  const { addMemoryVerse, isVerseInMemory } = useMemoryVerse();
   const [reference, setReference] = useState('');
   const [verse, setVerse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [history, setHistory] = useState([]);
   const [showReflection, setShowReflection] = useState(false);
+  const [addSuccess, setAddSuccess] = useState('');
+
+  const handleAddToMemory = () => {
+    if (verse) {
+      addMemoryVerse(verse.reference, verse.text);
+      setAddSuccess('Verse added to memory!');
+      setTimeout(() => setAddSuccess(''), 3000);
+    }
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -172,7 +183,15 @@ const BibleToolPage = () => {
               >
                 Reflect on this passage
               </button>
+              <button
+                onClick={handleAddToMemory}
+                className="add-to-memory-btn"
+                disabled={isVerseInMemory(verse.reference)}
+              >
+                {isVerseInMemory(verse.reference) ? 'Already in Memory ✓' : 'Add to Memory 🧠'}
+              </button>
             </div>
+            {addSuccess && <div className="success-message">{addSuccess}</div>}
           </div>
 
           {/* Read Aloud Controls */}

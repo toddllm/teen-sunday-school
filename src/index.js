@@ -39,6 +39,7 @@ import { CommentProvider } from './contexts/CommentContext';
 import { KidsModeProvider } from './contexts/KidsModeContext';
 import { KidsContentProvider } from './contexts/KidsContentContext';
 import { ReflectionProvider } from './contexts/ReflectionContext';
+import { MemoryVerseProvider } from './contexts/MemoryVerseContext';
 import { ABTestProvider } from './contexts/ABTestContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
@@ -103,7 +104,9 @@ root.render(
                                                                       <KidsModeProvider>
                                                                         <KidsContentProvider>
                                                                           <ReflectionProvider>
-                                                                            <App />
+                                                                            <MemoryVerseProvider>
+                                                                              <App />
+                                                                            </MemoryVerseProvider>
                                                                           </ReflectionProvider>
                                                                         </KidsContentProvider>
                                                                       </KidsModeProvider>

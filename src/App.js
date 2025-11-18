@@ -118,6 +118,8 @@ import KidsProgressPage from './pages/KidsProgressPage';
 import KidsModeSettingsPage from './pages/KidsModeSettingsPage';
 import ReflectionPage from './pages/ReflectionPage';
 import ReadingPreferencesPage from './pages/ReadingPreferencesPage';
+import MemoryVersesPage from './pages/MemoryVersesPage';
+import ReviewSessionPage from './pages/ReviewSessionPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -268,6 +270,8 @@ function AppContent() {
             <Route path="/kids/settings" element={<KidsModeSettingsPage />} />
             <Route path="/reflections" element={<ReflectionPage />} />
             <Route path="/settings/reading" element={<ReadingPreferencesPage />} />
+            <Route path="/memory-verses" element={<MemoryVersesPage />} />
+            <Route path="/memory-verses/review" element={<ReviewSessionPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
       </main>
