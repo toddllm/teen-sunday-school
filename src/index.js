@@ -36,6 +36,7 @@ import { QuizProvider } from './contexts/QuizContext';
 import { BugReportProvider } from './contexts/BugReportContext';
 import { ScavengerHuntProvider } from './contexts/ScavengerHuntContext';
 import { CacheConfigProvider } from './contexts/CacheConfigContext';
+import { ServiceProjectProvider } from './contexts/ServiceProjectContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -58,7 +59,8 @@ root.render(
                         <GoalProvider>
                       <QuestionProvider>
                         <TemplateProvider>
-                          <ContextCardProvider>
+                          <ServiceProjectProvider>
+                            <ContextCardProvider>
                           <WeeklyWordProvider>
                           <ReadAloudProvider>
                             <BigStoryProvider>
@@ -91,6 +93,7 @@ root.render(
                           </ReadAloudProvider>
                           </WeeklyWordProvider>
                           </ContextCardProvider>
+                          </ServiceProjectProvider>
                         </TemplateProvider>
                       </QuestionProvider>
                         </GoalProvider>

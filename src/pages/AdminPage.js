@@ -54,6 +54,13 @@ function AdminPage() {
               <p>Manage daily proverbs with teen applications</p>
             </div>
           </Link>
+          <Link to="/admin/service-projects" className="quick-access-card">
+            <div className="quick-access-icon">🤝</div>
+            <div className="quick-access-content">
+              <h3>Service Projects</h3>
+              <p>Plan and organize community service projects</p>
+            </div>
+          </Link>
           <Link to="/admin" className="quick-access-card">
             <div className="quick-access-icon">📚</div>
             <div className="quick-access-content">
