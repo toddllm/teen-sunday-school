@@ -13,6 +13,7 @@ import { WeeklyWordProvider } from './contexts/WeeklyWordContext';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { ReadAloudProvider } from './contexts/ReadAloudContext';
 import { WarmupProvider } from './contexts/WarmupContext';
+import { BigStoryProvider } from './contexts/BigStoryContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -39,6 +40,19 @@ root.render(
           </TranslationProvider>
         </OnboardingProvider>
       </AccessibilityProvider>
+      <TranslationProvider>
+        <StreakProvider>
+          <LessonProvider>
+            <PlanProvider>
+              <ContextCardProvider>
+                <BigStoryProvider>
+                  <App />
+                </BigStoryProvider>
+              </ContextCardProvider>
+            </PlanProvider>
+          </LessonProvider>
+        </StreakProvider>
+      </TranslationProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

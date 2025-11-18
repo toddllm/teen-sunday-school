@@ -31,6 +31,7 @@ import parablesRoutes from './routes/parables.routes';
 import parableRoutes from './routes/parable.routes';
 import translationComparisonRoutes from './routes/translation-comparison.routes';
 import doctrineCardsRoutes from './routes/doctrine-cards.routes';
+import bigStoryRoutes from './routes/big-story.routes';
 
 // Load environment variables
 dotenv.config();
@@ -131,6 +132,7 @@ app.use('/api/parables', parablesRoutes);
 app.use('/api/parables', parableRoutes);
 app.use('/api/translation-comparisons', translationComparisonRoutes);
 app.use('/api/doctrine-cards', doctrineCardsRoutes);
+app.use('/api/big-story', bigStoryRoutes);
 
 // 404 handler
 app.use((req, res) => {
