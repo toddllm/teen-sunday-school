@@ -93,6 +93,13 @@ function AdminPage() {
               <p>Plan and schedule lesson calendar</p>
             </div>
           </Link>
+          <Link to="/admin/templates" className="quick-access-card">
+            <div className="quick-access-icon">📝</div>
+            <div className="quick-access-content">
+              <h3>Templates</h3>
+              <p>Manage lesson templates</p>
+            </div>
+          </Link>
         </div>
 
         <div className="admin-stats">

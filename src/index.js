@@ -16,6 +16,7 @@ import { WarmupProvider } from './contexts/WarmupContext';
 import { BigStoryProvider } from './contexts/BigStoryContext';
 import { GoalProvider } from './contexts/GoalContext';
 import { QuestionProvider } from './contexts/QuestionContext';
+import { TemplateProvider } from './contexts/TemplateContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -30,7 +31,8 @@ root.render(
                   <PlanProvider>
                     <GoalProvider>
                       <QuestionProvider>
-                        <ContextCardProvider>
+                        <TemplateProvider>
+                          <ContextCardProvider>
                           <WeeklyWordProvider>
                           <ReadAloudProvider>
                             <BigStoryProvider>
@@ -38,7 +40,8 @@ root.render(
                             </BigStoryProvider>
                           </ReadAloudProvider>
                           </WeeklyWordProvider>
-                        </ContextCardProvider>
+                          </ContextCardProvider>
+                        </TemplateProvider>
                       </QuestionProvider>
                     </GoalProvider>
                   </PlanProvider>

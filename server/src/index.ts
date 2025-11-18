@@ -35,6 +35,7 @@ import incidentRoutes from './routes/incident.routes';
 import bibleRoutes from './routes/bible.routes';
 import questionRoutes from './routes/question.routes';
 import calendarRoutes from './routes/calendar.routes';
+import templateRoutes from './routes/template.routes';
 
 // Load environment variables
 dotenv.config();
@@ -138,6 +139,7 @@ app.use('/api/incidents', incidentRoutes);
 app.use('/api/bible-timeline', bibleRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/calendar', calendarRoutes);
+app.use('/api/templates', templateRoutes);
 
 // 404 handler
 app.use((req, res) => {

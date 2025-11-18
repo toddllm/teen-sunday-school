@@ -1891,3 +1891,43 @@ enum AnswerMethod {
   WRITTEN    // Written answer provided in system
   IN_CLASS   // Answered during class/session
 }
+model LessonTemplate {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  description    String?  @db.Text
+
+  // Template structure - ordered list of sections with metadata
+  // Example: [
+  //   { "id": "intro", "name": "Introduction", "type": "content", "timeEstimate": 5, "placeholder": "..." },
+  //   { "id": "read", "name": "Read Together", "type": "scripture", "timeEstimate": 10 },
+  //   { "id": "discuss", "name": "Discussion", "type": "discussion", "timeEstimate": 15 },
+  //   { "id": "apply", "name": "Application", "type": "content", "timeEstimate": 10 },
+  //   { "id": "game", "name": "Game Time", "type": "game", "timeEstimate": 20 }
+  // ]
+  sectionsJson   Json
+
+  isActive       Boolean  @default(true)
+  createdBy      String?  // User ID who created the template
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  usageMetrics   TemplateUsageMetric[]
+
+  @@index([organizationId])
+  @@index([isActive])
+}
+
+model TemplateUsageMetric {
+  id         String   @id @default(cuid())
+  templateId String
+  lessonId   String?  // Optional - lesson might be deleted later
+  createdBy  String?  // User ID who used the template
+  createdAt  DateTime @default(now())
+
+  template LessonTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@index([templateId])
+  @@index([createdAt])
+}
