@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
+import Wordle from '../components/games/Wordle';
+import WordScramble from '../components/games/WordScramble';
+import Hangman from '../components/games/Hangman';
+import WordSearch from '../components/games/WordSearch';
 import './GamesPage.css';
 
 const GamesPage = () => {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const { lessons } = useLessons();
+  const [selectedGame, setSelectedGame] = useState(null);
 
   const lesson = lessons.find(l => l.id === lessonId);
 
@@ -25,24 +30,62 @@ const GamesPage = () => {
 
   const availableGames = [
     {
+      id: 'wordle',
+      name: 'Wordle',
+      description: 'Guess the 5-letter word',
+      icon: '🎯',
+      component: Wordle,
+      words: lesson.wordGames?.wordle || []
+    },
+    {
       id: 'word-scramble',
       name: 'Word Scramble',
       description: 'Unscramble words from the lesson',
-      icon: '🔤'
+      icon: '🔤',
+      component: WordScramble,
+      words: lesson.wordGames?.scramble || []
     },
     {
       id: 'hangman',
       name: 'Hangman',
       description: 'Guess the word letter by letter',
-      icon: '🎯'
+      icon: '🎮',
+      component: Hangman,
+      words: lesson.wordGames?.hangman || []
     },
     {
       id: 'word-search',
       name: 'Word Search',
       description: 'Find hidden words in the grid',
-      icon: '🔍'
+      icon: '🔍',
+      component: WordSearch,
+      words: lesson.wordGames?.wordSearch?.words || [],
+      gridSize: lesson.wordGames?.wordSearch?.grid || 10
     }
   ];
+
+  if (selectedGame) {
+    const game = availableGames.find(g => g.id === selectedGame);
+    const GameComponent = game.component;
+
+    return (
+      <div className="games-page">
+        <div className="games-header">
+          <h1>{game.name} - {lesson.title}</h1>
+          <button onClick={() => setSelectedGame(null)} className="back-btn">
+            Back to Games
+          </button>
+        </div>
+
+        <div className="game-container">
+          <GameComponent
+            words={game.words}
+            gridSize={game.gridSize}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="games-page">
@@ -59,8 +102,15 @@ const GamesPage = () => {
             <div className="game-icon">{game.icon}</div>
             <h3>{game.name}</h3>
             <p>{game.description}</p>
-            <button className="play-btn" onClick={() => alert(`${game.name} coming soon!`)}>
-              Play Game
+            <p className="word-count">
+              {game.words.length} word{game.words.length !== 1 ? 's' : ''} available
+            </p>
+            <button
+              className="play-btn"
+              onClick={() => setSelectedGame(game.id)}
+              disabled={game.words.length === 0}
+            >
+              {game.words.length > 0 ? 'Play Game' : 'No words available'}
             </button>
           </div>
         ))}

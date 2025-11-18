@@ -78,7 +78,8 @@ export const LessonProvider = ({ children }) => {
         wordSearch: {
           words: ['TRUST', 'NEEDS', 'GOD', 'FAITHFUL', 'PRECIOUS', 'REDEEMED'],
           grid: 10
-        }
+        },
+        wordle: ['TRUST', 'FAITH', 'GRACE', 'PEACE', 'LOVED']
       }
     };
     setLessons([exampleLesson]);
