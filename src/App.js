@@ -10,6 +10,7 @@ import LessonViewPage from './pages/LessonViewPage';
 import PresenterViewPage from './pages/PresenterViewPage';
 import AdminPage from './pages/AdminPage';
 import LessonCreatorPage from './pages/LessonCreatorPage';
+import ModerationPage from './pages/ModerationPage';
 import GamesPage from './pages/GamesPage';
 import GamesAdminPage from './pages/GamesAdminPage';
 import ExperimentAdminPage from './pages/ExperimentAdminPage';
@@ -149,6 +150,7 @@ function AppContent() {
             <Route path="/admin/branding" element={<OrganizationSettingsPage />} />
             <Route path="/admin/translations" element={<TranslationAdminPage />} />
             <Route path="/admin/feedback" element={<FeedbackAdminPage />} />
+            <Route path="/admin/moderation" element={<ModerationPage />} />
             <Route path="/admin/templates" element={<TemplatesAdminPage />} />
             <Route path="/admin/templates/create" element={<TemplateEditorPage />} />
             <Route path="/admin/templates/edit/:id" element={<TemplateEditorPage />} />

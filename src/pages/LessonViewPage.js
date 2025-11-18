@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
 import { useSession } from '../contexts/SessionContext';
+import CommentsSection from '../components/CommentsSection';
 import './LessonViewPage.css';
 
 function LessonViewPage() {
@@ -199,6 +200,9 @@ function LessonViewPage() {
           </Link>
         </div>
       )}
+
+      {/* Comments Section */}
+      <CommentsSection lessonId={lesson.id} />
     </div>
   );
 }
