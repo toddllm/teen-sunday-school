@@ -14,6 +14,7 @@ import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
+import AuditLogPage from './pages/AuditLogPage';
 import './App.css';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin/audit-log" element={<AuditLogPage />} />
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
             <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />

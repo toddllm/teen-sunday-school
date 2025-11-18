@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuditLog, AuditActionType, EntityType } from './AuditLogContext';
 
 const LessonContext = createContext();
 
@@ -13,6 +14,7 @@ export const useLessons = () => {
 export const LessonProvider = ({ children }) => {
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { addAuditLog } = useAuditLog();
 
   // Load lessons from localStorage on mount
   useEffect(() => {
@@ -93,19 +95,73 @@ export const LessonProvider = ({ children }) => {
       updatedAt: new Date().toISOString()
     };
     setLessons([...lessons, newLesson]);
+
+    // Log the action
+    addAuditLog(
+      AuditActionType.LESSON_CREATED,
+      EntityType.LESSON,
+      newLesson.id,
+      {
+        title: newLesson.title,
+        quarter: newLesson.quarter,
+        lessonNumber: newLesson.lessonNumber
+      }
+    );
+
     return newLesson.id;
   };
 
   const updateLesson = (id, updates) => {
+    const oldLesson = lessons.find(lesson => lesson.id === id);
+
     setLessons(lessons.map(lesson =>
       lesson.id === id
         ? { ...lesson, ...updates, updatedAt: new Date().toISOString() }
         : lesson
     ));
+
+    // Log the action with before/after data
+    if (oldLesson) {
+      addAuditLog(
+        AuditActionType.LESSON_UPDATED,
+        EntityType.LESSON,
+        id,
+        {
+          title: oldLesson.title,
+          changes: Object.keys(updates),
+          before: {
+            title: oldLesson.title,
+            quarter: oldLesson.quarter,
+            lessonNumber: oldLesson.lessonNumber
+          },
+          after: {
+            title: updates.title || oldLesson.title,
+            quarter: updates.quarter || oldLesson.quarter,
+            lessonNumber: updates.lessonNumber || oldLesson.lessonNumber
+          }
+        }
+      );
+    }
   };
 
   const deleteLesson = (id) => {
+    const lesson = lessons.find(l => l.id === id);
+
     setLessons(lessons.filter(lesson => lesson.id !== id));
+
+    // Log the action
+    if (lesson) {
+      addAuditLog(
+        AuditActionType.LESSON_DELETED,
+        EntityType.LESSON,
+        id,
+        {
+          title: lesson.title,
+          quarter: lesson.quarter,
+          lessonNumber: lesson.lessonNumber
+        }
+      );
+    }
   };
 
   const getLessonById = (id) => {
@@ -123,6 +179,19 @@ export const LessonProvider = ({ children }) => {
         updatedAt: new Date().toISOString()
       };
       setLessons([...lessons, duplicate]);
+
+      // Log the action
+      addAuditLog(
+        AuditActionType.LESSON_DUPLICATED,
+        EntityType.LESSON,
+        duplicate.id,
+        {
+          originalLessonId: id,
+          originalTitle: lesson.title,
+          newTitle: duplicate.title
+        }
+      );
+
       return duplicate.id;
     }
   };

@@ -24,9 +24,14 @@ function AdminPage() {
       <div className="container">
         <div className="admin-header">
           <h1>Admin Dashboard</h1>
-          <Link to="/admin/create" className="btn btn-primary">
-            + Create New Lesson
-          </Link>
+          <div className="admin-header-actions">
+            <Link to="/admin/audit-log" className="btn btn-secondary">
+              📋 Audit Log
+            </Link>
+            <Link to="/admin/create" className="btn btn-primary">
+              + Create New Lesson
+            </Link>
+          </div>
         </div>
 
         <div className="admin-stats">
