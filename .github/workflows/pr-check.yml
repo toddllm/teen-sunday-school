@@ -1,0 +1,62 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to check'
+        required: true
+        type: string
+
+jobs:
+  validate:
+    name: Validate PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint || echo "⚠️ Linting issues found (non-blocking)"
+        continue-on-error: true
+
+      - name: Check TypeScript/JSX syntax
+        run: |
+          echo "Validating React components..."
+          npm run build
+          echo "✅ All components have valid syntax"
+        env:
+          CI: false
+
+      - name: Verify required files exist
+        run: |
+          echo "Checking required files..."
+          test -f package.json || (echo "❌ Missing package.json" && exit 1)
+          test -f public/index.html || (echo "❌ Missing public/index.html" && exit 1)
+          test -f src/App.js || (echo "❌ Missing src/App.js" && exit 1)
+          test -f src/contexts/LessonContext.js || (echo "❌ Missing LessonContext" && exit 1)
+          echo "✅ All required files present"
+
+      - name: Check for TODO placeholders in deploy config
+        run: |
+          if grep -q "PLACEHOLDER" .github/workflows/deploy.yml; then
+            echo "⚠️ Warning: deploy.yml contains PLACEHOLDER values"
+            echo "Remember to update S3_BUCKET and CLOUDFRONT_DISTRIBUTION_ID"
+          fi
+
+      - name: Verify dependencies security
+        run: npm audit --audit-level=high || echo "⚠️ Security vulnerabilities found (non-blocking)"
+        continue-on-error: true

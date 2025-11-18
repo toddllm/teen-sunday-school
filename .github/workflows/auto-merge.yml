@@ -1,0 +1,50 @@
+name: Auto Merge
+
+on:
+  check_suite:
+    types:
+      - completed
+  workflow_run:
+    workflows: ["PR Check"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    name: Auto-merge PR
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' || github.event.check_suite.conclusion == 'success'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Auto-merge passing PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get open PRs
+          prs=$(gh pr list --state open --json number,headRefName --jq '.[].number')
+
+          for pr in $prs; do
+            echo "Checking PR #$pr..."
+
+            # Check if required checks have passed
+            checks_passed=$(gh pr checks $pr --json name,state --jq '
+              [.[] | select(.name == "Validate PR")] |
+              if length == 0 then false
+              else all(.state == "SUCCESS" or .state == "SKIPPED")
+              end
+            ')
+
+            if [ "$checks_passed" = "true" ]; then
+              echo "All required checks passed for PR #$pr, merging..."
+              gh pr merge $pr --squash --delete-branch --auto || true
+            else
+              echo "PR #$pr has pending or failed required checks, skipping..."
+            fi
+          done

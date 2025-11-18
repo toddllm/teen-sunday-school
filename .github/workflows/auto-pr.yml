@@ -1,0 +1,107 @@
+name: Auto Create PR
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+      - 'feature/**'
+      - 'fix/**'
+      - 'refactor/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-pr:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if PR already exists
+        id: check-pr
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+          # Check if PR already exists for this branch
+          PR_EXISTS=$(gh pr list --head "$BRANCH_NAME" --state open --json number --jq 'length')
+          echo "pr_exists=$PR_EXISTS" >> $GITHUB_OUTPUT
+
+          if [ "$PR_EXISTS" -gt 0 ]; then
+            echo "PR already exists for branch $BRANCH_NAME"
+          else
+            echo "No PR exists for branch $BRANCH_NAME, will create one"
+          fi
+
+      - name: Extract PR info from commits
+        if: steps.check-pr.outputs.pr_exists == '0'
+        id: pr-info
+        run: |
+          # Get the latest commit message for title
+          COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+          echo "title=$COMMIT_MSG" >> $GITHUB_OUTPUT
+
+          # Get all commit messages for body
+          COMMITS=$(git log origin/main..HEAD --pretty=format:"- %s" | head -20)
+          echo "commits<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMITS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Get changed files summary
+          FILES_CHANGED=$(git diff --name-only origin/main...HEAD | head -20)
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES_CHANGED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.check-pr.outputs.pr_exists == '0'
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ steps.check-pr.outputs.branch }}"
+          TITLE="${{ steps.pr-info.outputs.title }}"
+
+          # Create PR body
+          BODY="## Summary
+
+          Auto-generated PR for branch \`$BRANCH_NAME\`
+
+          ### Commits
+          ${{ steps.pr-info.outputs.commits }}
+
+          ### Files Changed
+          \`\`\`
+          ${{ steps.pr-info.outputs.files }}
+          \`\`\`
+
+          ---
+          🤖 This PR was automatically created by GitHub Actions"
+
+          # Create the PR
+          PR_URL=$(gh pr create \
+            --title "$TITLE" \
+            --body "$BODY" \
+            --base main \
+            --head "$BRANCH_NAME")
+
+          echo "✅ PR created: $PR_URL"
+
+          # Extract PR number from URL
+          PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+
+          # Close and reopen to trigger PR workflows
+          echo "Triggering PR workflows by close/reopen..."
+          sleep 2
+          gh pr close "$PR_NUMBER"
+          sleep 2
+          gh pr reopen "$PR_NUMBER"
+
+          echo "✅ PR #$PR_NUMBER ready for CI/CD checks"
