@@ -7,13 +7,14 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from '../utils/jwt';
+import { SignupEventType } from '@prisma/client';
 
 /**
  * Register a new user
  */
 export async function register(req: Request, res: Response): Promise<void> {
   try {
-    const { email, password, firstName, lastName, organizationId } = req.body;
+    const { email, password, firstName, lastName, organizationId, sessionId, referralSource } = req.body;
 
     // Validate input
     if (!email || !password || !firstName || !lastName || !organizationId) {
@@ -68,6 +69,28 @@ export async function register(req: Request, res: Response): Promise<void> {
       },
     });
 
+    // Track signup funnel event (ACCOUNT_CREATED)
+    if (sessionId) {
+      try {
+        await prisma.signupFunnelEvent.create({
+          data: {
+            eventType: SignupEventType.ACCOUNT_CREATED,
+            sessionId,
+            organizationId,
+            userId: user.id,
+            referralSource: referralSource || null,
+            userAgent: req.headers['user-agent'] || null,
+            ipAddress: req.ip || (req.headers['x-forwarded-for'] as string) || null,
+            metadata: {},
+          },
+        });
+        logger.info(`Signup funnel event tracked: ACCOUNT_CREATED for user ${user.id}`);
+      } catch (trackingError) {
+        // Don't fail the registration if tracking fails
+        logger.error('Failed to track signup event:', trackingError);
+      }
+    }
+
     res.status(201).json({
       user,
       accessToken,
@@ -84,7 +107,7 @@ export async function register(req: Request, res: Response): Promise<void> {
  */
 export async function login(req: Request, res: Response): Promise<void> {
   try {
-    const { email, password } = req.body;
+    const { email, password, sessionId } = req.body;
 
     // Validate input
     if (!email || !password) {
@@ -116,11 +139,35 @@ export async function login(req: Request, res: Response): Promise<void> {
       return;
     }
 
+    // Check if this is the first login
+    const isFirstLogin = !user.lastLoginAt;
+
     // Update last login
     await prisma.user.update({
       where: { id: user.id },
       data: { lastLoginAt: new Date() },
     });
+
+    // Track FIRST_LOGIN event if applicable
+    if (isFirstLogin && sessionId) {
+      try {
+        await prisma.signupFunnelEvent.create({
+          data: {
+            eventType: SignupEventType.FIRST_LOGIN,
+            sessionId,
+            organizationId: user.organizationId,
+            userId: user.id,
+            userAgent: req.headers['user-agent'] || null,
+            ipAddress: req.ip || (req.headers['x-forwarded-for'] as string) || null,
+            metadata: {},
+          },
+        });
+        logger.info(`Signup funnel event tracked: FIRST_LOGIN for user ${user.id}`);
+      } catch (trackingError) {
+        // Don't fail the login if tracking fails
+        logger.error('Failed to track first login event:', trackingError);
+      }
+    }
 
     // Generate tokens
     const accessToken = generateAccessToken(user);

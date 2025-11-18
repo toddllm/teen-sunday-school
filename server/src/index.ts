@@ -28,6 +28,7 @@ import translationComparisonRoutes from './routes/translation-comparison.routes'
 import doctrineCardsRoutes from './routes/doctrine-cards.routes';
 import bigStoryRoutes from './routes/big-story.routes';
 import curriculumCoverageRoutes from './routes/curriculum-coverage.routes';
+import signupAnalyticsRoutes from './routes/signup-analytics.routes';
 
 // Load environment variables
 dotenv.config();
@@ -124,6 +125,7 @@ app.use('/api/translation-comparisons', translationComparisonRoutes);
 app.use('/api/doctrine-cards', doctrineCardsRoutes);
 app.use('/api/big-story', bigStoryRoutes);
 app.use('/api/curriculum-coverage', curriculumCoverageRoutes);
+app.use('/api/analytics/signup', signupAnalyticsRoutes);
 
 // 404 handler
 app.use((req, res) => {
