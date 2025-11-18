@@ -1715,3 +1715,132 @@ enum IncidentStatus {
   RESOLVED       // Completed and closed
   ESCALATED      // Sent to higher authority/external
 }
+model TimelineEvent {
+  id          String   @id @default(cuid())
+  title       String
+  dateRange   String   // e.g., "2000 BC", "586-538 BC", "c. 30 AD"
+  description String   @db.Text
+  order       Int      // For chronological ordering
+  category    String?  // e.g., "Creation", "Patriarchs", "Exodus", "Kings", "Exile", "Jesus", "Early Church"
+  imageUrl    String?
+
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  readingSegments TimelineReadingSegment[]
+
+  @@index([order])
+  @@index([category])
+}
+
+model TimelineReadingSegment {
+  id        String   @id @default(cuid())
+  eventId   String
+  passages  Json     // Array of Bible passage references: ["Genesis 1-2", "Psalm 8"]
+  order     Int      // Order within the event
+  notes     String?  @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  event TimelineEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@index([order])
+}
+
+model ReadingPlan {
+  id             String   @id @default(cuid())
+  organizationId String?  // NULL for global/default plans
+
+  title          String
+  description    String   @db.Text
+  planType       PlanType @default(CUSTOM)
+  duration       Int      // Days
+
+  // Plan structure
+  days           Json     // Array of day objects with passages, notes, etc.
+  tags           String[]
+
+  // Visibility
+  status         PlanStatus @default(DRAFT)
+  isPublic       Boolean    @default(false)
+
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  enrollments    UserReadingPlan[]
+
+  @@index([organizationId])
+  @@index([planType])
+  @@index([status])
+  @@index([isPublic])
+}
+
+enum PlanType {
+  CHRONOLOGICAL  // Timeline-based chronological plan
+  TOPICAL        // Topic-based plan
+  BOOK           // Book-by-book plan
+  CUSTOM         // Custom created plan
+}
+
+enum PlanStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model UserReadingPlan {
+  id        String   @id @default(cuid())
+  userId    String
+  planId    String
+
+  startedAt DateTime @default(now())
+  completedAt DateTime?
+  currentDay  Int      @default(1)
+
+  // Progress tracking
+  progress  Json     // { dayNumber: { completed: true, completedAt: ISO8601 } }
+
+  // Stats
+  totalDays     Int
+  completedDays Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan ReadingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, planId])
+  @@index([userId])
+  @@index([planId])
+  @@index([completedAt])
+}
+
+// Add relation to User model
+model Activity {
+  id           String       @id @default(cuid())
+  userId       String
+  activityType ActivityType
+  metadata     Json?        // Additional data (e.g., verse reference, plan id)
+  timestamp    DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([activityType])
+  @@index([timestamp])
+}
+
+enum ActivityType {
+  READING_PLAN_COMPLETED
+  READING_PLAN_STARTED
+  CHAPTER_READ
+  PRAYER_LOGGED
+  VERSE_MEMORIZED
+  LESSON_COMPLETED
+  TIMELINE_PROGRESS
+}

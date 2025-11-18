@@ -42,6 +42,8 @@ import CurriculumCoverageReportPage from './pages/CurriculumCoverageReportPage';
 import SignupAnalyticsPage from './pages/SignupAnalyticsPage';
 import ComicGeneratorPage from './pages/ComicGeneratorPage';
 import IncidentReportingPage from './pages/IncidentReportingPage';
+import TimelinePage from './pages/TimelinePage';
+import ChronologicalPlanPage from './pages/ChronologicalPlanPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -135,6 +137,8 @@ function App() {
             <Route path="/bible/find-reference" element={<FindTheReferencePage />} />
             <Route path="/bible/journaling" element={<ScriptureJournalingPage />} />
             <Route path="/bible/comic-generator" element={<ComicGeneratorPage />} />
+            <Route path="/bible/timeline" element={<TimelinePage />} />
+            <Route path="/bible/chronological-plan" element={<ChronologicalPlanPage />} />
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
