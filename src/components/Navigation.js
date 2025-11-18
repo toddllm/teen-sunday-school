@@ -104,6 +104,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/bible/meme-generator"
+              className={`nav-link ${isActive('/bible/meme-generator') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Meme Generator
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/settings/translations"
               className={`nav-link ${isActive('/settings/translations') ? 'active' : ''}`}
               onClick={closeMenu}
