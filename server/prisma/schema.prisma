@@ -2756,3 +2756,89 @@ model LessonDebrief {
   @@index([sessionDate])
   @@index([groupId])
 }
+model Tag {
+  id             String @id @default(cuid())
+  organizationId String
+
+  // Core fields
+  name        String
+  slug        String // URL-friendly identifier
+  description String? @db.Text
+  color       String? // Hex color for UI display (e.g., "#4A90E2")
+  icon        String? // Icon identifier (e.g., "heart", "book", "star")
+
+  // Hierarchy support (tags can have parent/child relationships)
+  parentTagId String?
+  parentTag   Tag?    @relation("TagHierarchy", fields: [parentTagId], references: [id], onDelete: SetNull)
+  childTags   Tag[]   @relation("TagHierarchy")
+
+  // Organization & visibility
+  isPublic Boolean @default(false)
+  order    Int     @default(0) // For custom sorting within a category
+
+  // Metadata
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  // Relationships
+  taggedLessons TagAssociation[]
+  metrics       TagMetric[]
+
+  @@unique([organizationId, slug])
+  @@index([organizationId])
+  @@index([parentTagId])
+  @@index([slug])
+  @@index([name])
+}
+
+model TagAssociation {
+  id    String @id @default(cuid())
+  tagId String
+
+  // Polymorphic association - can tag different types of content
+  lessonId String? // Can tag lessons
+  themeId  String? // Can tag comparative themes
+  // Future: contentId, gameId, etc.
+
+  createdAt DateTime @default(now())
+  createdBy String? // User ID
+
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([tagId, lessonId]) // Prevent duplicate tags on same lesson
+  @@unique([tagId, themeId]) // Prevent duplicate tags on same theme
+  @@index([tagId])
+  @@index([lessonId])
+  @@index([themeId])
+}
+
+model TagMetric {
+  id             String @id @default(cuid())
+  tagId          String
+  organizationId String
+
+  // Usage tracking
+  usageCount  Int @default(0) // How many times this tag has been used
+  searchCount Int @default(0) // How many times this tag has been searched
+
+  // Temporal tracking
+  lastUsedAt     DateTime  @default(now())
+  lastSearchedAt DateTime?
+
+  // Context tracking
+  featureContext String? // Where the tag was used (e.g., "lesson_tagging", "theme_tagging", "search")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([tagId, organizationId])
+  @@index([tagId])
+  @@index([organizationId])
+  @@index([lastUsedAt])
+  @@index([usageCount])
+}
