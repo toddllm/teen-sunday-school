@@ -16,14 +16,6 @@ import gameRoutes from './routes/game.routes';
 import weeklyWordRoutes from './routes/weekly-word.routes';
 import interlinearRoutes from './routes/interlinear.routes';
 import songRoutes from './routes/song.routes';
-import substituteRoutes from './routes/substitute.routes';
-import parablesRoutes from './routes/parables.routes';
-import goalsRoutes from './routes/goals.routes';
-import bibleBattleRoutes from './routes/bible-battle.routes';
-import songRoutes from './routes/song.routes';
-import substituteRoutes from './routes/substitute.routes';
-import parablesRoutes from './routes/parables.routes';
-import goalsRoutes from './routes/goals.routes';
 import bibleBattleRoutes from './routes/bible-battle.routes';
 import playlistRoutes from './routes/playlist.routes';
 import findReferenceGameRoutes from './routes/find-reference-game.routes';
@@ -35,7 +27,7 @@ import parableRoutes from './routes/parable.routes';
 import translationComparisonRoutes from './routes/translation-comparison.routes';
 import doctrineCardsRoutes from './routes/doctrine-cards.routes';
 import bigStoryRoutes from './routes/big-story.routes';
-import goalsRoutes from './routes/goals.routes';
+import curriculumCoverageRoutes from './routes/curriculum-coverage.routes';
 
 // Load environment variables
 dotenv.config();
@@ -121,14 +113,6 @@ app.use('/api/games', gameRoutes);
 app.use('/api/weekly-word', weeklyWordRoutes);
 app.use('/api/bible', interlinearRoutes);
 app.use('/api/songs', songRoutes);
-app.use('/api/substitute', substituteRoutes);
-app.use('/api/parables', parablesRoutes);
-app.use('/api/goals', goalsRoutes);
-app.use('/api/bible-battle', bibleBattleRoutes);
-app.use('/api/songs', songRoutes);
-app.use('/api/substitute', substituteRoutes);
-app.use('/api/parables', parablesRoutes);
-app.use('/api/goals', goalsRoutes);
 app.use('/api/bible-battle', bibleBattleRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/games/find-reference', findReferenceGameRoutes);
@@ -136,12 +120,10 @@ app.use('/api/gratitude', gratitudeRoutes);
 app.use('/api/substitute', substituteRoutes);
 app.use('/api/parables', parablesRoutes);
 app.use('/api/goals', goalsRoutes);
-app.use('/api/parables', parableRoutes);
-app.use('/api/goals', goalsRoutes);
 app.use('/api/translation-comparisons', translationComparisonRoutes);
 app.use('/api/doctrine-cards', doctrineCardsRoutes);
 app.use('/api/big-story', bigStoryRoutes);
-app.use('/api/goals', goalsRoutes);
+app.use('/api/curriculum-coverage', curriculumCoverageRoutes);
 
 // 404 handler
 app.use((req, res) => {
