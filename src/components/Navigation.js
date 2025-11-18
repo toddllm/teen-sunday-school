@@ -116,7 +116,7 @@ function Navigation() {
           <li className="nav-item">
             <Link
               to="/settings/translations"
-              className={`nav-link ${isActive('/settings') ? 'active' : ''}`}
+              className={`nav-link ${isActive('/settings/translations') ? 'active' : ''}`}
               onClick={closeMenu}
             >
               Meme Generator

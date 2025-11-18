@@ -24,6 +24,25 @@ const AccessibilitySettingsPage = () => {
     if (tempReduceMotion !== reduceMotion) {
       toggleReduceMotion();
     }
+    dyslexiaFriendly,
+    fontSize,
+    lineSpacing,
+    toggleDyslexiaMode,
+    setFontSize,
+    setLineSpacing
+  } = useAccessibility();
+
+  const [tempDyslexia, setTempDyslexia] = useState(dyslexiaFriendly);
+  const [tempFontSize, setTempFontSize] = useState(fontSize);
+  const [tempLineSpacing, setTempLineSpacing] = useState(lineSpacing);
+  const [showSaved, setShowSaved] = useState(false);
+
+  const handleSave = () => {
+    if (tempDyslexia !== dyslexiaFriendly) {
+      toggleDyslexiaMode();
+    }
+    setFontSize(tempFontSize);
+    setLineSpacing(tempLineSpacing);
 
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
@@ -36,6 +55,14 @@ const AccessibilitySettingsPage = () => {
 
   const hasChanges = tempHighContrast !== highContrast ||
     tempReduceMotion !== reduceMotion;
+    setTempDyslexia(dyslexiaFriendly);
+    setTempFontSize(fontSize);
+    setTempLineSpacing(lineSpacing);
+  };
+
+  const hasChanges = tempDyslexia !== dyslexiaFriendly ||
+    tempFontSize !== fontSize ||
+    tempLineSpacing !== lineSpacing;
 
   return (
     <div className="accessibility-settings-page">
@@ -45,11 +72,13 @@ const AccessibilitySettingsPage = () => {
         </button>
         <h1>Accessibility Settings</h1>
         <p>Configure display and motion preferences for better readability and comfort</p>
+        <p>Customize your reading experience</p>
       </header>
 
       {showSaved && (
         <div className="save-notification">
           Settings saved successfully!
+          Accessibility settings saved successfully!
         </div>
       )}
 
@@ -72,6 +101,23 @@ const AccessibilitySettingsPage = () => {
                 <span className="label-description">
                   Uses stronger colors and bolder text for improved visibility.
                   Meets WCAG AAA accessibility standards.
+          <h2>Dyslexia-Friendly Mode</h2>
+          <p className="section-description">
+            Enable features designed to make reading easier for people with dyslexia
+          </p>
+
+          <div className="checkbox-item">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={tempDyslexia}
+                onChange={(e) => setTempDyslexia(e.target.checked)}
+              />
+              <div>
+                <strong>Enable Dyslexia-Friendly Font</strong>
+                <span className="label-description">
+                  Uses fonts optimized for better readability (Comic Sans MS, Trebuchet MS, Verdana)
+                  with increased letter spacing
                 </span>
               </div>
             </label>
@@ -123,6 +169,68 @@ const AccessibilitySettingsPage = () => {
           )}
         </section>
 
+        <section className="settings-section">
+          <h2>Text Size</h2>
+          <p className="section-description">
+            Adjust the base font size for more comfortable reading
+          </p>
+
+          <div className="setting-item">
+            <label htmlFor="font-size">
+              <strong>Font Size</strong>
+              <span className="label-description">Choose your preferred text size</span>
+            </label>
+            <select
+              id="font-size"
+              value={tempFontSize}
+              onChange={(e) => setTempFontSize(e.target.value)}
+              className="accessibility-dropdown"
+            >
+              <option value="small">Small (14px)</option>
+              <option value="medium">Medium (16px) - Default</option>
+              <option value="large">Large (18px)</option>
+              <option value="extra-large">Extra Large (20px)</option>
+            </select>
+            <div className="preview-box">
+              <strong>Preview:</strong>
+              <p style={{ fontSize: tempFontSize === 'small' ? '14px' : tempFontSize === 'medium' ? '16px' : tempFontSize === 'large' ? '18px' : '20px' }}>
+                "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life." - John 3:16
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="settings-section">
+          <h2>Line Spacing</h2>
+          <p className="section-description">
+            Adjust the space between lines of text for improved readability
+          </p>
+
+          <div className="setting-item">
+            <label htmlFor="line-spacing">
+              <strong>Line Spacing</strong>
+              <span className="label-description">Choose spacing that works best for you</span>
+            </label>
+            <select
+              id="line-spacing"
+              value={tempLineSpacing}
+              onChange={(e) => setTempLineSpacing(e.target.value)}
+              className="accessibility-dropdown"
+            >
+              <option value="compact">Compact (1.4)</option>
+              <option value="normal">Normal (1.6) - Default</option>
+              <option value="relaxed">Relaxed (1.8)</option>
+              <option value="loose">Loose (2.0)</option>
+            </select>
+            <div className="preview-box">
+              <strong>Preview:</strong>
+              <p style={{ lineHeight: tempLineSpacing === 'compact' ? '1.4' : tempLineSpacing === 'normal' ? '1.6' : tempLineSpacing === 'relaxed' ? '1.8' : '2.0' }}>
+                In the beginning God created the heavens and the earth. Now the earth was formless and empty, darkness was over the surface of the deep, and the Spirit of God was hovering over the waters.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <div className="settings-actions">
           <button
             onClick={handleReset}
@@ -166,6 +274,27 @@ const AccessibilitySettingsPage = () => {
               Try each setting to see which works best for you. You can combine
               high contrast with dark mode for different visual experiences.
               Changes are saved automatically and apply across all pages.
+        <h3>About These Settings</h3>
+        <div className="help-grid">
+          <div className="help-item">
+            <h4>Dyslexia-Friendly Font</h4>
+            <p>
+              Uses fonts with distinct letter shapes and increased spacing to reduce visual crowding
+              and improve reading accuracy for people with dyslexia.
+            </p>
+          </div>
+          <div className="help-item">
+            <h4>Text Size</h4>
+            <p>
+              Larger text can reduce eye strain and make it easier to focus on reading.
+              Choose a size that feels comfortable for extended reading sessions.
+            </p>
+          </div>
+          <div className="help-item">
+            <h4>Line Spacing</h4>
+            <p>
+              Increased line spacing helps prevent lines from visually merging together,
+              making it easier to track your place while reading.
             </p>
           </div>
         </div>
