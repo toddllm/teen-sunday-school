@@ -36,6 +36,7 @@ import ParablesExplorerPage from './pages/ParablesExplorerPage';
 import TranslationComparisonPage from './pages/TranslationComparisonPage';
 import DoctrineOverviewPage from './pages/DoctrineOverviewPage';
 import BigStoryPage from './pages/BigStoryPage';
+import GoalsPage from './pages/GoalsPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -113,6 +114,7 @@ function App() {
             <Route path="/admin/warmup" element={<WarmupAdminPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/warmup/present" element={<PreClassWarmupPage />} />
+            <Route path="/goals" element={<GoalsPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
             <Route path="/bible/miracles" element={<MiraclesExplorerPage />} />

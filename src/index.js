@@ -14,6 +14,7 @@ import { OnboardingProvider } from './contexts/OnboardingContext';
 import { ReadAloudProvider } from './contexts/ReadAloudContext';
 import { WarmupProvider } from './contexts/WarmupContext';
 import { BigStoryProvider } from './contexts/BigStoryContext';
+import { GoalProvider } from './contexts/GoalContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -26,13 +27,17 @@ root.render(
               <WarmupProvider>
                 <LessonProvider>
                   <PlanProvider>
-                    <ContextCardProvider>
-                      <WeeklyWordProvider>
-                        <ReadAloudProvider>
-                          <App />
-                        </ReadAloudProvider>
-                      </WeeklyWordProvider>
-                    </ContextCardProvider>
+                    <GoalProvider>
+                      <ContextCardProvider>
+                        <WeeklyWordProvider>
+                          <ReadAloudProvider>
+                            <BigStoryProvider>
+                              <App />
+                            </BigStoryProvider>
+                          </ReadAloudProvider>
+                        </WeeklyWordProvider>
+                      </ContextCardProvider>
+                    </GoalProvider>
                   </PlanProvider>
                 </LessonProvider>
               </WarmupProvider>
@@ -40,19 +45,6 @@ root.render(
           </TranslationProvider>
         </OnboardingProvider>
       </AccessibilityProvider>
-      <TranslationProvider>
-        <StreakProvider>
-          <LessonProvider>
-            <PlanProvider>
-              <ContextCardProvider>
-                <BigStoryProvider>
-                  <App />
-                </BigStoryProvider>
-              </ContextCardProvider>
-            </PlanProvider>
-          </LessonProvider>
-        </StreakProvider>
-      </TranslationProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
