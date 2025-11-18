@@ -15,6 +15,9 @@ import notificationRoutes from './routes/notification.routes';
 import gameRoutes from './routes/game.routes';
 import weeklyWordRoutes from './routes/weekly-word.routes';
 import interlinearRoutes from './routes/interlinear.routes';
+import songRoutes from './routes/song.routes';
+import songRoutes from './routes/song.routes';
+import playlistRoutes from './routes/playlist.routes';
 
 // Load environment variables
 dotenv.config();
@@ -99,6 +102,9 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/weekly-word', weeklyWordRoutes);
 app.use('/api/bible', interlinearRoutes);
+app.use('/api/songs', songRoutes);
+app.use('/api/songs', songRoutes);
+app.use('/api/playlists', playlistRoutes);
 
 // 404 handler
 app.use((req, res) => {

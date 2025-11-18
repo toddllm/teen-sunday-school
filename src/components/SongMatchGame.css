@@ -1,0 +1,201 @@
+.song-match-game {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.game-header h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-color);
+  font-size: 1.5rem;
+}
+
+.game-header p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 6px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.game-card {
+  min-height: 120px;
+  padding: 1rem;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.game-card.snippet {
+  border-color: var(--accent-color);
+}
+
+.game-card.theme {
+  border-color: var(--primary-color);
+}
+
+.game-card.selected {
+  background: var(--primary-light);
+  border-width: 3px;
+  transform: scale(1.05);
+}
+
+.game-card.matched {
+  background: var(--success-color);
+  color: white;
+  border-color: var(--success-color);
+  cursor: default;
+  opacity: 0.7;
+}
+
+.card-type-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.game-card.matched .card-type-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.card-content {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+.game-card.matched .card-content {
+  color: white;
+}
+
+.game-card.theme .card-content {
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 1.1rem;
+}
+
+.game-complete {
+  padding: 2rem;
+  background: var(--success-light);
+  border: 2px solid var(--success-color);
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.game-complete h4 {
+  margin: 0 0 1rem 0;
+  color: var(--success-color);
+  font-size: 1.5rem;
+}
+
+.game-complete p {
+  margin: 0.5rem 0;
+  color: var(--text-color);
+}
+
+.reset-button {
+  display: block;
+  margin: 0 auto;
+  padding: 0.75rem 2rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.reset-button:hover {
+  background: var(--primary-dark);
+}
+
+.loading,
+.no-songs {
+  padding: 3rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .game-card {
+  background: var(--card-bg-dark);
+  border-color: var(--border-color-dark);
+}
+
+[data-theme='dark'] .game-card:hover {
+  box-shadow: 0 6px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* CSS variables (add to your theme if not present) */
+:root {
+  --success-color: #10b981;
+  --success-light: #d1fae5;
+  --primary-light: #dbeafe;
+  --accent-color: #f59e0b;
+  --accent-hover: #d97706;
+}
+
+[data-theme='dark'] {
+  --success-light: #064e3b;
+  --primary-light: #1e3a8a;
+}
