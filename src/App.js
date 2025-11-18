@@ -8,6 +8,7 @@ import AdminPage from './pages/AdminPage';
 import LessonCreatorPage from './pages/LessonCreatorPage';
 import GamesPage from './pages/GamesPage';
 import BibleToolPage from './pages/BibleToolPage';
+import BadgesPage from './pages/BadgesPage';
 import './App.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
+            <Route path="/badges" element={<BadgesPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />

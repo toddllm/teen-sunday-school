@@ -1,14 +1,29 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
+import { useActivity, ACTIVITY_TYPES } from '../contexts/ActivityContext';
 import './GamesPage.css';
 
 const GamesPage = () => {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const { lessons } = useLessons();
+  const { logActivity } = useActivity();
 
   const lesson = lessons.find(l => l.id === lessonId);
+
+  const handlePlayGame = (game) => {
+    // Log game activity
+    logActivity(ACTIVITY_TYPES.GAME_PLAYED, {
+      gameType: game.id,
+      gameName: game.name,
+      lessonId: lessonId,
+      lessonTitle: lesson.title
+    });
+
+    // Show coming soon alert
+    alert(`${game.name} coming soon!`);
+  };
 
   if (!lesson) {
     return (
@@ -59,7 +74,7 @@ const GamesPage = () => {
             <div className="game-icon">{game.icon}</div>
             <h3>{game.name}</h3>
             <p>{game.description}</p>
-            <button className="play-btn" onClick={() => alert(`${game.name} coming soon!`)}>
+            <button className="play-btn" onClick={() => handlePlayGame(game)}>
               Play Game
             </button>
           </div>

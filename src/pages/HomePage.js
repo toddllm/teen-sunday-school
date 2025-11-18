@@ -1,10 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
+import { useStreak } from '../contexts/StreakContext';
+import { useBadges } from '../contexts/BadgeContext';
 import './HomePage.css';
 
 function HomePage() {
   const { lessons } = useLessons();
+  const { currentStreak, longestStreak, getStreakStatus } = useStreak();
+  const { getEarnedBadges, getProgress } = useBadges();
+
+  const streakStatus = getStreakStatus();
+  const recentBadges = getEarnedBadges().slice(0, 3);
+  const badgeProgress = getProgress();
 
   return (
     <div className="home-page">
@@ -21,6 +29,54 @@ function HomePage() {
             <Link to="/admin/create" className="btn btn-outline btn-large">
               Create New Lesson
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="streak-section">
+        <div className="container">
+          <div className="streak-card">
+            <div className="streak-main">
+              <div className="streak-icon">🔥</div>
+              <div className="streak-info">
+                <h2 className="streak-number">
+                  {currentStreak} {currentStreak === 1 ? 'Day' : 'Days'}
+                </h2>
+                <p className="streak-label">Current Streak</p>
+              </div>
+              {longestStreak > currentStreak && (
+                <div className="streak-stat">
+                  <span className="stat-value">{longestStreak}</span>
+                  <span className="stat-label">Longest</span>
+                </div>
+              )}
+            </div>
+            <div className="streak-message">
+              <p className="encouragement-message">{streakStatus.message}</p>
+            </div>
+          </div>
+
+          <div className="badges-preview">
+            <div className="badges-header">
+              <h3>Your Badges</h3>
+              <Link to="/badges" className="view-all-link">
+                View All ({badgeProgress.earned}/{badgeProgress.total})
+              </Link>
+            </div>
+            {recentBadges.length > 0 ? (
+              <div className="badge-grid">
+                {recentBadges.map(badge => (
+                  <div key={badge.id} className="badge-item">
+                    <div className="badge-icon">{badge.icon}</div>
+                    <div className="badge-name">{badge.name}</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-badges">
+                <p>Complete activities to earn your first badge!</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

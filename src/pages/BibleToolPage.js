@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getVerseText } from '../services/bibleAPI';
+import { useActivity, ACTIVITY_TYPES } from '../contexts/ActivityContext';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
@@ -7,6 +8,7 @@ const BibleToolPage = () => {
   const [verse, setVerse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { logActivity } = useActivity();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -19,6 +21,12 @@ const BibleToolPage = () => {
     try {
       const result = await getVerseText(reference);
       setVerse(result);
+
+      // Log activity when verse is successfully retrieved
+      logActivity(ACTIVITY_TYPES.BIBLE_VERSE_READ, {
+        reference: reference,
+        verseText: result.text?.substring(0, 100) // Store first 100 chars
+      });
     } catch (err) {
       setError('Could not find that verse. Please check the reference and try again.');
     } finally {

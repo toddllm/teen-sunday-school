@@ -50,6 +50,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/badges"
+              className={`nav-link ${isActive('/badges') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Badges
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible"
               className={`nav-link ${isActive('/bible') ? 'active' : ''}`}
               onClick={closeMenu}

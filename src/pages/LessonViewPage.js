@@ -1,14 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
+import { useActivity, ACTIVITY_TYPES } from '../contexts/ActivityContext';
 import './LessonViewPage.css';
 
 function LessonViewPage() {
   const { id } = useParams();
   const { getLessonById } = useLessons();
+  const { logActivity } = useActivity();
   const lesson = getLessonById(id);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showNotes, setShowNotes] = useState(true);
+  const hasLoggedView = useRef(false);
+  const hasLoggedCompletion = useRef(false);
+
+  // Log lesson view on mount
+  useEffect(() => {
+    if (lesson && !hasLoggedView.current) {
+      logActivity(ACTIVITY_TYPES.LESSON_VIEWED, {
+        lessonId: lesson.id,
+        lessonTitle: lesson.title
+      });
+      hasLoggedView.current = true;
+    }
+  }, [lesson, logActivity]);
+
+  // Log lesson completion when reaching last slide
+  useEffect(() => {
+    const slides = lesson?.slides || [];
+    if (lesson && slides.length > 0 && currentSlide === slides.length - 1 && !hasLoggedCompletion.current) {
+      logActivity(ACTIVITY_TYPES.LESSON_COMPLETED, {
+        lessonId: lesson.id,
+        lessonTitle: lesson.title,
+        totalSlides: slides.length
+      });
+      hasLoggedCompletion.current = true;
+    }
+  }, [lesson, currentSlide, logActivity]);
 
   if (!lesson) {
     return (
