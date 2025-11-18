@@ -51,6 +51,13 @@ function AdminPage() {
               <p>Manage Sunday School lessons (current page)</p>
             </div>
           </Link>
+          <Link to="/admin/series" className="quick-access-card">
+            <div className="quick-access-icon">📖</div>
+            <div className="quick-access-content">
+              <h3>Series</h3>
+              <p>Create and manage multi-week lesson series</p>
+            </div>
+          </Link>
           <Link to="/admin/weekly-word" className="quick-access-card">
             <div className="quick-access-icon">📖</div>
             <div className="quick-access-content">

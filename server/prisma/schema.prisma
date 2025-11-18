@@ -26,6 +26,7 @@ model Organization {
   groups            Group[]
   integrations      ExternalIntegration[]
   lessons           Lesson[]
+  lessonSeries      LessonSeries[]
   aiFilterConfigs   AIFilterConfig[]
   comparativeThemes ComparativeTheme[]
   parables     Parable[]
@@ -304,6 +305,7 @@ model Lesson {
 
   organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   groups       LessonGroup[]
+  seriesLessons SeriesLesson[]
 
   @@unique([organizationId, quarter, unit, lessonNumber])
   @@index([organizationId])
@@ -2434,4 +2436,77 @@ model IcebreakerFavorite {
   @@unique([icebreakerId, userId])
   @@index([icebreakerId])
   @@index([userId])
+}
+
+// ============================================================================
+// LESSON SERIES
+// ============================================================================
+
+model LessonSeries {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Series metadata
+  title          String
+  subtitle       String?
+  description    String?  @db.Text
+  tags           String[] // Array of tags for filtering/categorization
+
+  // Target audience
+  ageMin         Int?
+  ageMax         Int?
+
+  // Visual
+  thumbnailUrl   String?
+
+  // Creator & tracking
+  createdBy      String   // User ID of creator
+  isPublic       Boolean  @default(false)
+  isActive       Boolean  @default(true)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  lessons        SeriesLesson[]
+  completions    SeriesCompletion[]
+
+  @@index([organizationId])
+  @@index([createdBy])
+  @@index([isPublic])
+  @@index([isActive])
+}
+
+model SeriesLesson {
+  id            String    @id @default(cuid())
+  seriesId      String
+  lessonId      String
+  orderIndex    Int       // Position in series (0-based)
+  scheduledDate DateTime? // Optional scheduled date for this lesson
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  series        LessonSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  lesson        Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([seriesId, lessonId])
+  @@unique([seriesId, orderIndex])
+  @@index([seriesId])
+  @@index([lessonId])
+}
+
+model SeriesCompletion {
+  id           String   @id @default(cuid())
+  seriesId     String
+  userId       String
+  lessonId     String   // Which lesson in the series was completed
+  completedAt  DateTime @default(now())
+
+  series       LessonSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+
+  @@unique([seriesId, userId, lessonId])
+  @@index([seriesId])
+  @@index([userId])
+  @@index([lessonId])
 }
