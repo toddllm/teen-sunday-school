@@ -1,0 +1,167 @@
+.lesson-view-page {
+  min-height: 100vh;
+  padding: 20px;
+  background: var(--light-gray);
+}
+
+.lesson-header {
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.back-btn {
+  background: white;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  color: var(--primary-color);
+  box-shadow: var(--box-shadow);
+}
+
+.lesson-header h1 {
+  flex: 1;
+  text-align: center;
+  font-size: 1.8em;
+}
+
+.slide-counter {
+  background: white;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  box-shadow: var(--box-shadow);
+}
+
+.lesson-content-area {
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+
+.slide-viewer {
+  background: white;
+  padding: 40px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  min-height: 400px;
+  margin-bottom: 20px;
+}
+
+.slide-content h1 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.slide-content h2 {
+  color: var(--dark-color);
+  margin-bottom: 15px;
+}
+
+.slide-content blockquote {
+  background: var(--light-gray);
+  border-left: 4px solid var(--primary-color);
+  padding: 15px 20px;
+  margin: 20px 0;
+  font-style: italic;
+}
+
+.slide-content ul,
+.slide-content ol {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+
+.slide-content li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.discussion-timer {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #FFF3E0;
+  border-radius: var(--border-radius);
+  color: #E65100;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.teacher-notes {
+  background: #E3F2FD;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  border-left: 4px solid #2196F3;
+}
+
+.teacher-notes h3 {
+  color: #1565C0;
+  margin-bottom: 10px;
+}
+
+.slide-controls {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.slide-thumbnails {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ddd;
+  border-radius: var(--border-radius);
+  background: white;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.thumbnail:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.thumbnail.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .lesson-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .lesson-header h1 {
+    font-size: 1.4em;
+  }
+
+  .slide-viewer {
+    padding: 20px;
+  }
+
+  .slide-controls {
+    gap: 10px;
+  }
+}
