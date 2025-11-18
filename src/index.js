@@ -29,15 +29,17 @@ import { CharacterProvider } from './contexts/CharacterContext';
 import { QuestionBankProvider } from './contexts/QuestionBankContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
       <ThemeProvider>
-      <AccessibilityProvider>
-        <OnboardingProvider>
-          <TranslationProvider>
+        <ReadingMetricsProvider>
+          <AccessibilityProvider>
+            <OnboardingProvider>
+              <TranslationProvider>
             <StreakProvider>
               <ChallengeProvider>
                 <WarmupProvider>
@@ -82,8 +84,9 @@ root.render(
               </ChallengeProvider>
             </StreakProvider>
           </TranslationProvider>
-        </OnboardingProvider>
-      </AccessibilityProvider>
+            </OnboardingProvider>
+          </AccessibilityProvider>
+        </ReadingMetricsProvider>
       </ThemeProvider>
     </AuthProvider>
   </React.StrictMode>

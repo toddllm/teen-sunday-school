@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../contexts/TranslationContext';
 import { useNavigate } from 'react-router-dom';
+import SettingsNavigation from '../components/SettingsNavigation';
 import './TranslationSettingsPage.css';
 
 const TranslationSettingsPage = () => {
@@ -46,9 +47,11 @@ const TranslationSettingsPage = () => {
         <button onClick={() => navigate(-1)} className="back-button">
           ← Back
         </button>
-        <h1>Translation Settings</h1>
+        <h1>Settings</h1>
         <p>Configure your Bible reading preferences</p>
       </header>
+
+      <SettingsNavigation />
 
       {showSaved && (
         <div className="save-notification">
