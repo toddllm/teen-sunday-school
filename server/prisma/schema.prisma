@@ -31,6 +31,8 @@ model Organization {
   parables     Parable[]
   translationComparisonNotes TranslationComparisonNote[]
   personalGoals PersonalGoal[]
+  comicStoryboards ComicStoryboard[]
+  incidentReports IncidentReport[]
 
   @@index([slug])
 }
@@ -58,11 +60,11 @@ model User {
   refreshTokens         RefreshToken[]
   notificationPreference NotificationPreference?
   notifications         Notification[]
-  organization     Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  groupMemberships GroupMember[]
-  refreshTokens    RefreshToken[]
   personalGoals    PersonalGoal[]
   goalProgress     GoalProgress[]
+  incidentsReported    IncidentReport[] @relation("ReportedBy")
+  incidentsAsStudent   IncidentReport[] @relation("IncidentStudent")
+  incidentsAssigned    IncidentReport[] @relation("AssignedLeader")
 
   @@index([email])
   @@index([organizationId])
@@ -115,6 +117,7 @@ model Group {
   members      GroupMember[]
   mappings     ExternalGroupMapping[]
   lessons      LessonGroup[]
+  incidentReports IncidentReport[]
 
   @@index([organizationId])
   @@index([externalId])
@@ -1620,4 +1623,95 @@ model ComicMetric {
   @@index([organizationId])
   @@index([createdAt])
   @@index([userId])
+}
+
+// ============================================================================
+// INCIDENT REPORTING (Behavior/Wellbeing)
+// ============================================================================
+
+model IncidentReport {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Reporting details
+  reportedById   String?  // User ID (nullable for anonymous reports)
+  reportedAt     DateTime @default(now())
+
+  // Subject information
+  studentName    String?  // Name if not registered user
+  studentId      String?  // Link to User if exists
+  groupId        String?  // Which group/class
+
+  // Incident information
+  incidentType   IncidentType
+  severity       SeverityLevel
+  incidentDate   DateTime
+  location       String?
+  description    String   @db.Text
+
+  // Witnesses/involved parties
+  witnessNames   String?  @db.Text
+  othersInvolved String?  @db.Text
+
+  // Follow-up tracking
+  status         IncidentStatus @default(PENDING)
+  assignedTo     String?  // Leader/staff user ID
+  leaderNotes    String?  @db.Text
+  actionTaken    String?  @db.Text
+  followUpDate   DateTime?
+  resolvedAt     DateTime?
+
+  // Notification tracking
+  isConfidential Boolean  @default(true)
+  parentNotified Boolean  @default(false)
+  parentNotifiedAt DateTime?
+
+  // Timestamps
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  reportedBy     User? @relation("ReportedBy", fields: [reportedById], references: [id], onDelete: SetNull)
+  student        User? @relation("IncidentStudent", fields: [studentId], references: [id], onDelete: SetNull)
+  assignedLeader User? @relation("AssignedLeader", fields: [assignedTo], references: [id], onDelete: SetNull)
+  group          Group? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId])
+  @@index([reportedById])
+  @@index([studentId])
+  @@index([assignedTo])
+  @@index([groupId])
+  @@index([status])
+  @@index([incidentType])
+  @@index([severity])
+  @@index([incidentDate])
+}
+
+enum IncidentType {
+  BEHAVIORAL     // Disruptive behavior
+  SAFETY         // Safety concern
+  MEDICAL        // Medical incident
+  EMOTIONAL      // Emotional distress
+  CONFLICT       // Student conflict
+  BULLYING       // Bullying incident
+  ATTENDANCE     // Attendance issue
+  VANDALISM      // Property damage
+  POLICY         // Policy violation
+  OTHER          // Other concerns
+}
+
+enum SeverityLevel {
+  LOW            // Minor issue, informational
+  MEDIUM         // Moderate concern, requires attention
+  HIGH           // Serious issue, urgent action needed
+  CRITICAL       // Emergency, immediate intervention required
+}
+
+enum IncidentStatus {
+  PENDING        // Newly reported, not yet reviewed
+  ACKNOWLEDGED   // Leader has seen and acknowledged
+  IN_PROGRESS    // Being addressed/investigated
+  RESOLVED       // Completed and closed
+  ESCALATED      // Sent to higher authority/external
 }
