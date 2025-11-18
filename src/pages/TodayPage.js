@@ -198,6 +198,10 @@ function TodayPage() {
             <span className="quick-link-icon">📚</span>
             <span className="quick-link-text">Browse Lessons</span>
           </Link>
+          <Link to="/sermon-notes" className="quick-link-card">
+            <span className="quick-link-icon">✍️</span>
+            <span className="quick-link-text">Sermon Notes</span>
+          </Link>
           <Link to="/bible" className="quick-link-card">
             <span className="quick-link-icon">📖</span>
             <span className="quick-link-text">Bible Tool</span>

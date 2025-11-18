@@ -13,6 +13,8 @@ import GamesAdminPage from './pages/GamesAdminPage';
 import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
+import SermonNotesListPage from './pages/SermonNotesListPage';
+import SermonNoteViewPage from './pages/SermonNoteViewPage';
 import './App.css';
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
+            <Route path="/sermon-notes" element={<SermonNotesListPage />} />
+            <Route path="/sermon-notes/:id" element={<SermonNoteViewPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

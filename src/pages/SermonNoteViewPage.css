@@ -1,0 +1,388 @@
+.sermon-note-view-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.btn-back {
+  background-color: transparent;
+  border: 1px solid var(--border-color, #dee2e6);
+  color: var(--text-color, #333);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.btn-back:hover {
+  background-color: var(--hover-bg, #f8f9fa);
+}
+
+.note-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.note-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.note-content.with-passage {
+  grid-template-columns: 1fr 400px;
+}
+
+.note-main {
+  background-color: var(--card-bg, white);
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.note-title-input {
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 700;
+  border: none;
+  border-bottom: 2px solid var(--border-color, #dee2e6);
+  padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+  background-color: transparent;
+  color: var(--text-color, #333);
+}
+
+.note-title-input:focus {
+  outline: none;
+  border-bottom-color: var(--primary-color, #007bff);
+}
+
+.note-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: var(--text-color, #333);
+}
+
+.note-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color, #dee2e6);
+}
+
+.note-date {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #6c757d);
+}
+
+.note-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background-color: var(--tag-bg, #e9ecef);
+  color: var(--tag-color, #495057);
+  padding: 0.5rem 1rem;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.note-meta-input {
+  margin-bottom: 1.5rem;
+}
+
+.note-meta-input label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #6c757d);
+  margin-bottom: 0.5rem;
+}
+
+.note-meta-input input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 8px;
+  background-color: var(--input-bg, white);
+  color: var(--text-color, #333);
+  font-size: 1rem;
+}
+
+.note-meta-input input:focus {
+  outline: none;
+  border-color: var(--primary-color, #007bff);
+}
+
+.note-body {
+  margin-top: 2rem;
+}
+
+.note-body-input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.8;
+  font-family: inherit;
+  resize: vertical;
+  background-color: var(--input-bg, white);
+  color: var(--text-color, #333);
+}
+
+.note-body-input:focus {
+  outline: none;
+  border-color: var(--primary-color, #007bff);
+}
+
+.note-body-display {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--text-color, #333);
+  white-space: pre-wrap;
+}
+
+.reference-link {
+  background: none;
+  border: none;
+  color: var(--primary-color, #007bff);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+  transition: color 0.2s;
+}
+
+.reference-link:hover {
+  color: var(--primary-hover, #0056b3);
+}
+
+.empty-note {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary, #6c757d);
+}
+
+.passage-viewer {
+  background-color: var(--card-bg, white);
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.passage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color, #dee2e6);
+}
+
+.passage-header h3 {
+  margin: 0;
+  color: var(--text-color, #333);
+  font-size: 1.25rem;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text-secondary, #6c757d);
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.btn-close:hover {
+  color: var(--text-color, #333);
+}
+
+.passage-content {
+  line-height: 1.8;
+  color: var(--text-color, #333);
+}
+
+.passage-content .loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary, #6c757d);
+}
+
+.error-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.error-state h2 {
+  color: var(--text-color, #333);
+  margin-bottom: 1rem;
+}
+
+.error-state p {
+  color: var(--text-secondary, #6c757d);
+  margin-bottom: 2rem;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: var(--card-bg, white);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+  margin: 0 0 1rem 0;
+  color: var(--text-color, #333);
+}
+
+.modal p {
+  margin: 0 0 2rem 0;
+  color: var(--text-secondary, #6c757d);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Dark mode support */
+[data-theme="dark"] .sermon-note-view-page {
+  --text-color: #e9ecef;
+  --text-secondary: #adb5bd;
+  --card-bg: #2d3748;
+  --border-color: #4a5568;
+  --input-bg: #1a202c;
+  --hover-bg: #4a5568;
+  --tag-bg: #4a5568;
+  --tag-color: #e9ecef;
+}
+
+[data-theme="dark"] .note-main,
+[data-theme="dark"] .passage-viewer,
+[data-theme="dark"] .modal {
+  background-color: #2d3748;
+  border-color: #4a5568;
+}
+
+[data-theme="dark"] .btn-back:hover {
+  background-color: #4a5568;
+}
+
+/* Mobile responsive */
+@media (max-width: 1024px) {
+  .note-content.with-passage {
+    grid-template-columns: 1fr;
+  }
+
+  .passage-viewer {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .sermon-note-view-page {
+    padding: 1rem;
+  }
+
+  .note-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .note-actions {
+    width: 100%;
+  }
+
+  .note-actions button {
+    flex: 1;
+  }
+
+  .note-main {
+    padding: 1.5rem;
+  }
+
+  .note-title,
+  .note-title-input {
+    font-size: 1.5rem;
+  }
+
+  .note-body-display {
+    font-size: 1rem;
+  }
+
+  .modal {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+}

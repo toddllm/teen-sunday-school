@@ -6,6 +6,7 @@ import { LessonProvider } from './contexts/LessonContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { StreakProvider } from './contexts/StreakContext';
 import { TranslationProvider } from './contexts/TranslationContext';
+import { SermonNotesProvider } from './contexts/SermonNotesContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,7 +15,9 @@ root.render(
       <TranslationProvider>
         <StreakProvider>
           <LessonProvider>
-            <App />
+            <SermonNotesProvider>
+              <App />
+            </SermonNotesProvider>
           </LessonProvider>
         </StreakProvider>
       </TranslationProvider>
