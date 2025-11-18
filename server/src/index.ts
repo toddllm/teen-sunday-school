@@ -1,4 +1,6 @@
 import express from 'express';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
@@ -9,6 +11,7 @@ import prisma from './config/database';
 // Import routes
 import authRoutes from './routes/auth.routes';
 import integrationRoutes from './routes/integration.routes';
+import sessionRoutes from './routes/session.routes';
 import aiFilterRoutes from './routes/ai-filter.routes';
 import themeComparisonRoutes from './routes/theme-comparison.routes';
 import notificationRoutes from './routes/notification.routes';
@@ -36,11 +39,24 @@ import questionRoutes from './routes/question.routes';
 import calendarRoutes from './routes/calendar.routes';
 import templateRoutes from './routes/template.routes';
 
+// Import socket handlers
+import { initializeSessionSocket } from './socket/session.socket';
+
 // Load environment variables
 dotenv.config();
 
 const app = express();
+const httpServer = createServer(app);
 const PORT = process.env.PORT || 3001;
+
+// Initialize Socket.IO with CORS
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000', 'http://localhost:3013'];
+const io = new Server(httpServer, {
+  cors: {
+    origin: allowedOrigins,
+    credentials: true,
+  },
+});
 
 // ============================================================================
 // MIDDLEWARE
@@ -50,7 +66,6 @@ const PORT = process.env.PORT || 3001;
 app.use(helmet());
 
 // CORS configuration
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'];
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -113,6 +128,7 @@ app.get('/', (req, res) => {
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api', integrationRoutes);
+app.use('/api', sessionRoutes);
 app.use('/api/admin/ai-filters', aiFilterRoutes);
 app.use('/api/themes', themeComparisonRoutes);
 app.use('/api/notifications', notificationRoutes);
@@ -179,12 +195,16 @@ async function startServer() {
       // Don't fail server startup if notification jobs fail
     }
 
+    // Initialize Socket.IO handlers
+    initializeSessionSocket(io);
+
     // Start server
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       logger.info(`✓ Server running on port ${PORT}`);
       logger.info(`✓ Environment: ${process.env.NODE_ENV || 'development'}`);
       logger.info(`✓ Frontend URL: ${process.env.FRONTEND_URL}`);
       logger.info(`✓ API ready at http://localhost:${PORT}`);
+      logger.info(`✓ WebSocket ready for live sessions`);
     });
   } catch (error) {
     logger.error('Failed to start server:', error);
