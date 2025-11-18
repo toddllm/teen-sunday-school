@@ -64,6 +64,7 @@ import TopicsAdminPage from './pages/TopicsAdminPage';
 import IcebreakerAdminPage from './pages/IcebreakerAdminPage';
 import IcebreakerCreatorPage from './pages/IcebreakerCreatorPage';
 import IcebreakerViewPage from './pages/IcebreakerViewPage';
+import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -186,6 +187,7 @@ function App() {
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
+            <Route path="/settings/profile" element={<ProfileSettingsPage />} />
             <Route path="/substitute" element={<SubstituteDashboardPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

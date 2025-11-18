@@ -1,0 +1,69 @@
+.user-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-display--inline {
+  display: inline-flex;
+}
+
+/* Avatar styles */
+.user-display__avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.user-display__avatar--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: bold;
+}
+
+/* Size variants */
+.user-display--small .user-display__avatar {
+  width: 24px;
+  height: 24px;
+  font-size: 0.75rem;
+}
+
+.user-display--small .user-display__name {
+  font-size: 0.875rem;
+}
+
+.user-display--medium .user-display__avatar {
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+}
+
+.user-display--medium .user-display__name {
+  font-size: 1rem;
+}
+
+.user-display--large .user-display__avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 1.5rem;
+}
+
+.user-display--large .user-display__name {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.user-display__name {
+  color: var(--text-primary, #333);
+  transition: color 0.3s ease;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .user-display__name {
+    color: var(--text-primary, #f5f5f5);
+  }
+}
