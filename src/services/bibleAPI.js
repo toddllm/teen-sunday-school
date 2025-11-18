@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getCrossReferencesForVerse, getCrossReferencesGrouped } from '../data/crossReferences';
 
 // Using the free Bible API (api.scripture.api.bible)
 // You can get a free API key at https://scripture.api.bible/
@@ -254,6 +255,181 @@ export const getChapters = async (bibleId, bookId) => {
   }
 };
 
+/**
+ * Convert a verse reference string to verse ID format
+ * @param {string} reference - e.g., "John 3:16"
+ * @returns {string|null} Verse ID like "JHN.3.16" or null if parsing fails
+ */
+export const referenceToVerseId = (reference) => {
+  const bookMap = {
+    'Genesis': 'GEN', 'Exodus': 'EXO', 'Leviticus': 'LEV', 'Numbers': 'NUM',
+    'Deuteronomy': 'DEU', 'Joshua': 'JOS', 'Judges': 'JDG', 'Ruth': 'RUT',
+    '1 Samuel': '1SA', '2 Samuel': '2SA', '1 Kings': '1KI', '2 Kings': '2KI',
+    'Isaiah': 'ISA', 'Jeremiah': 'JER', 'Ezekiel': 'EZK', 'Daniel': 'DAN',
+    'Hosea': 'HOS', 'Joel': 'JOL', 'Amos': 'AMO', 'Obadiah': 'OBA',
+    'Jonah': 'JON', 'Micah': 'MIC', 'Nahum': 'NAM', 'Habakkuk': 'HAB',
+    'Zephaniah': 'ZEP', 'Haggai': 'HAG', 'Zechariah': 'ZEC', 'Malachi': 'MAL',
+    'Matthew': 'MAT', 'Mark': 'MRK', 'Luke': 'LUK', 'John': 'JHN',
+    'Acts': 'ACT', 'Romans': 'ROM', '1 Corinthians': '1CO', '2 Corinthians': '2CO',
+    'Galatians': 'GAL', 'Ephesians': 'EPH', 'Philippians': 'PHP', 'Colossians': 'COL',
+    '1 Thessalonians': '1TH', '2 Thessalonians': '2TH', 'Timothy': '1TI', '2 Timothy': '2TI',
+    'Titus': 'TIT', 'Philemon': 'PHM', 'Hebrews': 'HEB', 'James': 'JAS',
+    '1 Peter': '1PE', '2 Peter': '2PE', '1 John': '1JN', '2 John': '2JN', '3 John': '3JN',
+    'Jude': 'JUD', 'Revelation': 'REV', 'Psalms': 'PSA', 'Psalm': 'PSA', 'Proverbs': 'PRO',
+    'Job': 'JOB', 'Song of Solomon': 'SNG', 'Ecclesiastes': 'ECC', 'Lamentations': 'LAM'
+  };
+
+  // Try each book name
+  for (const [book, code] of Object.entries(bookMap)) {
+    if (reference.startsWith(book)) {
+      const rest = reference.substring(book.length).trim();
+      const parts = rest.split(':');
+      if (parts.length >= 1) {
+        const chapter = parts[0];
+        const verse = parts[1] ? parts[1].split('-')[0] : '1'; // Handle ranges like "8-9"
+        return `${code}.${chapter}${verse ? '.' + verse : ''}`;
+      }
+    }
+  }
+  return null;
+};
+
+/**
+ * Convert verse ID format to human-readable reference
+ * @param {string} verseId - e.g., "JHN.3.16" or "ROM.8.28"
+ * @returns {string} Human-readable reference like "John 3:16"
+ */
+export const verseIdToReference = (verseId) => {
+  const bookCodeMap = {
+    'GEN': 'Genesis', 'EXO': 'Exodus', 'LEV': 'Leviticus', 'NUM': 'Numbers',
+    'DEU': 'Deuteronomy', 'JOS': 'Joshua', 'JDG': 'Judges', 'RUT': 'Ruth',
+    '1SA': '1 Samuel', '2SA': '2 Samuel', '1KI': '1 Kings', '2KI': '2 Kings',
+    'ISA': 'Isaiah', 'JER': 'Jeremiah', 'EZK': 'Ezekiel', 'DAN': 'Daniel',
+    'HOS': 'Hosea', 'JOL': 'Joel', 'AMO': 'Amos', 'OBA': 'Obadiah',
+    'JON': 'Jonah', 'MIC': 'Micah', 'NAM': 'Nahum', 'HAB': 'Habakkuk',
+    'ZEP': 'Zephaniah', 'HAG': 'Haggai', 'ZEC': 'Zechariah', 'MAL': 'Malachi',
+    'MAT': 'Matthew', 'MRK': 'Mark', 'LUK': 'Luke', 'JHN': 'John',
+    'ACT': 'Acts', 'ROM': 'Romans', '1CO': '1 Corinthians', '2CO': '2 Corinthians',
+    'GAL': 'Galatians', 'EPH': 'Ephesians', 'PHP': 'Philippians', 'COL': 'Colossians',
+    '1TH': '1 Thessalonians', '2TH': '2 Thessalonians', '1TI': '1 Timothy', '2TI': '2 Timothy',
+    'TIT': 'Titus', 'PHM': 'Philemon', 'HEB': 'Hebrews', 'JAS': 'James',
+    '1PE': '1 Peter', '2PE': '2 Peter', '1JN': '1 John', '2JN': '2 John', '3JN': '3 John',
+    'JUD': 'Jude', 'REV': 'Revelation', 'PSA': 'Psalm', 'PRO': 'Proverbs',
+    'JOB': 'Job', 'SNG': 'Song of Solomon', 'ECC': 'Ecclesiastes', 'LAM': 'Lamentations'
+  };
+
+  const parts = verseId.split('.');
+  if (parts.length >= 2) {
+    const book = bookCodeMap[parts[0]] || parts[0];
+    const chapter = parts[1];
+    const verse = parts[2];
+
+    if (verse) {
+      // Handle verse ranges like "8-9"
+      return `${book} ${chapter}:${verse}`;
+    } else {
+      // Just a chapter reference
+      return `${book} ${chapter}`;
+    }
+  }
+  return verseId;
+};
+
+/**
+ * Get cross-references for a specific verse
+ * @param {string} verseId - Verse ID in format like 'JHN.3.16'
+ * @param {boolean} grouped - Whether to group by type
+ * @returns {Array|Object} Array of cross-references or grouped object
+ */
+export const getCrossReferences = (verseId, grouped = false) => {
+  if (grouped) {
+    return getCrossReferencesGrouped(verseId);
+  }
+  return getCrossReferencesForVerse(verseId);
+};
+
+/**
+ * Fetch cross-reference verses with their full text
+ * @param {string} verseId - Source verse ID
+ * @param {string} bibleId - Bible version ID
+ * @returns {Promise<Array>} Array of cross-references with fetched text
+ */
+export const fetchCrossReferencesWithText = async (verseId, bibleId = DEFAULT_BIBLE_ID) => {
+  try {
+    const crossRefs = getCrossReferencesForVerse(verseId);
+
+    if (!crossRefs || crossRefs.length === 0) {
+      return [];
+    }
+
+    // Fetch all cross-reference verses in parallel
+    const promises = crossRefs.map(async (ref) => {
+      try {
+        const passage = await getPassage(ref.target, bibleId);
+        return {
+          ...ref,
+          reference: verseIdToReference(ref.target),
+          verseId: ref.target,
+          text: passage ? passage.content : 'Unable to load verse text',
+          loaded: !!passage
+        };
+      } catch (error) {
+        console.error(`Error fetching cross-reference ${ref.target}:`, error);
+        return {
+          ...ref,
+          reference: verseIdToReference(ref.target),
+          verseId: ref.target,
+          text: 'Unable to load verse text',
+          loaded: false
+        };
+      }
+    });
+
+    const results = await Promise.all(promises);
+    return results;
+  } catch (error) {
+    console.error('Error fetching cross-references:', error);
+    return [];
+  }
+};
+
+/**
+ * Get cross-references grouped by type with verse text
+ * @param {string} verseId - Source verse ID
+ * @param {string} bibleId - Bible version ID
+ * @returns {Promise<Object>} Object with cross-references grouped by type
+ */
+export const fetchCrossReferencesGrouped = async (verseId, bibleId = DEFAULT_BIBLE_ID) => {
+  try {
+    const allRefs = await fetchCrossReferencesWithText(verseId, bibleId);
+
+    const grouped = {
+      quotation: [],
+      parallel: [],
+      theme: [],
+      allusion: [],
+      prophecy: []
+    };
+
+    allRefs.forEach(ref => {
+      if (grouped[ref.type]) {
+        grouped[ref.type].push(ref);
+      }
+    });
+
+    return grouped;
+  } catch (error) {
+    console.error('Error fetching grouped cross-references:', error);
+    return {
+      quotation: [],
+      parallel: [],
+      theme: [],
+      allusion: [],
+      prophecy: []
+    };
+  }
+};
+
 const bibleAPIService = {
   searchPassage,
   getPassage,
@@ -264,7 +440,12 @@ const bibleAPIService = {
   getParallelChapters,
   getAvailableBibles,
   getBooks,
-  getChapters
+  getChapters,
+  referenceToVerseId,
+  verseIdToReference,
+  getCrossReferences,
+  fetchCrossReferencesWithText,
+  fetchCrossReferencesGrouped
 };
 
 export default bibleAPIService;
