@@ -26,6 +26,7 @@ model Organization {
   groups       Group[]
   integrations ExternalIntegration[]
   lessons      Lesson[]
+  aiFilterConfigs AIFilterConfig[]
 
   @@index([slug])
 }
@@ -307,4 +308,84 @@ model LessonGroup {
   @@unique([lessonId, groupId])
   @@index([lessonId])
   @@index([groupId])
+}
+
+// ============================================================================
+// AI CONTENT FILTERS
+// ============================================================================
+
+model AIFilterConfig {
+  id             String   @id @default(cuid())
+  organizationId String?  // NULL = global/default config
+
+  // Filter categories and their handling rules
+  filterRules    Json     // { "relationships_sexuality": "REDIRECT", "mental_health": "GUIDANCE", ... }
+
+  // Additional settings
+  customKeywords Json?    // Custom keywords to filter: { "block": [...], "monitor": [...] }
+  redirectMessage String? @db.Text // Custom message when redirecting to leader
+
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  metrics      AIFilterMetric[]
+
+  @@unique([organizationId]) // One config per org (plus one global)
+  @@index([organizationId])
+  @@index([isActive])
+}
+
+enum FilterCategory {
+  RELATIONSHIPS_SEXUALITY
+  MENTAL_HEALTH
+  CONTROVERSIAL_DOCTRINE
+  VIOLENCE_ABUSE
+  SUBSTANCE_USE
+  POLITICS
+  FAMILY_ISSUES
+  DEATH_GRIEF
+  DOUBTS_FAITH
+  PEER_PRESSURE
+  CUSTOM
+}
+
+enum FilterAction {
+  REDIRECT     // Redirect to leader
+  GUIDANCE     // Provide high-level guidance only
+  BLOCK        // Block completely with generic message
+  MONITOR      // Allow but log for review
+}
+
+model AIFilterMetric {
+  id             String   @id @default(cuid())
+  filterId       String
+  organizationId String?
+
+  // Query details
+  query          String   @db.Text
+  detectedCategory FilterCategory
+  actionTaken    FilterAction
+
+  // Context
+  userId         String?  // User who made the query
+  groupId        String?  // Group context if applicable
+  featureName    String?  // Which AI feature triggered the filter
+
+  // Leader follow-up tracking
+  leaderNotified Boolean  @default(false)
+  leaderResponse String?  @db.Text
+  resolvedAt     DateTime?
+
+  createdAt      DateTime @default(now())
+
+  filter AIFilterConfig @relation(fields: [filterId], references: [id], onDelete: Cascade)
+
+  @@index([filterId])
+  @@index([organizationId])
+  @@index([createdAt])
+  @@index([detectedCategory])
+  @@index([actionTaken])
+  @@index([userId])
 }
