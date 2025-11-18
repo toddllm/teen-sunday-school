@@ -6,6 +6,7 @@ import { LessonProvider } from './contexts/LessonContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { StreakProvider } from './contexts/StreakContext';
 import { TranslationProvider } from './contexts/TranslationContext';
+import { MemoryVerseProvider } from './contexts/MemoryVerseContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,9 +14,11 @@ root.render(
     <ThemeProvider>
       <TranslationProvider>
         <StreakProvider>
-          <LessonProvider>
-            <App />
-          </LessonProvider>
+          <MemoryVerseProvider>
+            <LessonProvider>
+              <App />
+            </LessonProvider>
+          </MemoryVerseProvider>
         </StreakProvider>
       </TranslationProvider>
     </ThemeProvider>

@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getVerseText } from '../services/bibleAPI';
+import { useMemoryVerse } from '../contexts/MemoryVerseContext';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
+  const navigate = useNavigate();
+  const { addMemoryVerse, isVerseInMemory } = useMemoryVerse();
   const [reference, setReference] = useState('');
   const [verse, setVerse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [addSuccess, setAddSuccess] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -15,6 +20,7 @@ const BibleToolPage = () => {
     setLoading(true);
     setError('');
     setVerse(null);
+    setAddSuccess('');
 
     try {
       const result = await getVerseText(reference);
@@ -24,6 +30,20 @@ const BibleToolPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddToMemory = () => {
+    if (!verse) return;
+
+    if (isVerseInMemory(verse.reference)) {
+      setAddSuccess('This verse is already in your memory collection!');
+      setTimeout(() => navigate('/memory-verses'), 2000);
+      return;
+    }
+
+    addMemoryVerse(verse.reference, verse.text);
+    setAddSuccess('Added to memory! Redirecting...');
+    setTimeout(() => navigate('/memory-verses'), 1500);
   };
 
   return (
@@ -58,6 +78,14 @@ const BibleToolPage = () => {
           <div className="verse-text">
             {verse.text}
           </div>
+          <button
+            onClick={handleAddToMemory}
+            className="add-to-memory-btn"
+            disabled={isVerseInMemory(verse.reference)}
+          >
+            {isVerseInMemory(verse.reference) ? 'Already in Memory ✓' : 'Add to Memory 🧠'}
+          </button>
+          {addSuccess && <div className="success-message">{addSuccess}</div>}
         </div>
       )}
 
