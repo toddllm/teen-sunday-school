@@ -180,6 +180,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/progress"
+              className={`nav-link ${isActive('/progress') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Reading Progress
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible/miracles"
               className={`nav-link ${isActive('/bible/miracles') ? 'active' : ''}`}
               onClick={closeMenu}
