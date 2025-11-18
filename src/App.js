@@ -54,6 +54,10 @@ import StudentSessionView from './pages/StudentSessionView';
 import ChallengesPage from './pages/ChallengesPage';
 import ChallengesAdminPage from './pages/ChallengesAdminPage';
 import BibleMapPage from './pages/BibleMapPage';
+import EventsPage from './pages/EventsPage';
+import EventDetailPage from './pages/EventDetailPage';
+import SeasonalEventsAdminPage from './pages/SeasonalEventsAdminPage';
+import EventCreatorPage from './pages/EventCreatorPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -138,6 +142,11 @@ function App() {
             <Route path="/admin/questions" element={<QuestionsAdminPage />} />
             <Route path="/admin/calendar" element={<CurriculumCalendarPage />} />
             <Route path="/admin/challenges" element={<ChallengesAdminPage />} />
+            <Route path="/admin/events" element={<SeasonalEventsAdminPage />} />
+            <Route path="/admin/events/create" element={<EventCreatorPage />} />
+            <Route path="/admin/events/edit/:id" element={<EventCreatorPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/events/:id" element={<EventDetailPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />

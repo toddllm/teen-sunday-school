@@ -21,6 +21,7 @@ import { SessionProvider } from './contexts/SessionContext';
 import { ChallengeProvider } from './contexts/ChallengeContext';
 import { MapProvider } from './contexts/MapContext';
 import { PollProvider } from './contexts/PollContext';
+import { SeasonalEventProvider } from './contexts/SeasonalEventContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -43,8 +44,10 @@ root.render(
                             <BigStoryProvider>
                               <MapProvider>
                                 <PollProvider>
+                                  <SeasonalEventProvider>
                                   <SessionProvider>
                                     <App />
+                                  </SeasonalEventProvider>
                                   </SessionProvider>
                                 </PollProvider>
                               </MapProvider>

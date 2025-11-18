@@ -2207,3 +2207,104 @@ enum PollStatus {
   ACTIVE           // Currently accepting responses
   CLOSED           // No longer accepting responses
 }
+model SeasonalEvent {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Event details
+  title          String
+  description    String   @db.Text
+  season         EventSeason // Type of seasonal event
+
+  // Timing
+  startDate      DateTime
+  endDate        DateTime
+
+  // Visual elements
+  icon           String?  // Emoji or icon identifier
+  bannerColor    String?  // Hex color for banner
+  bannerImage    String?  // URL or path to banner image
+
+  // Event mechanics
+  challenges     Json?    // Array of challenge definitions
+  rewards        Json?    // XP multipliers, special badges, etc.
+
+  // Reading plan integration
+  readingPlanIds String[] // Array of reading plan IDs for this event
+
+  // Status
+  isActive       Boolean  @default(true)
+  isPinned       Boolean  @default(false) // Pin to top of events list
+
+  createdBy      String?  // User ID who created the event
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  participations EventParticipation[]
+  activities     EventActivity[]
+
+  @@index([organizationId])
+  @@index([season])
+  @@index([startDate])
+  @@index([endDate])
+  @@index([isActive])
+}
+
+enum EventSeason {
+  ADVENT          // Advent season (4 weeks before Christmas)
+  CHRISTMAS       // Christmas season
+  LENT            // Lent season (40 days before Easter)
+  EASTER          // Easter season
+  PENTECOST       // Pentecost
+  SUMMER          // Summer challenge
+  FALL            // Fall challenge
+  CUSTOM          // Custom seasonal event
+}
+
+model EventParticipation {
+  id          String   @id @default(cuid())
+  userId      String
+  eventId     String
+
+  // Progress tracking
+  progress    Int      @default(0)  // 0-100 percentage
+  pointsEarned Int     @default(0)
+
+  // Completion
+  isCompleted Boolean  @default(false)
+  completedAt DateTime?
+
+  // Rewards
+  rewardsEarned Json?  // Array of earned rewards/badges
+
+  startedAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  event       SeasonalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
+  @@index([userId])
+  @@index([eventId])
+  @@index([isCompleted])
+}
+
+model EventActivity {
+  id          String   @id @default(cuid())
+  eventId     String
+  userId      String
+
+  // Activity details
+  activityType String  // "reading_completed", "challenge_completed", "daily_check_in"
+  points       Int     @default(0)
+  metadata     Json?   // Additional activity data
+
+  createdAt   DateTime @default(now())
+
+  event       SeasonalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@index([userId])
+  @@index([activityType])
+  @@index([createdAt])
+}
