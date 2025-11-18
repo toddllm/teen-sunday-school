@@ -28,11 +28,13 @@ import { ProfileProvider } from './contexts/ProfileContext';
 import { CharacterProvider } from './contexts/CharacterContext';
 import { QuestionBankProvider } from './contexts/QuestionBankContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
       <AccessibilityProvider>
         <OnboardingProvider>
           <TranslationProvider>
@@ -82,6 +84,7 @@ root.render(
           </TranslationProvider>
         </OnboardingProvider>
       </AccessibilityProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

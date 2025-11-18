@@ -67,6 +67,8 @@ import IcebreakerViewPage from './pages/IcebreakerViewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import CharactersPage from './pages/CharactersPage';
 import CharacterDetailPage from './pages/CharacterDetailPage';
+import BulkImportPage from './pages/BulkImportPage';
+import ImportMonitorPage from './pages/ImportMonitorPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -163,6 +165,9 @@ function App() {
             <Route path="/admin/icebreaker/create" element={<IcebreakerCreatorPage />} />
             <Route path="/admin/icebreaker/edit/:id" element={<IcebreakerCreatorPage />} />
             <Route path="/icebreaker/:id" element={<IcebreakerViewPage />} />
+            <Route path="/admin/bulk-import" element={<BulkImportPage />} />
+            <Route path="/admin/imports" element={<ImportMonitorPage />} />
+            <Route path="/admin/imports/:jobId" element={<ImportMonitorPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />
