@@ -82,6 +82,13 @@ function AdminPage() {
               <p>Generate AI-powered sermon illustrations</p>
             </div>
           </Link>
+          <Link to="/admin/scavenger-hunt" className="quick-access-card">
+            <div className="quick-access-icon">📷</div>
+            <div className="quick-access-content">
+              <h3>Scavenger Hunt</h3>
+              <p>Create verse-based photo scavenger hunts</p>
+            </div>
+          </Link>
           <Link to="/admin/ai-filters" className="quick-access-card">
             <div className="quick-access-icon">🛡️</div>
             <div className="quick-access-content">

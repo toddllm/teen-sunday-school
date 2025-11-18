@@ -1,0 +1,588 @@
+.submission-gallery-page {
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.gallery-header h1 {
+  color: var(--text-color);
+  margin: 0 0 0.5rem 0;
+}
+
+.hunt-subtitle {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.back-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background-color: var(--border-color);
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.message.success {
+  background-color: var(--success-bg, #d4edda);
+  color: var(--success-color, #155724);
+  border: 1px solid var(--success-border, #c3e6cb);
+}
+
+.message.info {
+  background-color: var(--info-bg, #d1ecf1);
+  color: var(--info-color, #0c5460);
+  border: 1px solid var(--info-border, #bee5eb);
+}
+
+.view-toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background-color: var(--secondary-bg);
+  padding: 0.5rem;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.toggle-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.toggle-btn:hover:not(.active) {
+  background-color: var(--border-color);
+  color: var(--text-color);
+}
+
+/* Leaderboard View */
+.leaderboard-view {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.leaderboard-view h2 {
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  transition: all 0.2s;
+}
+
+.leaderboard-entry:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.rank {
+  font-size: 2rem;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.student-info {
+  flex: 1;
+}
+
+.student-info h3 {
+  margin: 0 0 0.25rem 0;
+  color: var(--text-color);
+}
+
+.student-info p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.submission-thumbnails {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.mini-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  transition: all 0.2s;
+}
+
+.mini-thumbnail:hover {
+  border-color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.more-indicator {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.filter-select {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Submissions Layout */
+.submissions-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+}
+
+.submissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  height: fit-content;
+}
+
+.submission-card {
+  position: relative;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.submission-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.submission-card.selected {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+.submission-card.approved {
+  border-color: var(--success-color, #28a745);
+}
+
+.submission-card.pending {
+  border-color: var(--warning-color, #ffc107);
+}
+
+.submission-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.submission-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.student-badge,
+.prompt-badge,
+.approved-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.student-badge {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.prompt-badge {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--text-color);
+}
+
+.approved-badge {
+  background-color: var(--success-color, #28a745);
+  color: white;
+}
+
+/* Submission Detail Panel */
+.submission-detail {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  animation: slideInRight 0.3s ease-out;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.detail-header h2 {
+  margin: 0;
+  color: var(--text-color);
+}
+
+.close-detail-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.close-detail-btn:hover {
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+}
+
+.detail-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  background-color: #000;
+}
+
+.detail-content {
+  padding: 1.5rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.detail-value {
+  color: var(--text-color);
+  text-align: right;
+}
+
+.detail-value.status-approved {
+  color: var(--success-color, #28a745);
+  font-weight: 600;
+}
+
+.detail-value.status-pending {
+  color: var(--warning-color, #ffc107);
+  font-weight: 600;
+}
+
+.prompt-context {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.prompt-context h3 {
+  margin: 0 0 0.75rem 0;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.verse-text {
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.prompt-text {
+  color: var(--text-color);
+  margin: 0;
+  font-weight: 500;
+}
+
+.student-description {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+}
+
+.student-description h3 {
+  margin: 0 0 0.75rem 0;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.student-description p {
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.approve-btn,
+.unapprove-btn,
+.delete-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.approve-btn {
+  background-color: var(--success-color, #28a745);
+  color: white;
+}
+
+.approve-btn:hover {
+  background-color: var(--success-dark, #218838);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.unapprove-btn {
+  background-color: var(--warning-color, #ffc107);
+  color: #000;
+}
+
+.unapprove-btn:hover {
+  background-color: var(--warning-dark, #e0a800);
+}
+
+.delete-btn {
+  background-color: var(--danger-color, #dc3545);
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: var(--danger-dark, #c82333);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 2px dashed var(--border-color);
+}
+
+.empty-state h2 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.error-message {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 2px solid var(--danger-color, #dc3545);
+}
+
+.error-message h2 {
+  color: var(--danger-color, #dc3545);
+  margin-bottom: 1.5rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .submissions-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .submission-detail {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .submission-gallery-page {
+    padding: 1rem;
+  }
+
+  .gallery-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .back-btn {
+    width: 100%;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .submissions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .leaderboard-entry {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .rank {
+    font-size: 3rem;
+  }
+
+  .submission-thumbnails {
+    justify-content: center;
+  }
+
+  .detail-actions {
+    flex-direction: column;
+  }
+}
