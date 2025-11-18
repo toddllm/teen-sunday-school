@@ -70,6 +70,10 @@ import CharactersPage from './pages/CharactersPage';
 import CharacterDetailPage from './pages/CharacterDetailPage';
 import BulkImportPage from './pages/BulkImportPage';
 import ImportMonitorPage from './pages/ImportMonitorPage';
+import SeriesBrowsePage from './pages/SeriesBrowsePage';
+import SeriesViewPage from './pages/SeriesViewPage';
+import SeriesAdminPage from './pages/SeriesAdminPage';
+import SeriesEditorPage from './pages/SeriesEditorPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -169,6 +173,11 @@ function App() {
             <Route path="/admin/bulk-import" element={<BulkImportPage />} />
             <Route path="/admin/imports" element={<ImportMonitorPage />} />
             <Route path="/admin/imports/:jobId" element={<ImportMonitorPage />} />
+            <Route path="/admin/series" element={<SeriesAdminPage />} />
+            <Route path="/admin/series/create" element={<SeriesEditorPage />} />
+            <Route path="/admin/series/edit/:id" element={<SeriesEditorPage />} />
+            <Route path="/series" element={<SeriesBrowsePage />} />
+            <Route path="/series/:id" element={<SeriesViewPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />

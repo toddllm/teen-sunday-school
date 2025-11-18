@@ -30,6 +30,7 @@ import { QuestionBankProvider } from './contexts/QuestionBankContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
+import { SeriesProvider } from './contexts/SeriesContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -45,7 +46,8 @@ root.render(
                 <WarmupProvider>
                   <LessonProvider>
                   <PlanProvider>
-                    <GoalProvider>
+                    <SeriesProvider>
+                      <GoalProvider>
                       <QuestionProvider>
                         <TemplateProvider>
                           <ContextCardProvider>
@@ -77,7 +79,8 @@ root.render(
                           </ContextCardProvider>
                         </TemplateProvider>
                       </QuestionProvider>
-                    </GoalProvider>
+                      </GoalProvider>
+                    </SeriesProvider>
                   </PlanProvider>
                   </LessonProvider>
                 </WarmupProvider>
