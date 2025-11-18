@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:14-alpine
+    container_name: teen-sunday-school-db
+    environment:
+      POSTGRES_DB: teen_sunday_school
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (for Bull job queue)
+  redis:
+    image: redis:7-alpine
+    container_name: teen-sunday-school-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Backend API Server
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: teen-sunday-school-api
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/teen_sunday_school
+      REDIS_URL: redis://redis:6379
+      FRONTEND_URL: http://localhost:3000
+      JWT_SECRET: development-jwt-secret-change-in-production
+      JWT_EXPIRY: 15m
+      REFRESH_TOKEN_SECRET: development-refresh-secret-change-in-production
+      REFRESH_TOKEN_EXPIRY: 7d
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      PLANNING_CENTER_CLIENT_ID: ${PLANNING_CENTER_CLIENT_ID}
+      PLANNING_CENTER_CLIENT_SECRET: ${PLANNING_CENTER_CLIENT_SECRET}
+      PLANNING_CENTER_REDIRECT_URI: http://localhost:3001/api/integrations/planning-center/callback
+      ALLOWED_ORIGINS: http://localhost:3000,http://localhost:3001
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server/src:/app/src
+      - ./server/prisma:/app/prisma
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: npm run dev
+
+  # Frontend (React)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: teen-sunday-school-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - /app/node_modules
+    command: npm start
+
+volumes:
+  postgres_data:
+  redis_data:
