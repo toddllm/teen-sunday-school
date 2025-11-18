@@ -44,6 +44,8 @@ import ComicGeneratorPage from './pages/ComicGeneratorPage';
 import IncidentReportingPage from './pages/IncidentReportingPage';
 import TimelinePage from './pages/TimelinePage';
 import ChronologicalPlanPage from './pages/ChronologicalPlanPage';
+import QuestionsAdminPage from './pages/QuestionsAdminPage';
+import QuestionBoxPage from './pages/QuestionBoxPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -122,6 +124,8 @@ function App() {
             <Route path="/admin/curriculum-coverage" element={<CurriculumCoverageReportPage />} />
             <Route path="/admin/signup-analytics" element={<SignupAnalyticsPage />} />
             <Route path="/admin/incidents" element={<IncidentReportingPage />} />
+            <Route path="/admin/questions" element={<QuestionsAdminPage />} />
+            <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/warmup/present" element={<PreClassWarmupPage />} />
             <Route path="/goals" element={<GoalsPage />} />

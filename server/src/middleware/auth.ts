@@ -123,3 +123,44 @@ export function requireOrgAccess(
 
   next();
 }
+
+/**
+ * Verify user is a leader/teacher or admin
+ * Leaders can manage their own groups, admins can manage all
+ */
+export async function requireLeaderOrAdmin(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  if (!req.user) {
+    res.status(401).json({ error: 'Authentication required' });
+    return;
+  }
+
+  // Admins and teachers have access
+  if (['SUPER_ADMIN', 'ORG_ADMIN', 'TEACHER'].includes(req.user.role)) {
+    next();
+    return;
+  }
+
+  // Check if user is a group leader
+  const groupId = req.params.groupId || req.query.groupId;
+
+  if (groupId) {
+    const membership = await prisma.groupMember.findFirst({
+      where: {
+        userId: req.user.userId,
+        groupId: groupId as string,
+        role: 'leader',
+      },
+    });
+
+    if (membership) {
+      next();
+      return;
+    }
+  }
+
+  res.status(403).json({ error: 'Leader or admin access required' });
+}
