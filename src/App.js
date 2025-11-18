@@ -24,6 +24,8 @@ import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
 import ReadingMetricsSettingsPage from './pages/ReadingMetricsSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
 import OriginalLanguagePage from './pages/OriginalLanguagePage';
+import ThematicJourneysPage from './pages/ThematicJourneysPage';
+import JourneyDetailPage from './pages/JourneyDetailPage';
 import MemeGeneratorPage from './pages/MemeGeneratorPage';
 import ScriptureJournalingPage from './pages/ScriptureJournalingPage';
 import AIFiltersAdminPage from './pages/AIFiltersAdminPage';
@@ -138,6 +140,8 @@ function AppContent() {
           <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
           <Route path="/bible/original-language" element={<OriginalLanguagePage />} />
           <Route path="/settings/translations" element={<TranslationSettingsPage />} />
+          <Route path="/journeys" element={<ThematicJourneysPage />} />
+          <Route path="/journeys/:journeyId" element={<JourneyDetailPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>

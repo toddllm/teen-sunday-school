@@ -1,0 +1,138 @@
+.journey-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.journey-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.journey-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.journey-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.journey-card-title {
+  flex: 1;
+}
+
+.journey-card-title h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-color);
+  font-size: 1.25rem;
+}
+
+.journey-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.journey-badge.completed {
+  background: rgba(80, 200, 120, 0.2);
+  color: var(--secondary-color);
+}
+
+.journey-badge.in-progress {
+  background: rgba(74, 144, 226, 0.2);
+  color: var(--primary-color);
+}
+
+.journey-badge.not-started {
+  background: rgba(128, 128, 128, 0.2);
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.journey-description {
+  color: var(--text-color);
+  opacity: 0.8;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.journey-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.journey-steps::before {
+  content: '📚 ';
+}
+
+.journey-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.journey-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.journey-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.journey-progress-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  min-width: 3rem;
+  text-align: right;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .journey-card {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .journey-progress-bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .journey-card {
+    padding: 1.25rem;
+  }
+
+  .journey-icon {
+    font-size: 2rem;
+  }
+
+  .journey-card-title h3 {
+    font-size: 1.1rem;
+  }
+}
