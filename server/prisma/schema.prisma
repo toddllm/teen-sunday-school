@@ -1,0 +1,148 @@
+// Prisma schema for Teen Sunday School
+// Database: PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER MANAGEMENT
+// ============================================================================
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String   @map("password_hash")
+  firstName     String?  @map("first_name")
+  lastName      String?  @map("last_name")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  lastLoginAt   DateTime? @map("last_login_at")
+
+  // Relations
+  userRoles     UserRole[]
+  auditLogs     AuditLog[]  @relation("AuditPerformedBy")
+  auditTargets  AuditLog[]  @relation("AuditTargetUser")
+
+  @@map("users")
+}
+
+// ============================================================================
+// ROLES & PERMISSIONS SYSTEM
+// ============================================================================
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  displayName String   @map("display_name")
+  description String?
+  isSystem    Boolean  @default(false) @map("is_system") // System roles cannot be deleted
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  userRoles        UserRole[]
+  rolePermissions  RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  displayName String   @map("display_name")
+  description String?
+  category    String   // e.g., "lessons", "users", "analytics", "moderation"
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           String   @id @default(uuid())
+  roleId       String   @map("role_id")
+  permissionId String   @map("permission_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  roleId    String   @map("role_id")
+  scope     String   @default("global") // "global" or org-specific identifiers
+  assignedBy String? @map("assigned_by") // User ID who assigned this role
+  createdAt DateTime @default(now()) @map("created_at")
+  expiresAt DateTime? @map("expires_at") // Optional role expiration
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId, scope])
+  @@map("user_roles")
+}
+
+// ============================================================================
+// AUDIT LOGGING
+// ============================================================================
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String   // e.g., "role_assigned", "role_removed", "permission_changed"
+  entityType  String   @map("entity_type") // e.g., "user_role", "role", "permission"
+  entityId    String   @map("entity_id")
+  performedBy String   @map("performed_by")
+  targetUser  String?  @map("target_user") // User affected by the action
+  oldValue    Json?    @map("old_value")
+  newValue    Json?    @map("new_value")
+  metadata    Json?    // Additional context
+  ipAddress   String?  @map("ip_address")
+  userAgent   String?  @map("user_agent")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  performer User  @relation("AuditPerformedBy", fields: [performedBy], references: [id])
+  target    User? @relation("AuditTargetUser", fields: [targetUser], references: [id])
+
+  @@index([performedBy])
+  @@index([targetUser])
+  @@index([entityType])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================================================
+// ANALYTICS & METRICS
+// ============================================================================
+
+model PermissionCheck {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  permission   String
+  granted      Boolean
+  resourceType String?  @map("resource_type")
+  resourceId   String?  @map("resource_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([permission])
+  @@index([granted])
+  @@index([createdAt])
+  @@map("permission_checks")
+}

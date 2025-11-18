@@ -1,0 +1,155 @@
+.filters-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.btn-clear {
+  padding: 8px 16px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-clear:hover {
+  background-color: #5a6268;
+}
+
+.logs-table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.logs-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.logs-table th {
+  background-color: #f8f9fa;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #dee2e6;
+  font-size: 13px;
+}
+
+.logs-table td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 13px;
+}
+
+.logs-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.timestamp {
+  white-space: nowrap;
+  color: #666;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.action-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.action-badge.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.action-badge.danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.action-badge.warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.action-badge.info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.ip-address {
+  font-family: monospace;
+  color: #666;
+  font-size: 12px;
+}
+
+details {
+  cursor: pointer;
+}
+
+summary {
+  color: #667eea;
+  font-size: 12px;
+  user-select: none;
+}
+
+summary:hover {
+  text-decoration: underline;
+}
+
+.log-details {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  max-width: 400px;
+}
+
+.log-details strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 12px;
+}
+
+.log-details pre {
+  margin: 0 0 10px 0;
+  padding: 8px;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 11px;
+  overflow-x: auto;
+}
