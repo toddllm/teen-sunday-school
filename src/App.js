@@ -51,6 +51,8 @@ import QuestionBoxPage from './pages/QuestionBoxPage';
 import CurriculumCalendarPage from './pages/CurriculumCalendarPage';
 import JoinSessionPage from './pages/JoinSessionPage';
 import StudentSessionView from './pages/StudentSessionView';
+import ChallengesPage from './pages/ChallengesPage';
+import ChallengesAdminPage from './pages/ChallengesAdminPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -134,6 +136,8 @@ function App() {
             <Route path="/admin/incidents" element={<IncidentReportingPage />} />
             <Route path="/admin/questions" element={<QuestionsAdminPage />} />
             <Route path="/admin/calendar" element={<CurriculumCalendarPage />} />
+            <Route path="/admin/challenges" element={<ChallengesAdminPage />} />
+            <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />
             <Route path="/session/student" element={<StudentSessionView />} />
