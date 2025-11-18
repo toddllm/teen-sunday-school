@@ -17,23 +17,22 @@ root.render(
   <React.StrictMode>
     <ThemeProvider>
       <AccessibilityProvider>
-      <OnboardingProvider>
-        <TranslationProvider>
-          <StreakProvider>
-            <LessonProvider>
-              <PlanProvider>
-                <ContextCardProvider>
-                  <WeeklyWordProvider>
-                    <App />
-                  </WeeklyWordProvider>
-                  <App />
-                </ContextCardProvider>
-              </PlanProvider>
-            </LessonProvider>
-          </StreakProvider>
-        </TranslationProvider>
+        <OnboardingProvider>
+          <TranslationProvider>
+            <StreakProvider>
+              <LessonProvider>
+                <PlanProvider>
+                  <ContextCardProvider>
+                    <WeeklyWordProvider>
+                      <App />
+                    </WeeklyWordProvider>
+                  </ContextCardProvider>
+                </PlanProvider>
+              </LessonProvider>
+            </StreakProvider>
+          </TranslationProvider>
+        </OnboardingProvider>
       </AccessibilityProvider>
-      </OnboardingProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
