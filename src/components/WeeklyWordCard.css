@@ -1,0 +1,270 @@
+.weekly-word-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.weekly-word-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.weekly-word-card.compact {
+  padding: 16px;
+  max-width: 400px;
+}
+
+/* Header */
+.word-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.word-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.language-flag {
+  font-size: 20px;
+}
+
+.language-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Word Display */
+.word-display {
+  text-align: center;
+  margin: 24px 0;
+}
+
+.original-word {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding: 16px;
+  border-left: 4px solid;
+  border-right: 4px solid;
+  display: inline-block;
+  min-width: 200px;
+  background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+  border-radius: 8px;
+}
+
+.compact .original-word {
+  font-size: 36px;
+  padding: 12px;
+  min-width: 150px;
+}
+
+.transliteration {
+  font-size: 24px;
+  font-style: italic;
+  color: #6c757d;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.compact .transliteration {
+  font-size: 20px;
+}
+
+.gloss {
+  font-size: 20px;
+  color: #495057;
+  font-weight: 600;
+}
+
+.compact .gloss {
+  font-size: 18px;
+}
+
+/* Blurb */
+.word-blurb {
+  margin: 20px 0;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #0066cc;
+}
+
+.word-blurb p {
+  margin: 0;
+  line-height: 1.6;
+  color: #495057;
+  font-size: 16px;
+}
+
+.compact .word-blurb {
+  padding: 12px;
+}
+
+.compact .word-blurb p {
+  font-size: 14px;
+}
+
+/* Verses */
+.word-verses {
+  margin-top: 20px;
+}
+
+.word-verses h4 {
+  font-size: 16px;
+  color: #495057;
+  margin-bottom: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.verse-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.verse-item {
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #dee2e6;
+  transition: border-color 0.2s ease;
+}
+
+.verse-item:hover {
+  border-color: #0066cc;
+}
+
+.verse-button {
+  width: 100%;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.verse-button:hover {
+  background-color: #f8f9fa;
+}
+
+.verse-icon {
+  font-size: 18px;
+}
+
+.verse-ref {
+  flex: 1;
+  font-weight: 600;
+  color: #495057;
+  font-size: 15px;
+}
+
+.expand-icon {
+  color: #6c757d;
+  transition: transform 0.2s ease;
+  font-size: 12px;
+}
+
+.expand-icon.expanded {
+  transform: rotate(180deg);
+}
+
+.verse-text {
+  padding: 16px;
+  background: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  color: #495057;
+  line-height: 1.6;
+  font-size: 15px;
+  font-style: italic;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+
+/* Footer */
+.word-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.week-date {
+  font-size: 14px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .weekly-word-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .original-word {
+    font-size: 36px;
+    padding: 12px;
+    min-width: 150px;
+  }
+
+  .transliteration {
+    font-size: 20px;
+  }
+
+  .gloss {
+    font-size: 18px;
+  }
+
+  .word-blurb p {
+    font-size: 14px;
+  }
+
+  .verse-ref {
+    font-size: 14px;
+  }
+
+  .verse-text {
+    font-size: 14px;
+    padding: 12px;
+  }
+}

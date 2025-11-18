@@ -23,6 +23,8 @@ import MemeGeneratorPage from './pages/MemeGeneratorPage';
 import AIFiltersAdminPage from './pages/AIFiltersAdminPage';
 import ComparativeThemeViewPage from './pages/ComparativeThemeViewPage';
 import MiraclesExplorerPage from './pages/MiraclesExplorerPage';
+import WeeklyWordArchivePage from './pages/WeeklyWordArchivePage';
+import WeeklyWordAdminPage from './pages/WeeklyWordAdminPage';
 import './App.css';
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
             <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
             <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
             <Route path="/admin/ai-filters" element={<AIFiltersAdminPage />} />
+            <Route path="/admin/weekly-word" element={<WeeklyWordAdminPage />} />
+            <Route path="/weekly-word/archive" element={<WeeklyWordArchivePage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />

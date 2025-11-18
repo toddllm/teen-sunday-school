@@ -721,3 +721,78 @@ model CharacterGuessMetric {
   @@index([popularityScore])
   @@index([successRate])
 }
+
+// ============================================================================
+// WEEKLY WORD (Original Language Feature)
+// ============================================================================
+
+model WeeklyWord {
+  id             String   @id @default(cuid())
+  organizationId String?  // NULL = shared across all organizations
+
+  // Word details
+  lemma          String   // Original word in Greek/Hebrew script
+  language       Language // GREEK or HEBREW
+  transliteration String  // Romanized version for pronunciation
+  gloss          String   // English meaning/translation
+
+  // Content
+  blurb          String   @db.Text // Short explanation/teaching
+  verseRefs      Json     // Array of verse references: ["John 3:16", "Romans 8:28"]
+  verseTexts     Json?    // Optional: cached verse texts for performance
+
+  // Scheduling
+  weekStart      DateTime // Start date of the week this word is featured
+  weekEnd        DateTime // End date (typically weekStart + 7 days)
+
+  // Metadata
+  isFeatured     Boolean  @default(false) // Currently featured word
+  isActive       Boolean  @default(true)  // Archived words set to false
+
+  createdBy      String?  // User ID of creator (admin)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  metrics        WeeklyWordMetric[]
+
+  @@index([organizationId])
+  @@index([weekStart])
+  @@index([isFeatured])
+  @@index([isActive])
+}
+
+enum Language {
+  GREEK
+  HEBREW
+  ARAMAIC
+}
+
+model WeeklyWordMetric {
+  id           String   @id @default(cuid())
+  wordId       String
+  userId       String?  // NULL = anonymous view
+
+  // Interaction types
+  eventType    WeeklyWordEventType
+  verseRef     String?  // Which verse was clicked (if applicable)
+
+  // Context
+  viewSource   String?  // "today_page", "dashboard", "archive"
+  sessionId    String?  // For tracking unique sessions
+
+  createdAt    DateTime @default(now())
+
+  word WeeklyWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@index([wordId])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([eventType])
+}
+
+enum WeeklyWordEventType {
+  VIEW          // Card viewed
+  VERSE_CLICK   // Clicked to read a verse
+  SHARE         // Shared the word
+  ARCHIVE_VIEW  // Viewed in archive
+}
