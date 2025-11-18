@@ -19,6 +19,7 @@ import { QuestionProvider } from './contexts/QuestionContext';
 import { TemplateProvider } from './contexts/TemplateContext';
 import { SessionProvider } from './contexts/SessionContext';
 import { ChallengeProvider } from './contexts/ChallengeContext';
+import { MapProvider } from './contexts/MapContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -39,9 +40,11 @@ root.render(
                           <WeeklyWordProvider>
                           <ReadAloudProvider>
                             <BigStoryProvider>
-                              <SessionProvider>
-                                <App />
-                              </SessionProvider>
+                              <MapProvider>
+                                <SessionProvider>
+                                  <App />
+                                </SessionProvider>
+                              </MapProvider>
                             </BigStoryProvider>
                           </ReadAloudProvider>
                           </WeeklyWordProvider>

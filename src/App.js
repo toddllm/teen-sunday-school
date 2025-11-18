@@ -53,6 +53,7 @@ import JoinSessionPage from './pages/JoinSessionPage';
 import StudentSessionView from './pages/StudentSessionView';
 import ChallengesPage from './pages/ChallengesPage';
 import ChallengesAdminPage from './pages/ChallengesAdminPage';
+import BibleMapPage from './pages/BibleMapPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -158,6 +159,7 @@ function App() {
             <Route path="/bible/comic-generator" element={<ComicGeneratorPage />} />
             <Route path="/bible/timeline" element={<TimelinePage />} />
             <Route path="/bible/chronological-plan" element={<ChronologicalPlanPage />} />
+            <Route path="/bible/maps" element={<BibleMapPage />} />
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />

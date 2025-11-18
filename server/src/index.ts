@@ -41,6 +41,7 @@ import calendarRoutes from './routes/calendar.routes';
 import templateRoutes from './routes/template.routes';
 import challengeRoutes from './routes/challenge.routes';
 import groupRoutes from './routes/group.routes';
+import bibleLocationsRoutes from './routes/bible-locations.routes';
 
 // Import socket handlers
 import { initializeSessionSocket } from './socket/session.socket';
@@ -159,6 +160,7 @@ app.use('/api/calendar', calendarRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api', challengeRoutes);
 app.use('/api', groupRoutes);
+app.use('/api', bibleLocationsRoutes);
 
 // 404 handler
 app.use((req, res) => {
