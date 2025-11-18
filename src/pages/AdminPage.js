@@ -131,6 +131,13 @@ function AdminPage() {
               <p>Plan and schedule lesson calendar</p>
             </div>
           </Link>
+          <Link to="/admin/cache-config" className="quick-access-card">
+            <div className="quick-access-icon">💾</div>
+            <div className="quick-access-content">
+              <h3>Offline Cache</h3>
+              <p>Configure offline content pre-caching</p>
+            </div>
+          </Link>
           <Link to="/admin/templates" className="quick-access-card">
             <div className="quick-access-icon">📝</div>
             <div className="quick-access-content">

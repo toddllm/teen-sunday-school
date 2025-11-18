@@ -2984,3 +2984,76 @@ model PassageSummary {
   @@index([organizationId])
   @@index([createdAt])
 }
+
+// ============================================================================
+// OFFLINE CACHE CONFIGURATION
+// ============================================================================
+
+model CacheConfig {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Content types to cache
+  cacheLessons      Boolean  @default(true)
+  cacheReadingPlans Boolean  @default(true)
+  cacheScriptures   Boolean  @default(true)
+  cacheImages       Boolean  @default(false)
+  cacheAudio        Boolean  @default(false)
+
+  // Cache size limits (in MB)
+  maxCacheSize   Int      @default(50)
+
+  // Offline strategy
+  strategy       CacheStrategy @default(CACHE_FIRST)
+
+  // Auto-cache settings
+  autoCache      Boolean  @default(true)
+  autoSync       Boolean  @default(true)
+  syncFrequency  CacheSyncFrequency @default(DAILY)
+
+  // Specific content to cache (JSON arrays of IDs)
+  cachedLessonIds Json?   // Array of lesson IDs to pre-cache
+  cachedPlanIds   Json?   // Array of reading plan IDs to pre-cache
+
+  // Cache policies for specific content types
+  lessonCachePolicy  CachePolicy @default(ALL_RECENT) // ALL, ALL_RECENT, SELECTED_ONLY
+  planCachePolicy    CachePolicy @default(ALL_ACTIVE)
+
+  // Retention settings
+  retentionDays  Int      @default(30) // Days to keep cached content
+
+  // Last sync tracking
+  lastSyncAt     DateTime?
+  nextSyncAt     DateTime?
+
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId])
+  @@index([organizationId])
+}
+
+enum CacheStrategy {
+  CACHE_FIRST     // Try cache first, fallback to network
+  NETWORK_FIRST   // Try network first, fallback to cache
+  CACHE_ONLY      // Only use cache
+  NETWORK_ONLY    // Only use network
+}
+
+enum CacheSyncFrequency {
+  HOURLY
+  DAILY
+  WEEKLY
+  MANUAL
+}
+
+enum CachePolicy {
+  ALL             // Cache all content
+  ALL_RECENT      // Cache all content from last 3 months
+  ALL_ACTIVE      // Cache all active/published content
+  SELECTED_ONLY   // Only cache items specified in cachedLessonIds/cachedPlanIds
+  NONE            // Don't cache this type
+}

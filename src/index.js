@@ -35,6 +35,8 @@ import { XPProvider } from './contexts/XPContext';
 import { QuizProvider } from './contexts/QuizContext';
 import { BugReportProvider } from './contexts/BugReportContext';
 import { ScavengerHuntProvider } from './contexts/ScavengerHuntContext';
+import { CacheConfigProvider } from './contexts/CacheConfigContext';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -71,7 +73,9 @@ root.render(
                                   <SessionProvider>
                                     <BugReportProvider>
                                       <ScavengerHuntProvider>
-                                        <App />
+                                        <CacheConfigProvider>
+                                          <App />
+                                        </CacheConfigProvider>
                                       </ScavengerHuntProvider>
                                     </BugReportProvider>
                                             </QuestionBankProvider>
@@ -106,3 +110,12 @@ root.render(
     </AuthProvider>
   </React.StrictMode>
 );
+
+// Register service worker for offline functionality
+serviceWorkerRegistration.register({
+  onSuccess: () => console.log('Service Worker registered successfully'),
+  onUpdate: (registration) => {
+    console.log('New content is available; please refresh.');
+    // Optionally show a notification to the user
+  },
+});
