@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
+import DashboardMetrics from '../components/DashboardMetrics';
 import './AdminPage.css';
 
 function AdminPage() {
@@ -47,6 +48,8 @@ function AdminPage() {
             <div className="stat-label">Quarters</div>
           </div>
         </div>
+
+        <DashboardMetrics />
 
         <div className="admin-content">
           <h2>Manage Lessons</h2>
