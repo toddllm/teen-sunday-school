@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getVerseText } from '../services/bibleAPI';
+import CrossReferencePanel from '../components/CrossReferencePanel';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
@@ -7,6 +8,7 @@ const BibleToolPage = () => {
   const [verse, setVerse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [history, setHistory] = useState([]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -19,10 +21,52 @@ const BibleToolPage = () => {
     try {
       const result = await getVerseText(reference);
       setVerse(result);
+      // Add to history if it's a successful search
+      if (result && result.reference) {
+        setHistory(prev => [...prev, result.reference]);
+      }
     } catch (err) {
       setError('Could not find that verse. Please check the reference and try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCrossReferenceClick = async (crossRefText) => {
+    // Scroll to top for better UX
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Set the reference and trigger search
+    setReference(crossRefText);
+    setLoading(true);
+    setError('');
+    setVerse(null);
+
+    try {
+      const result = await getVerseText(crossRefText);
+      setVerse(result);
+      // Add to history
+      if (result && result.reference) {
+        setHistory(prev => [...prev, result.reference]);
+      }
+    } catch (err) {
+      setError('Could not find that verse. Please check the reference and try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoBack = () => {
+    if (history.length > 1) {
+      // Remove current verse from history
+      const newHistory = [...history];
+      newHistory.pop();
+      // Get previous verse
+      const previousRef = newHistory[newHistory.length - 1];
+      setHistory(newHistory);
+      setReference(previousRef);
+      // Load previous verse
+      handleCrossReferenceClick(previousRef);
     }
   };
 
@@ -46,6 +90,18 @@ const BibleToolPage = () => {
         </button>
       </form>
 
+      {/* Navigation History */}
+      {history.length > 1 && verse && (
+        <div className="verse-navigation">
+          <button onClick={handleGoBack} className="btn-back">
+            ← Back to {history[history.length - 2]}
+          </button>
+          <span className="nav-breadcrumb">
+            {history.slice(-3).join(' → ')}
+          </span>
+        </div>
+      )}
+
       {error && (
         <div className="error-box">
           <p>{error}</p>
@@ -53,12 +109,22 @@ const BibleToolPage = () => {
       )}
 
       {verse && (
-        <div className="verse-result">
-          <h2>{verse.reference}</h2>
-          <div className="verse-text">
-            {verse.text}
+        <>
+          <div className="verse-result">
+            <h2>{verse.reference}</h2>
+            <div className="verse-text">
+              {verse.text}
+            </div>
           </div>
-        </div>
+
+          {/* Cross-Reference Panel */}
+          {verse.reference && (
+            <CrossReferencePanel
+              verseReference={verse.reference}
+              onReferenceClick={handleCrossReferenceClick}
+            />
+          )}
+        </>
       )}
 
       <div className="popular-verses">
