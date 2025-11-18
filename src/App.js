@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import TodayPage from './pages/TodayPage';
 import BadgesPage from './pages/BadgesPage';
+import StreakProtectionPage from './pages/StreakProtectionPage';
 import LessonsPage from './pages/LessonsPage';
 import LessonViewPage from './pages/LessonViewPage';
 import AdminPage from './pages/AdminPage';
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/today" element={<TodayPage />} />
             <Route path="/badges" element={<BadgesPage />} />
+            <Route path="/streak-protection" element={<StreakProtectionPage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
             <Route path="/admin" element={<AdminPage />} />
