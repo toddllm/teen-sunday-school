@@ -40,6 +40,7 @@ import BigStoryPage from './pages/BigStoryPage';
 import GoalsPage from './pages/GoalsPage';
 import CurriculumCoverageReportPage from './pages/CurriculumCoverageReportPage';
 import SignupAnalyticsPage from './pages/SignupAnalyticsPage';
+import ComicGeneratorPage from './pages/ComicGeneratorPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -131,6 +132,7 @@ function App() {
             <Route path="/bible/meme-generator" element={<MemeGeneratorPage />} />
             <Route path="/bible/find-reference" element={<FindTheReferencePage />} />
             <Route path="/bible/journaling" element={<ScriptureJournalingPage />} />
+            <Route path="/bible/comic-generator" element={<ComicGeneratorPage />} />
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />

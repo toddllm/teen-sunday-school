@@ -1546,3 +1546,78 @@ enum SignupEventType {
   EMAIL_VERIFIED       // User verified their email (future feature)
   ONBOARDING_COMPLETED // User completed onboarding flow
 }
+
+// ============================================================================
+// COMIC / STORYBOARD GENERATOR
+// ============================================================================
+
+model ComicStoryboard {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Comic metadata
+  title          String
+  description    String?  @db.Text
+
+  // Bible verses
+  verseReferences Json    // Array of verse references used across panels
+
+  // Panel data
+  panels         Json     // Array of {verseRef: string, imagePrompt?: string, caption?: string, position: number, imageData?: string}
+
+  // Layout configuration
+  layoutType     String   // 'single', '2-panel-horizontal', '2-panel-vertical', '3-panel', '4-panel-grid', '6-panel-grid'
+
+  // Visual settings
+  stylePreset    String   @default("comic") // 'comic', 'watercolor', 'sketch', 'minimalist'
+  backgroundColor String  @default("#FFFFFF")
+  textColor      String   @default("#000000")
+  fontFamily     String   @default("Arial")
+
+  // Sharing & visibility
+  isPublic       Boolean  @default(false)
+  isTemplate     Boolean  @default(false)
+
+  // Authorship
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  metrics      ComicMetric[]
+
+  @@index([organizationId])
+  @@index([isPublic])
+  @@index([createdBy])
+  @@index([layoutType])
+}
+
+model ComicMetric {
+  id             String   @id @default(cuid())
+  comicId        String
+  organizationId String
+
+  // Usage tracking
+  viewCount      Int      @default(0)
+  downloadCount  Int      @default(0)
+  shareCount     Int      @default(0)
+  lastViewedAt   DateTime @default(now())
+
+  // User engagement
+  userId         String?  // User who viewed/used
+  featureContext String?  // Where it was accessed
+  timeSpentMs    Int?     // Time spent creating/editing
+
+  // Lesson integration
+  usedInLesson   Boolean  @default(false)
+  lessonId       String?
+
+  createdAt      DateTime @default(now())
+
+  comic ComicStoryboard @relation(fields: [comicId], references: [id], onDelete: Cascade)
+
+  @@index([comicId])
+  @@index([organizationId])
+  @@index([createdAt])
+  @@index([userId])
+}
