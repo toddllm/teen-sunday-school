@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import TodayPage from './pages/TodayPage';
@@ -26,7 +26,56 @@ import MiraclesExplorerPage from './pages/MiraclesExplorerPage';
 import WeeklyWordArchivePage from './pages/WeeklyWordArchivePage';
 import WeeklyWordAdminPage from './pages/WeeklyWordAdminPage';
 import FindTheReferencePage from './pages/FindTheReferencePage';
+import OnboardingPage from './pages/OnboardingPage';
+import { useOnboarding } from './contexts/OnboardingContext';
 import './App.css';
+
+// Component to handle onboarding check and navigation visibility
+function AppContent() {
+  const { isOnboardingComplete } = useOnboarding();
+  const location = useLocation();
+  const isOnboardingRoute = location.pathname === '/onboarding';
+
+  // Show navigation only if onboarding is complete or user is on onboarding page
+  const showNavigation = isOnboardingComplete || isOnboardingRoute;
+
+  // Redirect to onboarding if not complete and not already there
+  if (!isOnboardingComplete && !isOnboardingRoute) {
+    return <Navigate to="/onboarding" replace />;
+  }
+
+  return (
+    <div className="App">
+      {showNavigation && <Navigation />}
+      <main className="main-content">
+        <Routes>
+          <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/today" element={<TodayPage />} />
+          <Route path="/badges" element={<BadgesPage />} />
+          <Route path="/lessons" element={<LessonsPage />} />
+          <Route path="/lesson/:id" element={<LessonViewPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/create" element={<LessonCreatorPage />} />
+          <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
+          <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
+          <Route path="/admin/plans" element={<PlansAdminPage />} />
+          <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
+          <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
+          <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
+          <Route path="/admin/ai-filters" element={<AIFiltersAdminPage />} />
+          <Route path="/games/:lessonId" element={<GamesPage />} />
+          <Route path="/bible" element={<BibleToolPage />} />
+          <Route path="/bible/parallel" element={<ParallelBiblePage />} />
+          <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />
+          <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
+          <Route path="/settings/translations" element={<TranslationSettingsPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
 
 function App() {
   return (
@@ -66,6 +115,7 @@ function App() {
           </Routes>
         </main>
       </div>
+      <AppContent />
     </Router>
   );
 }
