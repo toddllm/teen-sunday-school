@@ -1,0 +1,489 @@
+.warmup-page {
+  min-height: calc(100vh - 60px);
+  background: var(--bg-color);
+  padding: 20px;
+}
+
+.warmup-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.warmup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.warmup-title h1 {
+  color: var(--text-color);
+  margin: 0 0 5px 0;
+  font-size: 2rem;
+}
+
+.playlist-name {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Progress */
+.warmup-progress {
+  margin-bottom: 30px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--card-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Activity Display */
+.warmup-activity {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 40px;
+  min-height: 400px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.activity-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.activity-icon {
+  font-size: 2.5rem;
+}
+
+.activity-type {
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Bible Trivia */
+.trivia-question h2 {
+  color: var(--text-color);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+.trivia-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.trivia-option {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: var(--bg-color);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+.trivia-option:hover:not(:disabled) {
+  border-color: #3498db;
+  transform: translateX(5px);
+}
+
+.trivia-option.selected {
+  border-color: #3498db;
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.trivia-option.correct {
+  border-color: #2ecc71;
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.trivia-option.incorrect {
+  border-color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.option-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.option-text {
+  flex: 1;
+  color: var(--text-color);
+}
+
+.trivia-explanation {
+  padding: 20px;
+  background: rgba(46, 204, 113, 0.1);
+  border-left: 4px solid #2ecc71;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.trivia-explanation p {
+  color: var(--text-color);
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Verse Review */
+.verse-reference h2 {
+  color: #3498db;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.verse-partial {
+  padding: 30px;
+  background: var(--bg-color);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.verse-partial p {
+  color: var(--text-color);
+  font-size: 1.3rem;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.verse-full {
+  padding: 30px;
+  background: rgba(52, 152, 219, 0.1);
+  border-left: 4px solid #3498db;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.verse-full blockquote {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Word of the Day */
+.word-display h1 {
+  color: #e67e22;
+  font-size: 3.5rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.word-definition,
+.word-context,
+.word-discussion {
+  margin-bottom: 25px;
+}
+
+.word-definition p,
+.word-discussion p {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.word-context p {
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.word-context blockquote {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  font-style: italic;
+  padding: 15px 20px;
+  background: var(--bg-color);
+  border-left: 4px solid #e67e22;
+  border-radius: 4px;
+  margin: 0;
+}
+
+/* Discussion Starter */
+.discussion-prompt h2 {
+  color: var(--text-color);
+  font-size: 2.2rem;
+  line-height: 1.4;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.discussion-followup {
+  padding: 20px;
+  background: rgba(155, 89, 182, 0.1);
+  border-left: 4px solid #9b59b6;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.discussion-followup p {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.discussion-timer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* Memory Verse */
+.memory-verse .verse-reference h2 {
+  color: #9b59b6;
+  text-align: center;
+}
+
+.memory-verse .verse-text {
+  padding: 30px;
+  background: var(--bg-color);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.memory-verse .verse-text blockquote {
+  color: var(--text-color);
+  font-size: 1.5rem;
+  line-height: 1.8;
+  text-align: center;
+  margin: 0;
+}
+
+.verse-instruction {
+  text-align: center;
+  padding: 20px;
+  background: rgba(155, 89, 182, 0.1);
+  border-radius: 8px;
+}
+
+.verse-instruction p {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Reflection */
+.reflection-question h2 {
+  color: var(--text-color);
+  font-size: 2rem;
+  line-height: 1.4;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.reflection-timer {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.share-prompt {
+  padding: 20px;
+  background: rgba(46, 204, 113, 0.1);
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.share-prompt p {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Quick Game */
+.game-name h1 {
+  color: #e74c3c;
+  font-size: 3rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.game-instructions {
+  padding: 30px;
+  background: var(--bg-color);
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.game-instructions p {
+  color: var(--text-color);
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+}
+
+.game-timer {
+  text-align: center;
+}
+
+/* Timer Display */
+.timer-display {
+  display: inline-block;
+  padding: 15px 30px;
+  background: var(--bg-color);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.timer-display.large {
+  padding: 30px 60px;
+  font-size: 3.5rem;
+}
+
+/* Buttons */
+.show-answer-btn {
+  display: block;
+  margin: 20px auto 0;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+}
+
+/* Navigation Controls */
+.warmup-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.activity-indicator {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.activity-indicator .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.activity-indicator .dot.active {
+  background: #3498db;
+  transform: scale(1.3);
+}
+
+.activity-indicator .dot.completed {
+  background: #2ecc71;
+}
+
+/* Loading State */
+.warmup-loading {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.warmup-loading h2 {
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+.warmup-loading p {
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+}
+
+/* Error State */
+.activity-error {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .warmup-page {
+    padding: 10px;
+  }
+
+  .warmup-activity {
+    padding: 20px;
+  }
+
+  .warmup-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .trivia-question h2 {
+    font-size: 1.5rem;
+  }
+
+  .trivia-option {
+    padding: 15px;
+    font-size: 1rem;
+  }
+
+  .word-display h1 {
+    font-size: 2.5rem;
+  }
+
+  .game-name h1 {
+    font-size: 2rem;
+  }
+
+  .timer-display.large {
+    padding: 20px 40px;
+    font-size: 2.5rem;
+  }
+
+  .activity-indicator {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

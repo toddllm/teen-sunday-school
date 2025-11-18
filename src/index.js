@@ -12,6 +12,7 @@ import { ContextCardProvider } from './contexts/ContextCardContext';
 import { WeeklyWordProvider } from './contexts/WeeklyWordContext';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { ReadAloudProvider } from './contexts/ReadAloudContext';
+import { WarmupProvider } from './contexts/WarmupContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,17 +22,19 @@ root.render(
         <OnboardingProvider>
           <TranslationProvider>
             <StreakProvider>
-              <LessonProvider>
-                <PlanProvider>
-                  <ContextCardProvider>
-                    <WeeklyWordProvider>
-                      <ReadAloudProvider>
-                        <App />
-                      </ReadAloudProvider>
-                    </WeeklyWordProvider>
-                  </ContextCardProvider>
-                </PlanProvider>
-              </LessonProvider>
+              <WarmupProvider>
+                <LessonProvider>
+                  <PlanProvider>
+                    <ContextCardProvider>
+                      <WeeklyWordProvider>
+                        <ReadAloudProvider>
+                          <App />
+                        </ReadAloudProvider>
+                      </WeeklyWordProvider>
+                    </ContextCardProvider>
+                  </PlanProvider>
+                </LessonProvider>
+              </WarmupProvider>
             </StreakProvider>
           </TranslationProvider>
         </OnboardingProvider>

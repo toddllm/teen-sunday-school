@@ -37,6 +37,13 @@ function AdminPage() {
               <p>Create and manage Bible reading plans</p>
             </div>
           </Link>
+          <Link to="/admin/warmup" className="quick-access-card">
+            <div className="quick-access-icon">🎯</div>
+            <div className="quick-access-content">
+              <h3>Pre-Class Warmup</h3>
+              <p>Create auto-playlists for class warmup activities</p>
+            </div>
+          </Link>
           <Link to="/admin" className="quick-access-card">
             <div className="quick-access-icon">📚</div>
             <div className="quick-access-content">
