@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import { useOrganization } from '../contexts/OrganizationContext';
 import './Navigation.css';
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { organization } = useOrganization();
 
   const isActive = (path) => {
     return location.pathname === path || location.pathname.startsWith(path + '/');
@@ -19,8 +21,14 @@ function Navigation() {
     <nav className="navbar">
       <div className="nav-container">
         <Link to="/" className="nav-logo" onClick={closeMenu}>
-          <span className="logo-icon">📖</span>
-          <span className="logo-text">Teen Sunday School</span>
+          {organization?.logo && organization.themeOptions?.showLogoInHeader ? (
+            <img src={organization.logo} alt="Logo" className="logo-image" />
+          ) : (
+            <span className="logo-icon">📖</span>
+          )}
+          {organization.themeOptions?.showNameInHeader && (
+            <span className="logo-text">{organization?.name || 'Teen Sunday School'}</span>
+          )}
         </Link>
 
         <div className="nav-toggle" onClick={toggleMenu}>

@@ -21,6 +21,7 @@ import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
+import OrganizationSettingsPage from './pages/OrganizationSettingsPage';
 import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
 import ReadingMetricsSettingsPage from './pages/ReadingMetricsSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
@@ -132,6 +133,7 @@ function AppContent() {
           <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
           <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
+          <Route path="/admin/branding" element={<OrganizationSettingsPage />} />
           <Route path="/admin/plans" element={<PlansAdminPage />} />
           <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
           <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
