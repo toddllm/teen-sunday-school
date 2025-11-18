@@ -10,6 +10,9 @@ import AdminPage from './pages/AdminPage';
 import LessonCreatorPage from './pages/LessonCreatorPage';
 import GamesPage from './pages/GamesPage';
 import GamesAdminPage from './pages/GamesAdminPage';
+import PlansAdminPage from './pages/PlansAdminPage';
+import PlanCreatorPage from './pages/PlanCreatorPage';
+import PlanPreviewPage from './pages/PlanPreviewPage';
 import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
@@ -32,6 +35,10 @@ function App() {
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
             <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
+            <Route path="/admin/plans" element={<PlansAdminPage />} />
+            <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
+            <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
+            <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
