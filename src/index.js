@@ -10,12 +10,14 @@ import { StreakProvider } from './contexts/StreakContext';
 import { TranslationProvider } from './contexts/TranslationContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 import { WeeklyWordProvider } from './contexts/WeeklyWordContext';
+import { OnboardingProvider } from './contexts/OnboardingContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider>
       <AccessibilityProvider>
+      <OnboardingProvider>
         <TranslationProvider>
           <StreakProvider>
             <LessonProvider>
@@ -24,12 +26,14 @@ root.render(
                   <WeeklyWordProvider>
                     <App />
                   </WeeklyWordProvider>
+                  <App />
                 </ContextCardProvider>
               </PlanProvider>
             </LessonProvider>
           </StreakProvider>
         </TranslationProvider>
       </AccessibilityProvider>
+      </OnboardingProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
