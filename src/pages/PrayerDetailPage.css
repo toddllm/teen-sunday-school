@@ -1,0 +1,376 @@
+.prayer-detail-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.prayer-detail-header {
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.back-link:hover {
+  color: var(--primary-hover);
+}
+
+.prayer-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Prayer Info Card */
+.prayer-info-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.prayer-info-header {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.prayer-category-badge {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+}
+
+.prayer-answered-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  background: #10b981;
+  color: white;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.prayer-answered-badge.large {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.9rem;
+}
+
+.prayer-archived-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  background: #6b7280;
+  color: white;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.prayer-title-large {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+}
+
+.prayer-description-large {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 1.1rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.prayer-meta-info {
+  display: flex;
+  gap: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.meta-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.meta-value {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Edit Form */
+.prayer-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Action Buttons */
+.prayer-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-danger {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-tertiary);
+}
+
+.btn-success {
+  background: #10b981;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* Answered Form */
+.answered-form {
+  background: var(--card-bg);
+  border: 2px solid #10b981;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.answered-form h3 {
+  color: var(--text-primary);
+  margin-top: 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Prayer Journal */
+.prayer-journal {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.prayer-journal h2 {
+  margin-top: 0;
+  color: var(--text-primary);
+}
+
+/* Add Entry Form */
+.add-entry-form {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.add-entry-form .form-textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.add-entry-form button {
+  width: auto;
+}
+
+/* Entries List */
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.journal-entry {
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 6px;
+  padding: 1.25rem;
+}
+
+.journal-entry.answered-entry {
+  background: #f0fdf4;
+  border-left-color: #10b981;
+}
+
+[data-theme="dark"] .journal-entry.answered-entry {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.entry-badge {
+  background: #10b981;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.entry-date {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.entry-body {
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.empty-journal {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-state h2 {
+  color: var(--text-primary);
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .prayer-detail-page {
+    padding: 1rem 0.5rem;
+  }
+
+  .prayer-info-card,
+  .prayer-journal {
+    padding: 1.5rem;
+  }
+
+  .prayer-title-large {
+    font-size: 1.5rem;
+  }
+
+  .prayer-actions,
+  .form-actions,
+  .edit-actions {
+    flex-direction: column;
+  }
+
+  .prayer-actions button,
+  .form-actions button,
+  .edit-actions button {
+    width: 100%;
+  }
+
+  .prayer-meta-info {
+    gap: 1rem;
+  }
+}

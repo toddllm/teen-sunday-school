@@ -189,6 +189,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/prayer"
+              className={`nav-link ${isActive('/prayer') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Prayer List
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible/miracles"
               className={`nav-link ${isActive('/bible/miracles') ? 'active' : ''}`}
               onClick={closeMenu}
