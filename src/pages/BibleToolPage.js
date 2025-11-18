@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getVerseText } from '../services/bibleAPI';
+import PassageDiscussion from '../components/discussion/PassageDiscussion';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
@@ -53,12 +54,16 @@ const BibleToolPage = () => {
       )}
 
       {verse && (
-        <div className="verse-result">
-          <h2>{verse.reference}</h2>
-          <div className="verse-text">
-            {verse.text}
+        <>
+          <div className="verse-result">
+            <h2>{verse.reference}</h2>
+            <div className="verse-text">
+              {verse.text}
+            </div>
           </div>
-        </div>
+
+          <PassageDiscussion passageRef={verse.reference} />
+        </>
       )}
 
       <div className="popular-verses">

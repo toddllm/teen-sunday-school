@@ -1,0 +1,131 @@
+.comment-thread {
+  margin-bottom: 1.5rem;
+}
+
+.comment {
+  padding: 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.comment-author {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.comment-date {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.edited-indicator {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.comment-body {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.comment-body p {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.comment-edit-textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+
+.comment-edit-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.comment-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.action-btn:hover {
+  background: var(--border-color);
+  color: var(--text-color);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.like-btn.action-btn:hover {
+  color: #ff6b6b;
+}
+
+.delete-btn.action-btn:hover {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.reply-form {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.replies {
+  margin-left: 2rem;
+  margin-top: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+  .replies {
+    margin-left: 1rem;
+    padding-left: 0.5rem;
+  }
+
+  .comment-actions {
+    gap: 0.5rem;
+  }
+
+  .action-btn {
+    font-size: 0.85rem;
+  }
+}

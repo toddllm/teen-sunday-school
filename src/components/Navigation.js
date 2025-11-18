@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
+import NotificationBell from './NotificationBell';
 import './Navigation.css';
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { currentUser, logout } = useAuth();
 
   const isActive = (path) => {
     return location.pathname === path || location.pathname.startsWith(path + '/');
@@ -95,6 +98,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/groups"
+              className={`nav-link ${isActive('/groups') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Groups
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/admin"
               className={`nav-link admin-link ${isActive('/admin') ? 'active' : ''}`}
               onClick={closeMenu}
@@ -102,6 +114,34 @@ function Navigation() {
               Admin
             </Link>
           </li>
+          {currentUser ? (
+            <>
+              <li className="nav-item notification-item">
+                <NotificationBell />
+              </li>
+              <li className="nav-item">
+                <button
+                  onClick={() => {
+                    logout();
+                    closeMenu();
+                  }}
+                  className="nav-link auth-btn"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <li className="nav-item">
+              <Link
+                to="/auth"
+                className={`nav-link ${isActive('/auth') ? 'active' : ''}`}
+                onClick={closeMenu}
+              >
+                Sign In
+              </Link>
+            </li>
+          )}
           <li className="nav-item theme-toggle-item">
             <button
               onClick={toggleTheme}

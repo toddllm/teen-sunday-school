@@ -110,6 +110,19 @@
   transform: scale(0.95);
 }
 
+.auth-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
   .nav-toggle {
     display: flex;
