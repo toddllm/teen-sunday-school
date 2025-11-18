@@ -796,3 +796,60 @@ enum WeeklyWordEventType {
   SHARE         // Shared the word
   ARCHIVE_VIEW  // Viewed in archive
 }
+
+// ============================================================================
+// INTERLINEAR VERSES
+// ============================================================================
+
+model InterlinearVerse {
+  id        String   @id @default(cuid())
+  verseRef  String   @unique // Verse reference (e.g., "JHN.3.16")
+
+  // Interlinear data as JSON array
+  // Each token contains: { original, transliteration, gloss, strongsNumber?, morphology? }
+  tokensJson Json
+
+  // Metadata
+  language   String   @default("greek") // "greek" or "hebrew"
+  translation String  @default("NA28")  // Source text (NA28, BHS, etc.)
+
+  // Curation flags
+  isKeyVerse Boolean  @default(false)  // Is this a curated key verse?
+  category   String?                   // "salvation", "love", "faith", etc.
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  metrics    InterlinearMetric[]
+
+  @@index([verseRef])
+  @@index([isKeyVerse])
+  @@index([category])
+}
+
+model InterlinearMetric {
+  id        String   @id @default(cuid())
+  verseId   String
+
+  // Context
+  organizationId String?
+  userId         String?
+
+  // Interaction details
+  action         String   // "view", "word_click", "copy", etc.
+  wordIndex      Int?     // Which word was clicked/interacted with
+
+  // Metadata
+  featureName    String?  // Where the interlinear was accessed from
+  sessionId      String?  // Session tracking
+
+  createdAt      DateTime @default(now())
+
+  verse InterlinearVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
+
+  @@index([verseId])
+  @@index([organizationId])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([action])
+}

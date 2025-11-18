@@ -1,0 +1,319 @@
+/* Interlinear View Styles */
+
+.interlinear-view {
+  background: var(--card-bg, #ffffff);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+}
+
+.interlinear-view.loading,
+.interlinear-view.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 200px;
+}
+
+.interlinear-view .spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color, #e0e0e0);
+  border-top-color: var(--primary-color, #007bff);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Header */
+.interlinear-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color, #e0e0e0);
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.interlinear-header h3 {
+  margin: 0;
+  color: var(--text-color, #333);
+  font-size: 1.25rem;
+}
+
+.verse-ref {
+  font-size: 0.95rem;
+  color: var(--text-muted, #666);
+  font-weight: 500;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--primary-color, #007bff);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-muted, #666);
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: var(--text-color, #333);
+}
+
+/* Info Section */
+.interlinear-info {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background: var(--bg-light, #f8f9fa);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.info-item {
+  color: var(--text-color, #333);
+}
+
+.info-item strong {
+  margin-right: 0.5rem;
+  color: var(--text-muted, #666);
+}
+
+/* Stacked View */
+.interlinear-stacked {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.interlinear-word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+  padding: 0.75rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.interlinear-word:hover {
+  background: var(--bg-light, #f8f9fa);
+  border-color: var(--border-color, #e0e0e0);
+}
+
+.interlinear-word.selected {
+  background: var(--primary-light, #e3f2fd);
+  border-color: var(--primary-color, #007bff);
+}
+
+.word-original {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-color, #333);
+  text-align: center;
+}
+
+.word-transliteration {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-muted, #666);
+  margin-bottom: 0.25rem;
+  text-align: center;
+}
+
+.word-gloss {
+  font-size: 0.9rem;
+  color: var(--text-color, #333);
+  font-weight: 500;
+  text-align: center;
+}
+
+.word-details {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color, #e0e0e0);
+  text-align: center;
+  width: 100%;
+}
+
+.strongs-number {
+  font-size: 0.75rem;
+  color: var(--primary-color, #007bff);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.morphology {
+  font-size: 0.75rem;
+  color: var(--text-muted, #666);
+}
+
+/* Inline View */
+.interlinear-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem;
+  line-height: 1.8;
+}
+
+.interlinear-word-inline {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.interlinear-word-inline:hover {
+  background: var(--bg-light, #f8f9fa);
+  border-color: var(--border-color, #e0e0e0);
+}
+
+.interlinear-word-inline.selected {
+  background: var(--primary-light, #e3f2fd);
+  border-color: var(--primary-color, #007bff);
+}
+
+.interlinear-word-inline .word-original {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.word-info {
+  display: flex;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-muted, #666);
+}
+
+.word-info .separator {
+  margin: 0 0.25rem;
+}
+
+.word-details-popup {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* Help Section */
+.interlinear-help {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background: var(--bg-light, #f8f9fa);
+  border-radius: 6px;
+  border-left: 3px solid var(--primary-color, #007bff);
+}
+
+.interlinear-help p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted, #666);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .interlinear-view {
+    background: var(--card-bg, #1e1e1e);
+  }
+
+  .interlinear-header h3,
+  .word-original,
+  .word-gloss,
+  .info-item {
+    color: var(--text-color, #e0e0e0);
+  }
+
+  .verse-ref,
+  .word-transliteration,
+  .info-item strong,
+  .interlinear-help p {
+    color: var(--text-muted, #999);
+  }
+
+  .interlinear-word:hover,
+  .interlinear-word-inline:hover {
+    background: var(--bg-light, #2a2a2a);
+  }
+
+  .interlinear-word.selected,
+  .interlinear-word-inline.selected {
+    background: var(--primary-dark, #1e3a5f);
+    border-color: var(--primary-color, #4a9eff);
+  }
+
+  .word-details-popup {
+    background: var(--card-bg, #2a2a2a);
+    border-color: var(--border-color, #444);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .interlinear-view {
+    padding: 1rem;
+  }
+
+  .interlinear-stacked {
+    gap: 1rem;
+  }
+
+  .interlinear-word {
+    min-width: 70px;
+    padding: 0.5rem;
+  }
+
+  .word-original {
+    font-size: 1.25rem;
+  }
+
+  .interlinear-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
