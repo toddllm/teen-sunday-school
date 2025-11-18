@@ -18,6 +18,7 @@ import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
 import AIFiltersAdminPage from './pages/AIFiltersAdminPage';
+import ComparativeThemeViewPage from './pages/ComparativeThemeViewPage';
 import './App.css';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
+            <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />
             <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="*" element={<Navigate to="/" />} />

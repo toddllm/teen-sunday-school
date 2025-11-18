@@ -10,6 +10,7 @@ import prisma from './config/database';
 import authRoutes from './routes/auth.routes';
 import integrationRoutes from './routes/integration.routes';
 import aiFilterRoutes from './routes/ai-filter.routes';
+import themeComparisonRoutes from './routes/theme-comparison.routes';
 
 // Load environment variables
 dotenv.config();
@@ -89,6 +90,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api', integrationRoutes);
 app.use('/api/admin/ai-filters', aiFilterRoutes);
+app.use('/api/themes', themeComparisonRoutes);
 
 // 404 handler
 app.use((req, res) => {
