@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStreak, ACTIVITY_TYPES } from '../contexts/StreakContext';
 import { Link } from 'react-router-dom';
+import StreakProtection from '../components/StreakProtection';
 import './TodayPage.css';
 
 function TodayPage() {
@@ -12,7 +13,12 @@ function TodayPage() {
     logActivity,
     isStreakAtRisk,
     getEncouragementMessage,
-    hasActivityToday
+    hasActivityToday,
+    graceDaysAvailable,
+    freezeDaysAvailable,
+    activateFreezeDay,
+    getGraceFreezStats,
+    checkStreakProtection
   } = useStreak();
 
   const [newBadges, setNewBadges] = useState([]);
@@ -110,6 +116,23 @@ function TodayPage() {
         {/* Encouragement Message */}
         <div className={`encouragement-message ${atRisk ? 'warning' : ''}`}>
           {getEncouragementMessage()}
+        </div>
+
+        {/* Streak Protection Section */}
+        <div className="streak-protection-summary">
+          <div className="protection-summary-item">
+            <span className="protection-summary-icon">🛡️</span>
+            <span className="protection-summary-label">Grace Days</span>
+            <span className="protection-summary-count">{graceDaysAvailable}</span>
+          </div>
+          <div className="protection-summary-item">
+            <span className="protection-summary-icon">❄️</span>
+            <span className="protection-summary-label">Freeze Days</span>
+            <span className="protection-summary-count">{freezeDaysAvailable}</span>
+          </div>
+          <Link to="/streak-protection" className="protection-summary-link">
+            Manage Protection →
+          </Link>
         </div>
 
         {/* Quick Actions */}

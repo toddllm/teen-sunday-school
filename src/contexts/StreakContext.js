@@ -82,6 +82,27 @@ export const BADGES = [
     description: 'Achieve a 30-day streak (lifetime best)',
     icon: '👑',
     criteria: (stats) => stats.longestStreak >= 30
+  },
+  {
+    id: 'streak_saver',
+    name: 'Streak Saver',
+    description: 'Use your first grace day',
+    icon: '🛡️',
+    criteria: (stats) => stats.graceDaysUsed > 0
+  },
+  {
+    id: 'wise_pauser',
+    name: 'Wise Pauser',
+    description: 'Use a freeze day for the first time',
+    icon: '⏸️',
+    criteria: (stats) => stats.freezeDaysUsed > 0
+  },
+  {
+    id: 'protected_streak',
+    name: 'Protected Streak',
+    description: 'Maintain a 20-day streak with grace/freeze protection',
+    icon: '🛡️',
+    criteria: (stats) => stats.currentStreak >= 20 && (stats.graceDaysUsed > 0 || stats.freezeDaysUsed > 0)
   }
 ];
 
@@ -99,6 +120,11 @@ export const StreakProvider = ({ children }) => {
   const [longestStreak, setLongestStreak] = useState(0);
   const [lastActivityDate, setLastActivityDate] = useState(null);
   const [earnedBadges, setEarnedBadges] = useState([]);
+  const [graceDaysAvailable, setGraceDaysAvailable] = useState(2); // Start with 2 grace days
+  const [freezeDaysAvailable, setFreezeDaysAvailable] = useState(1); // Start with 1 freeze day
+  const [graceDaysUsedHistory, setGraceDaysUsedHistory] = useState([]); // Array of {date, streakAtTime}
+  const [freezeDaysUsedHistory, setFreezeDaysUsedHistory] = useState([]); // Array of {date, streakAtTime}
+  const [activeFreezes, setActiveFreezes] = useState([]); // Array of dates with active freeze
   const [loading, setLoading] = useState(true);
 
   // Load data from localStorage on mount
@@ -112,6 +138,11 @@ export const StreakProvider = ({ children }) => {
         setLongestStreak(data.longestStreak || 0);
         setLastActivityDate(data.lastActivityDate || null);
         setEarnedBadges(data.earnedBadges || []);
+        setGraceDaysAvailable(data.graceDaysAvailable !== undefined ? data.graceDaysAvailable : 2);
+        setFreezeDaysAvailable(data.freezeDaysAvailable !== undefined ? data.freezeDaysAvailable : 1);
+        setGraceDaysUsedHistory(data.graceDaysUsedHistory || []);
+        setFreezeDaysUsedHistory(data.freezeDaysUsedHistory || []);
+        setActiveFreezes(data.activeFreezes || []);
       }
     } catch (error) {
       console.error('Error loading streak data:', error);
@@ -128,11 +159,16 @@ export const StreakProvider = ({ children }) => {
         currentStreak,
         longestStreak,
         lastActivityDate,
-        earnedBadges
+        earnedBadges,
+        graceDaysAvailable,
+        freezeDaysAvailable,
+        graceDaysUsedHistory,
+        freezeDaysUsedHistory,
+        activeFreezes
       };
       localStorage.setItem('streakData', JSON.stringify(data));
     }
-  }, [activities, currentStreak, longestStreak, lastActivityDate, earnedBadges, loading]);
+  }, [activities, currentStreak, longestStreak, lastActivityDate, earnedBadges, graceDaysAvailable, freezeDaysAvailable, graceDaysUsedHistory, freezeDaysUsedHistory, activeFreezes, loading]);
 
   // Helper: Get today's date in YYYY-MM-DD format (local timezone)
   const getTodayDate = () => {
@@ -176,31 +212,48 @@ export const StreakProvider = ({ children }) => {
 
     // Check for new badges
     checkAndAwardBadges(updatedActivities, newStreak, Math.max(newStreak, longestStreak));
+
+    // Check for grace/freeze day rewards
+    checkAndAwardGraceFreezeDays(newStreak);
   };
 
   // Calculate streak from activities array
-  const calculateStreakFromActivities = (activitiesArray) => {
+  const calculateStreakFromActivities = (activitiesArray, freezes = activeFreezes, graceHistory = graceDaysUsedHistory) => {
     if (activitiesArray.length === 0) return 0;
 
     const today = getTodayDate();
     const yesterday = getYesterdayDate();
 
     const uniqueDates = [...new Set(activitiesArray.map(a => a.date))].sort().reverse();
+    const freezeDates = freezes.map(f => f.date || f);
+    const graceDates = graceHistory.map(g => g.date || g);
 
-    if (!uniqueDates.includes(today) && !uniqueDates.includes(yesterday)) {
+    // Check if streak is still valid (today, yesterday, or protected by freeze)
+    const hasActivityToday = uniqueDates.includes(today);
+    const hasActivityYesterday = uniqueDates.includes(yesterday);
+    const hasFreezeToday = freezeDates.includes(today);
+    const hasFreezeYesterday = freezeDates.includes(yesterday);
+
+    if (!hasActivityToday && !hasActivityYesterday && !hasFreezeToday && !hasFreezeYesterday) {
       return 0;
     }
 
     let streak = 0;
     let currentDate = new Date();
 
-    if (!uniqueDates.includes(today)) {
+    // Start from today or yesterday
+    if (!hasActivityToday && !hasFreezeToday) {
       currentDate.setDate(currentDate.getDate() - 1);
     }
 
+    // Count backwards, allowing for grace and freeze days
     while (true) {
       const dateString = currentDate.toLocaleDateString('en-CA');
-      if (uniqueDates.includes(dateString)) {
+      const hasActivity = uniqueDates.includes(dateString);
+      const hasFreezeDay = freezeDates.includes(dateString);
+      const hasGraceDay = graceDates.includes(dateString);
+
+      if (hasActivity || hasFreezeDay || hasGraceDay) {
         streak++;
         currentDate.setDate(currentDate.getDate() - 1);
       } else {
@@ -223,7 +276,11 @@ export const StreakProvider = ({ children }) => {
       currentStreak,
       longestStreak,
       activityCounts,
-      lastActivityDate
+      lastActivityDate,
+      graceDaysAvailable,
+      freezeDaysAvailable,
+      graceDaysUsed: graceDaysUsedHistory.length,
+      freezeDaysUsed: freezeDaysUsedHistory.length
     };
   };
 
@@ -234,7 +291,11 @@ export const StreakProvider = ({ children }) => {
       currentStreak: current,
       longestStreak: longest,
       activityCounts: {},
-      lastActivityDate
+      lastActivityDate,
+      graceDaysAvailable,
+      freezeDaysAvailable,
+      graceDaysUsed: graceDaysUsedHistory.length,
+      freezeDaysUsed: freezeDaysUsedHistory.length
     };
 
     Object.values(ACTIVITY_TYPES).forEach(type => {
@@ -259,6 +320,39 @@ export const StreakProvider = ({ children }) => {
     }
 
     return [];
+  };
+
+  // Check and award grace/freeze days for milestones
+  const checkAndAwardGraceFreezeDays = (current) => {
+    const rewards = [];
+
+    // Award grace days for streak milestones
+    if (current === 7) {
+      const result = earnGraceDays(1, 'Completed 7-day streak!');
+      if (result.success) rewards.push(result.message);
+    }
+    if (current === 14) {
+      const result = earnGraceDays(1, 'Completed 14-day streak!');
+      if (result.success) rewards.push(result.message);
+    }
+    if (current === 30) {
+      const graceResult = earnGraceDays(2, 'Completed 30-day streak!');
+      const freezeResult = earnFreezeDays(1, 'Completed 30-day streak!');
+      if (graceResult.success) rewards.push(graceResult.message);
+      if (freezeResult.success) rewards.push(freezeResult.message);
+    }
+    if (current === 50) {
+      const freezeResult = earnFreezeDays(1, 'Completed 50-day streak!');
+      if (freezeResult.success) rewards.push(freezeResult.message);
+    }
+    if (current === 100) {
+      const graceResult = earnGraceDays(2, 'Completed 100-day streak!');
+      const freezeResult = earnFreezeDays(2, 'Completed 100-day streak!');
+      if (graceResult.success) rewards.push(graceResult.message);
+      if (freezeResult.success) rewards.push(freezeResult.message);
+    }
+
+    return rewards;
   };
 
   // Get all badges with earned status
@@ -316,6 +410,121 @@ export const StreakProvider = ({ children }) => {
     return "Start your spiritual journey today!";
   };
 
+  // Activate a freeze day for today
+  const activateFreezeDay = () => {
+    const today = getTodayDate();
+
+    // Check if already frozen today
+    if (activeFreezes.some(f => (f.date || f) === today)) {
+      return { success: false, message: 'Today is already frozen!' };
+    }
+
+    // Check if user has freeze days available
+    if (freezeDaysAvailable <= 0) {
+      return { success: false, message: 'No freeze days available!' };
+    }
+
+    // Check if user has an active streak
+    if (currentStreak === 0) {
+      return { success: false, message: 'You need an active streak to use a freeze day!' };
+    }
+
+    // Activate freeze
+    const newFreeze = { date: today, streakAtTime: currentStreak, activatedAt: new Date().toISOString() };
+    const updatedFreezes = [...activeFreezes, newFreeze];
+    const updatedHistory = [...freezeDaysUsedHistory, newFreeze];
+
+    setActiveFreezes(updatedFreezes);
+    setFreezeDaysUsedHistory(updatedHistory);
+    setFreezeDaysAvailable(freezeDaysAvailable - 1);
+
+    // Recalculate streak with the new freeze
+    const newStreak = calculateStreakFromActivities(activities, updatedFreezes, graceDaysUsedHistory);
+    setCurrentStreak(newStreak);
+
+    return { success: true, message: `Freeze day activated! Your ${currentStreak}-day streak is protected.` };
+  };
+
+  // Auto-consume grace day if needed (called during streak calculation checks)
+  const tryUseGraceDay = (dateString) => {
+    // Check if grace day already used for this date
+    if (graceDaysUsedHistory.some(g => (g.date || g) === dateString)) {
+      return false;
+    }
+
+    // Check if user has grace days available
+    if (graceDaysAvailable <= 0) {
+      return false;
+    }
+
+    // Use grace day
+    const newGrace = { date: dateString, streakAtTime: currentStreak, usedAt: new Date().toISOString() };
+    const updatedHistory = [...graceDaysUsedHistory, newGrace];
+
+    setGraceDaysUsedHistory(updatedHistory);
+    setGraceDaysAvailable(graceDaysAvailable - 1);
+
+    return true;
+  };
+
+  // Check if today is protected (has activity, freeze, or can use grace)
+  const checkStreakProtection = () => {
+    const today = getTodayDate();
+    const hasActivity = hasActivityOnDate(today);
+    const hasFreezeToday = activeFreezes.some(f => (f.date || f) === today);
+    const hasGraceToday = graceDaysUsedHistory.some(g => (g.date || g) === today);
+
+    return {
+      hasActivity,
+      hasFreezeToday,
+      hasGraceToday,
+      isProtected: hasActivity || hasFreezeToday || hasGraceToday,
+      canUseGrace: !hasActivity && !hasFreezeToday && !hasGraceToday && graceDaysAvailable > 0,
+      canUseFreeze: !hasActivity && !hasFreezeToday && freezeDaysAvailable > 0
+    };
+  };
+
+  // Earn grace days (e.g., from completing milestones)
+  const earnGraceDays = (count = 1, reason = '') => {
+    const maxGraceDays = 5; // Maximum stockpile
+    const newTotal = Math.min(graceDaysAvailable + count, maxGraceDays);
+    const actualEarned = newTotal - graceDaysAvailable;
+
+    if (actualEarned > 0) {
+      setGraceDaysAvailable(newTotal);
+      return { success: true, earned: actualEarned, message: `Earned ${actualEarned} grace day(s)! ${reason}` };
+    }
+
+    return { success: false, earned: 0, message: 'Grace days already at maximum!' };
+  };
+
+  // Earn freeze days (e.g., from completing milestones)
+  const earnFreezeDays = (count = 1, reason = '') => {
+    const maxFreezeDays = 3; // Maximum stockpile
+    const newTotal = Math.min(freezeDaysAvailable + count, maxFreezeDays);
+    const actualEarned = newTotal - freezeDaysAvailable;
+
+    if (actualEarned > 0) {
+      setFreezeDaysAvailable(newTotal);
+      return { success: true, earned: actualEarned, message: `Earned ${actualEarned} freeze day(s)! ${reason}` };
+    }
+
+    return { success: false, earned: 0, message: 'Freeze days already at maximum!' };
+  };
+
+  // Get grace/freeze stats
+  const getGraceFreezStats = () => {
+    return {
+      graceDaysAvailable,
+      freezeDaysAvailable,
+      graceDaysUsed: graceDaysUsedHistory.length,
+      freezeDaysUsed: freezeDaysUsedHistory.length,
+      graceDaysUsedHistory,
+      freezeDaysUsedHistory,
+      activeFreezes
+    };
+  };
+
   const value = {
     activities,
     currentStreak,
@@ -328,7 +537,16 @@ export const StreakProvider = ({ children }) => {
     getEarnedBadges,
     isStreakAtRisk,
     getEncouragementMessage,
-    hasActivityToday: () => hasActivityOnDate(getTodayDate())
+    hasActivityToday: () => hasActivityOnDate(getTodayDate()),
+    // Grace and Freeze day functions
+    graceDaysAvailable,
+    freezeDaysAvailable,
+    activateFreezeDay,
+    tryUseGraceDay,
+    checkStreakProtection,
+    earnGraceDays,
+    earnFreezeDays,
+    getGraceFreezStats
   };
 
   return (
