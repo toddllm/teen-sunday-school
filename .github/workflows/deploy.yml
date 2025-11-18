@@ -8,8 +8,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  S3_BUCKET: teen-sunday-school-PLACEHOLDER  # TODO: Update with actual S3 bucket name
-  CLOUDFRONT_DISTRIBUTION_ID: PLACEHOLDER    # TODO: Update with actual CloudFront distribution ID
+  S3_BUCKET: teen-sunday-school-prod
+  CLOUDFRONT_DISTRIBUTION_ID: E3NZIE249ZRXZX
 
 jobs:
   deploy:
@@ -68,4 +68,4 @@ jobs:
       - name: Output deployment URL
         run: |
           echo "📖 Teen Sunday School deployed successfully!"
-          echo "🌐 CloudFront URL: https://PLACEHOLDER.cloudfront.net"
+          echo "🌐 CloudFront URL: https://ds3lhez1cid5z.cloudfront.net"
