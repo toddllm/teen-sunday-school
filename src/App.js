@@ -31,6 +31,7 @@ import { useOnboarding } from './contexts/OnboardingContext';
 import DailyGratitudeLogPage from './pages/DailyGratitudeLogPage';
 import WarmupAdminPage from './pages/WarmupAdminPage';
 import PreClassWarmupPage from './pages/PreClassWarmupPage';
+import SubstituteDashboardPage from './pages/SubstituteDashboardPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -117,6 +118,7 @@ function App() {
             <Route path="/bible/find-reference" element={<FindTheReferencePage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
+            <Route path="/substitute" element={<SubstituteDashboardPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

@@ -16,12 +16,15 @@ import gameRoutes from './routes/game.routes';
 import weeklyWordRoutes from './routes/weekly-word.routes';
 import interlinearRoutes from './routes/interlinear.routes';
 import songRoutes from './routes/song.routes';
+import substituteRoutes from './routes/substitute.routes';
 import bibleBattleRoutes from './routes/bible-battle.routes';
 import songRoutes from './routes/song.routes';
+import substituteRoutes from './routes/substitute.routes';
 import bibleBattleRoutes from './routes/bible-battle.routes';
 import playlistRoutes from './routes/playlist.routes';
 import findReferenceGameRoutes from './routes/find-reference-game.routes';
 import gratitudeRoutes from './routes/gratitude.routes';
+import substituteRoutes from './routes/substitute.routes';
 
 // Load environment variables
 dotenv.config();
@@ -107,12 +110,15 @@ app.use('/api/games', gameRoutes);
 app.use('/api/weekly-word', weeklyWordRoutes);
 app.use('/api/bible', interlinearRoutes);
 app.use('/api/songs', songRoutes);
+app.use('/api/substitute', substituteRoutes);
 app.use('/api/bible-battle', bibleBattleRoutes);
 app.use('/api/songs', songRoutes);
+app.use('/api/substitute', substituteRoutes);
 app.use('/api/bible-battle', bibleBattleRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/games/find-reference', findReferenceGameRoutes);
 app.use('/api/gratitude', gratitudeRoutes);
+app.use('/api/substitute', substituteRoutes);
 
 // 404 handler
 app.use((req, res) => {

@@ -151,6 +151,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/substitute"
+              className={`nav-link ${isActive('/substitute') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Substitute
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/admin"
               className={`nav-link admin-link ${isActive('/admin') ? 'active' : ''}`}
               onClick={closeMenu}

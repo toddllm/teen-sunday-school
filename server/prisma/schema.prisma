@@ -687,6 +687,34 @@ model SongPlaylist {
   lessonId       String?  // Optional link to a specific lesson
 
   isPublic       Boolean  @default(false) // Share with other leaders
+// SUBSTITUTE TEACHER ASSIGNMENTS
+// ============================================================================
+
+model SubstituteAssignment {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Assignment details
+  substituteId   String   // User ID of the substitute teacher
+  groupId        String   // Group they're substituting for
+  scheduledDate  DateTime // Date of the class
+  lessonId       String?  // Pre-assigned lesson (optional)
+
+  // Regular teacher info (for context)
+  regularTeacherId String? // User ID of regular teacher
+
+  // Quick-start materials
+  notes          String?  @db.Text // Special instructions from regular teacher
+  emergencyContacts Json? // Array of {name: string, phone: string, role: string}
+  customMaterials   Json? // Links to additional resources
+
+  // Status tracking
+  status         SubstituteStatus @default(SCHEDULED)
+  acceptedAt     DateTime?
+  completedAt    DateTime?
+
+  // Feedback
+  substituteNotes String? @db.Text // Notes from substitute after class
 
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -1019,4 +1047,49 @@ model GuessReferenceAttempt {
   @@index([userId])
   @@index([organizationId])
   @@index([entryDate])
+  @@index([substituteId])
+  @@index([groupId])
+  @@index([scheduledDate])
+  @@index([status])
+}
+
+enum SubstituteStatus {
+  SCHEDULED     // Assignment created
+  ACCEPTED      // Substitute confirmed
+  IN_PROGRESS   // Class is happening
+  COMPLETED     // Class finished
+  CANCELLED     // Assignment cancelled
+}
+
+// Quick-access presets for substitute teachers
+model QuickStartPreset {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Preset details
+  name           String
+  description    String?
+
+  // Included resources
+  includeSlides          Boolean @default(true)
+  includeGames           Boolean @default(true)
+  includeDiscussion      Boolean @default(true)
+  includeScripture       Boolean @default(true)
+  includeGroupRoster     Boolean @default(true)
+  includeEmergencyInfo   Boolean @default(true)
+
+  // Time-saving options
+  autoLoadPresentation   Boolean @default(true)
+  simplifiedView         Boolean @default(true) // Hide advanced features
+
+  // Template materials for emergency use
+  backupActivities       Json?   // Array of simple activities if lesson unavailable
+  iceBreakers            Json?   // Quick icebreaker activities
+
+  isDefault      Boolean @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([isDefault])
 }
