@@ -30,6 +30,7 @@ model Organization {
   comparativeThemes ComparativeTheme[]
   parables     Parable[]
   translationComparisonNotes TranslationComparisonNote[]
+  personalGoals PersonalGoal[]
 
   @@index([slug])
 }
@@ -60,6 +61,8 @@ model User {
   organization     Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   groupMemberships GroupMember[]
   refreshTokens    RefreshToken[]
+  personalGoals    PersonalGoal[]
+  goalProgress     GoalProgress[]
 
   @@index([email])
   @@index([organizationId])
@@ -1355,4 +1358,84 @@ model BigStoryMetric {
   @@index([organizationId])
   @@index([createdAt])
   @@index([userId])
+}
+
+// ============================================================================
+// PERSONAL SPIRITUAL GOALS TRACKER
+// ============================================================================
+
+model PersonalGoal {
+  id              String   @id @default(cuid())
+  organizationId  String
+  userId          String
+
+  // Goal details
+  title           String
+  description     String?  @db.Text
+  category        GoalCategory
+  targetDate      DateTime?
+  status          GoalStatus @default(IN_PROGRESS)
+  priority        GoalPriority @default(MEDIUM)
+
+  // Privacy & metadata
+  isPrivate       Boolean  @default(true)
+  metadata        Json?    // Flexible storage for tags, notes, custom fields
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  progressUpdates GoalProgress[]
+
+  @@index([organizationId])
+  @@index([userId])
+  @@index([userId, status])
+  @@index([category])
+}
+
+model GoalProgress {
+  id          String   @id @default(cuid())
+  goalId      String
+  userId      String
+
+  // Progress tracking
+  note        String?  @db.Text
+  progress    Int      // 0-100 percentage
+  timestamp   DateTime @default(now())
+
+  goal        PersonalGoal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([goalId])
+  @@index([goalId, timestamp])
+  @@index([userId])
+}
+
+enum GoalCategory {
+  PRAYER
+  BIBLE_READING
+  SCRIPTURE_MEMORIZATION
+  SERVICE
+  DISCIPLESHIP
+  WORSHIP
+  WITNESSING
+  FELLOWSHIP
+  SPIRITUAL_DISCIPLINE
+  CHARACTER_DEVELOPMENT
+  OTHER
+}
+
+enum GoalStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  PAUSED
+  ABANDONED
+}
+
+enum GoalPriority {
+  LOW
+  MEDIUM
+  HIGH
 }
