@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { LessonProvider } from './contexts/LessonContext';
+import { PlanProvider } from './contexts/PlanContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { StreakProvider } from './contexts/StreakContext';
 import { TranslationProvider } from './contexts/TranslationContext';
@@ -15,9 +16,11 @@ root.render(
       <TranslationProvider>
         <StreakProvider>
           <LessonProvider>
-            <ContextCardProvider>
-              <App />
-            </ContextCardProvider>
+            <PlanProvider>
+              <ContextCardProvider>
+                <App />
+              </ContextCardProvider>
+            </PlanProvider>
           </LessonProvider>
         </StreakProvider>
       </TranslationProvider>

@@ -29,6 +29,23 @@ function AdminPage() {
           </Link>
         </div>
 
+        <div className="quick-access">
+          <Link to="/admin/plans" className="quick-access-card">
+            <div className="quick-access-icon">📅</div>
+            <div className="quick-access-content">
+              <h3>Reading Plans</h3>
+              <p>Create and manage Bible reading plans</p>
+            </div>
+          </Link>
+          <Link to="/admin" className="quick-access-card">
+            <div className="quick-access-icon">📚</div>
+            <div className="quick-access-content">
+              <h3>Lessons</h3>
+              <p>Manage Sunday School lessons (current page)</p>
+            </div>
+          </Link>
+        </div>
+
         <div className="admin-stats">
           <div className="stat-card">
             <div className="stat-number">{lessons.length}</div>
