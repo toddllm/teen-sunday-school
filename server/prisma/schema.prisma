@@ -951,4 +951,51 @@ enum SongMetricType {
   LINK_CLICK     // External link was clicked
   GAME_PLAY      // Song was used in match game
   PLAYLIST_ADD   // Song was added to a playlist
+// BIBLE REFERENCE GAME
+// ============================================================================
+
+model GuessReferenceQuestion {
+  id              String   @id @default(cuid())
+  verseReference  String   // e.g., "John 3:16"
+  displayText     String   @db.Text // The verse text or paraphrase
+  correctAnswer   String   // The correct reference
+  distractorRefs  Json     // Array of distractor references, e.g., ["John 3:17", "Romans 3:16", "Genesis 1:1"]
+
+  // Optional categorization
+  book            String?  // Book name for filtering
+  difficulty      String?  @default("medium") // "easy", "medium", "hard"
+  isActive        Boolean  @default(true)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  attempts        GuessReferenceAttempt[]
+
+  @@index([book])
+  @@index([difficulty])
+  @@index([isActive])
+}
+
+model GuessReferenceAttempt {
+  id              String   @id @default(cuid())
+  questionId      String
+  userId          String?  // Optional - tracks logged-in users
+  sessionId       String?  // For tracking anonymous sessions
+
+  selectedAnswer  String   // The reference the user selected
+  isCorrect       Boolean  // Whether they got it right
+  timeToAnswerMs  Int?     // Time taken to answer in milliseconds
+
+  // Game context
+  gameMode        String?  // e.g., "random", "book:John", "plan:123"
+  roundNumber     Int?     // Position in the game session
+
+  createdAt       DateTime @default(now())
+
+  question        GuessReferenceQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
+  @@index([userId])
+  @@index([sessionId])
+  @@index([createdAt])
 }

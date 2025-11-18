@@ -106,6 +106,17 @@ function Navigation() {
             <Link
               to="/bible/meme-generator"
               className={`nav-link ${isActive('/bible/meme-generator') ? 'active' : ''}`}
+              to="/bible/find-reference"
+              className={`nav-link ${isActive('/bible/find-reference') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Find the Reference
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/settings/translations"
+              className={`nav-link ${isActive('/settings') ? 'active' : ''}`}
               onClick={closeMenu}
             >
               Meme Generator

@@ -25,6 +25,7 @@ import ComparativeThemeViewPage from './pages/ComparativeThemeViewPage';
 import MiraclesExplorerPage from './pages/MiraclesExplorerPage';
 import WeeklyWordArchivePage from './pages/WeeklyWordArchivePage';
 import WeeklyWordAdminPage from './pages/WeeklyWordAdminPage';
+import FindTheReferencePage from './pages/FindTheReferencePage';
 import './App.css';
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
             <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />
             <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
             <Route path="/bible/meme-generator" element={<MemeGeneratorPage />} />
+            <Route path="/bible/find-reference" element={<FindTheReferencePage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
             <Route path="*" element={<Navigate to="/" />} />
