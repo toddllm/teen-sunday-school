@@ -50,9 +50,11 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  organization     Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  groupMemberships GroupMember[]
-  refreshTokens    RefreshToken[]
+  organization          Organization            @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  groupMemberships      GroupMember[]
+  refreshTokens         RefreshToken[]
+  notificationPreference NotificationPreference?
+  notifications         Notification[]
 
   @@index([email])
   @@index([organizationId])
@@ -455,4 +457,202 @@ model ThemeMetric {
   @@index([organizationId])
   @@index([createdAt])
   @@index([userId])
+}
+
+// ============================================================================
+// NOTIFICATION SYSTEM
+// ============================================================================
+
+model NotificationPreference {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  // Email notification settings
+  emailEnabled          Boolean @default(true)
+  emailLessonReminders  Boolean @default(true)
+  emailEventReminders   Boolean @default(true)
+  emailAnnouncements    Boolean @default(true)
+  emailGroupUpdates     Boolean @default(true)
+  emailDigest           Boolean @default(false)  // Daily/weekly digest
+  emailDigestFrequency  DigestFrequency @default(WEEKLY)
+
+  // In-app notification settings
+  inAppEnabled          Boolean @default(true)
+  inAppLessonReminders  Boolean @default(true)
+  inAppEventReminders   Boolean @default(true)
+  inAppAnnouncements    Boolean @default(true)
+  inAppGroupUpdates     Boolean @default(true)
+
+  // Scheduling preferences
+  quietHoursEnabled     Boolean @default(false)
+  quietHoursStart       String? // Time in HH:MM format (e.g., "22:00")
+  quietHoursEnd         String? // Time in HH:MM format (e.g., "08:00")
+  quietHoursTimezone    String  @default("America/New_York")
+
+  // Days of week preferences (ISO 8601: 1=Monday, 7=Sunday)
+  preferredDays         Json?   // Array of day numbers [1,2,3,4,5] for Mon-Fri
+
+  // Notification timing
+  lessonReminderDays    Int     @default(2)  // Days before lesson to send reminder
+  lessonReminderTime    String  @default("18:00") // Time to send lesson reminders (HH:MM)
+  eventReminderHours    Int     @default(24) // Hours before event to send reminder
+
+  // Batch settings
+  batchNotifications    Boolean @default(false) // Batch multiple notifications together
+  maxNotificationsPerDay Int    @default(10)   // Maximum notifications per day (0 = unlimited)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+enum DigestFrequency {
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+}
+
+model Notification {
+  id             String   @id @default(cuid())
+  userId         String
+  organizationId String
+
+  // Notification content
+  type           NotificationType
+  title          String
+  message        String   @db.Text
+  actionUrl      String?  // Deep link or URL for the notification action
+
+  // Delivery settings
+  deliveryMethod NotificationDeliveryMethod @default(BOTH)
+  priority       NotificationPriority @default(NORMAL)
+
+  // Scheduling
+  scheduledFor   DateTime?  // When to send (NULL = send immediately)
+  sentAt         DateTime?
+  readAt         DateTime?
+
+  // Status tracking
+  status         NotificationStatus @default(PENDING)
+  deliveryStatus Json?      // { email: "sent", inApp: "delivered" } with timestamps
+
+  // Error handling
+  failureReason  String?    @db.Text
+  retryCount     Int        @default(0)
+  maxRetries     Int        @default(3)
+
+  // Related entities
+  groupId        String?
+  lessonId       String?
+  eventId        String?
+
+  // Metadata
+  metadata       Json?      // Additional context data
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([organizationId])
+  @@index([status])
+  @@index([type])
+  @@index([scheduledFor])
+  @@index([sentAt])
+}
+
+enum NotificationType {
+  LESSON_REMINDER       // Upcoming lesson reminder
+  EVENT_REMINDER        // Event reminder
+  ANNOUNCEMENT          // General announcement
+  GROUP_UPDATE          // Group membership or activity update
+  LESSON_ASSIGNED       // New lesson assigned to group
+  COMMENT_REPLY         // Someone replied to your comment
+  MENTION               // Someone mentioned you
+  SYNC_COMPLETE         // Integration sync completed
+  SYNC_ERROR            // Integration sync failed
+  CUSTOM                // Custom notification
+}
+
+enum NotificationDeliveryMethod {
+  EMAIL
+  IN_APP
+  BOTH
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum NotificationStatus {
+  PENDING           // Not yet sent
+  SCHEDULED         // Scheduled for future delivery
+  SENDING           // Currently being sent
+  SENT              // Successfully sent
+  DELIVERED         // Confirmed delivered (for in-app)
+  READ              // User has read the notification
+  FAILED            // Failed to send
+  CANCELLED         // Cancelled before sending
+}
+
+model NotificationSchedule {
+  id             String   @id @default(cuid())
+  organizationId String
+  groupId        String?  // NULL = applies to all groups in org
+
+  // Schedule metadata
+  name           String
+  description    String?  @db.Text
+
+  // Notification template
+  notificationType NotificationType
+  title          String
+  message        String   @db.Text
+  actionUrl      String?
+
+  // Recurrence settings
+  frequency      ScheduleFrequency
+  dayOfWeek      Int?     // 1-7 (Monday-Sunday) for WEEKLY
+  dayOfMonth     Int?     // 1-31 for MONTHLY
+  timeOfDay      String   // HH:MM format (e.g., "18:00")
+  timezone       String   @default("America/New_York")
+
+  // Offset settings
+  offsetDays     Int      @default(0)  // Days before/after the trigger event
+  offsetHours    Int      @default(0)  // Additional hours offset
+
+  // Targeting
+  targetRoles    Json?    // Array of roles to notify ["TEACHER", "ORG_ADMIN"]
+  targetUserIds  Json?    // Specific user IDs to notify
+
+  // Status
+  isActive       Boolean  @default(true)
+  lastRunAt      DateTime?
+  nextRunAt      DateTime?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([groupId])
+  @@index([isActive])
+  @@index([nextRunAt])
+}
+
+enum ScheduleFrequency {
+  ONCE          // One-time scheduled notification
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+  BEFORE_LESSON // Triggered before lessons (uses offsetDays)
+  BEFORE_EVENT  // Triggered before events (uses offsetHours)
 }

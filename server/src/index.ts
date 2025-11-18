@@ -11,6 +11,7 @@ import authRoutes from './routes/auth.routes';
 import integrationRoutes from './routes/integration.routes';
 import aiFilterRoutes from './routes/ai-filter.routes';
 import themeComparisonRoutes from './routes/theme-comparison.routes';
+import notificationRoutes from './routes/notification.routes';
 
 // Load environment variables
 dotenv.config();
@@ -91,6 +92,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api', integrationRoutes);
 app.use('/api/admin/ai-filters', aiFilterRoutes);
 app.use('/api/themes', themeComparisonRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -121,6 +123,16 @@ async function startServer() {
     // Test database connection
     await prisma.$connect();
     logger.info('✓ Database connected');
+
+    // Initialize notification jobs
+    try {
+      const { initializeNotificationJobs } = await import('./jobs/notification.job');
+      await initializeNotificationJobs();
+      logger.info('✓ Notification jobs initialized');
+    } catch (error) {
+      logger.warn('⚠ Failed to initialize notification jobs:', error);
+      // Don't fail server startup if notification jobs fail
+    }
 
     // Start server
     app.listen(PORT, () => {
