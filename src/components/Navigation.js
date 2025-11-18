@@ -145,6 +145,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/bible/original-language"
+              className={`nav-link ${isActive('/bible/original-language') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Original Language
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible/meme-generator"
               className={`nav-link ${isActive('/bible/meme-generator') ? 'active' : ''}`}
               onClick={closeMenu}
