@@ -83,6 +83,9 @@ model User {
   // Quizzes
   quizAttempts     QuizAttempt[]
 
+  // Lesson Debriefs
+  lessonDebriefs   LessonDebrief[]
+
   @@index([email])
   @@index([organizationId])
   @@index([externalId])
@@ -323,6 +326,7 @@ model Lesson {
   groups       LessonGroup[]
   seriesLessons SeriesLesson[]
   quizzes      LessonQuiz[]
+  debriefs     LessonDebrief[]
 
   @@unique([organizationId, quarter, unit, lessonNumber])
   @@index([organizationId])
@@ -2728,4 +2732,27 @@ model QuizAttempt {
   @@index([quizId])
   @@index([userId])
   @@index([completedAt])
+}
+model LessonDebrief {
+  id          String   @id @default(cuid())
+  lessonId    String
+  groupId     String?  // Which group this debrief is for
+  sessionId   String?  // Future: link to session tracking
+  authorId    String
+
+  // Debrief content
+  notes       String   @db.Text
+  sessionDate DateTime? // When the lesson was taught
+
+  // Metadata
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId])
+  @@index([authorId])
+  @@index([sessionDate])
+  @@index([groupId])
 }
