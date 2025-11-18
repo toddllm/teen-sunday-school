@@ -1505,3 +1505,44 @@ enum GoalPriority {
   MEDIUM
   HIGH
 }
+
+// ============================================================================
+// SIGNUP FUNNEL ANALYTICS
+// ============================================================================
+
+model SignupFunnelEvent {
+  id             String   @id @default(cuid())
+  organizationId String
+  userId         String?  // NULL until account is created
+
+  // Event tracking
+  eventType      SignupEventType
+  sessionId      String   // To group events from same signup session
+
+  // Context
+  userAgent      String?
+  ipAddress      String?
+  referralSource String?  // Where they came from (e.g., "invite_link", "direct", "social_media")
+
+  // Metadata
+  metadata       Json?    // Additional event-specific data
+
+  // Timing
+  createdAt      DateTime @default(now())
+
+  @@index([organizationId])
+  @@index([userId])
+  @@index([sessionId])
+  @@index([eventType])
+  @@index([createdAt])
+}
+
+enum SignupEventType {
+  SIGNUP_STARTED       // User visited signup page
+  ACCOUNT_CREATED      // User successfully created account
+  PROFILE_COMPLETED    // User completed additional profile info
+  GROUP_JOINED         // User joined their first group
+  FIRST_LOGIN          // User logged in for the first time
+  EMAIL_VERIFIED       // User verified their email (future feature)
+  ONBOARDING_COMPLETED // User completed onboarding flow
+}
