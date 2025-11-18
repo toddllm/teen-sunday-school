@@ -3,6 +3,7 @@ import { useTranslation } from '../contexts/TranslationContext';
 import { useContextCards } from '../contexts/ContextCardContext';
 import { getChapter, getBooks, getChapters } from '../services/bibleAPI';
 import ContextCardModal from '../components/ContextCardModal';
+import PassageMetrics from '../components/PassageMetrics';
 import ReadAloudControls from '../components/ReadAloudControls';
 import { formatBibleVerseForSpeech, formatReferenceForSpeech } from '../services/readAloudService';
 import './ParallelBiblePage.css';
@@ -304,6 +305,16 @@ const ParallelBiblePage = () => {
             return `${formatReferenceForSpeech(reference)}. ${chapterText}`;
           })()}
           compact={false}
+        />
+      )}
+
+      {/* Reading Metrics */}
+      {primaryContent && (
+        <PassageMetrics
+          content={primaryContent.content}
+          bookId={selectedBook}
+          chapter={selectedChapter}
+          compact={true}
         />
       )}
 

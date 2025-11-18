@@ -1,0 +1,131 @@
+/* Settings Navigation Styles */
+
+.settings-navigation {
+  margin-bottom: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.settings-nav-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0;
+}
+
+.settings-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  text-decoration: none;
+  background: #ffffff;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.settings-nav-item:hover {
+  background: #f9fafb;
+  border-bottom-color: #6366f1;
+}
+
+.settings-nav-item.active {
+  background: #eef2ff;
+  border-bottom-color: #6366f1;
+}
+
+.settings-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #6366f1;
+}
+
+.settings-nav-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.settings-nav-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-nav-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.settings-nav-item.active .settings-nav-label {
+  color: #6366f1;
+}
+
+.settings-nav-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .settings-nav-container {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-nav-item {
+    padding: 1rem;
+  }
+
+  .settings-nav-icon {
+    font-size: 1.5rem;
+  }
+
+  .settings-nav-label {
+    font-size: 1rem;
+  }
+
+  .settings-nav-description {
+    font-size: 0.8rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .settings-navigation {
+    background: #1f2937;
+  }
+
+  .settings-nav-item {
+    background: #1f2937;
+    border-bottom-color: transparent;
+  }
+
+  .settings-nav-item:hover {
+    background: #374151;
+  }
+
+  .settings-nav-item.active {
+    background: #312e81;
+  }
+
+  .settings-nav-label {
+    color: #f9fafb;
+  }
+
+  .settings-nav-item.active .settings-nav-label {
+    color: #a5b4fc;
+  }
+
+  .settings-nav-description {
+    color: #d1d5db;
+  }
+}

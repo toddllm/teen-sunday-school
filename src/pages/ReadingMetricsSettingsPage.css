@@ -1,0 +1,429 @@
+/* Reading Metrics Settings Page Styles */
+
+.reading-metrics-settings-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.settings-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.settings-header h1 {
+  font-size: 2rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.settings-header p {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Settings Section */
+.settings-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.settings-section h2 {
+  font-size: 1.5rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.section-description {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* Settings Grid */
+.settings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.setting-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.setting-item:hover:not([disabled]) {
+  background: #f3f4f6;
+  border-color: #6366f1;
+}
+
+.setting-item[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.setting-item input[type="checkbox"] {
+  margin-top: 0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.setting-item[disabled] input[type="checkbox"] {
+  cursor: not-allowed;
+}
+
+.setting-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.setting-label {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+.setting-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Reading Speed Presets */
+.reading-speed-presets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.preset-card {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preset-card:hover {
+  background: #f3f4f6;
+  border-color: #6366f1;
+}
+
+.preset-card.selected {
+  background: #eef2ff;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.preset-card input[type="radio"] {
+  margin-top: 0.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.preset-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.preset-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preset-label {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+.selected-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: #6366f1;
+  color: white;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.preset-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Custom Speed Input */
+.custom-speed-input {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fef3c7;
+  border: 2px solid #fbbf24;
+  border-radius: 8px;
+}
+
+.custom-speed-input label {
+  display: block;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-group input[type="number"] {
+  flex: 1;
+  max-width: 150px;
+  padding: 0.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.input-group input[type="number"]:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.input-suffix {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.input-help {
+  font-size: 0.75rem;
+  color: #92400e;
+  font-style: italic;
+}
+
+/* Current Speed Info */
+.current-speed-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: #dbeafe;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #1e40af;
+}
+
+.info-icon {
+  font-size: 1.25rem;
+}
+
+/* Preview Section */
+.preview-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.preview-container {
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+}
+
+.preview-label {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.preview-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 1.5rem 0;
+}
+
+.compact-preview-label {
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preview-disabled {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.preview-disabled p {
+  margin: 0.5rem 0;
+}
+
+/* Information Section */
+.info-section {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.info-card {
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.info-card .info-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.info-card h3 {
+  font-size: 1.1rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .reading-metrics-settings-page {
+    padding: 1rem;
+  }
+
+  .settings-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .reading-speed-presets {
+    grid-template-columns: 1fr;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-section {
+    padding: 1rem;
+  }
+
+  .preview-container {
+    padding: 1rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .reading-metrics-settings-page {
+    background: #111827;
+  }
+
+  .settings-header h1,
+  .settings-section h2,
+  .setting-label,
+  .preset-label {
+    color: #f9fafb;
+  }
+
+  .settings-header p,
+  .section-description,
+  .setting-description,
+  .preset-description {
+    color: #d1d5db;
+  }
+
+  .settings-section {
+    background: #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .setting-item,
+  .preset-card {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  .setting-item:hover:not([disabled]),
+  .preset-card:hover {
+    background: #4b5563;
+  }
+
+  .preset-card.selected {
+    background: #312e81;
+    border-color: #6366f1;
+  }
+
+  .preview-container {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  .preview-label {
+    color: #f9fafb;
+  }
+
+  .info-card {
+    background: #374151;
+  }
+
+  .info-card h3 {
+    color: #f9fafb;
+  }
+
+  .info-card p {
+    color: #d1d5db;
+  }
+
+  .preview-disabled {
+    color: #d1d5db;
+  }
+
+  .input-group input[type="number"] {
+    background: #374151;
+    color: #f9fafb;
+    border-color: #4b5563;
+  }
+}

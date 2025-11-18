@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getVerseText } from '../services/bibleAPI';
 import CrossReferencePanel from '../components/CrossReferencePanel';
+import PassageMetrics from '../components/PassageMetrics';
 import ReadAloudControls from '../components/ReadAloudControls';
 import { createBiblePassageSpeech } from '../services/readAloudService';
 import './BibleToolPage.css';
@@ -114,6 +115,13 @@ const BibleToolPage = () => {
         <>
           <div className="verse-result">
             <h2>{verse.reference}</h2>
+
+            {/* Reading Metrics */}
+            <PassageMetrics
+              content={verse.text}
+              compact={true}
+            />
+
             <div className="verse-text">
               {verse.text}
             </div>

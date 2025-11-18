@@ -20,6 +20,7 @@ import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
+import ReadingMetricsSettingsPage from './pages/ReadingMetricsSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
 import MemeGeneratorPage from './pages/MemeGeneratorPage';
 import ScriptureJournalingPage from './pages/ScriptureJournalingPage';
@@ -197,6 +198,7 @@ function App() {
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
+            <Route path="/settings/reading-metrics" element={<ReadingMetricsSettingsPage />} />
             <Route path="/settings/profile" element={<ProfileSettingsPage />} />
             <Route path="/substitute" element={<SubstituteDashboardPage />} />
             <Route path="*" element={<Navigate to="/" />} />
