@@ -44,6 +44,13 @@ function AdminPage() {
               <p>Manage Sunday School lessons (current page)</p>
             </div>
           </Link>
+          <Link to="/admin/ai-filters" className="quick-access-card">
+            <div className="quick-access-icon">🛡️</div>
+            <div className="quick-access-content">
+              <h3>AI Content Filters</h3>
+              <p>Configure safe-mode filters for AI features</p>
+            </div>
+          </Link>
         </div>
 
         <div className="admin-stats">
