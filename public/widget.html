@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verse of the Day Widget</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+    }
+
+    .verse-widget {
+      background: linear-gradient(135deg, #4A90E2 0%, #5B73E2 100%);
+      border-radius: 12px;
+      padding: 24px;
+      color: white;
+      box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+      max-width: 100%;
+      font-size: 14px;
+    }
+
+    .widget-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .widget-icon {
+      font-size: 1.5rem;
+    }
+
+    .widget-title {
+      flex: 1;
+    }
+
+    .widget-title h3 {
+      font-size: 1.1rem;
+      margin: 0;
+      font-weight: 700;
+      color: white;
+    }
+
+    .widget-date {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 2px;
+    }
+
+    .widget-content {
+      margin: 16px 0;
+    }
+
+    .widget-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      font-style: italic;
+      color: white;
+      margin: 0 0 12px 0;
+      padding-left: 16px;
+      border-left: 3px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .widget-reference {
+      text-align: right;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 0;
+    }
+
+    .widget-footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .widget-link {
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+    }
+
+    .widget-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    .widget-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .widget-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .widget-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .widget-loading,
+    .widget-error {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .widget-spinner {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Compact mode for smaller embeds */
+    .verse-widget.compact {
+      padding: 16px;
+    }
+
+    .verse-widget.compact .widget-header {
+      margin-bottom: 12px;
+    }
+
+    .verse-widget.compact .widget-text {
+      font-size: 0.9rem;
+      padding-left: 12px;
+    }
+
+    .verse-widget.compact .widget-footer {
+      margin-top: 12px;
+      padding-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="verse-widget" class="verse-widget">
+    <div class="widget-loading">
+      <div class="widget-spinner"></div>
+      <p>Loading today's verse...</p>
+    </div>
+  </div>
+
+  <script>
+    // Verse rotation list (same as in the React app)
+    const VERSE_ROTATION = [
+      "John 3:16",
+      "Psalm 23:1",
+      "Philippians 4:13",
+      "Jeremiah 29:11",
+      "Proverbs 3:5-6",
+      "Romans 8:28",
+      "Isaiah 41:10",
+      "Matthew 6:33",
+      "Psalm 46:1",
+      "2 Corinthians 5:17",
+      "Joshua 1:9",
+      "Romans 12:2",
+      "Ephesians 2:8-9",
+      "1 John 4:19",
+      "Psalm 119:105",
+      "Matthew 11:28",
+      "Galatians 5:22-23",
+      "Hebrews 11:1",
+      "James 1:2-3",
+      "1 Corinthians 13:4-7",
+      "Psalm 27:1",
+      "Isaiah 40:31",
+      "Proverbs 16:3",
+      "Romans 5:8",
+      "Colossians 3:23",
+      "1 Peter 5:7",
+      "Psalm 103:12",
+      "Matthew 5:16",
+      "2 Timothy 1:7",
+      "Psalm 121:1-2"
+    ];
+
+    // Fallback verses for offline/API failure
+    const STATIC_VERSES = {
+      "John 3:16": {
+        text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
+        reference: "John 3:16"
+      },
+      "Psalm 23:1": {
+        text: "The Lord is my shepherd, I lack nothing.",
+        reference: "Psalm 23:1"
+      },
+      "Philippians 4:13": {
+        text: "I can do all this through him who gives me strength.",
+        reference: "Philippians 4:13"
+      },
+      "Jeremiah 29:11": {
+        text: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
+        reference: "Jeremiah 29:11"
+      },
+      "Proverbs 3:5-6": {
+        text: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
+        reference: "Proverbs 3:5-6"
+      },
+      "Romans 8:28": {
+        text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
+        reference: "Romans 8:28"
+      },
+      "Isaiah 41:10": {
+        text: "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.",
+        reference: "Isaiah 41:10"
+      }
+    };
+
+    // Get today's verse reference
+    function getTodaysReference() {
+      const today = new Date();
+      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+      const index = dayOfYear % VERSE_ROTATION.length;
+      return VERSE_ROTATION[index];
+    }
+
+    // Get today's date string
+    function getTodayString() {
+      const today = new Date();
+      return today.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+
+    // Fetch verse from Bible API
+    async function fetchVerse(reference) {
+      try {
+        // Use the scripture.api.bible API
+        const response = await fetch(
+          `https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-02/search?query=${encodeURIComponent(reference)}&limit=1`,
+          {
+            headers: {
+              'api-key': 'demo-key' // Using demo key - replace with your own for production
+            }
+          }
+        );
+
+        if (!response.ok) throw new Error('API request failed');
+
+        const data = await response.json();
+
+        if (data.data && data.data.passages && data.data.passages.length > 0) {
+          return {
+            text: data.data.passages[0].content.replace(/<[^>]*>/g, '').trim(),
+            reference: data.data.passages[0].reference || reference
+          };
+        }
+
+        throw new Error('No verse found');
+      } catch (error) {
+        console.error('Error fetching verse:', error);
+        // Return static verse as fallback
+        return STATIC_VERSES[reference] || {
+          text: "Trust in the Lord with all your heart and lean not on your own understanding.",
+          reference: reference
+        };
+      }
+    }
+
+    // Render verse
+    function renderVerse(verse) {
+      const widget = document.getElementById('verse-widget');
+      const params = new URLSearchParams(window.location.search);
+      const compact = params.get('compact') === 'true';
+      const showLink = params.get('showLink') !== 'false';
+
+      widget.className = `verse-widget${compact ? ' compact' : ''}`;
+      widget.innerHTML = `
+        <div class="widget-header">
+          <div class="widget-icon">📖</div>
+          <div class="widget-title">
+            <h3>Verse of the Day</h3>
+            <div class="widget-date">${getTodayString()}</div>
+          </div>
+        </div>
+        <div class="widget-content">
+          <blockquote class="widget-text">"${verse.text}"</blockquote>
+          <p class="widget-reference">— ${verse.reference}</p>
+        </div>
+        ${showLink ? `
+          <div class="widget-footer">
+            <a href="${window.location.origin}" class="widget-link" target="_blank">
+              Teen Sunday School
+            </a>
+            <div class="widget-actions">
+              <button class="widget-btn" onclick="copyVerse()">Copy</button>
+              <button class="widget-btn" onclick="shareVerse()">Share</button>
+            </div>
+          </div>
+        ` : ''}
+      `;
+    }
+
+    // Copy verse to clipboard
+    function copyVerse() {
+      const text = document.querySelector('.widget-text').textContent;
+      const reference = document.querySelector('.widget-reference').textContent;
+      navigator.clipboard.writeText(`${text}\n\n${reference}`);
+
+      const btn = event.target;
+      const originalText = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = originalText, 2000);
+    }
+
+    // Share verse
+    async function shareVerse() {
+      const text = document.querySelector('.widget-text').textContent;
+      const reference = document.querySelector('.widget-reference').textContent;
+      const shareText = `${text}\n\n${reference}`;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Verse of the Day',
+            text: shareText
+          });
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            copyVerse();
+          }
+        }
+      } else {
+        copyVerse();
+      }
+    }
+
+    // Initialize widget
+    async function init() {
+      const reference = getTodaysReference();
+      const verse = await fetchVerse(reference);
+      renderVerse(verse);
+
+      // Track widget view (analytics)
+      try {
+        // Send analytics event
+        fetch(window.location.origin + '/api/widget-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            reference: reference,
+            timestamp: new Date().toISOString(),
+            referrer: document.referrer
+          })
+        }).catch(() => {}); // Silently fail if analytics endpoint doesn't exist
+      } catch (e) {}
+    }
+
+    // Start the widget
+    init();
+
+    // Make functions global
+    window.copyVerse = copyVerse;
+    window.shareVerse = shareVerse;
+  </script>
+</body>
+</html>

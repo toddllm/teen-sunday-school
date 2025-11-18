@@ -8,7 +8,8 @@ export const ACTIVITY_TYPES = {
   CHAPTER_READ: 'chapter_read',
   PRAYER_LOGGED: 'prayer_logged',
   VERSE_MEMORIZED: 'verse_memorized',
-  LESSON_COMPLETED: 'lesson_completed'
+  LESSON_COMPLETED: 'lesson_completed',
+  VERSE_OF_DAY_VIEWED: 'verse_of_day_viewed'
 };
 
 // Badge definitions

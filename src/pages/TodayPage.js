@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStreak, ACTIVITY_TYPES } from '../contexts/StreakContext';
 import { Link } from 'react-router-dom';
+import VerseOfDay from '../components/VerseOfDay';
 import './TodayPage.css';
 
 function TodayPage() {
@@ -79,6 +80,9 @@ function TodayPage() {
             </div>
           </div>
         )}
+
+        {/* Verse of the Day */}
+        <VerseOfDay />
 
         {/* Streak Card */}
         <div className={`streak-card ${atRisk ? 'at-risk' : ''} ${hasActivity ? 'completed-today' : ''}`}>

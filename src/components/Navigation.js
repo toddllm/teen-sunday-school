@@ -84,6 +84,15 @@ function Navigation() {
               Admin
             </Link>
           </li>
+          <li className="nav-item">
+            <Link
+              to="/settings"
+              className={`nav-link ${isActive('/settings') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Settings
+            </Link>
+          </li>
           <li className="nav-item theme-toggle-item">
             <button
               onClick={toggleTheme}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
+import VerseOfDay from '../components/VerseOfDay';
 import './HomePage.css';
 
 function HomePage() {
@@ -22,6 +23,12 @@ function HomePage() {
               Create New Lesson
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="verse-section">
+        <div className="container">
+          <VerseOfDay />
         </div>
       </section>
 
