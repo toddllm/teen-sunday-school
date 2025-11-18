@@ -28,6 +28,7 @@ import WeeklyWordAdminPage from './pages/WeeklyWordAdminPage';
 import FindTheReferencePage from './pages/FindTheReferencePage';
 import OnboardingPage from './pages/OnboardingPage';
 import { useOnboarding } from './contexts/OnboardingContext';
+import DailyGratitudeLogPage from './pages/DailyGratitudeLogPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -86,6 +87,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/today" element={<TodayPage />} />
+            <Route path="/gratitude" element={<DailyGratitudeLogPage />} />
             <Route path="/badges" element={<BadgesPage />} />
             <Route path="/streak-protection" element={<StreakProtectionPage />} />
             <Route path="/lessons" element={<LessonsPage />} />

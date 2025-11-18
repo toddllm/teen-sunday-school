@@ -21,6 +21,7 @@ import songRoutes from './routes/song.routes';
 import bibleBattleRoutes from './routes/bible-battle.routes';
 import playlistRoutes from './routes/playlist.routes';
 import findReferenceGameRoutes from './routes/find-reference-game.routes';
+import gratitudeRoutes from './routes/gratitude.routes';
 
 // Load environment variables
 dotenv.config();
@@ -111,6 +112,7 @@ app.use('/api/songs', songRoutes);
 app.use('/api/bible-battle', bibleBattleRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/games/find-reference', findReferenceGameRoutes);
+app.use('/api/gratitude', gratitudeRoutes);
 
 // 404 handler
 app.use((req, res) => {
