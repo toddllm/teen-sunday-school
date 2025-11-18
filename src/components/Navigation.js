@@ -163,6 +163,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/bible/sermon-outline"
+              className={`nav-link ${isActive('/bible/sermon-outline') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Sermon Outlines
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible/maps"
               className={`nav-link ${isActive('/bible/maps') ? 'active' : ''}`}
               onClick={closeMenu}
