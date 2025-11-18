@@ -23,6 +23,7 @@ import { MapProvider } from './contexts/MapContext';
 import { PollProvider } from './contexts/PollContext';
 import { SeasonalEventProvider } from './contexts/SeasonalEventContext';
 import { TopicProvider } from './contexts/TopicContext';
+import { IcebreakerProvider } from './contexts/IcebreakerContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -47,8 +48,10 @@ root.render(
                                 <PollProvider>
                                   <SeasonalEventProvider>
                                     <TopicProvider>
+                                      <IcebreakerProvider>
                                   <SessionProvider>
                                     <App />
+                                      </IcebreakerProvider>
                                     </TopicProvider>
                                   </SeasonalEventProvider>
                                   </SessionProvider>

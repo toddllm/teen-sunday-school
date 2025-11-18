@@ -45,6 +45,7 @@ import bibleLocationsRoutes from './routes/bible-locations.routes';
 import pollRoutes from './routes/poll.routes';
 import seasonalEventsRoutes from './routes/seasonal-events.routes';
 import topicRoutes from './routes/topic.routes';
+import icebreakerRoutes from './routes/icebreaker.routes';
 
 // Import socket handlers
 import { initializeSessionSocket } from './socket/session.socket';
@@ -167,6 +168,7 @@ app.use('/api', bibleLocationsRoutes);
 app.use('/api', pollRoutes);
 app.use('/api', seasonalEventsRoutes);
 app.use('/api', topicRoutes);
+app.use('/api', icebreakerRoutes);
 
 // 404 handler
 app.use((req, res) => {
