@@ -2,12 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyAccessToken, JWTPayload } from '../utils/jwt';
 import prisma from '../config/database';
 import logger from '../config/logger';
+import { PrismaClient } from '@prisma/client';
 
-// Extend Express Request to include user
+// Extend Express Request to include user and prisma
 declare global {
   namespace Express {
     interface Request {
       user?: JWTPayload & { isActive: boolean };
+      prisma: PrismaClient;
     }
   }
 }

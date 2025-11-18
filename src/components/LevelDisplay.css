@@ -1,0 +1,177 @@
+.level-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.level-badge {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.level-badge-inner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 8px rgba(255, 165, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+  border: 3px solid #FFF;
+}
+
+.level-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.level-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.level-rays {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.level-rays::before,
+.level-rays::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #FFD700 10deg,
+    transparent 20deg,
+    transparent 40deg,
+    #FFD700 50deg,
+    transparent 60deg,
+    transparent 80deg,
+    #FFD700 90deg,
+    transparent 100deg,
+    transparent 120deg,
+    #FFD700 130deg,
+    transparent 140deg,
+    transparent 160deg,
+    #FFD700 170deg,
+    transparent 180deg,
+    transparent 200deg,
+    #FFD700 210deg,
+    transparent 220deg,
+    transparent 240deg,
+    #FFD700 250deg,
+    transparent 260deg,
+    transparent 280deg,
+    #FFD700 290deg,
+    transparent 300deg,
+    transparent 320deg,
+    #FFD700 330deg,
+    transparent 340deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  animation: rotate-rays 20s linear infinite;
+}
+
+.level-rays::after {
+  animation-direction: reverse;
+  animation-duration: 15s;
+  opacity: 0.5;
+}
+
+/* Size variants */
+.level-display.small .level-badge-inner {
+  width: 40px;
+  height: 40px;
+  border-width: 2px;
+}
+
+.level-display.small .level-number {
+  font-size: 1rem;
+}
+
+.level-display.small .level-label {
+  font-size: 0.75rem;
+}
+
+.level-display.small .level-rays {
+  width: 55px;
+  height: 55px;
+}
+
+.level-display.large .level-badge-inner {
+  width: 80px;
+  height: 80px;
+  border-width: 4px;
+}
+
+.level-display.large .level-number {
+  font-size: 2rem;
+}
+
+.level-display.large .level-label {
+  font-size: 1.1rem;
+}
+
+.level-display.large .level-rays {
+  width: 110px;
+  height: 110px;
+}
+
+/* Animations */
+@keyframes rotate-rays {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Level milestone colors */
+.level-display.milestone-5 .level-badge-inner {
+  background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+}
+
+.level-display.milestone-10 .level-badge-inner {
+  background: linear-gradient(135deg, #F44336 0%, #D32F2F 100%);
+}
+
+.level-display.milestone-20 .level-badge-inner {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+}
+
+.level-display.milestone-50 .level-badge-inner {
+  background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+}
+
+/* Dark mode */
+body.dark-mode .level-badge-inner {
+  border-color: var(--card-bg, #1e1e1e);
+}
+
+body.dark-mode .level-number {
+  color: #FFF;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}

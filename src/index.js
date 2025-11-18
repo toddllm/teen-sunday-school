@@ -31,6 +31,7 @@ import { ContextCardProvider } from './contexts/ContextCardContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
 import { SeriesProvider } from './contexts/SeriesContext';
+import { XPProvider } from './contexts/XPContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -41,7 +42,8 @@ root.render(
           <AccessibilityProvider>
             <OnboardingProvider>
               <TranslationProvider>
-            <StreakProvider>
+                <XPProvider>
+                  <StreakProvider>
               <ChallengeProvider>
                 <WarmupProvider>
                   <LessonProvider>
@@ -85,8 +87,9 @@ root.render(
                   </LessonProvider>
                 </WarmupProvider>
               </ChallengeProvider>
-            </StreakProvider>
-          </TranslationProvider>
+                  </StreakProvider>
+                </XPProvider>
+              </TranslationProvider>
             </OnboardingProvider>
           </AccessibilityProvider>
         </ReadingMetricsProvider>

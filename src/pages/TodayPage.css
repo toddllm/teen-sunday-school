@@ -25,6 +25,39 @@
   color: var(--text-secondary);
 }
 
+/* XP & Level Section */
+.xp-level-section {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.xp-level-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.xp-info {
+  flex: 1;
+}
+
+.xp-total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+}
+
+.next-reward {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
 /* Badge Notification */
 .badge-notification {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
