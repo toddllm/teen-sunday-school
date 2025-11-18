@@ -13,6 +13,7 @@ import GamesAdminPage from './pages/GamesAdminPage';
 import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
+import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
 import './App.css';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
+            <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
