@@ -1,0 +1,244 @@
+.theme-comparison-viewer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.theme-comparison-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 1.1em;
+}
+
+.theme-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.theme-header h2 {
+  font-size: 2em;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.theme-description {
+  font-size: 1.1em;
+  color: #555;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.theme-summary {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border-left: 4px solid #3498db;
+}
+
+.theme-summary h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.3em;
+}
+
+.theme-summary p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.theme-comparison-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 1024px) {
+  .theme-comparison-columns {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.theme-column {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.ot-column .column-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.nt-column .column-header {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.column-header {
+  padding: 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.column-header h3 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.passage-count {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+}
+
+.passages-list {
+  padding: 20px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.no-passages {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 40px 20px;
+}
+
+.passage-card {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: all 0.2s ease;
+}
+
+.passage-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.passage-card:last-child {
+  margin-bottom: 0;
+}
+
+.passage-header {
+  margin-bottom: 10px;
+}
+
+.passage-ref {
+  color: #3498db;
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 0;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.passage-ref:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+.passage-text {
+  color: #555;
+  font-style: italic;
+  line-height: 1.6;
+  margin: 10px 0;
+  padding: 10px;
+  background: #fff;
+  border-left: 3px solid #3498db;
+  border-radius: 4px;
+}
+
+.passage-notes {
+  margin-top: 10px;
+  padding: 10px;
+  background: #fff3cd;
+  border-left: 3px solid #ffc107;
+  border-radius: 4px;
+  font-size: 0.95em;
+  color: #856404;
+}
+
+.passage-notes strong {
+  color: #856404;
+}
+
+.theme-connections,
+.theme-insights {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.theme-connections h3,
+.theme-insights h3 {
+  color: #2c3e50;
+  font-size: 1.3em;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.theme-connections ul,
+.theme-insights ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.theme-connections li,
+.theme-insights li {
+  padding: 10px 0;
+  padding-left: 30px;
+  position: relative;
+  color: #555;
+  line-height: 1.6;
+}
+
+.theme-connections li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #3498db;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.theme-insights li::before {
+  content: "💡";
+  position: absolute;
+  left: 0;
+  font-size: 1.1em;
+}
+
+/* Scrollbar styling */
+.passages-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.passages-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.passages-list::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+
+.passages-list::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}

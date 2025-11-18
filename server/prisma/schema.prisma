@@ -27,6 +27,7 @@ model Organization {
   integrations ExternalIntegration[]
   lessons      Lesson[]
   aiFilterConfigs AIFilterConfig[]
+  comparativeThemes ComparativeTheme[]
 
   @@index([slug])
 }
@@ -387,5 +388,71 @@ model AIFilterMetric {
   @@index([createdAt])
   @@index([detectedCategory])
   @@index([actionTaken])
+  @@index([userId])
+}
+
+// ============================================================================
+// COMPARATIVE THEME VIEW (OT vs NT)
+// ============================================================================
+
+model ComparativeTheme {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Theme metadata
+  themeName      String
+  description    String?  @db.Text
+  category       String?  // e.g., "covenant", "sacrifice", "grace", "justice"
+
+  // Old Testament passages
+  otPassages     Json     // Array of {ref: string, text?: string, notes?: string}
+
+  // New Testament passages
+  ntPassages     Json     // Array of {ref: string, text?: string, notes?: string}
+
+  // Comparative analysis
+  themeNotes     Json?    // {summary: string, connections: string[], keyInsights: string[]}
+
+  // Visibility
+  isPublic       Boolean  @default(false)
+
+  // Authorship
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  metrics      ThemeMetric[]
+
+  @@index([organizationId])
+  @@index([category])
+  @@index([themeName])
+}
+
+model ThemeMetric {
+  id             String   @id @default(cuid())
+  themeId        String
+  organizationId String
+
+  // Tracking
+  viewCount      Int      @default(0)
+  lastViewedAt   DateTime @default(now())
+
+  // User engagement
+  userId         String?  // User who viewed
+  featureContext String?  // Where it was accessed (e.g., "topical_index", "passage_link", "direct")
+  timeSpentMs    Int?     // Time spent viewing in milliseconds
+
+  // Lesson usage tracking
+  usedInLesson   Boolean  @default(false)
+  lessonId       String?
+
+  createdAt      DateTime @default(now())
+
+  theme ComparativeTheme @relation(fields: [themeId], references: [id], onDelete: Cascade)
+
+  @@index([themeId])
+  @@index([organizationId])
+  @@index([createdAt])
   @@index([userId])
 }
