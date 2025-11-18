@@ -52,6 +52,8 @@ import proverbRoutes from './routes/proverb.routes';
 import aiSummaryRoutes from './routes/ai-summary.routes';
 import sermonIllustrationRoutes from './routes/sermon-illustration.routes';
 import cacheConfigRoutes from './routes/cache-config.routes';
+import errorDashboardRoutes from './routes/error-dashboard.routes';
+import { errorLoggerMiddleware } from './middleware/error-logger';
 import xpRoutes from './routes/xp.routes';
 import quizRoutes from './routes/quiz.routes';
 import lessonDebriefRoutes from './routes/lesson-debrief.routes';
@@ -104,6 +106,7 @@ app.use(
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }));
+app.use(errorLoggerMiddleware);
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Rate limiting
@@ -192,6 +195,7 @@ app.use('/api/proverbs', proverbRoutes);
 app.use('/api/ai/passage-summary', aiSummaryRoutes);
 app.use('/api/sermon-illustrations', sermonIllustrationRoutes);
 app.use('/api/admin/cache-config', cacheConfigRoutes);
+app.use('/api/admin', errorDashboardRoutes);
 
 
 // 404 handler
