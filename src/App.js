@@ -24,6 +24,7 @@ import PlanPreviewPage from './pages/PlanPreviewPage';
 import TemplatesAdminPage from './pages/TemplatesAdminPage';
 import TemplateEditorPage from './pages/TemplateEditorPage';
 import BibleToolPage from './pages/BibleToolPage';
+import BibleQAPage from './pages/BibleQAPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import TodayDevotionalPage from './pages/TodayDevotionalPage';
@@ -234,6 +235,7 @@ function AppContent() {
             <Route path="/goals" element={<GoalsPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
+            <Route path="/bible/qa" element={<BibleQAPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
             <Route path="/bible/miracles" element={<MiraclesExplorerPage />} />
             <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />

@@ -53,6 +53,7 @@ import { ScavengerHuntProvider } from './contexts/ScavengerHuntContext';
 import { CacheConfigProvider } from './contexts/CacheConfigContext';
 import { ServiceProjectProvider } from './contexts/ServiceProjectContext';
 import { OutlineProvider } from './contexts/OutlineContext';
+import { QAProvider } from './contexts/QAContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -109,7 +110,9 @@ root.render(
                                                                             <MemoryVerseProvider>
                                                                               <BibleProgressProvider>
                                                                                 <PrayerProvider>
-                                                                                  <App />
+                                                                                  <QAProvider>
+                                                                                    <App />
+                                                                                  </QAProvider>
                                                                                 </PrayerProvider>
                                                                               </BibleProgressProvider>
                                                                             </MemoryVerseProvider>
