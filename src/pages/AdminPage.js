@@ -51,6 +51,27 @@ function AdminPage() {
               <p>Configure safe-mode filters for AI features</p>
             </div>
           </Link>
+          <Link to="/admin/attendance/track" className="quick-access-card">
+            <div className="quick-access-icon">📋</div>
+            <div className="quick-access-content">
+              <h3>Record Attendance</h3>
+              <p>Track student attendance for your groups</p>
+            </div>
+          </Link>
+          <Link to="/admin/attendance/reports" className="quick-access-card">
+            <div className="quick-access-icon">📊</div>
+            <div className="quick-access-content">
+              <h3>Attendance Reports</h3>
+              <p>View analytics and attendance insights</p>
+            </div>
+          </Link>
+          <Link to="/admin/attendance/follow-ups" className="quick-access-card">
+            <div className="quick-access-icon">💡</div>
+            <div className="quick-access-content">
+              <h3>Follow-Up Suggestions</h3>
+              <p>AI-generated outreach recommendations</p>
+            </div>
+          </Link>
         </div>
 
         <div className="admin-stats">

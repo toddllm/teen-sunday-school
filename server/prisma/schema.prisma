@@ -456,3 +456,151 @@ model ThemeMetric {
   @@index([createdAt])
   @@index([userId])
 }
+
+// ============================================================================
+// ATTENDANCE TRACKING
+// ============================================================================
+
+model AttendanceRecord {
+  id             String   @id @default(cuid())
+  organizationId String
+  groupId        String
+  userId         String   // Student
+  classDate      DateTime // Date of the class
+
+  // Attendance status
+  status         AttendanceStatus
+  notes          String?  @db.Text
+  recordedBy     String?  // Leader who recorded attendance
+
+  // Metadata
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([groupId, userId, classDate])
+  @@index([organizationId])
+  @@index([groupId])
+  @@index([userId])
+  @@index([classDate])
+  @@index([status])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
+  LATE
+}
+
+model AttendancePattern {
+  id                    String   @id @default(cuid())
+  userId                String   // Student
+  groupId               String
+  organizationId        String
+
+  // Pattern metrics
+  totalClassesHeld      Int      @default(0)
+  totalPresent          Int      @default(0)
+  totalAbsent           Int      @default(0)
+  totalExcused          Int      @default(0)
+  totalLate             Int      @default(0)
+
+  // Calculated metrics
+  attendanceRate        Float    @default(0) // Percentage
+  consecutiveAbsences   Int      @default(0)
+  consecutivePresences  Int      @default(0)
+  lastAttendanceDate    DateTime?
+  lastAttendanceStatus  AttendanceStatus?
+
+  // Trend analysis
+  last4WeeksRate        Float?   // Attendance rate for last 4 weeks
+  last8WeeksRate        Float?   // Attendance rate for last 8 weeks
+  trendDirection        String?  // "improving", "declining", "stable"
+
+  // Metadata
+  lastCalculatedAt      DateTime @default(now())
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  followUpSuggestions   FollowUpSuggestion[]
+
+  @@unique([userId, groupId])
+  @@index([userId])
+  @@index([groupId])
+  @@index([organizationId])
+  @@index([attendanceRate])
+  @@index([consecutiveAbsences])
+}
+
+model FollowUpSuggestion {
+  id              String   @id @default(cuid())
+  organizationId  String
+  groupId         String
+  userId          String   // Student
+  patternId       String?  // Link to AttendancePattern
+
+  // Suggestion details
+  priority        SuggestionPriority
+  category        FollowUpCategory
+  title           String
+  description     String   @db.Text
+  suggestedAction String   @db.Text
+
+  // Trigger details
+  triggerReason   String   @db.Text // Why was this suggestion created
+  triggerData     Json?    // Additional context (e.g., attendance metrics)
+
+  // Follow-up tracking
+  status          FollowUpStatus @default(PENDING)
+  assignedTo      String?  // Leader assigned to follow up
+  dueDate         DateTime?
+
+  // Resolution
+  contactedAt     DateTime?
+  contactMethod   String?  // "phone", "email", "in-person", "text"
+  contactNotes    String?  @db.Text
+  resolvedAt      DateTime?
+  resolution      String?  @db.Text
+  outcome         String?  // "returned", "moved", "personal_issue", "other"
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  pattern AttendancePattern? @relation(fields: [patternId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId])
+  @@index([groupId])
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+  @@index([category])
+  @@index([assignedTo])
+  @@index([dueDate])
+  @@index([createdAt])
+}
+
+enum SuggestionPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum FollowUpCategory {
+  CONSECUTIVE_ABSENCES
+  LOW_ATTENDANCE_RATE
+  DECLINING_TREND
+  FIRST_TIME_ABSENCE
+  RETURNED_AFTER_ABSENCE
+  EXCESSIVE_LATE_ARRIVALS
+  LONG_TERM_ABSENT
+}
+
+enum FollowUpStatus {
+  PENDING
+  IN_PROGRESS
+  CONTACTED
+  RESOLVED
+  DISMISSED
+}

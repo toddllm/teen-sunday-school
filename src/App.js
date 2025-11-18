@@ -19,6 +19,9 @@ import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
 import AIFiltersAdminPage from './pages/AIFiltersAdminPage';
 import ComparativeThemeViewPage from './pages/ComparativeThemeViewPage';
+import AttendanceTrackingPage from './pages/AttendanceTrackingPage';
+import AttendanceReportsPage from './pages/AttendanceReportsPage';
+import FollowUpSuggestionsPage from './pages/FollowUpSuggestionsPage';
 import './App.css';
 
 function App() {
@@ -42,6 +45,9 @@ function App() {
             <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
             <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
             <Route path="/admin/ai-filters" element={<AIFiltersAdminPage />} />
+            <Route path="/admin/attendance/track" element={<AttendanceTrackingPage />} />
+            <Route path="/admin/attendance/reports" element={<AttendanceReportsPage />} />
+            <Route path="/admin/attendance/follow-ups" element={<FollowUpSuggestionsPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />

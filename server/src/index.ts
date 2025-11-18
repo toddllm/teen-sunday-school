@@ -11,6 +11,7 @@ import authRoutes from './routes/auth.routes';
 import integrationRoutes from './routes/integration.routes';
 import aiFilterRoutes from './routes/ai-filter.routes';
 import themeComparisonRoutes from './routes/theme-comparison.routes';
+import attendanceRoutes from './routes/attendance.routes';
 
 // Load environment variables
 dotenv.config();
@@ -91,6 +92,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api', integrationRoutes);
 app.use('/api/admin/ai-filters', aiFilterRoutes);
 app.use('/api/themes', themeComparisonRoutes);
+app.use('/api/attendance', attendanceRoutes);
 
 // 404 handler
 app.use((req, res) => {
