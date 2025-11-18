@@ -28,6 +28,7 @@ model Organization {
   lessons      Lesson[]
   aiFilterConfigs AIFilterConfig[]
   comparativeThemes ComparativeTheme[]
+  parables     Parable[]
 
   @@index([slug])
 }
@@ -1092,4 +1093,72 @@ model QuickStartPreset {
 
   @@index([organizationId])
   @@index([isDefault])
+// PARABLES EXPLORER
+// ============================================================================
+
+model Parable {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Parable metadata
+  title          String
+  reference      String   // e.g., "Matthew 13:3-8"
+  category       String?  // e.g., "Kingdom of God", "Grace", "Judgment", "Faith"
+
+  // Content
+  parableText    String   @db.Text // The actual parable text
+  interpretation String?  @db.Text // What the parable means/teaches
+  historicalContext String? @db.Text // Historical and cultural background
+
+  // Teaching points and application
+  applicationPoints Json?  // Array of strings with practical applications
+  keyTheme       String?  // Main theme or teaching
+
+  // Related content
+  crossReferences Json?   // Array of {ref: string, description?: string}
+  relatedParables Json?   // Array of parable IDs or references
+
+  // Visibility
+  isPublic       Boolean  @default(false)
+
+  // Authorship
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  metrics      ParableMetric[]
+
+  @@index([organizationId])
+  @@index([category])
+  @@index([title])
+  @@index([reference])
+}
+
+model ParableMetric {
+  id             String   @id @default(cuid())
+  parableId      String
+  organizationId String
+
+  // Tracking
+  viewCount      Int      @default(0)
+  lastViewedAt   DateTime @default(now())
+
+  // User engagement
+  userId         String?  // User who viewed
+  featureContext String?  // Where it was accessed (e.g., "explorer", "lesson", "search")
+  timeSpentMs    Int?     // Time spent viewing in milliseconds
+
+  // Lesson usage tracking
+  usedInLesson   Boolean  @default(false)
+  lessonId       String?
+
+  createdAt      DateTime @default(now())
+
+  parable Parable @relation(fields: [parableId], references: [id], onDelete: Cascade)
+
+  @@index([parableId])
+  @@index([organizationId])
+  @@index([createdAt])
+  @@index([userId])
 }

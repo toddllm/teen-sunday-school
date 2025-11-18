@@ -100,6 +100,11 @@ function Navigation() {
               onClick={closeMenu}
             >
               Miracles
+              to="/bible/parables"
+              className={`nav-link ${isActive('/bible/parables') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Parables Explorer
             </Link>
           </li>
           <li className="nav-item">
