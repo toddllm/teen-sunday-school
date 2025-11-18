@@ -1,0 +1,238 @@
+/* Plan Detail Page Styles */
+
+.plan-detail-page {
+  padding: 2rem 0;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: var(--primary-hover);
+}
+
+/* Plan Header */
+.plan-header {
+  position: relative;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.plan-header h1 {
+  margin: 0 0 1rem 0;
+  font-size: 2.5rem;
+}
+
+.plan-header .plan-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.plan-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--background-secondary);
+  border-radius: 8px;
+}
+
+.plan-meta-grid .plan-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.meta-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta-value {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Plan Actions */
+.plan-actions {
+  margin-top: 2rem;
+}
+
+.already-started {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.progress-summary p {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: var(--background-secondary);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.error-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #ffebee;
+  color: #c62828;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+/* Schedule Section */
+.plan-schedule {
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.plan-schedule h2 {
+  margin: 0 0 1rem 0;
+}
+
+.schedule-description {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.schedule-day {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--background-secondary);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.day-number {
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.day-content {
+  flex: 1;
+}
+
+.day-passages {
+  margin-bottom: 0.75rem;
+}
+
+.passage-ref {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-right: 0.5rem;
+}
+
+.day-notes {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Tips Section */
+.plan-tips {
+  padding: 2rem;
+}
+
+.plan-tips h3 {
+  margin: 0 0 1rem 0;
+}
+
+.plan-tips ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.plan-tips li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.error-state h2 {
+  margin: 0 0 1rem 0;
+  color: var(--accent-color);
+}
+
+.error-state p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .plan-header h1 {
+    font-size: 2rem;
+  }
+
+  .plan-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-day {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}

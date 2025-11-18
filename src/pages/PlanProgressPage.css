@@ -1,0 +1,238 @@
+/* Plan Progress Page Styles */
+
+.plan-progress-page {
+  padding: 2rem 0;
+}
+
+/* Plan Header */
+.plan-header .header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.plan-subtitle {
+  color: var(--text-secondary);
+  margin: 0.5rem 0 0 0;
+  font-size: 0.95rem;
+}
+
+.header-actions {
+  flex-shrink: 0;
+}
+
+/* Progress Section */
+.progress-section {
+  margin-top: 2rem;
+}
+
+/* Catch Up Section */
+.catch-up-section {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-left: 4px solid #ff9800;
+}
+
+.catch-up-section p {
+  margin: 0 0 1rem 0;
+  color: #e65100;
+  font-weight: 500;
+}
+
+/* Days Section */
+.days-section {
+  margin-top: 2rem;
+}
+
+.days-section h2 {
+  margin: 0 0 1.5rem 0;
+}
+
+.days-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Day Card */
+.day-card {
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.day-card.current {
+  border-left: 4px solid var(--primary-color);
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.05) 0%, rgba(80, 200, 120, 0.05) 100%);
+}
+
+.day-card.completed {
+  opacity: 0.8;
+}
+
+.day-card:hover {
+  transform: translateY(-2px);
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.day-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.day-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Day Content */
+.day-content {
+  margin-bottom: 1rem;
+}
+
+.day-passages {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.day-passages strong {
+  color: var(--text-primary);
+  margin-right: 0.5rem;
+}
+
+.day-notes {
+  padding: 1rem;
+  background: var(--background-secondary);
+  border-radius: 6px;
+  margin-top: 0.75rem;
+}
+
+.day-notes strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.day-notes p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.completion-info {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Completion Celebration */
+.completion-celebration {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border: 2px solid var(--secondary-color);
+}
+
+.completion-celebration h2 {
+  margin: 0 0 1rem 0;
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+}
+
+.completion-celebration p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.completion-celebration .btn {
+  margin-top: 1.5rem;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--background-primary);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.modal-content p {
+  margin: 0 0 1.5rem 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .plan-header .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .day-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .day-title {
+    width: 100%;
+  }
+
+  .btn-small {
+    width: 100%;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions .btn {
+    width: 100%;
+  }
+}
