@@ -82,6 +82,13 @@ function AdminPage() {
               <p>Track lesson completion and curriculum progress</p>
             </div>
           </Link>
+          <Link to="/admin/cohort-progress" className="quick-access-card">
+            <div className="quick-access-icon">📊</div>
+            <div className="quick-access-content">
+              <h3>Cohort Progress Tracking</h3>
+              <p>Track class completion, attendance, and engagement over time</p>
+            </div>
+          </Link>
           <Link to="/admin/incidents" className="quick-access-card">
             <div className="quick-access-icon">📋</div>
             <div className="quick-access-content">
