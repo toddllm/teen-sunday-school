@@ -20,6 +20,7 @@ import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
 import MemeGeneratorPage from './pages/MemeGeneratorPage';
+import ScriptureJournalingPage from './pages/ScriptureJournalingPage';
 import AIFiltersAdminPage from './pages/AIFiltersAdminPage';
 import ComparativeThemeViewPage from './pages/ComparativeThemeViewPage';
 import MiraclesExplorerPage from './pages/MiraclesExplorerPage';
@@ -129,6 +130,7 @@ function App() {
             <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
             <Route path="/bible/meme-generator" element={<MemeGeneratorPage />} />
             <Route path="/bible/find-reference" element={<FindTheReferencePage />} />
+            <Route path="/bible/journaling" element={<ScriptureJournalingPage />} />
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />

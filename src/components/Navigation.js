@@ -120,19 +120,15 @@ function Navigation() {
             <Link
               to="/bible/meme-generator"
               className={`nav-link ${isActive('/bible/meme-generator') ? 'active' : ''}`}
-              to="/bible/find-reference"
-              className={`nav-link ${isActive('/bible/find-reference') ? 'active' : ''}`}
-              to="/translation-comparisons"
-              className={`nav-link ${isActive('/translation-comparisons') ? 'active' : ''}`}
               onClick={closeMenu}
             >
-              Translation Notes
+              Meme Generator
             </Link>
           </li>
           <li className="nav-item">
             <Link
-              to="/settings/translations"
-              className={`nav-link ${isActive('/settings') ? 'active' : ''}`}
+              to="/bible/find-reference"
+              className={`nav-link ${isActive('/bible/find-reference') ? 'active' : ''}`}
               onClick={closeMenu}
             >
               Find the Reference
@@ -140,11 +136,20 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
-              to="/settings/translations"
-              className={`nav-link ${isActive('/settings/translations') ? 'active' : ''}`}
+              to="/bible/journaling"
+              className={`nav-link ${isActive('/bible/journaling') ? 'active' : ''}`}
               onClick={closeMenu}
             >
-              Meme Generator
+              Scripture Journaling
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/translation-comparisons"
+              className={`nav-link ${isActive('/translation-comparisons') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Translation Notes
             </Link>
           </li>
           <li className="nav-item">
