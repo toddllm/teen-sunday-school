@@ -1844,3 +1844,50 @@ enum ActivityType {
   LESSON_COMPLETED
   TIMELINE_PROGRESS
 }
+model AnonymousQuestion {
+  id        String   @id @default(cuid())
+  groupId   String
+  sessionId String?  // Optional link to Lesson
+
+  // Question details
+  category  QuestionCategory
+  body      String   @db.Text
+
+  // Status tracking
+  status    QuestionStatus @default(UNANSWERED)
+
+  // Answer details
+  answeredBy     String?   // User ID of the leader who answered
+  answeredAt     DateTime?
+  answerText     String?   @db.Text
+  answerMethod   AnswerMethod?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  group   Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  session Lesson? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+
+  @@index([groupId])
+  @@index([sessionId])
+  @@index([status])
+  @@index([category])
+  @@index([createdAt])
+}
+
+enum QuestionCategory {
+  BIBLE     // Questions about Bible interpretation, theology
+  LIFE      // Questions about daily life, relationships
+  DOUBT     // Questions about faith, doubts, struggles
+}
+
+enum QuestionStatus {
+  UNANSWERED
+  ANSWERED
+  ARCHIVED
+}
+
+enum AnswerMethod {
+  WRITTEN    // Written answer provided in system
+  IN_CLASS   // Answered during class/session
+}

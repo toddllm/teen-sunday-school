@@ -79,6 +79,13 @@ function AdminPage() {
               <p>Track behavior and wellbeing incidents</p>
             </div>
           </Link>
+          <Link to="/admin/questions" className="quick-access-card">
+            <div className="quick-access-icon">❓</div>
+            <div className="quick-access-content">
+              <h3>Question Box</h3>
+              <p>Review and respond to anonymous questions</p>
+            </div>
+          </Link>
         </div>
 
         <div className="admin-stats">

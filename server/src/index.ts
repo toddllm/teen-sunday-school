@@ -33,6 +33,7 @@ import signupAnalyticsRoutes from './routes/signup-analytics.routes';
 import comicRoutes from './routes/comic.routes';
 import incidentRoutes from './routes/incident.routes';
 import bibleRoutes from './routes/bible.routes';
+import questionRoutes from './routes/question.routes';
 
 // Load environment variables
 dotenv.config();
@@ -134,6 +135,7 @@ app.use('/api/analytics/signup', signupAnalyticsRoutes);
 app.use('/api/comics', comicRoutes);
 app.use('/api/incidents', incidentRoutes);
 app.use('/api/bible-timeline', bibleRoutes);
+app.use('/api/questions', questionRoutes);
 
 // 404 handler
 app.use((req, res) => {
