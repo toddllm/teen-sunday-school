@@ -7,6 +7,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { StreakProvider } from './contexts/StreakContext';
 import { TranslationProvider } from './contexts/TranslationContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
+import { TimelineProvider } from './contexts/TimelineContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +17,9 @@ root.render(
         <StreakProvider>
           <LessonProvider>
             <ContextCardProvider>
-              <App />
+              <TimelineProvider>
+                <App />
+              </TimelineProvider>
             </ContextCardProvider>
           </LessonProvider>
         </StreakProvider>
