@@ -65,12 +65,7 @@ export const AccessibilityProvider = ({ children }) => {
   const systemPrefersReducedMotion = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const value = {
-    highContrast,
-    reduceMotion,
-    toggleHighContrast,
-    toggleReduceMotion,
-    systemPrefersReducedMotion
+  // Dyslexia-friendly mode
   const [dyslexiaFriendly, setDyslexiaFriendly] = useState(() => {
     const saved = localStorage.getItem('dyslexiaFriendly');
     return saved === 'true';
@@ -119,6 +114,11 @@ export const AccessibilityProvider = ({ children }) => {
   };
 
   const value = {
+    highContrast,
+    reduceMotion,
+    toggleHighContrast,
+    toggleReduceMotion,
+    systemPrefersReducedMotion,
     dyslexiaFriendly,
     fontSize,
     lineSpacing,

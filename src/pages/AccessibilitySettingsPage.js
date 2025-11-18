@@ -10,11 +10,20 @@ const AccessibilitySettingsPage = () => {
     reduceMotion,
     toggleHighContrast,
     toggleReduceMotion,
-    systemPrefersReducedMotion
+    systemPrefersReducedMotion,
+    dyslexiaFriendly,
+    fontSize,
+    lineSpacing,
+    toggleDyslexiaMode,
+    setFontSize,
+    setLineSpacing
   } = useAccessibility();
 
   const [tempHighContrast, setTempHighContrast] = useState(highContrast);
   const [tempReduceMotion, setTempReduceMotion] = useState(reduceMotion);
+  const [tempDyslexia, setTempDyslexia] = useState(dyslexiaFriendly);
+  const [tempFontSize, setTempFontSize] = useState(fontSize);
+  const [tempLineSpacing, setTempLineSpacing] = useState(lineSpacing);
   const [showSaved, setShowSaved] = useState(false);
 
   const handleSave = () => {
@@ -24,20 +33,6 @@ const AccessibilitySettingsPage = () => {
     if (tempReduceMotion !== reduceMotion) {
       toggleReduceMotion();
     }
-    dyslexiaFriendly,
-    fontSize,
-    lineSpacing,
-    toggleDyslexiaMode,
-    setFontSize,
-    setLineSpacing
-  } = useAccessibility();
-
-  const [tempDyslexia, setTempDyslexia] = useState(dyslexiaFriendly);
-  const [tempFontSize, setTempFontSize] = useState(fontSize);
-  const [tempLineSpacing, setTempLineSpacing] = useState(lineSpacing);
-  const [showSaved, setShowSaved] = useState(false);
-
-  const handleSave = () => {
     if (tempDyslexia !== dyslexiaFriendly) {
       toggleDyslexiaMode();
     }
@@ -51,16 +46,14 @@ const AccessibilitySettingsPage = () => {
   const handleReset = () => {
     setTempHighContrast(highContrast);
     setTempReduceMotion(reduceMotion);
-  };
-
-  const hasChanges = tempHighContrast !== highContrast ||
-    tempReduceMotion !== reduceMotion;
     setTempDyslexia(dyslexiaFriendly);
     setTempFontSize(fontSize);
     setTempLineSpacing(lineSpacing);
   };
 
-  const hasChanges = tempDyslexia !== dyslexiaFriendly ||
+  const hasChanges = tempHighContrast !== highContrast ||
+    tempReduceMotion !== reduceMotion ||
+    tempDyslexia !== dyslexiaFriendly ||
     tempFontSize !== fontSize ||
     tempLineSpacing !== lineSpacing;
 
@@ -72,12 +65,10 @@ const AccessibilitySettingsPage = () => {
         </button>
         <h1>Accessibility Settings</h1>
         <p>Configure display and motion preferences for better readability and comfort</p>
-        <p>Customize your reading experience</p>
       </header>
 
       {showSaved && (
         <div className="save-notification">
-          Settings saved successfully!
           Accessibility settings saved successfully!
         </div>
       )}
@@ -101,6 +92,20 @@ const AccessibilitySettingsPage = () => {
                 <span className="label-description">
                   Uses stronger colors and bolder text for improved visibility.
                   Meets WCAG AAA accessibility standards.
+                </span>
+              </div>
+            </label>
+          </div>
+
+          {tempHighContrast && (
+            <div className="accessibility-info">
+              <strong>High Contrast Mode is Active</strong>
+              <p>All text and UI elements will use maximum contrast colors for better visibility.</p>
+            </div>
+          )}
+        </section>
+
+        <section className="settings-section">
           <h2>Dyslexia-Friendly Mode</h2>
           <p className="section-description">
             Enable features designed to make reading easier for people with dyslexia
@@ -122,13 +127,6 @@ const AccessibilitySettingsPage = () => {
               </div>
             </label>
           </div>
-
-          {tempHighContrast && (
-            <div className="accessibility-info">
-              <strong>High Contrast Mode is Active</strong>
-              <p>All text and UI elements will use maximum contrast colors for better visibility.</p>
-            </div>
-          )}
         </section>
 
         <section className="settings-section">
@@ -261,6 +259,13 @@ const AccessibilitySettingsPage = () => {
             </p>
           </div>
           <div className="help-item">
+            <h4>Dyslexia-Friendly Font</h4>
+            <p>
+              Uses fonts with distinct letter shapes and increased spacing to reduce visual crowding
+              and improve reading accuracy for people with dyslexia.
+            </p>
+          </div>
+          <div className="help-item">
             <h4>Reduced Motion</h4>
             <p>
               Some users find animations distracting or experience discomfort from
@@ -269,32 +274,10 @@ const AccessibilitySettingsPage = () => {
             </p>
           </div>
           <div className="help-item">
-            <h4>Getting Started</h4>
+            <h4>Text Size & Spacing</h4>
             <p>
-              Try each setting to see which works best for you. You can combine
-              high contrast with dark mode for different visual experiences.
-              Changes are saved automatically and apply across all pages.
-        <h3>About These Settings</h3>
-        <div className="help-grid">
-          <div className="help-item">
-            <h4>Dyslexia-Friendly Font</h4>
-            <p>
-              Uses fonts with distinct letter shapes and increased spacing to reduce visual crowding
-              and improve reading accuracy for people with dyslexia.
-            </p>
-          </div>
-          <div className="help-item">
-            <h4>Text Size</h4>
-            <p>
-              Larger text can reduce eye strain and make it easier to focus on reading.
-              Choose a size that feels comfortable for extended reading sessions.
-            </p>
-          </div>
-          <div className="help-item">
-            <h4>Line Spacing</h4>
-            <p>
-              Increased line spacing helps prevent lines from visually merging together,
-              making it easier to track your place while reading.
+              Larger text and increased line spacing can reduce eye strain and make it easier
+              to focus on reading. Choose settings that feel comfortable for extended reading sessions.
             </p>
           </div>
         </div>
