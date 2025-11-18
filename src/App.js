@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
+import TodayPage from './pages/TodayPage';
+import BadgesPage from './pages/BadgesPage';
 import LessonsPage from './pages/LessonsPage';
 import LessonViewPage from './pages/LessonViewPage';
 import AdminPage from './pages/AdminPage';
@@ -19,6 +21,8 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/today" element={<TodayPage />} />
+            <Route path="/badges" element={<BadgesPage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
             <Route path="/admin" element={<AdminPage />} />
