@@ -1,0 +1,164 @@
+[
+  {
+    "title": "God the Father",
+    "category": "GOD",
+    "shortSummary": "God is the eternal, all-powerful, all-knowing Creator who loves His creation and desires a relationship with humanity.",
+    "fullDescription": "The Bible reveals God as the one true God who exists eternally in three persons: Father, Son, and Holy Spirit (the Trinity). God is the Creator of all things, infinitely powerful, all-knowing, and present everywhere. He is perfectly holy, just, and loving. Unlike created beings, God has always existed and will always exist. He is sovereign over all creation yet personally involved in the lives of His people.",
+    "keyVerses": [
+      {"ref": "Genesis 1:1", "text": "In the beginning God created the heavens and the earth."},
+      {"ref": "Psalm 139:7-10", "text": "Where can I go from your Spirit? Where can I flee from your presence? If I go up to the heavens, you are there; if I make my bed in the depths, you are there."},
+      {"ref": "1 John 4:8", "text": "Whoever does not love does not know God, because God is love."}
+    ],
+    "simpleExplanation": "God is like the best parent imaginable, but infinitely better. He created everything, knows everything, and loves you completely. He's not just powerful and distant—He actually wants to know you personally.",
+    "discussionQuestions": [
+      "What does it mean that God is both all-powerful and loving?",
+      "How does knowing God created you affect your sense of purpose?",
+      "In what ways have you experienced God's presence in your life?"
+    ],
+    "displayOrder": 1
+  },
+  {
+    "title": "The Trinity",
+    "category": "GOD",
+    "shortSummary": "God exists eternally as three distinct persons—Father, Son, and Holy Spirit—yet remains one God.",
+    "fullDescription": "The Trinity is one of Christianity's most profound mysteries. While there is only one God, He exists eternally in three distinct persons: God the Father, God the Son (Jesus Christ), and God the Holy Spirit. Each person is fully God, yet they are not three gods but one God. The Father is not the Son, the Son is not the Spirit, and the Spirit is not the Father, yet all three are equally and eternally God. This doctrine is found throughout Scripture, though the word 'Trinity' itself isn't in the Bible.",
+    "keyVerses": [
+      {"ref": "Matthew 28:19", "text": "Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit."},
+      {"ref": "2 Corinthians 13:14", "text": "May the grace of the Lord Jesus Christ, and the love of God, and the fellowship of the Holy Spirit be with you all."},
+      {"ref": "John 1:1", "text": "In the beginning was the Word, and the Word was with God, and the Word was God."}
+    ],
+    "simpleExplanation": "Think of it like water: it can be liquid, ice, or steam—three different forms, but all H2O. God is one being who exists in three persons. It's beyond our full understanding, but that's okay—God is bigger than our minds can grasp!",
+    "discussionQuestions": [
+      "Why is it important that God exists as Trinity rather than just one person?",
+      "How do you see the Father, Son, and Spirit working together in the Bible?",
+      "What does the Trinity teach us about relationships and community?"
+    ],
+    "displayOrder": 2
+  },
+  {
+    "title": "Jesus Christ - Fully God and Fully Human",
+    "category": "JESUS_CHRIST",
+    "shortSummary": "Jesus is both fully God and fully human, the second person of the Trinity who became human to save us from sin.",
+    "fullDescription": "Jesus Christ is the eternal Son of God who took on human nature to accomplish our salvation. He was born of the virgin Mary, lived a sinless life, performed miracles, taught with authority, died on the cross for our sins, rose from the dead on the third day, and ascended to heaven. He is 100% God and 100% human—not a mixture or hybrid, but fully both. As God, He has always existed. As human, He experienced everything we do (except sin), including temptation, pain, joy, and sorrow.",
+    "keyVerses": [
+      {"ref": "John 1:14", "text": "The Word became flesh and made his dwelling among us. We have seen his glory, the glory of the one and only Son, who came from the Father, full of grace and truth."},
+      {"ref": "Philippians 2:6-7", "text": "Who, being in very nature God, did not consider equality with God something to be used to his own advantage; rather, he made himself nothing by taking the very nature of a servant, being made in human likeness."},
+      {"ref": "Hebrews 4:15", "text": "For we do not have a high priest who is unable to empathize with our weaknesses, but we have one who has been tempted in every way, just as we are—yet he did not sin."}
+    ],
+    "simpleExplanation": "Jesus is God who became a real human being. He didn't stop being God, and He wasn't just pretending to be human. He was both at the same time! This means He understands what it's like to be us, and He had the power to save us.",
+    "discussionQuestions": [
+      "Why was it necessary for Jesus to be both God and human?",
+      "How does Jesus' humanity help you relate to Him?",
+      "What difference does Jesus' resurrection make in your daily life?"
+    ],
+    "displayOrder": 3
+  },
+  {
+    "title": "Salvation by Grace Through Faith",
+    "category": "SALVATION",
+    "shortSummary": "Salvation is a free gift from God, received through faith in Jesus Christ, not earned by our good works.",
+    "fullDescription": "Salvation means being rescued from the consequences of sin and brought into a right relationship with God. The Bible teaches that all people have sinned and fall short of God's glory, deserving separation from God. But God, in His great love, provided a way of salvation through Jesus Christ. When Jesus died on the cross, He took the punishment for our sins. When He rose from the dead, He conquered sin and death. Salvation is received by grace (God's undeserved favor) through faith (trusting in Jesus), not by our own efforts or good deeds. While good works don't save us, they are the natural result of genuine faith.",
+    "keyVerses": [
+      {"ref": "Ephesians 2:8-9", "text": "For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God—not by works, so that no one can boast."},
+      {"ref": "Romans 3:23-24", "text": "For all have sinned and fall short of the glory of God, and all are justified freely by his grace through the redemption that came by Christ Jesus."},
+      {"ref": "John 3:16", "text": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."}
+    ],
+    "simpleExplanation": "Imagine you owe a billion dollars you can't pay back. Salvation is like Jesus stepping in and paying your entire debt. You can't earn it or work for it—you simply receive it as a gift by trusting in Him.",
+    "discussionQuestions": [
+      "Why can't we earn salvation through good works?",
+      "What does it mean to have 'faith' in Jesus?",
+      "How should receiving salvation as a gift affect how we live?"
+    ],
+    "displayOrder": 4
+  },
+  {
+    "title": "The Bible - God's Word",
+    "category": "SCRIPTURE",
+    "shortSummary": "The Bible is God's inspired, authoritative Word, revealing His character and plan for humanity.",
+    "fullDescription": "Christians believe the Bible is the inspired Word of God, written by human authors under the guidance of the Holy Spirit. It consists of 66 books (39 Old Testament, 27 New Testament) written over approximately 1,500 years. While written by many different authors in various contexts, the Bible has one unified message centered on God's plan to redeem humanity through Jesus Christ. Scripture is completely trustworthy, authoritative for faith and practice, and sufficient for knowing God and how to live for Him. It's not just an ancient book—it's living and active, speaking to people today.",
+    "keyVerses": [
+      {"ref": "2 Timothy 3:16-17", "text": "All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness, so that the servant of God may be thoroughly equipped for every good work."},
+      {"ref": "Hebrews 4:12", "text": "For the word of God is alive and active. Sharper than any double-edged sword, it penetrates even to dividing soul and spirit, joints and marrow; it judges the thoughts and attitudes of the heart."},
+      {"ref": "Psalm 119:105", "text": "Your word is a lamp for my feet, a light on my path."}
+    ],
+    "simpleExplanation": "The Bible is like God's love letter and instruction manual for life. He used human authors to write down His words so we can know Him, understand His love, and learn how to live in a way that honors Him.",
+    "discussionQuestions": [
+      "How is reading the Bible different from reading any other book?",
+      "What role should the Bible play in making life decisions?",
+      "How can we know the Bible is trustworthy?"
+    ],
+    "displayOrder": 5
+  },
+  {
+    "title": "The Holy Spirit",
+    "category": "HOLY_SPIRIT",
+    "shortSummary": "The Holy Spirit is God's presence living in believers, empowering, guiding, and transforming them.",
+    "fullDescription": "The Holy Spirit is the third person of the Trinity, fully God and equal with the Father and Son. After Jesus ascended to heaven, He sent the Holy Spirit to dwell in all believers. The Spirit's work includes convicting people of sin, regenerating hearts, assuring believers of their salvation, producing spiritual fruit, giving spiritual gifts, and empowering Christians to live godly lives and share the gospel. The Holy Spirit is not an impersonal force but a divine person who can be grieved, who intercedes for us, and who guides us into truth.",
+    "keyVerses": [
+      {"ref": "John 14:16-17", "text": "And I will ask the Father, and he will give you another advocate to help you and be with you forever—the Spirit of truth."},
+      {"ref": "Galatians 5:22-23", "text": "But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control."},
+      {"ref": "Acts 1:8", "text": "But you will receive power when the Holy Spirit comes on you; and you will be my witnesses in Jerusalem, and in all Judea and Samaria, and to the ends of the earth."}
+    ],
+    "simpleExplanation": "The Holy Spirit is like God's presence living inside Christians. He's your helper, teacher, and guide. When you become a Christian, the Holy Spirit comes to live in you, helping you understand the Bible, resist temptation, and become more like Jesus.",
+    "discussionQuestions": [
+      "How have you experienced the Holy Spirit's work in your life?",
+      "What's the difference between the Holy Spirit and your conscience?",
+      "How can we be more aware of the Spirit's leading?"
+    ],
+    "displayOrder": 6
+  },
+  {
+    "title": "The Church - Body of Christ",
+    "category": "CHURCH",
+    "shortSummary": "The church is the global community of all believers, called to worship God and share His love with the world.",
+    "fullDescription": "The church (with a lowercase 'c') isn't a building but the worldwide community of all people who have placed their faith in Jesus Christ. The Bible uses many metaphors for the church: the Body of Christ (with Jesus as the head), God's family, a holy temple, and the bride of Christ. While the universal church includes all believers everywhere, Christians are also called to participate in local church communities. The church exists to worship God, build up believers through teaching and fellowship, and reach out to the world with the gospel. Every believer is an important part of the body with unique gifts to contribute.",
+    "keyVerses": [
+      {"ref": "1 Corinthians 12:27", "text": "Now you are the body of Christ, and each one of you is a part of it."},
+      {"ref": "Matthew 16:18", "text": "And I tell you that you are Peter, and on this rock I will build my church, and the gates of Hades will not overcome it."},
+      {"ref": "Hebrews 10:24-25", "text": "And let us consider how we may spur one another on toward love and good deeds, not giving up meeting together, as some are in the habit of doing, but encouraging one another."}
+    ],
+    "simpleExplanation": "The church is like a spiritual family. It's all Christians everywhere, but especially the local group you meet with to worship God, learn from the Bible, and support each other. Just like you need your physical family, you need your church family too!",
+    "discussionQuestions": [
+      "Why is being part of a local church important?",
+      "How is the church different from other organizations or clubs?",
+      "What unique gifts or talents do you bring to the church body?"
+    ],
+    "displayOrder": 7
+  },
+  {
+    "title": "Humanity - Created in God's Image",
+    "category": "HUMANITY",
+    "shortSummary": "Humans are created in God's image with inherent dignity and worth, but marred by sin and in need of redemption.",
+    "fullDescription": "The Bible teaches that God created humans in His image (Genesis 1:27), which means we reflect His character in unique ways—we can think, create, love, make moral choices, and have relationships. This gives every human being inherent dignity and worth, regardless of age, ability, ethnicity, or any other factor. However, when sin entered the world through Adam and Eve, it corrupted human nature. While we still bear God's image, we're all born with a sinful nature that separates us from God and leads us to rebel against Him. Every person needs God's redemption through Jesus Christ to be restored to the relationship with God we were created for.",
+    "keyVerses": [
+      {"ref": "Genesis 1:27", "text": "So God created mankind in his own image, in the image of God he created them; male and female he created them."},
+      {"ref": "Romans 3:23", "text": "For all have sinned and fall short of the glory of God."},
+      {"ref": "Psalm 139:13-14", "text": "For you created my inmost being; you knit me together in my mother's womb. I praise you because I am fearfully and wonderfully made."}
+    ],
+    "simpleExplanation": "You're not an accident—God created you on purpose, in His image! That means you have incredible worth and value. But sin has damaged that image in all of us, which is why we need Jesus to restore what was broken.",
+    "discussionQuestions": [
+      "What does it mean to be created 'in God's image'?",
+      "How should knowing humans are made in God's image affect how we treat others?",
+      "How does sin affect our ability to reflect God's image?"
+    ],
+    "displayOrder": 8
+  },
+  {
+    "title": "Prayer and Worship",
+    "category": "CHRISTIAN_LIVING",
+    "shortSummary": "Prayer is conversing with God, and worship is honoring Him with our whole lives, not just songs on Sunday.",
+    "fullDescription": "Prayer is communication with God—talking to Him and listening for His direction. It includes praise, thanksgiving, confession, and requests for ourselves and others. Prayer isn't a formula or magic; it's a relationship. God invites us to bring everything to Him because He cares about every detail of our lives. Worship is our response to who God is and what He's done. While it includes singing and corporate gatherings, true worship encompasses all of life—using our gifts, serving others, making choices that honor God, and living in a way that reflects His character. Everything we do can be an act of worship when done for God's glory.",
+    "keyVerses": [
+      {"ref": "Philippians 4:6-7", "text": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus."},
+      {"ref": "1 Thessalonians 5:16-18", "text": "Rejoice always, pray continually, give thanks in all circumstances; for this is God's will for you in Christ Jesus."},
+      {"ref": "Romans 12:1", "text": "Therefore, I urge you, brothers and sisters, in view of God's mercy, to offer your bodies as a living sacrifice, holy and pleasing to God—this is your true and proper worship."}
+    ],
+    "simpleExplanation": "Prayer is like talking with your best friend—you can share anything with God! Worship isn't just singing in church; it's living your whole life in a way that shows God is awesome and worthy of honor.",
+    "discussionQuestions": [
+      "What makes prayer sometimes feel difficult or awkward?",
+      "How can everyday activities become acts of worship?",
+      "What's one practical way you can make prayer a more regular part of your life?"
+    ],
+    "displayOrder": 9
+  }
+]

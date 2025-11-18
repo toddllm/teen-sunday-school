@@ -1,0 +1,176 @@
+.doctrine-card-list {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.doctrine-card-list-loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.doctrine-card-list-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.doctrine-card-list-empty h3 {
+  font-size: 1.5em;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.doctrine-category-section {
+  margin-bottom: 40px;
+}
+
+.category-header {
+  font-size: 1.8em;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #3498db;
+}
+
+.doctrine-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .doctrine-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.doctrine-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.doctrine-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-color: #3498db;
+}
+
+.doctrine-card:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.doctrine-card-header {
+  margin-bottom: 15px;
+}
+
+.doctrine-card-title {
+  font-size: 1.4em;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.doctrine-card-category {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.doctrine-card-summary {
+  color: #555;
+  line-height: 1.6;
+  font-size: 0.95em;
+  margin: 0 0 15px 0;
+  flex-grow: 1;
+}
+
+.doctrine-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.learn-more {
+  color: #3498db;
+  font-weight: 500;
+  font-size: 0.9em;
+  transition: all 0.2s ease;
+}
+
+.doctrine-card:hover .learn-more {
+  transform: translateX(4px);
+}
+
+/* Category-specific gradient colors */
+.doctrine-card[data-category="GOD"] .doctrine-card-category {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.doctrine-card[data-category="JESUS_CHRIST"] .doctrine-card-category {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.doctrine-card[data-category="HOLY_SPIRIT"] .doctrine-card-category {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.doctrine-card[data-category="SCRIPTURE"] .doctrine-card-category {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.doctrine-card[data-category="SALVATION"] .doctrine-card-category {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.doctrine-card[data-category="CHURCH"] .doctrine-card-category {
+  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+
+.doctrine-card[data-category="END_TIMES"] .doctrine-card-category {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.doctrine-card[data-category="HUMANITY"] .doctrine-card-category {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+}
+
+.doctrine-card[data-category="CHRISTIAN_LIVING"] .doctrine-card-category {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+}

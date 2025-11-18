@@ -1,0 +1,248 @@
+.doctrine-detail-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.doctrine-detail-modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.doctrine-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px 28px;
+  border-bottom: 2px solid #e0e0e0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.doctrine-detail-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.doctrine-detail-category {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.close-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.doctrine-detail-body {
+  padding: 28px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.doctrine-section {
+  margin-bottom: 28px;
+}
+
+.doctrine-section:last-of-type {
+  margin-bottom: 16px;
+}
+
+.doctrine-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.summary-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+}
+
+.summary-text {
+  font-size: 1.05em;
+  line-height: 1.7;
+  color: #2c3e50;
+  margin: 0;
+  font-weight: 500;
+}
+
+.description-text {
+  line-height: 1.8;
+  color: #555;
+  font-size: 1em;
+  white-space: pre-wrap;
+}
+
+.simple-explanation-section {
+  background: #e8f4f8;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+}
+
+.simple-explanation-text {
+  line-height: 1.7;
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1em;
+}
+
+.key-verses-list {
+  background: #fef9e7;
+  border-radius: 8px;
+  padding: 16px;
+  border-left: 4px solid #f39c12;
+}
+
+.key-verse-item {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ece8d4;
+}
+
+.key-verse-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.verse-ref {
+  display: block;
+  color: #d68910;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+
+.verse-text {
+  color: #555;
+  line-height: 1.7;
+  margin: 0;
+  font-style: italic;
+}
+
+.discussion-questions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.discussion-question-item {
+  background: #f0f3f8;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #5a7ec7;
+  line-height: 1.6;
+  color: #2c3e50;
+}
+
+.discussion-question-item:last-child {
+  margin-bottom: 0;
+}
+
+.doctrine-disclaimer {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin-top: 20px;
+}
+
+.doctrine-disclaimer p {
+  margin: 0;
+  font-size: 0.9em;
+  line-height: 1.6;
+  color: #856404;
+}
+
+.doctrine-disclaimer strong {
+  color: #664d03;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .doctrine-detail-modal {
+    max-width: 95%;
+    max-height: 95vh;
+  }
+
+  .doctrine-detail-header {
+    padding: 20px;
+  }
+
+  .doctrine-detail-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .doctrine-detail-body {
+    padding: 20px;
+  }
+}

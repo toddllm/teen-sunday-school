@@ -22,11 +22,11 @@ model Organization {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users        User[]
-  groups       Group[]
-  integrations ExternalIntegration[]
-  lessons      Lesson[]
-  aiFilterConfigs AIFilterConfig[]
+  users             User[]
+  groups            Group[]
+  integrations      ExternalIntegration[]
+  lessons           Lesson[]
+  aiFilterConfigs   AIFilterConfig[]
   comparativeThemes ComparativeTheme[]
   parables     Parable[]
   translationComparisonNotes TranslationComparisonNote[]
@@ -35,28 +35,31 @@ model Organization {
 }
 
 model User {
-  id             String   @id @default(cuid())
-  email          String   @unique
+  id             String  @id @default(cuid())
+  email          String  @unique
   passwordHash   String
   firstName      String
   lastName       String
-  role           Role     @default(MEMBER)
+  role           Role    @default(MEMBER)
   organizationId String
-  isActive       Boolean  @default(true)
+  isActive       Boolean @default(true)
 
   // External system IDs (for syncing)
-  externalId     String?  // Planning Center person ID
-  externalData   Json?    // Additional metadata from external system
+  externalId   String? // Planning Center person ID
+  externalData Json? // Additional metadata from external system
 
-  lastLoginAt    DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   organization          Organization            @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   groupMemberships      GroupMember[]
   refreshTokens         RefreshToken[]
   notificationPreference NotificationPreference?
   notifications         Notification[]
+  organization     Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  groupMemberships GroupMember[]
+  refreshTokens    RefreshToken[]
 
   @@index([email])
   @@index([organizationId])
@@ -64,10 +67,10 @@ model User {
 }
 
 enum Role {
-  SUPER_ADMIN    // Platform admin
-  ORG_ADMIN      // Organization administrator
-  TEACHER        // Can create/edit lessons
-  MEMBER         // Regular member/student
+  SUPER_ADMIN // Platform admin
+  ORG_ADMIN // Organization administrator
+  TEACHER // Can create/edit lessons
+  MEMBER // Regular member/student
 }
 
 model RefreshToken {
@@ -88,24 +91,24 @@ model RefreshToken {
 // ============================================================================
 
 model Group {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   name           String
   description    String?
   organizationId String
 
   // For syncing with external systems
-  externalId     String?  // Planning Center list ID
-  externalData   Json?    // Metadata from external system
+  externalId   String? // Planning Center list ID
+  externalData Json? // Metadata from external system
 
-  ageMin         Int?
-  ageMax         Int?
-  grade          String?
+  ageMin Int?
+  ageMax Int?
+  grade  String?
 
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   members      GroupMember[]
   mappings     ExternalGroupMapping[]
   lessons      LessonGroup[]
@@ -135,36 +138,36 @@ model GroupMember {
 // ============================================================================
 
 model ExternalIntegration {
-  id             String   @id @default(cuid())
+  id             String              @id @default(cuid())
   organizationId String
   provider       IntegrationProvider
-  status         IntegrationStatus @default(INACTIVE)
+  status         IntegrationStatus   @default(INACTIVE)
 
   // Encrypted credentials (AES-256-GCM)
-  credentialsEncrypted String   @db.Text
-  credentialsIV        String   // Initialization vector for encryption
-  credentialsTag       String   // Authentication tag for encryption
+  credentialsEncrypted String @db.Text
+  credentialsIV        String // Initialization vector for encryption
+  credentialsTag       String // Authentication tag for encryption
 
   // OAuth specific fields
-  accessToken    String?  @db.Text
-  refreshToken   String?  @db.Text
+  accessToken    String?   @db.Text
+  refreshToken   String?   @db.Text
   tokenExpiresAt DateTime?
 
   // API configuration
-  apiBaseUrl     String?
-  apiVersion     String?
+  apiBaseUrl String?
+  apiVersion String?
 
   // Sync configuration
-  syncEnabled    Boolean  @default(false)
+  syncEnabled    Boolean       @default(false)
   syncFrequency  SyncFrequency @default(DAILY)
   lastSyncAt     DateTime?
   lastSyncStatus SyncStatus?
   nextSyncAt     DateTime?
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization  Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization  Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   groupMappings ExternalGroupMapping[]
   syncLogs      SyncLog[]
 
@@ -175,7 +178,7 @@ model ExternalIntegration {
 
 enum IntegrationProvider {
   PLANNING_CENTER
-  CCB              // Church Community Builder
+  CCB // Church Community Builder
   ELVANTO
   BREEZE
   FELLOWSHIP_ONE
@@ -187,20 +190,20 @@ enum IntegrationStatus {
   INACTIVE
   ERROR
   PENDING
-  EXPIRED          // OAuth token expired
+  EXPIRED // OAuth token expired
 }
 
 enum SyncFrequency {
   HOURLY
   DAILY
   WEEKLY
-  MANUAL           // Only manual syncs
+  MANUAL // Only manual syncs
 }
 
 enum SyncStatus {
   SUCCESS
   ERROR
-  PARTIAL          // Some data synced, some failed
+  PARTIAL // Some data synced, some failed
 }
 
 // ============================================================================
@@ -208,22 +211,22 @@ enum SyncStatus {
 // ============================================================================
 
 model ExternalGroupMapping {
-  id                String   @id @default(cuid())
+  id                String  @id @default(cuid())
   integrationId     String
-  externalGroupId   String   // ID from external system (e.g., Planning Center list ID)
+  externalGroupId   String // ID from external system (e.g., Planning Center list ID)
   externalGroupName String
-  externalGroupType String?  // Type in external system
-  groupId           String?  // NULL if not yet mapped
+  externalGroupType String? // Type in external system
+  groupId           String? // NULL if not yet mapped
 
   // Sync settings for this mapping
-  syncMembers       Boolean  @default(true)
-  syncLeaders       Boolean  @default(true)
+  syncMembers Boolean @default(true)
+  syncLeaders Boolean @default(true)
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   integration ExternalIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
-  group       Group? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  group       Group?              @relation(fields: [groupId], references: [id], onDelete: SetNull)
 
   @@unique([integrationId, externalGroupId])
   @@index([integrationId])
@@ -235,12 +238,12 @@ model ExternalGroupMapping {
 // ============================================================================
 
 model SyncLog {
-  id            String   @id @default(cuid())
+  id            String     @id @default(cuid())
   integrationId String
   status        SyncStatus
-  startedAt     DateTime @default(now())
+  startedAt     DateTime   @default(now())
   completedAt   DateTime?
-  durationMs    Int?     // Duration in milliseconds
+  durationMs    Int? // Duration in milliseconds
 
   // Metrics
   peopleAdded   Int @default(0)
@@ -251,12 +254,12 @@ model SyncLog {
   groupsSkipped Int @default(0)
 
   // Error tracking
-  errorMessage  String?  @db.Text
-  errorCode     String?
-  errorDetails  Json?
+  errorMessage String? @db.Text
+  errorCode    String?
+  errorDetails Json?
 
   // Additional metadata
-  metadata      Json?
+  metadata Json?
 
   integration ExternalIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
 
@@ -270,30 +273,30 @@ model SyncLog {
 // ============================================================================
 
 model Lesson {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Lesson metadata
-  title          String
-  quarter        Int
-  unit           Int
-  lessonNumber   Int
-  scripture      String
+  title        String
+  quarter      Int
+  unit         Int
+  lessonNumber Int
+  scripture    String
 
   // Content
-  content        Json     // Full lesson content as JSON
-  slides         Json?    // Slide data
-  games          Json?    // Game configurations
+  content Json // Full lesson content as JSON
+  slides  Json? // Slide data
+  games   Json? // Game configurations
 
   // Sharing & visibility
-  isPublic       Boolean  @default(false)
-  isTemplate     Boolean  @default(false)
+  isPublic   Boolean @default(false)
+  isTemplate Boolean @default(false)
 
-  createdBy      String?  // User ID
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   groups       LessonGroup[]
 
   @@unique([organizationId, quarter, unit, lessonNumber])
@@ -320,21 +323,21 @@ model LessonGroup {
 // ============================================================================
 
 model AIFilterConfig {
-  id             String   @id @default(cuid())
-  organizationId String?  // NULL = global/default config
+  id             String  @id @default(cuid())
+  organizationId String? // NULL = global/default config
 
   // Filter categories and their handling rules
-  filterRules    Json     // { "relationships_sexuality": "REDIRECT", "mental_health": "GUIDANCE", ... }
+  filterRules Json // { "relationships_sexuality": "REDIRECT", "mental_health": "GUIDANCE", ... }
 
   // Additional settings
-  customKeywords Json?    // Custom keywords to filter: { "block": [...], "monitor": [...] }
+  customKeywords  Json? // Custom keywords to filter: { "block": [...], "monitor": [...] }
   redirectMessage String? @db.Text // Custom message when redirecting to leader
 
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization Organization?    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   metrics      AIFilterMetric[]
 
   @@unique([organizationId]) // One config per org (plus one global)
@@ -357,33 +360,33 @@ enum FilterCategory {
 }
 
 enum FilterAction {
-  REDIRECT     // Redirect to leader
-  GUIDANCE     // Provide high-level guidance only
-  BLOCK        // Block completely with generic message
-  MONITOR      // Allow but log for review
+  REDIRECT // Redirect to leader
+  GUIDANCE // Provide high-level guidance only
+  BLOCK // Block completely with generic message
+  MONITOR // Allow but log for review
 }
 
 model AIFilterMetric {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   filterId       String
   organizationId String?
 
   // Query details
-  query          String   @db.Text
+  query            String         @db.Text
   detectedCategory FilterCategory
-  actionTaken    FilterAction
+  actionTaken      FilterAction
 
   // Context
-  userId         String?  // User who made the query
-  groupId        String?  // Group context if applicable
-  featureName    String?  // Which AI feature triggered the filter
+  userId      String? // User who made the query
+  groupId     String? // Group context if applicable
+  featureName String? // Which AI feature triggered the filter
 
   // Leader follow-up tracking
-  leaderNotified Boolean  @default(false)
-  leaderResponse String?  @db.Text
+  leaderNotified Boolean   @default(false)
+  leaderResponse String?   @db.Text
   resolvedAt     DateTime?
 
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   filter AIFilterConfig @relation(fields: [filterId], references: [id], onDelete: Cascade)
 
@@ -400,32 +403,32 @@ model AIFilterMetric {
 // ============================================================================
 
 model ComparativeTheme {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Theme metadata
-  themeName      String
-  description    String?  @db.Text
-  category       String?  // e.g., "covenant", "sacrifice", "grace", "justice"
+  themeName   String
+  description String? @db.Text
+  category    String? // e.g., "covenant", "sacrifice", "grace", "justice"
 
   // Old Testament passages
-  otPassages     Json     // Array of {ref: string, text?: string, notes?: string}
+  otPassages Json // Array of {ref: string, text?: string, notes?: string}
 
   // New Testament passages
-  ntPassages     Json     // Array of {ref: string, text?: string, notes?: string}
+  ntPassages Json // Array of {ref: string, text?: string, notes?: string}
 
   // Comparative analysis
-  themeNotes     Json?    // {summary: string, connections: string[], keyInsights: string[]}
+  themeNotes Json? // {summary: string, connections: string[], keyInsights: string[]}
 
   // Visibility
-  isPublic       Boolean  @default(false)
+  isPublic Boolean @default(false)
 
   // Authorship
-  createdBy      String?  // User ID
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   metrics      ThemeMetric[]
 
   @@index([organizationId])
@@ -434,24 +437,24 @@ model ComparativeTheme {
 }
 
 model ThemeMetric {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   themeId        String
   organizationId String
 
   // Tracking
-  viewCount      Int      @default(0)
-  lastViewedAt   DateTime @default(now())
+  viewCount    Int      @default(0)
+  lastViewedAt DateTime @default(now())
 
   // User engagement
-  userId         String?  // User who viewed
-  featureContext String?  // Where it was accessed (e.g., "topical_index", "passage_link", "direct")
-  timeSpentMs    Int?     // Time spent viewing in milliseconds
+  userId         String? // User who viewed
+  featureContext String? // Where it was accessed (e.g., "topical_index", "passage_link", "direct")
+  timeSpentMs    Int? // Time spent viewing in milliseconds
 
   // Lesson usage tracking
-  usedInLesson   Boolean  @default(false)
-  lessonId       String?
+  usedInLesson Boolean @default(false)
+  lessonId     String?
 
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   theme ComparativeTheme @relation(fields: [themeId], references: [id], onDelete: Cascade)
 
@@ -1208,6 +1211,80 @@ model ComparisonNoteMetric {
   note TranslationComparisonNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
 
   @@index([noteId])
+// DOCTRINE OVERVIEW CARDS
+// ============================================================================
+
+model DoctrineCard {
+  id String @id @default(cuid())
+
+  // Core doctrine information
+  title           String // e.g., "God the Father", "Salvation", "The Trinity"
+  category        DoctrineCategory // Category for organization
+  shortSummary    String           @db.Text // Brief summary (1-2 sentences)
+  fullDescription String           @db.Text // Detailed explanation
+
+  // Biblical foundations
+  keyVerses Json // Array of {ref: string, text: string}
+
+  // Simple, accessible explanations
+  simpleExplanation   String? @db.Text // For younger teens
+  discussionQuestions Json? // Array of question strings
+
+  // Cross-references
+  relatedDoctrine Json? // Array of doctrine card IDs
+
+  // Visibility and ordering
+  isPublic     Boolean @default(true) // Most doctrine cards should be public
+  displayOrder Int     @default(0) // For ordering in UI
+
+  // Metadata
+  createdBy      String? // User ID (for custom org-specific cards)
+  organizationId String? // NULL for global cards, set for org-specific
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  metrics DoctrineMetric[]
+
+  @@index([category])
+  @@index([organizationId])
+  @@index([displayOrder])
+}
+
+enum DoctrineCategory {
+  GOD // God the Father, Trinity, Attributes of God
+  JESUS_CHRIST // Person of Christ, Work of Christ, Resurrection
+  HOLY_SPIRIT // Person, Work, Gifts
+  SCRIPTURE // Inspiration, Authority, Interpretation
+  SALVATION // Grace, Faith, Repentance, Justification
+  CHURCH // Body of Christ, Communion, Baptism, Church Life
+  END_TIMES // Second Coming, Judgment, Heaven, Hell (non-controversial)
+  HUMANITY // Creation, Sin, Image of God
+  CHRISTIAN_LIVING // Prayer, Worship, Sanctification
+}
+
+model DoctrineMetric {
+  id             String  @id @default(cuid())
+  doctrineId     String
+  organizationId String?
+
+  // Tracking
+  viewCount    Int      @default(0)
+  lastViewedAt DateTime @default(now())
+
+  // User engagement
+  userId         String? // User who viewed
+  featureContext String? // Where accessed (e.g., "doctrine_list", "lesson_link", "search")
+  timeSpentMs    Int? // Time spent viewing
+
+  // Lesson usage
+  usedInLesson Boolean @default(false)
+  lessonId     String?
+
+  createdAt DateTime @default(now())
+
+  doctrine DoctrineCard @relation(fields: [doctrineId], references: [id], onDelete: Cascade)
+
+  @@index([doctrineId])
   @@index([organizationId])
   @@index([createdAt])
   @@index([userId])
