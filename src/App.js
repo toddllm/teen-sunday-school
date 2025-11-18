@@ -14,6 +14,8 @@ import GamesAdminPage from './pages/GamesAdminPage';
 import PlansAdminPage from './pages/PlansAdminPage';
 import PlanCreatorPage from './pages/PlanCreatorPage';
 import PlanPreviewPage from './pages/PlanPreviewPage';
+import TemplatesAdminPage from './pages/TemplatesAdminPage';
+import TemplateEditorPage from './pages/TemplateEditorPage';
 import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
@@ -114,6 +116,9 @@ function App() {
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
             <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
+            <Route path="/admin/templates" element={<TemplatesAdminPage />} />
+            <Route path="/admin/templates/create" element={<TemplateEditorPage />} />
+            <Route path="/admin/templates/edit/:id" element={<TemplateEditorPage />} />
             <Route path="/admin/plans" element={<PlansAdminPage />} />
             <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
             <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
