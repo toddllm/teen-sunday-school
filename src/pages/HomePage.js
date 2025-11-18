@@ -59,6 +59,15 @@ function HomePage() {
             </div>
 
             <div className="feature-card">
+              <div className="feature-icon">😄</div>
+              <h3>Meme Generator</h3>
+              <p>Create wholesome, faith-based memes to share with friends</p>
+              <Link to="/bible/meme-generator" className="feature-link">
+                Create Memes →
+              </Link>
+            </div>
+
+            <div className="feature-card">
               <div className="feature-icon">🎬</div>
               <h3>Bible Project</h3>
               <p>Find related Bible Project videos and content for your lessons</p>

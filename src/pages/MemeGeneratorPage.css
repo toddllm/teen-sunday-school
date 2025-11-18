@@ -1,0 +1,435 @@
+.meme-generator {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.generator-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.generator-header h1 {
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.generator-header p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* Gallery Toggle */
+.gallery-toggle {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+/* Editor View */
+.editor-view {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.editor-section {
+  padding: 25px;
+}
+
+.editor-section h2 {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  font-size: 1.3rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin-bottom: 0;
+}
+
+/* Template Selection */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 15px;
+}
+
+.template-card {
+  cursor: pointer;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  transition: all 0.3s ease;
+  background: var(--card-bg);
+}
+
+.template-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.template-card.selected {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.template-preview {
+  width: 100%;
+  height: 120px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.template-icon {
+  font-size: 3rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.template-name {
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 5px 0;
+}
+
+.template-description {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Example Memes */
+.example-memes {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: var(--bg-color);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.example-label {
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.example-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Text Inputs */
+.text-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.text-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.text-input-group label {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.text-input-group textarea {
+  padding: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 2px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  background: var(--input-bg, #fff);
+  color: var(--text-color);
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.3s ease;
+}
+
+.text-input-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Customization Controls */
+.customization-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-group label {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.control-group select {
+  padding: 10px;
+  border: 2px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  background: var(--input-bg, #fff);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.control-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: normal !important;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Meme Preview */
+.generating-message {
+  text-align: center;
+  padding: 20px;
+  color: var(--primary-color);
+  font-style: italic;
+}
+
+.meme-preview {
+  margin-bottom: 20px;
+  text-align: center;
+  background: var(--bg-color);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.meme-preview img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Export Actions */
+.export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.export-message {
+  text-align: center;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.export-message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.export-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Instructions */
+.instructions {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.instructions h3 {
+  color: white;
+  margin-bottom: 15px;
+}
+
+.instructions ol {
+  margin: 0 0 15px 20px;
+  padding: 0;
+}
+
+.instructions li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.instructions .tip {
+  margin: 0;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Gallery View */
+.gallery-view {
+  padding: 20px;
+}
+
+.gallery-view h2 {
+  margin-bottom: 25px;
+  color: var(--text-color);
+}
+
+.empty-gallery {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.gallery-item {
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px 8px 0 0;
+}
+
+.gallery-item-info {
+  padding: 15px;
+}
+
+.gallery-template {
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+.gallery-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Dark Mode Adjustments */
+[data-theme="dark"] .text-input-group textarea,
+[data-theme="dark"] .control-group select {
+  background: #2a2a3e;
+  border-color: #444;
+  color: #eaeaea;
+}
+
+[data-theme="dark"] .example-memes {
+  background: #1a1a2e;
+}
+
+[data-theme="dark"] .template-card {
+  background: #2a2a3e;
+}
+
+[data-theme="dark"] .meme-preview {
+  background: #1a1a2e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .meme-generator {
+    padding: 15px;
+  }
+
+  .generator-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .section-header button {
+    width: 100%;
+  }
+
+  .template-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  .template-preview {
+    height: 100px;
+    font-size: 2.5rem;
+  }
+
+  .customization-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .export-actions {
+    flex-direction: column;
+  }
+
+  .export-actions button {
+    width: 100%;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .editor-section {
+    padding: 15px;
+  }
+
+  .gallery-toggle {
+    text-align: center;
+  }
+
+  .gallery-toggle button {
+    width: 100%;
+  }
+
+  .template-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
