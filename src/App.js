@@ -79,6 +79,8 @@ import ParentOverviewPage from './pages/ParentOverviewPage';
 import QuizAdminPage from './pages/QuizAdminPage';
 import QuizTakePage from './pages/QuizTakePage';
 import QuizResultsPage from './pages/QuizResultsPage';
+import BugReportPage from './pages/BugReportPage';
+import AdminBugReportsPage from './pages/AdminBugReportsPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -188,6 +190,8 @@ function App() {
             <Route path="/admin/quiz/edit/:lessonId/:quizId" element={<QuizAdminPage />} />
             <Route path="/quiz/:quizId" element={<QuizTakePage />} />
             <Route path="/quiz/:quizId/results" element={<QuizResultsPage />} />
+            <Route path="/admin/bug-reports" element={<AdminBugReportsPage />} />
+            <Route path="/bug-report" element={<BugReportPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />

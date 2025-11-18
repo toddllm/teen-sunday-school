@@ -33,6 +33,7 @@ import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
 import { SeriesProvider } from './contexts/SeriesContext';
 import { XPProvider } from './contexts/XPContext';
 import { QuizProvider } from './contexts/QuizContext';
+import { BugReportProvider } from './contexts/BugReportContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -67,7 +68,9 @@ root.render(
                                           <CharacterProvider>
                                             <QuestionBankProvider>
                                   <SessionProvider>
-                                    <App />
+                                    <BugReportProvider>
+                                      <App />
+                                    </BugReportProvider>
                                             </QuestionBankProvider>
                                           </CharacterProvider>
                                         </ProfileProvider>
