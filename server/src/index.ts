@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import logger from './config/logger';
 import prisma from './config/database';
+import { initializeChallengeJobs } from './jobs/challenge.job';
 
 // Import routes
 import authRoutes from './routes/auth.routes';
@@ -38,6 +39,8 @@ import bibleRoutes from './routes/bible.routes';
 import questionRoutes from './routes/question.routes';
 import calendarRoutes from './routes/calendar.routes';
 import templateRoutes from './routes/template.routes';
+import challengeRoutes from './routes/challenge.routes';
+import groupRoutes from './routes/group.routes';
 
 // Import socket handlers
 import { initializeSessionSocket } from './socket/session.socket';
@@ -154,6 +157,8 @@ app.use('/api/bible-timeline', bibleRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/calendar', calendarRoutes);
 app.use('/api/templates', templateRoutes);
+app.use('/api', challengeRoutes);
+app.use('/api', groupRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -193,6 +198,15 @@ async function startServer() {
     } catch (error) {
       logger.warn('⚠ Failed to initialize notification jobs:', error);
       // Don't fail server startup if notification jobs fail
+    }
+
+    // Initialize challenge jobs
+    try {
+      await initializeChallengeJobs();
+      logger.info('✓ Challenge jobs initialized');
+    } catch (error) {
+      logger.warn('⚠ Failed to initialize challenge jobs:', error);
+      // Don't fail server startup if challenge jobs fail
     }
 
     // Initialize Socket.IO handlers

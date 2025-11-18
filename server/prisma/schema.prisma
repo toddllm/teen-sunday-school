@@ -2009,3 +2009,70 @@ model SessionNote {
   @@index([slideIndex])
   @@index([createdAt])
 }
+model ChallengeParticipant {
+  id          String   @id @default(cuid())
+  challengeId String
+  userId      String
+
+  // Participation tracking
+  joinedAt    DateTime @default(now())
+  isActive    Boolean  @default(true)
+
+  // Individual stats
+  totalContributions Int @default(0)
+  lastContributionAt DateTime?
+
+  challenge GroupChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([challengeId, userId])
+  @@index([challengeId])
+  @@index([userId])
+}
+
+model ChallengeContribution {
+  id          String   @id @default(cuid())
+  challengeId String
+  userId      String
+
+  // Contribution details
+  amount      Int      // How much this action contributed (usually 1)
+
+  // Source tracking (what activity generated this)
+  sourceActivityType String  // e.g., "CHAPTER_READ", "VERSE_MEMORIZED"
+  sourceActivityId   String? // Reference to the original activity
+  sourceMetadata     Json?   // Additional context
+
+  createdAt   DateTime @default(now())
+
+  challenge GroupChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@index([challengeId])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([sourceActivityType])
+}
+
+model ChallengeMetric {
+  id          String   @id @default(cuid())
+  challengeId String   @unique
+
+  // Aggregate stats
+  totalProgress      Int @default(0)
+  progressPercentage Float @default(0)
+  participantCount   Int @default(0)
+  activeParticipants Int @default(0)
+
+  // Top contributors (JSON array of {userId, contributions})
+  topContributors    Json?
+
+  // Time-based metrics
+  averageContributionsPerDay Float?
+  estimatedCompletionDate    DateTime?
+
+  lastUpdated DateTime @updatedAt
+
+  challenge GroupChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@index([challengeId])
+}

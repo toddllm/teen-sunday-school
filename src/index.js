@@ -18,6 +18,7 @@ import { GoalProvider } from './contexts/GoalContext';
 import { QuestionProvider } from './contexts/QuestionContext';
 import { TemplateProvider } from './contexts/TemplateContext';
 import { SessionProvider } from './contexts/SessionContext';
+import { ChallengeProvider } from './contexts/ChallengeContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,8 +28,9 @@ root.render(
         <OnboardingProvider>
           <TranslationProvider>
             <StreakProvider>
-              <WarmupProvider>
-                <LessonProvider>
+              <ChallengeProvider>
+                <WarmupProvider>
+                  <LessonProvider>
                   <PlanProvider>
                     <GoalProvider>
                       <QuestionProvider>
@@ -48,8 +50,9 @@ root.render(
                       </QuestionProvider>
                     </GoalProvider>
                   </PlanProvider>
-                </LessonProvider>
-              </WarmupProvider>
+                  </LessonProvider>
+                </WarmupProvider>
+              </ChallengeProvider>
             </StreakProvider>
           </TranslationProvider>
         </OnboardingProvider>
