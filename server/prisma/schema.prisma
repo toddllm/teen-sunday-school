@@ -637,6 +637,52 @@ model NotificationSchedule {
   isActive       Boolean  @default(true)
   lastRunAt      DateTime?
   nextRunAt      DateTime?
+// SONG / LYRICS INTEGRATION
+// ============================================================================
+
+model SongRef {
+  id             String   @id @default(cuid())
+  organizationId String?  // NULL = globally available song
+
+  // Song metadata
+  title          String
+  artist         String
+  linkUrl        String?  @db.Text // Link to song (YouTube, Spotify, etc.)
+  themeTags      String[] // Array of theme tags (worship, faith, grace, etc.)
+
+  // Bible references this song relates to
+  relatedVerses  Json     // Array of verse references: ["JHN.3.16", "ROM.8.28", ...]
+
+  // For match game (short snippet or paraphrase, max 10 words)
+  gameSnippet    String?  @db.Text
+  gameTheme      String?  // Primary theme for matching
+
+  // Admin curation
+  isApproved     Boolean  @default(false)
+  curatedBy      String?  // Admin user ID who approved
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  playlistItems  SongPlaylistItem[]
+  metrics        SongMetric[]
+
+  @@index([organizationId])
+  @@index([isApproved])
+  @@index([themeTags])
+}
+
+model SongPlaylist {
+  id             String   @id @default(cuid())
+  organizationId String
+  userId         String   // Leader who created the playlist
+
+  // Playlist metadata
+  name           String
+  description    String?  @db.Text
+  lessonId       String?  // Optional link to a specific lesson
+
+  isPublic       Boolean  @default(false) // Share with other leaders
 
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -852,4 +898,57 @@ model InterlinearMetric {
   @@index([userId])
   @@index([createdAt])
   @@index([action])
+  items          SongPlaylistItem[]
+
+  @@index([organizationId])
+  @@index([userId])
+  @@index([lessonId])
+}
+
+model SongPlaylistItem {
+  id          String   @id @default(cuid())
+  playlistId  String
+  songId      String
+  orderIndex  Int      // Order in playlist
+  notes       String?  @db.Text // Leader notes for this song
+
+  createdAt   DateTime @default(now())
+
+  playlist SongPlaylist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  song     SongRef      @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, songId])
+  @@index([playlistId])
+  @@index([songId])
+}
+
+model SongMetric {
+  id             String   @id @default(cuid())
+  songId         String
+  organizationId String?
+
+  // Metric type
+  metricType     SongMetricType
+
+  // Context
+  userId         String?  // User who interacted
+  groupId        String?  // Group context if applicable
+  passageRef     String?  // Bible passage being viewed (e.g., "JHN.3.16")
+
+  createdAt      DateTime @default(now())
+
+  song SongRef @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@index([songId])
+  @@index([organizationId])
+  @@index([metricType])
+  @@index([createdAt])
+  @@index([userId])
+}
+
+enum SongMetricType {
+  VIEW           // Song was viewed in related songs section
+  LINK_CLICK     // External link was clicked
+  GAME_PLAY      // Song was used in match game
+  PLAYLIST_ADD   // Song was added to a playlist
 }
