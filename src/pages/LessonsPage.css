@@ -28,9 +28,11 @@
   flex: 1;
   min-width: 250px;
   padding: 12px 20px;
-  border: 2px solid var(--light-gray);
+  border: 2px solid var(--input-border);
   border-radius: var(--border-radius);
   font-size: 1em;
+  background: var(--input-bg);
+  color: var(--text-color);
 }
 
 .search-input:focus {
@@ -40,10 +42,11 @@
 
 .filter-select {
   padding: 12px 20px;
-  border: 2px solid var(--light-gray);
+  border: 2px solid var(--input-border);
   border-radius: var(--border-radius);
   font-size: 1em;
-  background: white;
+  background: var(--input-bg);
+  color: var(--text-color);
   cursor: pointer;
 }
 
@@ -59,7 +62,7 @@
 }
 
 .lesson-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: var(--border-radius);
   padding: 25px;
   box-shadow: var(--box-shadow);
@@ -70,7 +73,7 @@
 
 .lesson-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px var(--shadow-color);
 }
 
 .lesson-card-header {
@@ -82,7 +85,7 @@
 
 .lesson-meta {
   font-size: 0.85em;
-  color: #888;
+  color: var(--text-secondary);
   font-weight: 600;
 }
 
@@ -93,20 +96,20 @@
 }
 
 .lesson-connection {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.5;
   margin-bottom: 15px;
   flex: 1;
 }
 
 .remember-verse {
-  background: var(--light-gray);
+  background: var(--hover-bg);
   padding: 15px;
   border-left: 4px solid var(--primary-color);
   margin: 15px 0;
   font-style: italic;
   font-size: 0.9em;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .remember-verse cite {
@@ -135,14 +138,14 @@
 .empty-state {
   text-align: center;
   padding: 80px 20px;
-  background: white;
+  background: var(--card-bg);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
 }
 
 .empty-state p {
   font-size: 1.2em;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 25px;
 }
 

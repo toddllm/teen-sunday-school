@@ -12,7 +12,7 @@
 }
 
 .creator-header h1 {
-  color: #2c3e50;
+  color: var(--text-color);
   margin: 0;
 }
 
@@ -32,10 +32,10 @@
 }
 
 .lesson-form {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow-color);
 }
 
 .form-group {
@@ -45,7 +45,7 @@
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #2c3e50;
+  color: var(--text-color);
   font-weight: 500;
 }
 
@@ -53,10 +53,12 @@
 .form-group textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--input-border);
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
+  background: var(--input-bg);
+  color: var(--text-color);
 }
 
 .form-group input:focus,
@@ -84,12 +86,12 @@
 }
 
 .cancel-btn {
-  background: #ecf0f1;
-  color: #2c3e50;
+  background: var(--hover-bg);
+  color: var(--text-color);
 }
 
 .cancel-btn:hover {
-  background: #bdc3c7;
+  background: var(--border-color);
 }
 
 .save-btn {
