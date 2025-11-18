@@ -2842,3 +2842,97 @@ model TagMetric {
   @@index([lastUsedAt])
   @@index([usageCount])
 }
+
+model ProverbOfTheDay {
+  id             String   @id @default(cuid())
+  organizationId String?  // NULL = available to all organizations
+
+  // Proverb reference
+  book           String   @default("Proverbs")
+  chapter        Int
+  verseStart     Int
+  verseEnd       Int?     // For multi-verse proverbs
+  reference      String   // e.g., "Proverbs 3:5-6"
+
+  // Content
+  proverbText    String   @db.Text
+  translation    String   @default("NIV")
+
+  // Teen application
+  teenTitle      String   // Catchy title for teens (e.g., "Trust the GPS, Not Your Directions")
+  teenApplication String  @db.Text // Teen-focused explanation/application
+  modernExample  String?  @db.Text // Optional contemporary example for teens
+  discussionPrompt String? @db.Text // Optional discussion question
+
+  // Categorization
+  tags           Json?    // Array of tags: ["faith", "trust", "wisdom", etc.]
+  category       String?  // Main category: "relationships", "wisdom", "integrity", etc.
+  difficulty     String   @default("MEDIUM") // "EASY", "MEDIUM", "HARD" (reading level)
+
+  // Scheduling
+  scheduledDate  DateTime? // When to display this proverb
+  isActive       Boolean  @default(true)
+  isPinned       Boolean  @default(false) // Pinned proverbs stay visible longer
+
+  // Authorship
+  createdBy      String?  // User ID
+  approvedBy     String?  // Admin who approved it
+  approvedAt     DateTime?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  views          ProverbView[]
+  interactions   ProverbInteraction[]
+
+  @@index([organizationId])
+  @@index([scheduledDate])
+  @@index([isActive])
+  @@index([category])
+  @@index([chapter])
+}
+
+model ProverbView {
+  id        String   @id @default(cuid())
+  proverbId String
+  userId    String?
+  organizationId String?
+
+  // Engagement metrics
+  timeSpentMs Int?    // Time spent viewing in milliseconds
+  completed   Boolean @default(false) // Did user read to the end
+
+  viewedAt  DateTime @default(now())
+
+  proverb ProverbOfTheDay @relation(fields: [proverbId], references: [id], onDelete: Cascade)
+
+  @@index([proverbId])
+  @@index([userId])
+  @@index([organizationId])
+  @@index([viewedAt])
+}
+
+model ProverbInteraction {
+  id             String   @id @default(cuid())
+  proverbId      String
+  userId         String?
+  organizationId String?
+
+  // Interaction type
+  interactionType String  // "like", "share", "save", "discuss", "bookmark"
+
+  // Optional feedback
+  notes          String?  @db.Text
+  rating         Int?     // 1-5 star rating
+
+  createdAt      DateTime @default(now())
+
+  proverb ProverbOfTheDay @relation(fields: [proverbId], references: [id], onDelete: Cascade)
+
+  @@index([proverbId])
+  @@index([userId])
+  @@index([organizationId])
+  @@index([interactionType])
+  @@index([createdAt])
+}

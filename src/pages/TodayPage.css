@@ -551,3 +551,10 @@
     gap: 12px;
   }
 }
+
+/* Proverb Section */
+.proverb-section {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+}

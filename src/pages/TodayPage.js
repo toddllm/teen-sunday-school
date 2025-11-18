@@ -4,6 +4,7 @@ import { useWeeklyWord } from '../contexts/WeeklyWordContext';
 import { Link } from 'react-router-dom';
 import StreakProtection from '../components/StreakProtection';
 import WeeklyWordCard from '../components/WeeklyWordCard';
+import ProverbOfTheDay from '../components/ProverbOfTheDay';
 import './TodayPage.css';
 
 function TodayPage() {
@@ -156,6 +157,11 @@ function TodayPage() {
             <WeeklyWordCard word={currentWord} viewSource="today_page" />
           </div>
         )}
+
+        {/* Proverb of the Day */}
+        <div className="proverb-section">
+          <ProverbOfTheDay />
+        </div>
 
         {/* Quick Actions */}
         <div className="quick-actions">

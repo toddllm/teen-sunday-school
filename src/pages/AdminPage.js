@@ -47,6 +47,13 @@ function AdminPage() {
               <p>Create auto-playlists for class warmup activities</p>
             </div>
           </Link>
+          <Link to="/admin/proverbs" className="quick-access-card">
+            <div className="quick-access-icon">💡</div>
+            <div className="quick-access-content">
+              <h3>Proverbs</h3>
+              <p>Manage daily proverbs with teen applications</p>
+            </div>
+          </Link>
           <Link to="/admin" className="quick-access-card">
             <div className="quick-access-icon">📚</div>
             <div className="quick-access-content">
