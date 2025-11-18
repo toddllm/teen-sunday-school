@@ -74,6 +74,7 @@ import SeriesBrowsePage from './pages/SeriesBrowsePage';
 import SeriesViewPage from './pages/SeriesViewPage';
 import SeriesAdminPage from './pages/SeriesAdminPage';
 import SeriesEditorPage from './pages/SeriesEditorPage';
+import ParentOverviewPage from './pages/ParentOverviewPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -209,6 +210,7 @@ function App() {
             <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
             <Route path="/settings/reading-metrics" element={<ReadingMetricsSettingsPage />} />
             <Route path="/settings/profile" element={<ProfileSettingsPage />} />
+            <Route path="/parent" element={<ParentOverviewPage />} />
             <Route path="/substitute" element={<SubstituteDashboardPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
