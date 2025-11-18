@@ -6,6 +6,7 @@ import { getChapter, getBooks, getChapters } from '../services/bibleAPI';
 import ContextCardModal from '../components/ContextCardModal';
 import PassageMetrics from '../components/PassageMetrics';
 import ReadAloudControls from '../components/ReadAloudControls';
+import ReadingControlsMenu from '../components/ReadingControlsMenu';
 import { formatBibleVerseForSpeech, formatReferenceForSpeech } from '../services/readAloudService';
 import './ParallelBiblePage.css';
 
@@ -410,6 +411,8 @@ const ParallelBiblePage = () => {
           onClose={() => setShowContextCard(false)}
         />
       )}
+
+      <ReadingControlsMenu />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { AccessibilityProvider } from './contexts/AccessibilityContext';
 import { StreakProvider } from './contexts/StreakContext';
 import { TranslationProvider } from './contexts/TranslationContext';
+import { ReadingPreferencesProvider } from './contexts/ReadingPreferencesContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 import { LexiconProvider } from './contexts/LexiconContext';
 import { ThematicJourneyProvider } from './contexts/ThematicJourneyContext';
@@ -62,8 +63,9 @@ root.render(
           <AccessibilityProvider>
             <OnboardingProvider>
               <TranslationProvider>
-                <XPProvider>
-                  <StreakProvider>
+                <ReadingPreferencesProvider>
+                  <XPProvider>
+                    <StreakProvider>
               <ChallengeProvider>
                 <WarmupProvider>
                   <LessonProvider>
@@ -139,8 +141,9 @@ root.render(
                   </LessonProvider>
                 </WarmupProvider>
               </ChallengeProvider>
-                  </StreakProvider>
-                </XPProvider>
+                    </StreakProvider>
+                  </XPProvider>
+                </ReadingPreferencesProvider>
               </TranslationProvider>
             </OnboardingProvider>
           </AccessibilityProvider>

@@ -358,3 +358,63 @@ body[data-theme="dark"] .parallel-bible-page {
   --primary: #6366f1;
   --primary-dark: #4f46e5;
 }
+
+/* Reading theme styles */
+.chapter-text.reading-theme-light {
+  background: #ffffff;
+  color: #1f2937;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.chapter-text.reading-theme-dark {
+  background: #1a1a2e;
+  color: #eee;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.chapter-text.reading-theme-sepia {
+  background: #f4ecd8;
+  color: #5c4a2f;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.chapter-text.reading-theme-light .verse-num,
+.chapter-text.reading-theme-light .chapter-num {
+  color: #6366f1;
+}
+
+.chapter-text.reading-theme-dark .verse-num,
+.chapter-text.reading-theme-dark .chapter-num {
+  color: #818cf8;
+}
+
+.chapter-text.reading-theme-sepia .verse-num,
+.chapter-text.reading-theme-sepia .chapter-num {
+  color: #92400e;
+}
+
+/* Focus mode styles */
+.parallel-bible-page.focus-mode .parallel-container {
+  height: calc(100vh - 100px);
+  margin-top: 2rem;
+}
+
+.parallel-bible-page.focus-mode .translation-header {
+  padding: 1rem 1.5rem;
+}
+
+.parallel-bible-page.focus-mode .translation-header h2 {
+  font-size: 1.2rem;
+}
+
+body.focus-mode-active nav,
+body.focus-mode-active footer {
+  display: none;
+}
+
+body.focus-mode-active {
+  overflow-y: hidden;
+}

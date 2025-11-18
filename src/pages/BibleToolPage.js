@@ -6,6 +6,7 @@ import CommentaryPanel from '../components/CommentaryPanel';
 import PassageMetrics from '../components/PassageMetrics';
 import ReadAloudControls from '../components/ReadAloudControls';
 import ReflectionPrompts from '../components/ReflectionPrompts';
+import ReadingControlsMenu from '../components/ReadingControlsMenu';
 import { createBiblePassageSpeech } from '../services/readAloudService';
 import { useEngagementAnalytics } from '../contexts/EngagementAnalyticsContext';
 import { useTranslation } from '../contexts/TranslationContext';
@@ -222,6 +223,8 @@ const BibleToolPage = () => {
           onClose={() => setShowReflection(false)}
         />
       )}
+
+      <ReadingControlsMenu />
     </div>
   );
 };
