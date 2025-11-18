@@ -12,6 +12,7 @@ import integrationRoutes from './routes/integration.routes';
 import aiFilterRoutes from './routes/ai-filter.routes';
 import themeComparisonRoutes from './routes/theme-comparison.routes';
 import notificationRoutes from './routes/notification.routes';
+import gameRoutes from './routes/game.routes';
 
 // Load environment variables
 dotenv.config();
@@ -93,6 +94,7 @@ app.use('/api', integrationRoutes);
 app.use('/api/admin/ai-filters', aiFilterRoutes);
 app.use('/api/themes', themeComparisonRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/games', gameRoutes);
 
 // 404 handler
 app.use((req, res) => {
