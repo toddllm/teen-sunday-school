@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStreak, ACTIVITY_TYPES } from '../contexts/StreakContext';
+import { useWeeklyWord } from '../contexts/WeeklyWordContext';
 import { Link } from 'react-router-dom';
 import StreakProtection from '../components/StreakProtection';
+import WeeklyWordCard from '../components/WeeklyWordCard';
 import './TodayPage.css';
 
 function TodayPage() {
@@ -21,7 +23,14 @@ function TodayPage() {
     checkStreakProtection
   } = useStreak();
 
+  const { currentWord, fetchCurrentWord } = useWeeklyWord();
+
   const [newBadges, setNewBadges] = useState([]);
+
+  // Fetch current word on mount
+  useEffect(() => {
+    fetchCurrentWord('today_page');
+  }, [fetchCurrentWord]);
 
   const stats = getStats();
   const allBadges = getAllBadges();
@@ -134,6 +143,19 @@ function TodayPage() {
             Manage Protection →
           </Link>
         </div>
+
+        {/* Weekly Word of the Week */}
+        {currentWord && (
+          <div className="weekly-word-section">
+            <div className="section-header-with-link">
+              <h2>Word of the Week</h2>
+              <Link to="/weekly-word/archive" className="view-all-link">
+                View Archive →
+              </Link>
+            </div>
+            <WeeklyWordCard word={currentWord} viewSource="today_page" />
+          </div>
+        )}
 
         {/* Quick Actions */}
         <div className="quick-actions">

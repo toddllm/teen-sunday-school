@@ -9,6 +9,7 @@ import { AccessibilityProvider } from './contexts/AccessibilityContext';
 import { StreakProvider } from './contexts/StreakContext';
 import { TranslationProvider } from './contexts/TranslationContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
+import { WeeklyWordProvider } from './contexts/WeeklyWordContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,7 +21,9 @@ root.render(
             <LessonProvider>
               <PlanProvider>
                 <ContextCardProvider>
-                  <App />
+                  <WeeklyWordProvider>
+                    <App />
+                  </WeeklyWordProvider>
                 </ContextCardProvider>
               </PlanProvider>
             </LessonProvider>
