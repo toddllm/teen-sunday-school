@@ -37,6 +37,7 @@ import TranslationComparisonPage from './pages/TranslationComparisonPage';
 import DoctrineOverviewPage from './pages/DoctrineOverviewPage';
 import BigStoryPage from './pages/BigStoryPage';
 import GoalsPage from './pages/GoalsPage';
+import CurriculumCoverageReportPage from './pages/CurriculumCoverageReportPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -112,6 +113,7 @@ function App() {
             <Route path="/admin/weekly-word" element={<WeeklyWordAdminPage />} />
             <Route path="/weekly-word/archive" element={<WeeklyWordArchivePage />} />
             <Route path="/admin/warmup" element={<WarmupAdminPage />} />
+            <Route path="/admin/curriculum-coverage" element={<CurriculumCoverageReportPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/warmup/present" element={<PreClassWarmupPage />} />
             <Route path="/goals" element={<GoalsPage />} />

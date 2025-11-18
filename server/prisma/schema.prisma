@@ -315,10 +315,76 @@ model LessonGroup {
 
   lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   group  Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  coverageRecords CurriculumCoverage[]
 
   @@unique([lessonId, groupId])
   @@index([lessonId])
   @@index([groupId])
+}
+
+// ============================================================================
+// CURRICULUM COVERAGE REPORTING
+// ============================================================================
+
+model CurriculumCoverage {
+  id             String   @id @default(cuid())
+  organizationId String
+  lessonGroupId  String   // Links to LessonGroup
+  lessonId       String   // Denormalized for easier queries
+  groupId        String   // Denormalized for easier queries
+
+  // Coverage details
+  status         CoverageStatus @default(PLANNED)
+  completedAt    DateTime?
+  scheduledDate  DateTime?
+
+  // Progress tracking
+  attendeeCount  Int?     // How many attended
+  notes          String?  @db.Text
+
+  // Metadata
+  markedBy       String?  // User ID who marked as complete
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  lessonGroup LessonGroup @relation(fields: [lessonGroupId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([lessonGroupId])
+  @@index([lessonId])
+  @@index([groupId])
+  @@index([status])
+  @@index([completedAt])
+}
+
+enum CoverageStatus {
+  PLANNED       // Scheduled but not yet taught
+  IN_PROGRESS   // Currently teaching
+  COMPLETED     // Finished teaching
+  SKIPPED       // Intentionally skipped
+}
+
+model CoverageReportMetric {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Report details
+  reportType     String   // "quarter", "unit", "group", "overview"
+  reportParams   Json?    // Parameters used to generate report
+
+  // User engagement
+  userId         String?  // User who viewed report
+  viewedAt       DateTime @default(now())
+  timeSpentMs    Int?     // Time spent viewing in milliseconds
+
+  // Export tracking
+  exportFormat   String?  // "pdf", "csv", "json" if exported
+  exportedAt     DateTime?
+
+  @@index([organizationId])
+  @@index([userId])
+  @@index([viewedAt])
+  @@index([reportType])
 }
 
 // ============================================================================

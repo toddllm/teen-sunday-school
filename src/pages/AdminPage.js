@@ -65,6 +65,13 @@ function AdminPage() {
               <p>Configure safe-mode filters for AI features</p>
             </div>
           </Link>
+          <Link to="/admin/curriculum-coverage" className="quick-access-card">
+            <div className="quick-access-icon">📊</div>
+            <div className="quick-access-content">
+              <h3>Curriculum Coverage</h3>
+              <p>Track lesson completion and curriculum progress</p>
+            </div>
+          </Link>
         </div>
 
         <div className="admin-stats">
