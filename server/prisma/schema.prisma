@@ -1,0 +1,310 @@
+// This is your Prisma schema file for Teen Sunday School
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// ORGANIZATIONS & USERS
+// ============================================================================
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  timezone  String   @default("America/New_York")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users        User[]
+  groups       Group[]
+  integrations ExternalIntegration[]
+  lessons      Lesson[]
+
+  @@index([slug])
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  passwordHash   String
+  firstName      String
+  lastName       String
+  role           Role     @default(MEMBER)
+  organizationId String
+  isActive       Boolean  @default(true)
+
+  // External system IDs (for syncing)
+  externalId     String?  // Planning Center person ID
+  externalData   Json?    // Additional metadata from external system
+
+  lastLoginAt    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization     Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  groupMemberships GroupMember[]
+  refreshTokens    RefreshToken[]
+
+  @@index([email])
+  @@index([organizationId])
+  @@index([externalId])
+}
+
+enum Role {
+  SUPER_ADMIN    // Platform admin
+  ORG_ADMIN      // Organization administrator
+  TEACHER        // Can create/edit lessons
+  MEMBER         // Regular member/student
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+}
+
+// ============================================================================
+// GROUPS
+// ============================================================================
+
+model Group {
+  id             String   @id @default(cuid())
+  name           String
+  description    String?
+  organizationId String
+
+  // For syncing with external systems
+  externalId     String?  // Planning Center list ID
+  externalData   Json?    // Metadata from external system
+
+  ageMin         Int?
+  ageMax         Int?
+  grade          String?
+
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  members      GroupMember[]
+  mappings     ExternalGroupMapping[]
+  lessons      LessonGroup[]
+
+  @@index([organizationId])
+  @@index([externalId])
+}
+
+model GroupMember {
+  id        String   @id @default(cuid())
+  userId    String
+  groupId   String
+  role      String   @default("member") // "leader", "assistant", "member"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, groupId])
+  @@index([userId])
+  @@index([groupId])
+}
+
+// ============================================================================
+// EXTERNAL INTEGRATIONS
+// ============================================================================
+
+model ExternalIntegration {
+  id             String   @id @default(cuid())
+  organizationId String
+  provider       IntegrationProvider
+  status         IntegrationStatus @default(INACTIVE)
+
+  // Encrypted credentials (AES-256-GCM)
+  credentialsEncrypted String   @db.Text
+  credentialsIV        String   // Initialization vector for encryption
+  credentialsTag       String   // Authentication tag for encryption
+
+  // OAuth specific fields
+  accessToken    String?  @db.Text
+  refreshToken   String?  @db.Text
+  tokenExpiresAt DateTime?
+
+  // API configuration
+  apiBaseUrl     String?
+  apiVersion     String?
+
+  // Sync configuration
+  syncEnabled    Boolean  @default(false)
+  syncFrequency  SyncFrequency @default(DAILY)
+  lastSyncAt     DateTime?
+  lastSyncStatus SyncStatus?
+  nextSyncAt     DateTime?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization  Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  groupMappings ExternalGroupMapping[]
+  syncLogs      SyncLog[]
+
+  @@index([organizationId])
+  @@index([provider])
+  @@index([status])
+}
+
+enum IntegrationProvider {
+  PLANNING_CENTER
+  CCB              // Church Community Builder
+  ELVANTO
+  BREEZE
+  FELLOWSHIP_ONE
+  ROCK_RMS
+}
+
+enum IntegrationStatus {
+  ACTIVE
+  INACTIVE
+  ERROR
+  PENDING
+  EXPIRED          // OAuth token expired
+}
+
+enum SyncFrequency {
+  HOURLY
+  DAILY
+  WEEKLY
+  MANUAL           // Only manual syncs
+}
+
+enum SyncStatus {
+  SUCCESS
+  ERROR
+  PARTIAL          // Some data synced, some failed
+}
+
+// ============================================================================
+// GROUP MAPPINGS
+// ============================================================================
+
+model ExternalGroupMapping {
+  id                String   @id @default(cuid())
+  integrationId     String
+  externalGroupId   String   // ID from external system (e.g., Planning Center list ID)
+  externalGroupName String
+  externalGroupType String?  // Type in external system
+  groupId           String?  // NULL if not yet mapped
+
+  // Sync settings for this mapping
+  syncMembers       Boolean  @default(true)
+  syncLeaders       Boolean  @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  integration ExternalIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  group       Group? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+
+  @@unique([integrationId, externalGroupId])
+  @@index([integrationId])
+  @@index([groupId])
+}
+
+// ============================================================================
+// SYNC LOGS & ANALYTICS
+// ============================================================================
+
+model SyncLog {
+  id            String   @id @default(cuid())
+  integrationId String
+  status        SyncStatus
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
+  durationMs    Int?     // Duration in milliseconds
+
+  // Metrics
+  peopleAdded   Int @default(0)
+  peopleUpdated Int @default(0)
+  peopleRemoved Int @default(0)
+  groupsAdded   Int @default(0)
+  groupsUpdated Int @default(0)
+  groupsSkipped Int @default(0)
+
+  // Error tracking
+  errorMessage  String?  @db.Text
+  errorCode     String?
+  errorDetails  Json?
+
+  // Additional metadata
+  metadata      Json?
+
+  integration ExternalIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+
+  @@index([integrationId])
+  @@index([startedAt])
+  @@index([status])
+}
+
+// ============================================================================
+// LESSONS (Migrated from localStorage)
+// ============================================================================
+
+model Lesson {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Lesson metadata
+  title          String
+  quarter        Int
+  unit           Int
+  lessonNumber   Int
+  scripture      String
+
+  // Content
+  content        Json     // Full lesson content as JSON
+  slides         Json?    // Slide data
+  games          Json?    // Game configurations
+
+  // Sharing & visibility
+  isPublic       Boolean  @default(false)
+  isTemplate     Boolean  @default(false)
+
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  groups       LessonGroup[]
+
+  @@unique([organizationId, quarter, unit, lessonNumber])
+  @@index([organizationId])
+  @@index([isPublic])
+}
+
+model LessonGroup {
+  id        String   @id @default(cuid())
+  lessonId  String
+  groupId   String
+  createdAt DateTime @default(now())
+
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  group  Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([lessonId, groupId])
+  @@index([lessonId])
+  @@index([groupId])
+}
