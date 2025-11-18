@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
+import { useSession } from '../contexts/SessionContext';
 import './AdminPage.css';
 
 function AdminPage() {
   const { lessons, deleteLesson, duplicateLesson } = useLessons();
+  const { getSessionMetrics } = useSession();
+  const sessionMetrics = getSessionMetrics();
 
   const handleDelete = (id, title) => {
     if (window.confirm(`Are you sure you want to delete "${title}"?`)) {
@@ -132,6 +135,32 @@ function AdminPage() {
               {[...new Set(lessons.map(l => l.quarter).filter(Boolean))].length}
             </div>
             <div className="stat-label">Quarters</div>
+          </div>
+        </div>
+
+        <div className="admin-section">
+          <h2>Live Teaching Sessions</h2>
+          <div className="admin-stats">
+            <div className="stat-card">
+              <div className="stat-number">{sessionMetrics.totalSessions}</div>
+              <div className="stat-label">Total Sessions</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">{sessionMetrics.completedSessions}</div>
+              <div className="stat-label">Completed</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">{sessionMetrics.activeSessions}</div>
+              <div className="stat-label">Active Now</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">{sessionMetrics.averageSessionLength} min</div>
+              <div className="stat-label">Avg Duration</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">{sessionMetrics.averageSlidesAdvanced}</div>
+              <div className="stat-label">Avg Slides Advanced</div>
+            </div>
           </div>
         </div>
 

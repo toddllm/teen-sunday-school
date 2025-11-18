@@ -1,310 +1,357 @@
 import { Request, Response } from 'express';
-import * as sessionService from '../services/session.service';
+import prisma from '../config/database';
 import logger from '../config/logger';
 
 /**
- * Create a new live session
- * POST /api/sessions/create
+ * Start a new live teaching session
  */
-export async function createSession(req: Request, res: Response) {
+export async function startSession(req: Request, res: Response): Promise<void> {
   try {
-    const { lessonId, groupId } = req.body;
-    const userId = (req as any).user.userId;
-    const organizationId = (req as any).user.organizationId;
+    const { lessonId, groupId, sessionCode } = req.body;
 
+    if (!req.user) {
+      res.status(401).json({ error: 'Not authenticated' });
+      return;
+    }
+
+    // Validate input
     if (!lessonId) {
-      return res.status(400).json({ error: 'lessonId is required' });
+      res.status(400).json({ error: 'Lesson ID is required' });
+      return;
     }
 
-    const session = await sessionService.createSession({
-      lessonId,
-      teacherId: userId,
-      organizationId,
-      groupId,
+    // Check if user has TEACHER or ORG_ADMIN role
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId },
     });
 
-    res.status(201).json({
-      success: true,
-      session: {
-        id: session.id,
-        code: session.code,
-        lessonId: session.lessonId,
-        currentSlideIndex: session.currentSlideIndex,
-        status: session.status,
-        startedAt: session.startedAt,
-      },
-    });
-  } catch (error: any) {
-    logger.error('Error creating session:', error);
-    res.status(500).json({ error: 'Failed to create session' });
-  }
-}
-
-/**
- * Get session by code
- * GET /api/sessions/code/:code
- */
-export async function getSessionByCode(req: Request, res: Response) {
-  try {
-    const { code } = req.params;
-
-    const session = await sessionService.getSessionByCode(code);
-
-    if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
 
-    res.json({
-      success: true,
-      session: {
-        id: session.id,
-        code: session.code,
-        lessonId: session.lessonId,
-        currentSlideIndex: session.currentSlideIndex,
-        status: session.status,
-        participantCount: session.participants.length,
-        startedAt: session.startedAt,
+    if (user.role !== 'TEACHER' && user.role !== 'ORG_ADMIN' && user.role !== 'SUPER_ADMIN') {
+      res.status(403).json({ error: 'Only leaders can start teaching sessions' });
+      return;
+    }
+
+    // Get lesson to calculate total slides
+    // Note: In production, you would fetch the lesson from the database
+    // For now, we'll accept totalSlides from the request body
+    const totalSlides = req.body.totalSlides || 0;
+
+    // Create session
+    const session = await prisma.liveSession.create({
+      data: {
+        lessonId,
+        organizationId: user.organizationId,
+        startedBy: user.id,
+        groupId: groupId || null,
+        sessionCode: sessionCode || null,
+        totalSlides,
+        currentStepIndex: 0,
+        status: 'ACTIVE',
       },
     });
+
+    logger.info(`Live session started: ${session.id} by user ${user.id} for lesson ${lessonId}`);
+
+    res.status(201).json({ session });
   } catch (error: any) {
-    logger.error('Error fetching session by code:', error);
-    res.status(500).json({ error: 'Failed to fetch session' });
+    logger.error('Start session error:', error);
+
+    // Handle unique constraint violation for sessionCode
+    if (error.code === 'P2002' && error.meta?.target?.includes('sessionCode')) {
+      res.status(409).json({ error: 'Session code already in use' });
+      return;
+    }
+
+    res.status(500).json({ error: 'Failed to start session' });
   }
 }
 
 /**
  * Get session by ID
- * GET /api/sessions/:id
  */
-export async function getSession(req: Request, res: Response) {
+export async function getSession(req: Request, res: Response): Promise<void> {
   try {
     const { id } = req.params;
 
-    const session = await sessionService.getSessionById(id);
+    const session = await prisma.liveSession.findUnique({
+      where: { id },
+    });
 
     if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+      res.status(404).json({ error: 'Session not found' });
+      return;
     }
 
+    res.json({ session });
+  } catch (error) {
+    logger.error('Get session error:', error);
+    res.status(500).json({ error: 'Failed to get session' });
+  }
+}
+
+/**
+ * Get session by session code (for students to join)
+ */
+export async function getSessionByCode(req: Request, res: Response): Promise<void> {
+  try {
+    const { code } = req.params;
+
+    const session = await prisma.liveSession.findUnique({
+      where: { sessionCode: code },
+    });
+
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    // Return limited info for students
     res.json({
-      success: true,
       session: {
         id: session.id,
-        code: session.code,
         lessonId: session.lessonId,
-        teacherId: session.teacherId,
-        groupId: session.groupId,
-        currentSlideIndex: session.currentSlideIndex,
+        currentStepIndex: session.currentStepIndex,
         status: session.status,
-        participants: session.participants,
-        startedAt: session.startedAt,
-        endedAt: session.endedAt,
       },
     });
-  } catch (error: any) {
-    logger.error('Error fetching session:', error);
-    res.status(500).json({ error: 'Failed to fetch session' });
+  } catch (error) {
+    logger.error('Get session by code error:', error);
+    res.status(500).json({ error: 'Failed to get session' });
   }
 }
 
 /**
- * Get session state (for polling)
- * GET /api/sessions/:id/state
+ * Advance to next/previous slide
  */
-export async function getSessionState(req: Request, res: Response) {
+export async function advanceSession(req: Request, res: Response): Promise<void> {
   try {
     const { id } = req.params;
+    const { stepIndex } = req.body;
 
-    const session = await sessionService.getSessionById(id);
+    if (!req.user) {
+      res.status(401).json({ error: 'Not authenticated' });
+      return;
+    }
+
+    if (stepIndex === undefined || stepIndex < 0) {
+      res.status(400).json({ error: 'Valid step index is required' });
+      return;
+    }
+
+    const session = await prisma.liveSession.findUnique({
+      where: { id },
+    });
 
     if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+      res.status(404).json({ error: 'Session not found' });
+      return;
     }
 
-    res.json({
-      success: true,
-      state: {
-        currentSlideIndex: session.currentSlideIndex,
-        status: session.status,
-        participantCount: session.participants.length,
-        lastActivityAt: session.lastActivityAt,
+    // Check if user is the session presenter
+    if (session.startedBy !== req.user.userId) {
+      res.status(403).json({ error: 'Only the presenter can advance the session' });
+      return;
+    }
+
+    // Check if session is active
+    if (session.status !== 'ACTIVE') {
+      res.status(400).json({ error: 'Session is not active' });
+      return;
+    }
+
+    // Update session
+    const updatedSession = await prisma.liveSession.update({
+      where: { id },
+      data: {
+        currentStepIndex: stepIndex,
+        slidesAdvanced: session.slidesAdvanced + 1,
+        lastActivityAt: new Date(),
       },
     });
-  } catch (error: any) {
-    logger.error('Error fetching session state:', error);
-    res.status(500).json({ error: 'Failed to fetch session state' });
+
+    logger.info(`Session ${id} advanced to step ${stepIndex}`);
+
+    res.json({ session: updatedSession });
+  } catch (error) {
+    logger.error('Advance session error:', error);
+    res.status(500).json({ error: 'Failed to advance session' });
   }
 }
 
 /**
- * End a session
- * POST /api/sessions/:id/end
+ * End a live teaching session
  */
-export async function endSession(req: Request, res: Response) {
+export async function endSession(req: Request, res: Response): Promise<void> {
   try {
     const { id } = req.params;
-    const userId = (req as any).user.userId;
 
-    const session = await sessionService.endSession(id, userId);
+    if (!req.user) {
+      res.status(401).json({ error: 'Not authenticated' });
+      return;
+    }
 
-    res.json({
-      success: true,
-      session: {
-        id: session.id,
-        status: session.status,
-        endedAt: session.endedAt,
+    const session = await prisma.liveSession.findUnique({
+      where: { id },
+    });
+
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+
+    // Check if user is the session presenter or an admin
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId },
+    });
+
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    const canEnd =
+      session.startedBy === req.user.userId ||
+      user.role === 'ORG_ADMIN' ||
+      user.role === 'SUPER_ADMIN';
+
+    if (!canEnd) {
+      res.status(403).json({ error: 'Only the presenter or an admin can end the session' });
+      return;
+    }
+
+    // Calculate duration in minutes
+    const durationMs = new Date().getTime() - session.startedAt.getTime();
+    const durationMinutes = Math.round(durationMs / 60000);
+
+    // Update session
+    const updatedSession = await prisma.liveSession.update({
+      where: { id },
+      data: {
+        status: 'COMPLETED',
+        endedAt: new Date(),
+        durationMinutes,
       },
     });
-  } catch (error: any) {
-    logger.error('Error ending session:', error);
 
-    if (error.message.includes('Unauthorized')) {
-      return res.status(403).json({ error: error.message });
-    }
+    logger.info(`Session ${id} ended after ${durationMinutes} minutes`);
 
-    if (error.message.includes('not found')) {
-      return res.status(404).json({ error: error.message });
-    }
-
+    res.json({ session: updatedSession });
+  } catch (error) {
+    logger.error('End session error:', error);
     res.status(500).json({ error: 'Failed to end session' });
   }
 }
 
 /**
- * Get session statistics
- * GET /api/sessions/:id/stats
+ * Get session metrics for analytics
  */
-export async function getSessionStats(req: Request, res: Response) {
+export async function getSessionMetrics(req: Request, res: Response): Promise<void> {
   try {
-    const { id } = req.params;
-
-    const stats = await sessionService.getSessionStats(id);
-
-    res.json({
-      success: true,
-      stats,
-    });
-  } catch (error: any) {
-    logger.error('Error fetching session stats:', error);
-
-    if (error.message.includes('not found')) {
-      return res.status(404).json({ error: error.message });
+    if (!req.user) {
+      res.status(401).json({ error: 'Not authenticated' });
+      return;
     }
 
-    res.status(500).json({ error: 'Failed to fetch session stats' });
-  }
-}
-
-/**
- * Get participant notes for a session
- * GET /api/sessions/:id/notes/:participantId
- */
-export async function getParticipantNotes(req: Request, res: Response) {
-  try {
-    const { id, participantId } = req.params;
-
-    const notes = await sessionService.getParticipantNotes(participantId, id);
-
-    res.json({
-      success: true,
-      notes,
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId },
     });
-  } catch (error: any) {
-    logger.error('Error fetching participant notes:', error);
-    res.status(500).json({ error: 'Failed to fetch notes' });
-  }
-}
 
-/**
- * Get all active sessions for the user's organization
- * GET /api/sessions/active
- */
-export async function getActiveSessions(req: Request, res: Response) {
-  try {
-    const organizationId = (req as any).user.organizationId;
-
-    const sessions = await sessionService.getActiveSessions(organizationId);
-
-    res.json({
-      success: true,
-      sessions: sessions.map(s => ({
-        id: s.id,
-        code: s.code,
-        lessonId: s.lessonId,
-        teacherId: s.teacherId,
-        currentSlideIndex: s.currentSlideIndex,
-        participantCount: s.participants.length,
-        startedAt: s.startedAt,
-      })),
-    });
-  } catch (error: any) {
-    logger.error('Error fetching active sessions:', error);
-    res.status(500).json({ error: 'Failed to fetch active sessions' });
-  }
-}
-
-/**
- * Get session history for the current user
- * GET /api/sessions/my-sessions
- */
-export async function getMySessionHistory(req: Request, res: Response) {
-  try {
-    const userId = (req as any).user.userId;
-    const limit = parseInt(req.query.limit as string) || 20;
-
-    const sessions = await sessionService.getTeacherSessions(userId, limit);
-
-    res.json({
-      success: true,
-      sessions: sessions.map(s => ({
-        id: s.id,
-        code: s.code,
-        lessonId: s.lessonId,
-        status: s.status,
-        participantCount: s.participants.length,
-        startedAt: s.startedAt,
-        endedAt: s.endedAt,
-      })),
-    });
-  } catch (error: any) {
-    logger.error('Error fetching session history:', error);
-    res.status(500).json({ error: 'Failed to fetch session history' });
-  }
-}
-
-/**
- * Join a session (alternative to WebSocket join)
- * POST /api/sessions/code/:code/join
- */
-export async function joinSession(req: Request, res: Response) {
-  try {
-    const { code } = req.params;
-    const { displayName, anonymousId } = req.body;
-    const userId = (req as any).user?.userId; // Optional auth
-
-    const session = await sessionService.getSessionByCode(code);
-
-    if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
 
-    if (session.status !== 'ACTIVE') {
-      return res.status(400).json({ error: 'Session is not active' });
-    }
+    // Get metrics for the organization
+    const totalSessions = await prisma.liveSession.count({
+      where: { organizationId: user.organizationId },
+    });
 
-    res.json({
-      success: true,
-      session: {
-        id: session.id,
-        code: session.code,
-        lessonId: session.lessonId,
-        currentSlideIndex: session.currentSlideIndex,
-        status: session.status,
+    const completedSessions = await prisma.liveSession.count({
+      where: {
+        organizationId: user.organizationId,
+        status: 'COMPLETED',
       },
-      message: 'Connect to WebSocket to receive real-time updates',
     });
-  } catch (error: any) {
-    logger.error('Error joining session:', error);
-    res.status(500).json({ error: 'Failed to join session' });
+
+    const activeSessions = await prisma.liveSession.count({
+      where: {
+        organizationId: user.organizationId,
+        status: 'ACTIVE',
+      },
+    });
+
+    // Get average session length
+    const sessions = await prisma.liveSession.findMany({
+      where: {
+        organizationId: user.organizationId,
+        status: 'COMPLETED',
+        durationMinutes: { not: null },
+      },
+      select: {
+        durationMinutes: true,
+        slidesAdvanced: true,
+      },
+    });
+
+    const avgDuration = sessions.length > 0
+      ? sessions.reduce((sum, s) => sum + (s.durationMinutes || 0), 0) / sessions.length
+      : 0;
+
+    const avgSlidesAdvanced = sessions.length > 0
+      ? sessions.reduce((sum, s) => sum + s.slidesAdvanced, 0) / sessions.length
+      : 0;
+
+    res.json({
+      metrics: {
+        totalSessions,
+        completedSessions,
+        activeSessions,
+        averageSessionLength: Math.round(avgDuration),
+        averageSlidesAdvanced: Math.round(avgSlidesAdvanced),
+      },
+    });
+  } catch (error) {
+    logger.error('Get session metrics error:', error);
+    res.status(500).json({ error: 'Failed to get metrics' });
+  }
+}
+
+/**
+ * Get active sessions for an organization
+ */
+export async function getActiveSessions(req: Request, res: Response): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Not authenticated' });
+      return;
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId },
+    });
+
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    const sessions = await prisma.liveSession.findMany({
+      where: {
+        organizationId: user.organizationId,
+        status: 'ACTIVE',
+      },
+      orderBy: {
+        startedAt: 'desc',
+      },
+    });
+
+    res.json({ sessions });
+  } catch (error) {
+    logger.error('Get active sessions error:', error);
+    res.status(500).json({ error: 'Failed to get active sessions' });
   }
 }

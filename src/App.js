@@ -7,6 +7,7 @@ import BadgesPage from './pages/BadgesPage';
 import StreakProtectionPage from './pages/StreakProtectionPage';
 import LessonsPage from './pages/LessonsPage';
 import LessonViewPage from './pages/LessonViewPage';
+import PresenterViewPage from './pages/PresenterViewPage';
 import AdminPage from './pages/AdminPage';
 import LessonCreatorPage from './pages/LessonCreatorPage';
 import GamesPage from './pages/GamesPage';
@@ -138,6 +139,7 @@ function App() {
             <Route path="/streak-protection" element={<StreakProtectionPage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
+            <Route path="/presenter/:id" element={<PresenterViewPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
