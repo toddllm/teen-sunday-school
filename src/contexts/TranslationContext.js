@@ -1,7 +1,7 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
 
-// Available Bible translations from scripture.api.bible
-export const AVAILABLE_TRANSLATIONS = [
+// Base Bible translations from scripture.api.bible
+export const BASE_TRANSLATIONS = [
   { id: 'de4e12af7f28f599-02', code: 'NIV', name: 'New International Version', language: 'English' },
   { id: '06125adad2d5898a-01', code: 'KJV', name: 'King James Version', language: 'English' },
   { id: '01b29f36342e1091-01', code: 'ESV', name: 'English Standard Version', language: 'English' },
@@ -14,6 +14,25 @@ export const AVAILABLE_TRANSLATIONS = [
   { id: '01b29f36342e1091-02', code: 'AMP', name: 'Amplified Bible', language: 'English' }
 ];
 
+// Initialize translation configurations with admin settings
+const initializeTranslationConfigs = () => {
+  const stored = localStorage.getItem('translation-configs');
+  if (stored) {
+    return JSON.parse(stored);
+  }
+
+  // Default: all translations enabled globally
+  return BASE_TRANSLATIONS.map(t => ({
+    ...t,
+    isEnabled: true,
+    allowedRegions: [], // Empty array = available globally
+    licenseNotes: ''
+  }));
+};
+
+// Maintain backward compatibility
+export const AVAILABLE_TRANSLATIONS = BASE_TRANSLATIONS;
+
 const TranslationContext = createContext();
 
 export const useTranslation = () => {
@@ -25,6 +44,21 @@ export const useTranslation = () => {
 };
 
 export const TranslationProvider = ({ children }) => {
+  // Translation configurations (admin-managed)
+  const [translationConfigs, setTranslationConfigs] = useState(initializeTranslationConfigs);
+
+  // User's current region (could be detected via IP geolocation API in production)
+  const [userRegion, setUserRegion] = useState(() => {
+    const saved = localStorage.getItem('user-region');
+    return saved || 'US'; // Default to US
+  });
+
+  // Translation usage analytics
+  const [translationUsage, setTranslationUsage] = useState(() => {
+    const saved = localStorage.getItem('translation-usage');
+    return saved ? JSON.parse(saved) : {};
+  });
+
   // Load preferences from localStorage or use defaults
   const [primaryTranslation, setPrimaryTranslation] = useState(() => {
     const saved = localStorage.getItem('primary-translation');
@@ -41,6 +75,21 @@ export const TranslationProvider = ({ children }) => {
     return saved === 'true';
   });
 
+  // Persist translation configs to localStorage
+  useEffect(() => {
+    localStorage.setItem('translation-configs', JSON.stringify(translationConfigs));
+  }, [translationConfigs]);
+
+  // Persist user region to localStorage
+  useEffect(() => {
+    localStorage.setItem('user-region', userRegion);
+  }, [userRegion]);
+
+  // Persist translation usage to localStorage
+  useEffect(() => {
+    localStorage.setItem('translation-usage', JSON.stringify(translationUsage));
+  }, [translationUsage]);
+
   // Persist to localStorage whenever preferences change
   useEffect(() => {
     localStorage.setItem('primary-translation', primaryTranslation);
@@ -54,8 +103,25 @@ export const TranslationProvider = ({ children }) => {
     localStorage.setItem('parallel-mode-enabled', parallelModeEnabled);
   }, [parallelModeEnabled]);
 
+  // Get available translations for the current user's region (cached with useMemo)
+  const availableTranslations = useMemo(() => {
+    return translationConfigs.filter(config => {
+      // Must be enabled
+      if (!config.isEnabled) return false;
+
+      // If no region restrictions, available globally
+      if (!config.allowedRegions || config.allowedRegions.length === 0) return true;
+
+      // Check if user's region is in allowed list
+      return config.allowedRegions.includes(userRegion);
+    });
+  }, [translationConfigs, userRegion]);
+
   // Helper functions to get translation info
   const getTranslationById = (id) => {
+    const config = translationConfigs.find(t => t.id === id);
+    if (config) return config;
+    // Fallback to base translations for backward compatibility
     return AVAILABLE_TRANSLATIONS.find(t => t.id === id) || AVAILABLE_TRANSLATIONS[0];
   };
 
@@ -64,6 +130,49 @@ export const TranslationProvider = ({ children }) => {
 
   const toggleParallelMode = () => {
     setParallelModeEnabled(prev => !prev);
+  };
+
+  // Track translation usage for analytics
+  const trackTranslationUsage = (translationId) => {
+    setTranslationUsage(prev => {
+      const current = prev[translationId] || 0;
+      return { ...prev, [translationId]: current + 1 };
+    });
+  };
+
+  // Admin functions for managing translation configurations
+  const updateTranslationConfig = (translationId, updates) => {
+    setTranslationConfigs(prev =>
+      prev.map(config =>
+        config.id === translationId ? { ...config, ...updates } : config
+      )
+    );
+  };
+
+  const toggleTranslationEnabled = (translationId) => {
+    setTranslationConfigs(prev =>
+      prev.map(config =>
+        config.id === translationId ? { ...config, isEnabled: !config.isEnabled } : config
+      )
+    );
+  };
+
+  const setTranslationRegions = (translationId, regions) => {
+    setTranslationConfigs(prev =>
+      prev.map(config =>
+        config.id === translationId ? { ...config, allowedRegions: regions } : config
+      )
+    );
+  };
+
+  const resetTranslationConfigs = () => {
+    const defaultConfigs = BASE_TRANSLATIONS.map(t => ({
+      ...t,
+      isEnabled: true,
+      allowedRegions: [],
+      licenseNotes: ''
+    }));
+    setTranslationConfigs(defaultConfigs);
   };
 
   const value = {
@@ -85,8 +194,23 @@ export const TranslationProvider = ({ children }) => {
     getPrimaryTranslationInfo,
     getSecondaryTranslationInfo,
 
-    // Available translations list
-    availableTranslations: AVAILABLE_TRANSLATIONS
+    // Available translations list (filtered by region and enabled status)
+    availableTranslations,
+
+    // Admin: Translation configurations
+    translationConfigs,
+    updateTranslationConfig,
+    toggleTranslationEnabled,
+    setTranslationRegions,
+    resetTranslationConfigs,
+
+    // User region
+    userRegion,
+    setUserRegion,
+
+    // Analytics
+    translationUsage,
+    trackTranslationUsage
   };
 
   return (

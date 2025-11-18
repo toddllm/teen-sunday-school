@@ -34,6 +34,9 @@ function AdminPage() {
             <Link to="/admin/branding" className="btn btn-secondary">
               🎨 Branding
             </Link>
+            <Link to="/admin/translations" className="btn btn-secondary">
+              🌍 Manage Translations
+            </Link>
             <Link to="/admin/create" className="btn btn-primary">
               + Create New Lesson
             </Link>
