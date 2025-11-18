@@ -3,6 +3,8 @@ import { useTranslation } from '../contexts/TranslationContext';
 import { useContextCards } from '../contexts/ContextCardContext';
 import { getChapter, getBooks, getChapters } from '../services/bibleAPI';
 import ContextCardModal from '../components/ContextCardModal';
+import ReadAloudControls from '../components/ReadAloudControls';
+import { formatBibleVerseForSpeech, formatReferenceForSpeech } from '../services/readAloudService';
 import './ParallelBiblePage.css';
 
 const ParallelBiblePage = () => {
@@ -289,6 +291,20 @@ const ParallelBiblePage = () => {
         <div className="error-message">
           {error}
         </div>
+      )}
+
+      {/* Read Aloud Controls */}
+      {primaryContent && (
+        <ReadAloudControls
+          text={(() => {
+            const book = books.find(b => b.id === selectedBook);
+            const bookName = book ? book.name : selectedBook;
+            const reference = `${bookName} chapter ${selectedChapter}`;
+            const chapterText = formatBibleVerseForSpeech(primaryContent.content);
+            return `${formatReferenceForSpeech(reference)}. ${chapterText}`;
+          })()}
+          compact={false}
+        />
       )}
 
       <div className="parallel-container">

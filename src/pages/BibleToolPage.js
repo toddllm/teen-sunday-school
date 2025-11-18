@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { getVerseText } from '../services/bibleAPI';
 import CrossReferencePanel from '../components/CrossReferencePanel';
+import ReadAloudControls from '../components/ReadAloudControls';
+import { createBiblePassageSpeech } from '../services/readAloudService';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
@@ -116,6 +118,15 @@ const BibleToolPage = () => {
               {verse.text}
             </div>
           </div>
+
+          {/* Read Aloud Controls */}
+          <ReadAloudControls
+            text={createBiblePassageSpeech(verse.reference, verse.text, {
+              includeReference: true,
+              includeIntro: false
+            })}
+            compact={false}
+          />
 
           {/* Cross-Reference Panel */}
           {verse.reference && (

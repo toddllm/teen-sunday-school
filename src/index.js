@@ -11,6 +11,7 @@ import { TranslationProvider } from './contexts/TranslationContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 import { WeeklyWordProvider } from './contexts/WeeklyWordContext';
 import { OnboardingProvider } from './contexts/OnboardingContext';
+import { ReadAloudProvider } from './contexts/ReadAloudContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,7 +25,9 @@ root.render(
                 <PlanProvider>
                   <ContextCardProvider>
                     <WeeklyWordProvider>
-                      <App />
+                      <ReadAloudProvider>
+                        <App />
+                      </ReadAloudProvider>
                     </WeeklyWordProvider>
                   </ContextCardProvider>
                 </PlanProvider>

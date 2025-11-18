@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
+import ReadAloudControls from '../components/ReadAloudControls';
+import { formatSlideForSpeech } from '../services/readAloudService';
 import './LessonViewPage.css';
 
 function LessonViewPage() {
@@ -28,15 +30,6 @@ function LessonViewPage() {
 
   const prevSlide = () => {
     if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
-  };
-
-  const speakSlide = () => {
-    if ('speechSynthesis' in window && slides[currentSlide]) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(slides[currentSlide].sayText);
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
-    }
   };
 
   return (
@@ -76,9 +69,6 @@ function LessonViewPage() {
             <button onClick={prevSlide} disabled={currentSlide === 0} className="btn btn-outline">
               ← Previous
             </button>
-            <button onClick={speakSlide} className="btn btn-secondary">
-              🔊 Read Aloud
-            </button>
             <button onClick={() => setShowNotes(!showNotes)} className="btn btn-outline">
               {showNotes ? 'Hide Notes' : 'Show Notes'}
             </button>
@@ -86,6 +76,11 @@ function LessonViewPage() {
               Next →
             </button>
           </div>
+
+          <ReadAloudControls
+            text={slides[currentSlide] ? formatSlideForSpeech(slides[currentSlide]) : ''}
+            compact={false}
+          />
 
           <div className="slide-thumbnails">
             {slides.map((_, index) => (
