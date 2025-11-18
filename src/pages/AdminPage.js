@@ -75,6 +75,13 @@ function AdminPage() {
               <p>Manage Greek/Hebrew words of the week</p>
             </div>
           </Link>
+          <Link to="/sermon-illustrations" className="quick-access-card">
+            <div className="quick-access-icon">✨</div>
+            <div className="quick-access-content">
+              <h3>Sermon Illustrations</h3>
+              <p>Generate AI-powered sermon illustrations</p>
+            </div>
+          </Link>
           <Link to="/admin/ai-filters" className="quick-access-card">
             <div className="quick-access-icon">🛡️</div>
             <div className="quick-access-content">
