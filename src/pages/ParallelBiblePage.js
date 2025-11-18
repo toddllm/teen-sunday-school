@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../contexts/TranslationContext';
 import { useContextCards } from '../contexts/ContextCardContext';
+import { useEngagementAnalytics } from '../contexts/EngagementAnalyticsContext';
 import { getChapter, getBooks, getChapters } from '../services/bibleAPI';
 import ContextCardModal from '../components/ContextCardModal';
 import PassageMetrics from '../components/PassageMetrics';
@@ -19,6 +20,7 @@ const ParallelBiblePage = () => {
   } = useTranslation();
 
   const { getContextCardByVerseRef } = useContextCards();
+  const { trackParallelView, trackContextCardView } = useEngagementAnalytics();
 
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState('JHN'); // Default to John
@@ -107,6 +109,16 @@ const ParallelBiblePage = () => {
       } else {
         setError('Failed to load secondary translation');
       }
+
+      // Track parallel view engagement if both loaded successfully
+      if (primaryData && secondaryData) {
+        const book = books.find(b => b.id === selectedBook);
+        const bookName = book ? book.name : selectedBook;
+        const reference = `${bookName} ${selectedChapter}`;
+        const primaryTransId = getTranslationById(primaryTranslation)?.abbreviation || primaryTranslation;
+        const secondaryTransId = getTranslationById(secondaryTranslation)?.abbreviation || secondaryTranslation;
+        trackParallelView(reference, [primaryTransId, secondaryTransId]);
+      }
     } catch (err) {
       console.error('Error loading chapter:', err);
       setError('Failed to load chapter content. Please check your internet connection and API key.');
@@ -163,6 +175,11 @@ const ParallelBiblePage = () => {
     setSelectedVerseRef(verseRef);
     setContextCard(card);
     setShowContextCard(true);
+
+    // Track context card view if a card exists
+    if (card) {
+      trackContextCardView(verseRef, card.type || 'general');
+    }
   };
 
   // Add click handlers to verse numbers after content renders

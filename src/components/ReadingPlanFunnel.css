@@ -1,0 +1,195 @@
+.reading-plan-funnel {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.reading-plan-funnel h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.reading-plan-funnel h4 {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.funnel-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  padding: 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transition: transform 0.2s;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+}
+
+.summary-card:nth-child(2) {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.summary-card:nth-child(3) {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.summary-card:nth-child(4) {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.summary-card:nth-child(5) {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.summary-icon {
+  font-size: 2rem;
+}
+
+.summary-content {
+  flex: 1;
+}
+
+.summary-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin-bottom: 5px;
+}
+
+.summary-value {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.funnel-chart-container {
+  margin-top: 30px;
+}
+
+.chart-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.funnel-tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.funnel-tooltip .tooltip-label {
+  margin: 0 0 5px 0;
+  font-weight: bold;
+}
+
+.funnel-tooltip .tooltip-value {
+  margin: 0 0 3px 0;
+  color: #a5f3fc;
+}
+
+.funnel-tooltip .tooltip-percentage {
+  margin: 0;
+  color: #86efac;
+  font-size: 12px;
+}
+
+.funnel-insights {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.funnel-insights h4 {
+  margin-top: 0;
+}
+
+.funnel-insights ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.funnel-insights li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.funnel-insights li:last-child {
+  margin-bottom: 0;
+}
+
+.insight-positive {
+  color: #059669;
+  font-weight: 500;
+}
+
+.insight-warning {
+  color: #d97706;
+  font-weight: 500;
+}
+
+.insight-info {
+  color: #2563eb;
+}
+
+.reading-plan-funnel .empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+/* Dark mode support */
+body.dark-mode .reading-plan-funnel {
+  background: #1f2937;
+}
+
+body.dark-mode .reading-plan-funnel h3,
+body.dark-mode .reading-plan-funnel h4 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .chart-description {
+  color: #d1d5db;
+}
+
+body.dark-mode .funnel-insights {
+  background: #374151;
+  border-left-color: #60a5fa;
+}
+
+body.dark-mode .insight-positive {
+  color: #34d399;
+}
+
+body.dark-mode .insight-warning {
+  color: #fbbf24;
+}
+
+body.dark-mode .insight-info {
+  color: #60a5fa;
+}

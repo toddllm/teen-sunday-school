@@ -20,6 +20,7 @@ import TemplateEditorPage from './pages/TemplateEditorPage';
 import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
+import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
 import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
 import ReadingMetricsSettingsPage from './pages/ReadingMetricsSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
@@ -36,6 +37,7 @@ import WeeklyWordAdminPage from './pages/WeeklyWordAdminPage';
 import FindTheReferencePage from './pages/FindTheReferencePage';
 import OnboardingPage from './pages/OnboardingPage';
 import { useOnboarding } from './contexts/OnboardingContext';
+import { EngagementAnalyticsProvider } from './contexts/EngagementAnalyticsContext';
 import DailyGratitudeLogPage from './pages/DailyGratitudeLogPage';
 import WarmupAdminPage from './pages/WarmupAdminPage';
 import PreClassWarmupPage from './pages/PreClassWarmupPage';
@@ -114,10 +116,11 @@ function AppContent() {
   }
 
   return (
-    <div className="App">
-      {showNavigation && <Navigation />}
-      <main className="main-content">
-        <Routes>
+    <EngagementAnalyticsProvider>
+      <div className="App">
+        {showNavigation && <Navigation />}
+        <main className="main-content">
+          <Routes>
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/today" element={<TodayPage />} />
@@ -128,6 +131,7 @@ function AppContent() {
           <Route path="/admin/create" element={<LessonCreatorPage />} />
           <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
           <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
+          <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
           <Route path="/admin/plans" element={<PlansAdminPage />} />
           <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
           <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
@@ -263,6 +267,7 @@ function App() {
           </Routes>
         </main>
       </div>
+      </EngagementAnalyticsProvider>
       <AppContent />
     </Router>
   );
