@@ -86,6 +86,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/bible/miracles"
+              className={`nav-link ${isActive('/bible/miracles') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Miracles
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible/quote-generator"
               className={`nav-link ${isActive('/bible/quote-generator') ? 'active' : ''}`}
               onClick={closeMenu}

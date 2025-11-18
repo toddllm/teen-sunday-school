@@ -1,0 +1,323 @@
+.miracle-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.miracle-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.miracle-card.expanded {
+  border-color: var(--primary-color);
+}
+
+/* Card Header */
+.miracle-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.miracle-card-header:hover {
+  background: var(--hover-bg, rgba(59, 130, 246, 0.05));
+}
+
+.miracle-title-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.miracle-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.miracle-title {
+  font-size: 1.3rem;
+  color: var(--text-color);
+  margin: 0;
+  font-weight: 600;
+}
+
+.miracle-expand-icon {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+
+.miracle-card.expanded .miracle-expand-icon {
+  transform: rotate(0deg);
+}
+
+/* Card Content */
+.miracle-card-content {
+  padding: 0 1.5rem 1.5rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Category Badge */
+.miracle-category-badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+/* Description */
+.miracle-description {
+  margin-bottom: 1.5rem;
+}
+
+.miracle-description p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* Details */
+.miracle-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-secondary, rgba(0, 0, 0, 0.02));
+  border-radius: 8px;
+}
+
+.miracle-detail-item {
+  font-size: 1rem;
+  color: var(--text-color);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.miracle-detail-item strong {
+  color: var(--text-color);
+  min-width: fit-content;
+}
+
+/* Sections */
+.miracle-section {
+  margin-bottom: 1.5rem;
+}
+
+.miracle-section h4 {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+/* References */
+.miracle-references {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.reference-item {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.reference-btn {
+  padding: 0.5rem 1rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.reference-btn:hover {
+  background: var(--primary-color-dark, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.bible-tool-btn {
+  padding: 0.5rem 0.75rem;
+  background: var(--secondary-color, #10b981);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bible-tool-btn:hover {
+  background: var(--secondary-color-dark, #059669);
+  transform: translateY(-2px);
+}
+
+/* Verse Display */
+.verse-loading {
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.verse-display {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-secondary, rgba(59, 130, 246, 0.05));
+  border-left: 4px solid var(--primary-color);
+  border-radius: 8px;
+}
+
+.verse-reference {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.verse-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-color);
+  font-style: italic;
+}
+
+/* Significance and Lesson */
+.miracle-significance,
+.miracle-lesson {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.lesson-for-teens {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid var(--primary-color);
+}
+
+.lesson-for-teens h4 {
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Actions */
+.miracle-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.action-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.action-btn.primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.action-btn.primary:hover {
+  background: var(--primary-color-dark, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .miracle-card-header {
+    padding: 1rem;
+  }
+
+  .miracle-card-content {
+    padding: 0 1rem 1rem;
+  }
+
+  .miracle-title {
+    font-size: 1.1rem;
+  }
+
+  .miracle-icon {
+    font-size: 1.5rem;
+  }
+
+  .miracle-references {
+    flex-direction: column;
+  }
+
+  .reference-item {
+    flex-direction: column;
+  }
+
+  .reference-btn,
+  .bible-tool-btn {
+    width: 100%;
+  }
+
+  .miracle-actions {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .miracle-title-section {
+    gap: 0.75rem;
+  }
+
+  .miracle-title {
+    font-size: 1rem;
+  }
+
+  .miracle-details {
+    flex-direction: column;
+  }
+}
