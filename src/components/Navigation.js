@@ -154,6 +154,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/bible/ai-summary"
+              className={`nav-link ${isActive('/bible/ai-summary') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              AI Passage Summary
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible/maps"
               className={`nav-link ${isActive('/bible/maps') ? 'active' : ''}`}
               onClick={closeMenu}
