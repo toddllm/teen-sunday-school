@@ -1,0 +1,80 @@
+.offline-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.offline-indicator.offline {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+}
+
+.offline-indicator.syncing {
+  background: #e3f2fd;
+  color: #1976d2;
+  border: 1px solid #bbdefb;
+}
+
+.indicator-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.indicator-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.indicator-text {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.pending-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: #c62828;
+  color: white;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Dark Mode */
+:root[data-theme="dark"] .offline-indicator.offline {
+  background: #4a1a1a;
+  color: #ffcdd2;
+  border-color: #5d2020;
+}
+
+:root[data-theme="dark"] .offline-indicator.syncing {
+  background: #1a237e;
+  color: #90caf9;
+  border-color: #283593;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .indicator-text {
+    display: none;
+  }
+
+  .offline-indicator {
+    padding: 6px 10px;
+  }
+}

@@ -54,6 +54,7 @@ import { CacheConfigProvider } from './contexts/CacheConfigContext';
 import { ServiceProjectProvider } from './contexts/ServiceProjectContext';
 import { OutlineProvider } from './contexts/OutlineContext';
 import { QAProvider } from './contexts/QAContext';
+import { OfflineProvider } from './contexts/OfflineContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -111,7 +112,9 @@ root.render(
                                                                               <BibleProgressProvider>
                                                                                 <PrayerProvider>
                                                                                   <QAProvider>
-                                                                                    <App />
+                                                                                    <OfflineProvider>
+                                                                                      <App />
+                                                                                    </OfflineProvider>
                                                                                   </QAProvider>
                                                                                 </PrayerProvider>
                                                                               </BibleProgressProvider>

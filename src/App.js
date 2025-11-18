@@ -25,7 +25,9 @@ import TemplatesAdminPage from './pages/TemplatesAdminPage';
 import TemplateEditorPage from './pages/TemplateEditorPage';
 import BibleToolPage from './pages/BibleToolPage';
 import BibleQAPage from './pages/BibleQAPage';
+import BibleReadPage from './pages/BibleReadPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
+import SettingsPage from './pages/SettingsPage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import TodayDevotionalPage from './pages/TodayDevotionalPage';
 import DevotionalAdminPage from './pages/DevotionalAdminPage';
@@ -236,6 +238,7 @@ function AppContent() {
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/qa" element={<BibleQAPage />} />
+            <Route path="/bible/read" element={<BibleReadPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
             <Route path="/bible/miracles" element={<MiraclesExplorerPage />} />
             <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />
@@ -260,6 +263,7 @@ function AppContent() {
             <Route path="/journeys" element={<ThematicJourneysPage />} />
             <Route path="/journeys/:journeyId" element={<JourneyDetailPage />} />
             <Route path="/feedback" element={<FeedbackFormPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
             <Route path="/settings/reading-metrics" element={<ReadingMetricsSettingsPage />} />

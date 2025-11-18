@@ -1,7 +1,4 @@
-/**
- * Service Worker Registration
- * This file handles the registration and lifecycle of the service worker
- */
+// This file registers the service worker for offline functionality
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -11,7 +8,7 @@ const isLocalhost = Boolean(
 
 export function register(config) {
   if ('serviceWorker' in navigator) {
-    const publicUrl = new URL(process.env.PUBLIC_URL || '', window.location.href);
+    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
       return;
     }
@@ -22,9 +19,7 @@ export function register(config) {
       if (isLocalhost) {
         checkValidServiceWorker(swUrl, config);
         navigator.serviceWorker.ready.then(() => {
-          console.log(
-            'This web app is being served cache-first by a service worker.'
-          );
+          console.log('Service worker is ready for offline use.');
         });
       } else {
         registerValidSW(swUrl, config);
@@ -44,18 +39,15 @@ function registerValidSW(swUrl, config) {
         if (installingWorker == null) {
           return;
         }
-
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-              console.log('New content is available; please refresh.');
-
+              console.log('New content available; please refresh.');
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
               }
             } else {
               console.log('Content is cached for offline use.');
-
               if (config && config.onSuccess) {
                 config.onSuccess(registration);
               }
@@ -63,6 +55,11 @@ function registerValidSW(swUrl, config) {
           }
         };
       };
+
+      // Request background sync permission
+      if (registration.sync) {
+        console.log('Background Sync is supported');
+      }
     })
     .catch((error) => {
       console.error('Error during service worker registration:', error);
@@ -89,7 +86,7 @@ function checkValidServiceWorker(swUrl, config) {
       }
     })
     .catch(() => {
-      console.log('No internet connection found. App is running in offline mode.');
+      console.log('No internet connection. App is running in offline mode.');
     });
 }
 
@@ -105,37 +102,17 @@ export function unregister() {
   }
 }
 
-/**
- * Update service worker cache configuration
- */
-export function updateCacheConfig(config) {
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      type: 'UPDATE_CACHE_CONFIG',
-      config,
-    });
-  }
-}
-
-/**
- * Clear all caches
- */
-export function clearCache() {
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      type: 'CLEAR_CACHE',
-    });
-  }
-}
-
-/**
- * Pre-cache specific content
- */
-export function preCacheContent(urls) {
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      type: 'PRE_CACHE_CONTENT',
-      urls,
+// Request background sync
+export function requestBackgroundSync() {
+  if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+    navigator.serviceWorker.ready.then((registration) => {
+      return registration.sync.register('sync-offline-changes')
+        .then(() => {
+          console.log('Background sync registered');
+        })
+        .catch((error) => {
+          console.error('Background sync registration failed:', error);
+        });
     });
   }
 }
