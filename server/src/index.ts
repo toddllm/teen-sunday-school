@@ -29,6 +29,7 @@ import gratitudeRoutes from './routes/gratitude.routes';
 import substituteRoutes from './routes/substitute.routes';
 import parablesRoutes from './routes/parables.routes';
 import parableRoutes from './routes/parable.routes';
+import translationComparisonRoutes from './routes/translation-comparison.routes';
 
 // Load environment variables
 dotenv.config();
@@ -127,6 +128,7 @@ app.use('/api/gratitude', gratitudeRoutes);
 app.use('/api/substitute', substituteRoutes);
 app.use('/api/parables', parablesRoutes);
 app.use('/api/parables', parableRoutes);
+app.use('/api/translation-comparisons', translationComparisonRoutes);
 
 // 404 handler
 app.use((req, res) => {

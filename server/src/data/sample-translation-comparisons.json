@@ -1,0 +1,199 @@
+[
+  {
+    "title": "God's Love - How It's Described",
+    "description": "See how different translations describe God's amazing love for us in John 3:16",
+    "passageRef": "John 3:16",
+    "category": "word-choice",
+    "difficulty": "beginner",
+    "translations": [
+      {
+        "code": "NIV",
+        "name": "New International Version",
+        "text": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
+        "focus": "so loved"
+      },
+      {
+        "code": "MSG",
+        "name": "The Message",
+        "text": "This is how much God loved the world: He gave his Son, his one and only Son. And this is why: so that no one need be destroyed; by believing in him, anyone can have a whole and lasting life.",
+        "focus": "how much God loved"
+      }
+    ],
+    "comparisonPoints": [
+      {
+        "aspect": "Word Choice",
+        "difference": "NIV uses 'so loved' while MSG says 'how much God loved'",
+        "teenExplanation": "Both translations are saying the same thing - God's love is HUGE! The Message just breaks it down in a more conversational way, like how you'd text a friend. The NIV is more traditional but still gets the point across: God's love is off the charts!"
+      },
+      {
+        "aspect": "Structure",
+        "difference": "MSG explains WHY God gave His Son more clearly",
+        "teenExplanation": "The Message version adds 'And this is why:' to help you understand the purpose better. It's like when a teacher explains not just WHAT to do, but WHY you're doing it. Makes it easier to understand!"
+      }
+    ],
+    "teenSummary": "This famous verse shows how God loved us so much that He sent Jesus. The different translations use different words, but they're all saying: God's love = AMAZING!",
+    "whyItMatters": "Understanding this verse is super important because it's the foundation of the whole Christian faith. Different translations can help you see different angles of God's love - it's like looking at a diamond from different sides!",
+    "keyTakeaway": "No matter which translation you read, the message is clear: God loves you more than you can imagine, and He proved it by sending Jesus!",
+    "tags": ["love", "salvation", "famous-verses"]
+  },
+  {
+    "title": "Being Strong - What Does It Really Mean?",
+    "description": "Different ways to understand what it means to be strong in faith",
+    "passageRef": "Philippians 4:13",
+    "category": "word-choice",
+    "difficulty": "intermediate",
+    "translations": [
+      {
+        "code": "NIV",
+        "name": "New International Version",
+        "text": "I can do all this through him who gives me strength.",
+        "focus": "all this"
+      },
+      {
+        "code": "ESV",
+        "name": "English Standard Version",
+        "text": "I can do all things through him who strengthens me.",
+        "focus": "all things"
+      },
+      {
+        "code": "NLT",
+        "name": "New Living Translation",
+        "text": "For I can do everything through Christ, who gives me strength.",
+        "focus": "everything through Christ"
+      }
+    ],
+    "comparisonPoints": [
+      {
+        "aspect": "Scope Words",
+        "difference": "NIV says 'all this' vs. ESV/NLT saying 'all things' or 'everything'",
+        "teenExplanation": "This is actually a BIG deal! NIV's 'all this' refers back to what Paul was just talking about (being content in any situation). ESV and NLT use 'all things/everything' which sounds more general. The original Greek actually supports the NIV translation - Paul isn't saying you can do LITERALLY anything (like fly or become a billionaire), but that you can handle whatever situation God puts you in. It's about contentment and endurance, not superpowers!"
+      },
+      {
+        "aspect": "Clarity",
+        "difference": "NLT specifically names 'Christ' while others say 'him'",
+        "teenExplanation": "NLT makes it crystal clear WHO is giving the strength - it's Christ! The other versions say 'him' which is still clear from context, but NLT doesn't make you guess. It's like when someone texts you 'he said yes' vs 'Jake said yes' - one leaves no room for confusion!"
+      }
+    ],
+    "teenSummary": "This verse is often misunderstood as a motivational quote, but it's actually about finding strength to be content in tough situations, not about achieving anything you want.",
+    "whyItMatters": "People often use this verse out of context (like before a big game), but understanding what Paul really meant helps you apply it to real life - dealing with stress, disappointment, or hard times.",
+    "keyTakeaway": "Christ gives you strength to handle whatever life throws at you, not to do whatever you want. Big difference!",
+    "tags": ["strength", "contentment", "misunderstood"]
+  },
+  {
+    "title": "Walking in the Light vs. Darkness",
+    "description": "How different translations explain living a godly life",
+    "passageRef": "1 John 1:7",
+    "category": "literary-style",
+    "difficulty": "beginner",
+    "translations": [
+      {
+        "code": "KJV",
+        "name": "King James Version",
+        "text": "But if we walk in the light, as he is in the light, we have fellowship one with another, and the blood of Jesus Christ his Son cleanseth us from all sin.",
+        "focus": "cleanseth"
+      },
+      {
+        "code": "CSB",
+        "name": "Christian Standard Bible",
+        "text": "If we walk in the light as he himself is in the light, we have fellowship with one another, and the blood of Jesus his Son cleanses us from all sin.",
+        "focus": "cleanses"
+      }
+    ],
+    "comparisonPoints": [
+      {
+        "aspect": "Old vs. Modern English",
+        "difference": "KJV uses 'cleanseth' while CSB uses 'cleanses'",
+        "teenExplanation": "The KJV was written in 1611, so it uses old English words like 'cleanseth.' That's just how people talked back then! CSB (written in 2017) uses modern English 'cleanses' - same meaning, just updated language. It's like comparing Shakespeare to a modern novel - different style, same story!"
+      },
+      {
+        "aspect": "Wording",
+        "difference": "KJV says 'one with another' vs. CSB's 'with one another'",
+        "teenExplanation": "This is just a style difference - both mean the exact same thing: believers being in fellowship together. Sometimes older translations sound more poetic but can be harder to understand quickly."
+      }
+    ],
+    "teenSummary": "This verse is about living in a way that honors God (walking in light) and how Jesus' sacrifice cleanses us from sin when we mess up.",
+    "whyItMatters": "Some people think older translations are 'more holy' but really, the best translation is the one you can understand! God wants you to GET what He's saying.",
+    "keyTakeaway": "Whether you read KJV or a modern translation, the truth is the same: Living for God brings us together and Jesus' blood makes us clean!",
+    "tags": ["lifestyle", "fellowship", "forgiveness"]
+  },
+  {
+    "title": "Faith Without Works - What's the Deal?",
+    "description": "Understanding what James means about faith and actions",
+    "passageRef": "James 2:17",
+    "category": "theological",
+    "difficulty": "advanced",
+    "translations": [
+      {
+        "code": "ESV",
+        "name": "English Standard Version",
+        "text": "So also faith by itself, if it does not have works, is dead.",
+        "focus": "is dead"
+      },
+      {
+        "code": "NLT",
+        "name": "New Living Translation",
+        "text": "So you see, faith by itself isn't enough. Unless it produces good deeds, it is dead and useless.",
+        "focus": "isn't enough"
+      },
+      {
+        "code": "MSG",
+        "name": "The Message",
+        "text": "Isn't it obvious that God-talk without God-acts is outrageous nonsense?",
+        "focus": "outrageous nonsense"
+      }
+    ],
+    "comparisonPoints": [
+      {
+        "aspect": "Directness",
+        "difference": "MSG is super blunt ('outrageous nonsense') while ESV is more formal ('is dead')",
+        "teenExplanation": "The Message doesn't hold back! Eugene Peterson (who wrote MSG) wanted to make the Bible sound like how people actually talk. James was pretty fired up when he wrote this, and MSG captures that energy. ESV keeps it more traditional but still gets the point across - faith that doesn't change how you live is worthless."
+      },
+      {
+        "aspect": "Explanation",
+        "difference": "NLT adds extra explanation with 'isn't enough' and 'good deeds'",
+        "teenExplanation": "NLT is like having built-in commentary! It helps you understand that James isn't saying faith saves you (that's still by grace), but real faith will SHOW UP in your life through good actions. It's not enough to just say you believe - your life should reflect it!"
+      }
+    ],
+    "teenSummary": "James is saying that real faith isn't just about what you believe - it shows up in how you live. If your faith doesn't change your actions, something's off.",
+    "whyItMatters": "This verse seems to contradict what Paul says about being saved by grace through faith. But they're not actually disagreeing! Paul talks about HOW you're saved (grace through faith), James talks about WHAT real saving faith looks like (it produces action). Different angles, same truth.",
+    "keyTakeaway": "Your faith should be visible in your life. Not to EARN salvation, but because real faith TRANSFORMS you!",
+    "tags": ["faith", "works", "theology", "james"]
+  },
+  {
+    "title": "Anxiety and Peace - God's Got This",
+    "description": "Different ways the Bible tells us to handle worry and stress",
+    "passageRef": "Philippians 4:6-7",
+    "category": "cultural",
+    "difficulty": "beginner",
+    "translations": [
+      {
+        "code": "NIV",
+        "name": "New International Version",
+        "text": "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
+        "focus": "Do not be anxious"
+      },
+      {
+        "code": "MSG",
+        "name": "The Message",
+        "text": "Don't fret or worry. Instead of worrying, pray. Let petitions and praises shape your worries into prayers, letting God know your concerns. Before you know it, a sense of God's wholeness, everything coming together for good, will come and settle you down. It's wonderful what happens when Christ displaces worry at the center of your life.",
+        "focus": "Don't fret or worry"
+      }
+    ],
+    "comparisonPoints": [
+      {
+        "aspect": "Word Choice",
+        "difference": "NIV uses 'anxious' while MSG says 'fret or worry'",
+        "teenExplanation": "In Bible times, they didn't have the word 'anxiety' like we use it today for mental health. The original Greek word means 'to be pulled in different directions' - which is exactly what worry feels like! MSG uses 'fret or worry' which might be easier to relate to than 'anxious' for some people. Both are talking about that stressed, overwhelmed feeling we all get."
+      },
+      {
+        "aspect": "Explanation Style",
+        "difference": "MSG expands the verse to make it more conversational",
+        "teenExplanation": "The Message basically gives you the verse PLUS a mini-sermon! It explains HOW to do what the verse says - turn your worries into prayers, let praises shape them. NIV is more concise but MSG is like having a youth pastor break it down for you. Neither adds fake meaning - MSG just unpacks what's already there!"
+      }
+    ],
+    "teenSummary": "When you're stressed or worried, talk to God about it instead of just spinning out. His peace will guard your heart and mind - even when situations don't make sense.",
+    "whyItMatters": "Teen years are FULL of stress - school, relationships, future plans, social media pressure. This verse gives you a real strategy: trade worry for prayer. God's peace doesn't always change your circumstances, but it changes how you handle them.",
+    "keyTakeaway": "Worry is natural, but you don't have to stay there. Pray about it, thank God, and let His peace replace your stress!",
+    "tags": ["anxiety", "prayer", "peace", "mental-health"]
+  }
+]

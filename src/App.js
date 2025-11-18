@@ -33,6 +33,7 @@ import WarmupAdminPage from './pages/WarmupAdminPage';
 import PreClassWarmupPage from './pages/PreClassWarmupPage';
 import SubstituteDashboardPage from './pages/SubstituteDashboardPage';
 import ParablesExplorerPage from './pages/ParablesExplorerPage';
+import TranslationComparisonPage from './pages/TranslationComparisonPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -118,6 +119,8 @@ function App() {
             <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
             <Route path="/bible/meme-generator" element={<MemeGeneratorPage />} />
             <Route path="/bible/find-reference" element={<FindTheReferencePage />} />
+            <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
+            <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
             <Route path="/substitute" element={<SubstituteDashboardPage />} />
