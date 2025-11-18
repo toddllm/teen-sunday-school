@@ -1,0 +1,450 @@
+.bookmarks-page {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  padding: 20px;
+}
+
+.bookmarks-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.bookmarks-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.bookmarks-header h1 {
+  font-size: 2.5rem;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.bookmarks-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+/* Notification Banner */
+.notification-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.notification-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification-icon {
+  font-size: 2rem;
+}
+
+.notification-text {
+  flex: 1;
+}
+
+.notification-text strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.notification-text p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.enable-notifications-btn {
+  padding: 10px 20px;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.enable-notifications-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Statistics */
+.bookmarks-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-item {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item.warning {
+  border: 2px solid var(--accent-color);
+}
+
+.stat-icon {
+  font-size: 2rem;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Controls */
+.bookmarks-controls {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.filter-controls,
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-controls label,
+.sort-controls label {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.filter-controls select,
+.sort-controls select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.empty-state h2 {
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Bookmarks List */
+.bookmarks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bookmark-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.bookmark-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.bookmark-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.verse-reference {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  margin: 0;
+  font-weight: 600;
+}
+
+.bookmark-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: var(--bg-color);
+}
+
+.icon-btn.delete-btn:hover {
+  background: #fee;
+}
+
+.verse-text {
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+/* Reminder Info */
+.reminder-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.reminder-info.upcoming {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.reminder-info.overdue {
+  background: #ffebee;
+  color: #c62828;
+  font-weight: 600;
+}
+
+.reminder-icon {
+  font-size: 1rem;
+}
+
+/* Bookmark Meta */
+.bookmark-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+.created-date {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Bookmark Details (Expanded) */
+.bookmark-details {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid var(--border-color);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}
+
+.detail-section {
+  margin-bottom: 12px;
+  color: var(--text-color);
+}
+
+.detail-section strong {
+  margin-right: 8px;
+}
+
+.sent-badge {
+  margin-left: 10px;
+  padding: 2px 8px;
+  background: var(--secondary-color);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.action-btn {
+  padding: 10px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: var(--card-bg);
+  border-color: var(--primary-color);
+}
+
+.action-btn.primary {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.action-btn.primary:hover {
+  background: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+/* Delete Confirmation */
+.delete-confirm {
+  margin-top: 15px;
+  padding: 15px;
+  background: #fff3e0;
+  border: 1px solid #ff9800;
+  border-radius: 8px;
+  animation: slideDown 0.2s ease-out;
+}
+
+.delete-confirm p {
+  margin: 0 0 12px 0;
+  color: #e65100;
+  font-weight: 600;
+}
+
+.delete-confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.confirm-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.confirm-btn:hover {
+  transform: scale(1.05);
+}
+
+.confirm-btn.delete {
+  background: #d32f2f;
+  color: white;
+}
+
+.confirm-btn.cancel {
+  background: #757575;
+  color: white;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .bookmarks-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-controls,
+  .sort-controls {
+    justify-content: space-between;
+  }
+
+  .filter-controls select,
+  .sort-controls select {
+    flex: 1;
+  }
+
+  .bookmarks-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-actions {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .reminder-info.upcoming {
+  background: #1a237e;
+  color: #90caf9;
+}
+
+[data-theme="dark"] .reminder-info.overdue {
+  background: #b71c1c;
+  color: #ffcdd2;
+}
+
+[data-theme="dark"] .delete-confirm {
+  background: #4e342e;
+  border-color: #ff6f00;
+}
+
+[data-theme="dark"] .delete-confirm p {
+  color: #ffb74d;
+}

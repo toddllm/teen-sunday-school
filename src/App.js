@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import TodayPage from './pages/TodayPage';
 import BadgesPage from './pages/BadgesPage';
+import BookmarksPage from './pages/BookmarksPage';
 import LessonsPage from './pages/LessonsPage';
 import LessonViewPage from './pages/LessonViewPage';
 import AdminPage from './pages/AdminPage';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/today" element={<TodayPage />} />
             <Route path="/badges" element={<BadgesPage />} />
+            <Route path="/bookmarks" element={<BookmarksPage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
             <Route path="/admin" element={<AdminPage />} />

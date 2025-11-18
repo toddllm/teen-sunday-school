@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getVerseText } from '../services/bibleAPI';
+import BookmarkButton from '../components/BookmarkButton';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
@@ -54,7 +55,10 @@ const BibleToolPage = () => {
 
       {verse && (
         <div className="verse-result">
-          <h2>{verse.reference}</h2>
+          <div className="verse-result-header">
+            <h2>{verse.reference}</h2>
+            <BookmarkButton verseRef={verse.reference} verseText={verse.text} />
+          </div>
           <div className="verse-text">
             {verse.text}
           </div>
