@@ -14,6 +14,7 @@ import themeComparisonRoutes from './routes/theme-comparison.routes';
 import notificationRoutes from './routes/notification.routes';
 import gameRoutes from './routes/game.routes';
 import weeklyWordRoutes from './routes/weekly-word.routes';
+import interlinearRoutes from './routes/interlinear.routes';
 
 // Load environment variables
 dotenv.config();
@@ -97,6 +98,7 @@ app.use('/api/themes', themeComparisonRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/weekly-word', weeklyWordRoutes);
+app.use('/api/bible', interlinearRoutes);
 
 // 404 handler
 app.use((req, res) => {
