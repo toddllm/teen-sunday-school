@@ -50,6 +50,7 @@ import profileRoutes from './routes/profile.routes';
 import parentRoutes from './routes/parent.routes';
 import xpRoutes from './routes/xp.routes';
 import quizRoutes from './routes/quiz.routes';
+import lessonDebriefRoutes from './routes/lesson-debrief.routes';
 import seriesRoutes from './routes/series.routes';
 ;
 
@@ -179,6 +180,7 @@ app.use('/api', seriesRoutes);
 app.use('/api/parent', parentRoutes);
 app.use('/api', xpRoutes);
 app.use('/api', quizRoutes);
+app.use('/api', lessonDebriefRoutes);
 app.use('/api/me/profile', profileRoutes);
 
 
