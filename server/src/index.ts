@@ -29,6 +29,7 @@ import doctrineCardsRoutes from './routes/doctrine-cards.routes';
 import bigStoryRoutes from './routes/big-story.routes';
 import curriculumCoverageRoutes from './routes/curriculum-coverage.routes';
 import signupAnalyticsRoutes from './routes/signup-analytics.routes';
+import comicRoutes from './routes/comic.routes';
 
 // Load environment variables
 dotenv.config();
@@ -126,6 +127,7 @@ app.use('/api/doctrine-cards', doctrineCardsRoutes);
 app.use('/api/big-story', bigStoryRoutes);
 app.use('/api/curriculum-coverage', curriculumCoverageRoutes);
 app.use('/api/analytics/signup', signupAnalyticsRoutes);
+app.use('/api/comics', comicRoutes);
 
 // 404 handler
 app.use((req, res) => {
