@@ -71,6 +71,60 @@ export const AccessibilityProvider = ({ children }) => {
     toggleHighContrast,
     toggleReduceMotion,
     systemPrefersReducedMotion
+  const [dyslexiaFriendly, setDyslexiaFriendly] = useState(() => {
+    const saved = localStorage.getItem('dyslexiaFriendly');
+    return saved === 'true';
+  });
+
+  const [fontSize, setFontSize] = useState(() => {
+    const saved = localStorage.getItem('fontSize');
+    return saved || 'medium';
+  });
+
+  const [lineSpacing, setLineSpacing] = useState(() => {
+    const saved = localStorage.getItem('lineSpacing');
+    return saved || 'normal';
+  });
+
+  useEffect(() => {
+    // Apply dyslexia-friendly mode to document
+    if (dyslexiaFriendly) {
+      document.documentElement.setAttribute('data-dyslexia', 'true');
+    } else {
+      document.documentElement.removeAttribute('data-dyslexia');
+    }
+
+    // Save to localStorage
+    localStorage.setItem('dyslexiaFriendly', dyslexiaFriendly);
+  }, [dyslexiaFriendly]);
+
+  useEffect(() => {
+    // Apply font size to document
+    document.documentElement.setAttribute('data-font-size', fontSize);
+
+    // Save to localStorage
+    localStorage.setItem('fontSize', fontSize);
+  }, [fontSize]);
+
+  useEffect(() => {
+    // Apply line spacing to document
+    document.documentElement.setAttribute('data-line-spacing', lineSpacing);
+
+    // Save to localStorage
+    localStorage.setItem('lineSpacing', lineSpacing);
+  }, [lineSpacing]);
+
+  const toggleDyslexiaMode = () => {
+    setDyslexiaFriendly(prev => !prev);
+  };
+
+  const value = {
+    dyslexiaFriendly,
+    fontSize,
+    lineSpacing,
+    toggleDyslexiaMode,
+    setFontSize,
+    setLineSpacing
   };
 
   return (
