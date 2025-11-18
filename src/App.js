@@ -34,6 +34,7 @@ import PreClassWarmupPage from './pages/PreClassWarmupPage';
 import SubstituteDashboardPage from './pages/SubstituteDashboardPage';
 import ParablesExplorerPage from './pages/ParablesExplorerPage';
 import TranslationComparisonPage from './pages/TranslationComparisonPage';
+import DoctrineOverviewPage from './pages/DoctrineOverviewPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -116,6 +117,7 @@ function App() {
             <Route path="/bible/miracles" element={<MiraclesExplorerPage />} />
             <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />
             <Route path="/bible/parables" element={<ParablesExplorerPage />} />
+            <Route path="/bible/doctrine" element={<DoctrineOverviewPage />} />
             <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
             <Route path="/bible/meme-generator" element={<MemeGeneratorPage />} />
             <Route path="/bible/find-reference" element={<FindTheReferencePage />} />
