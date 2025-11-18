@@ -65,6 +65,8 @@ import IcebreakerAdminPage from './pages/IcebreakerAdminPage';
 import IcebreakerCreatorPage from './pages/IcebreakerCreatorPage';
 import IcebreakerViewPage from './pages/IcebreakerViewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
+import CharactersPage from './pages/CharactersPage';
+import CharacterDetailPage from './pages/CharacterDetailPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -183,6 +185,8 @@ function App() {
             <Route path="/bible/timeline" element={<TimelinePage />} />
             <Route path="/bible/chronological-plan" element={<ChronologicalPlanPage />} />
             <Route path="/bible/maps" element={<BibleMapPage />} />
+            <Route path="/characters" element={<CharactersPage />} />
+            <Route path="/characters/:id" element={<CharacterDetailPage />} />
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
