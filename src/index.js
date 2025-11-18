@@ -5,16 +5,19 @@ import App from './App';
 import { LessonProvider } from './contexts/LessonContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { StreakProvider } from './contexts/StreakContext';
+import { TranslationProvider } from './contexts/TranslationContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider>
-      <StreakProvider>
-        <LessonProvider>
-          <App />
-        </LessonProvider>
-      </StreakProvider>
+      <TranslationProvider>
+        <StreakProvider>
+          <LessonProvider>
+            <App />
+          </LessonProvider>
+        </StreakProvider>
+      </TranslationProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
