@@ -49,6 +49,7 @@ import icebreakerRoutes from './routes/icebreaker.routes';
 import profileRoutes from './routes/profile.routes';
 import parentRoutes from './routes/parent.routes';
 import xpRoutes from './routes/xp.routes';
+import quizRoutes from './routes/quiz.routes';
 import seriesRoutes from './routes/series.routes';
 ;
 
@@ -177,6 +178,7 @@ app.use('/api', icebreakerRoutes);
 app.use('/api', seriesRoutes);
 app.use('/api/parent', parentRoutes);
 app.use('/api', xpRoutes);
+app.use('/api', quizRoutes);
 app.use('/api/me/profile', profileRoutes);
 
 
