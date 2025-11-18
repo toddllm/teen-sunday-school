@@ -25,6 +25,7 @@ import { SeasonalEventProvider } from './contexts/SeasonalEventContext';
 import { TopicProvider } from './contexts/TopicContext';
 import { IcebreakerProvider } from './contexts/IcebreakerContext';
 import { ProfileProvider } from './contexts/ProfileContext';
+import { CharacterProvider } from './contexts/CharacterContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -52,8 +53,10 @@ root.render(
                                     <TopicProvider>
                                       <IcebreakerProvider>
                                         <ProfileProvider>
+                                          <CharacterProvider>
                                   <SessionProvider>
                                     <App />
+                                          </CharacterProvider>
                                         </ProfileProvider>
                                       </IcebreakerProvider>
                                     </TopicProvider>
