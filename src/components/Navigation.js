@@ -69,10 +69,28 @@ function Navigation() {
           <li className="nav-item">
             <Link
               to="/bible"
-              className={`nav-link ${isActive('/bible') ? 'active' : ''}`}
+              className={`nav-link ${isActive('/bible') && location.pathname === '/bible' ? 'active' : ''}`}
               onClick={closeMenu}
             >
               Bible Tool
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/bible/parallel"
+              className={`nav-link ${isActive('/bible/parallel') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Parallel Bible
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/settings/translations"
+              className={`nav-link ${isActive('/settings') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Settings
             </Link>
           </li>
           <li className="nav-item">

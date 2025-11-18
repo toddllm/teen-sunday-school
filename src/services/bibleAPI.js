@@ -141,9 +141,130 @@ const getStaticVerse = (reference) => {
   };
 };
 
-export default {
+/**
+ * Get a full chapter
+ * @param {string} book - Book code (e.g., "JHN", "GEN")
+ * @param {number} chapter - Chapter number
+ * @param {string} bibleId - Bible version ID
+ */
+export const getChapter = async (book, chapter, bibleId = DEFAULT_BIBLE_ID) => {
+  try {
+    const chapterId = `${book}.${chapter}`;
+    const response = await bibleAPI.get(`/bibles/${bibleId}/chapters/${chapterId}`, {
+      params: {
+        'content-type': 'html',
+        'include-notes': false,
+        'include-titles': true,
+        'include-chapter-numbers': false,
+        'include-verse-numbers': true,
+        'include-verse-spans': true
+      }
+    });
+    return response.data.data;
+  } catch (error) {
+    console.error('Error fetching chapter:', error);
+    return null;
+  }
+};
+
+/**
+ * Get multiple translations of the same passage in parallel
+ * @param {string} passageId - e.g., "JHN.3.16"
+ * @param {string[]} bibleIds - Array of Bible version IDs
+ */
+export const getParallelPassages = async (passageId, bibleIds) => {
+  try {
+    const promises = bibleIds.map(bibleId => getPassage(passageId, bibleId));
+    const results = await Promise.all(promises);
+
+    return bibleIds.map((bibleId, index) => ({
+      bibleId,
+      data: results[index]
+    }));
+  } catch (error) {
+    console.error('Error fetching parallel passages:', error);
+    return [];
+  }
+};
+
+/**
+ * Get multiple translations of the same chapter in parallel
+ * @param {string} book - Book code (e.g., "JHN", "GEN")
+ * @param {number} chapter - Chapter number
+ * @param {string[]} bibleIds - Array of Bible version IDs
+ */
+export const getParallelChapters = async (book, chapter, bibleIds) => {
+  try {
+    const promises = bibleIds.map(bibleId => getChapter(book, chapter, bibleId));
+    const results = await Promise.all(promises);
+
+    return bibleIds.map((bibleId, index) => ({
+      bibleId,
+      data: results[index]
+    }));
+  } catch (error) {
+    console.error('Error fetching parallel chapters:', error);
+    return [];
+  }
+};
+
+/**
+ * Get list of available Bibles
+ */
+export const getAvailableBibles = async () => {
+  try {
+    const response = await bibleAPI.get('/bibles', {
+      params: {
+        language: 'eng'
+      }
+    });
+    return response.data.data;
+  } catch (error) {
+    console.error('Error fetching available Bibles:', error);
+    return [];
+  }
+};
+
+/**
+ * Get books of a specific Bible
+ * @param {string} bibleId - Bible version ID
+ */
+export const getBooks = async (bibleId = DEFAULT_BIBLE_ID) => {
+  try {
+    const response = await bibleAPI.get(`/bibles/${bibleId}/books`);
+    return response.data.data;
+  } catch (error) {
+    console.error('Error fetching books:', error);
+    return [];
+  }
+};
+
+/**
+ * Get chapters of a specific book
+ * @param {string} bibleId - Bible version ID
+ * @param {string} bookId - Book ID (e.g., "GEN", "JHN")
+ */
+export const getChapters = async (bibleId, bookId) => {
+  try {
+    const response = await bibleAPI.get(`/bibles/${bibleId}/books/${bookId}/chapters`);
+    return response.data.data;
+  } catch (error) {
+    console.error('Error fetching chapters:', error);
+    return [];
+  }
+};
+
+const bibleAPIService = {
   searchPassage,
   getPassage,
   parseReference,
-  getVerseText
+  getVerseText,
+  getChapter,
+  getParallelPassages,
+  getParallelChapters,
+  getAvailableBibles,
+  getBooks,
+  getChapters
 };
+
+export default bibleAPIService;
