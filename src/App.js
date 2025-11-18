@@ -109,6 +109,13 @@ import ServiceProjectsAdminPage from './pages/ServiceProjectsAdminPage';
 import ProjectCreatorPage from './pages/ProjectCreatorPage';
 import ProjectPreviewPage from './pages/ProjectPreviewPage';
 import SermonOutlinePage from './pages/SermonOutlinePage';
+import KidsHomePage from './pages/KidsHomePage';
+import KidsStoryViewPage from './pages/KidsStoryViewPage';
+import KidsAllStoriesPage from './pages/KidsAllStoriesPage';
+import KidsSongsPage from './pages/KidsSongsPage';
+import KidsFavoritesPage from './pages/KidsFavoritesPage';
+import KidsProgressPage from './pages/KidsProgressPage';
+import KidsModeSettingsPage from './pages/KidsModeSettingsPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -250,6 +257,13 @@ function AppContent() {
             <Route path="/settings/profile" element={<ProfileSettingsPage />} />
             <Route path="/parent" element={<ParentOverviewPage />} />
             <Route path="/substitute" element={<SubstituteDashboardPage />} />
+            <Route path="/kids" element={<KidsHomePage />} />
+            <Route path="/kids/story/:id" element={<KidsStoryViewPage />} />
+            <Route path="/kids/all-stories" element={<KidsAllStoriesPage />} />
+            <Route path="/kids/songs" element={<KidsSongsPage />} />
+            <Route path="/kids/favorites" element={<KidsFavoritesPage />} />
+            <Route path="/kids/progress" element={<KidsProgressPage />} />
+            <Route path="/kids/settings" element={<KidsModeSettingsPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
       </main>
