@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { getVerseText } from '../services/bibleAPI';
+import { useCollections } from '../contexts/CollectionsContext';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
+  const { collections, addCollection, addVerseToCollection } = useCollections();
   const [reference, setReference] = useState('');
   const [verse, setVerse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showCollectionModal, setShowCollectionModal] = useState(false);
+  const [selectedCollection, setSelectedCollection] = useState('');
+  const [newCollectionName, setNewCollectionName] = useState('');
+  const [saveSuccess, setSaveSuccess] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -15,6 +21,7 @@ const BibleToolPage = () => {
     setLoading(true);
     setError('');
     setVerse(null);
+    setSaveSuccess('');
 
     try {
       const result = await getVerseText(reference);
@@ -23,6 +30,45 @@ const BibleToolPage = () => {
       setError('Could not find that verse. Please check the reference and try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddToCollection = () => {
+    setShowCollectionModal(true);
+    setSaveSuccess('');
+  };
+
+  const handleSaveToCollection = () => {
+    if (!verse) return;
+
+    let collectionId = selectedCollection;
+
+    // Create new collection if needed
+    if (selectedCollection === 'new' && newCollectionName.trim()) {
+      collectionId = addCollection({
+        name: newCollectionName,
+        description: '',
+        color: '#4A90E2'
+      });
+    }
+
+    if (collectionId && collectionId !== 'new') {
+      const success = addVerseToCollection(collectionId, {
+        reference: verse.reference,
+        text: verse.text
+      });
+
+      if (success) {
+        setSaveSuccess(`Added to collection!`);
+        setShowCollectionModal(false);
+        setSelectedCollection('');
+        setNewCollectionName('');
+
+        // Clear success message after 3 seconds
+        setTimeout(() => setSaveSuccess(''), 3000);
+      } else {
+        alert('This verse is already in the selected collection.');
+      }
     }
   };
 
@@ -52,9 +98,23 @@ const BibleToolPage = () => {
         </div>
       )}
 
+      {saveSuccess && (
+        <div className="success-box">
+          <p>{saveSuccess}</p>
+        </div>
+      )}
+
       {verse && (
         <div className="verse-result">
-          <h2>{verse.reference}</h2>
+          <div className="verse-result-header">
+            <h2>{verse.reference}</h2>
+            <button
+              className="btn btn-primary"
+              onClick={handleAddToCollection}
+            >
+              + Add to Collection
+            </button>
+          </div>
           <div className="verse-text">
             {verse.text}
           </div>
@@ -75,6 +135,84 @@ const BibleToolPage = () => {
           ))}
         </div>
       </div>
+
+      {showCollectionModal && (
+        <div className="modal-overlay" onClick={() => setShowCollectionModal(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Add to Collection</h2>
+              <button
+                className="modal-close"
+                onClick={() => setShowCollectionModal(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="collection-select">Select Collection</label>
+                <select
+                  id="collection-select"
+                  className="form-input"
+                  value={selectedCollection}
+                  onChange={(e) => setSelectedCollection(e.target.value)}
+                >
+                  <option value="">-- Choose a collection --</option>
+                  {collections.map(collection => (
+                    <option key={collection.id} value={collection.id}>
+                      {collection.name} ({collection.verses?.length || 0} verses)
+                    </option>
+                  ))}
+                  <option value="new">+ Create New Collection</option>
+                </select>
+              </div>
+
+              {selectedCollection === 'new' && (
+                <div className="form-group">
+                  <label htmlFor="new-collection-name">New Collection Name</label>
+                  <input
+                    id="new-collection-name"
+                    type="text"
+                    className="form-input"
+                    placeholder="e.g., Encouragement, Prayer"
+                    value={newCollectionName}
+                    onChange={(e) => setNewCollectionName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+              )}
+
+              {collections.length === 0 && selectedCollection !== 'new' && (
+                <p className="help-text">
+                  You don't have any collections yet. Create your first one!
+                </p>
+              )}
+            </div>
+            <div className="modal-actions">
+              <button
+                className="btn btn-outline"
+                onClick={() => {
+                  setShowCollectionModal(false);
+                  setSelectedCollection('');
+                  setNewCollectionName('');
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={handleSaveToCollection}
+                disabled={
+                  !selectedCollection ||
+                  (selectedCollection === 'new' && !newCollectionName.trim())
+                }
+              >
+                Add to Collection
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

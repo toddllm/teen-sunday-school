@@ -5,6 +5,7 @@ import App from './App';
 import { LessonProvider } from './contexts/LessonContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { StreakProvider } from './contexts/StreakContext';
+import { CollectionsProvider } from './contexts/CollectionsContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,7 +13,9 @@ root.render(
     <ThemeProvider>
       <StreakProvider>
         <LessonProvider>
-          <App />
+          <CollectionsProvider>
+            <App />
+          </CollectionsProvider>
         </LessonProvider>
       </StreakProvider>
     </ThemeProvider>
