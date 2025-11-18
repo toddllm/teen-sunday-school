@@ -30,6 +30,7 @@ import ParallelBiblePage from './pages/ParallelBiblePage';
 import SettingsPage from './pages/SettingsPage';
 import SearchPage from './pages/SearchPage';
 import JournalPage from './pages/JournalPage';
+import HighlightsPage from './pages/HighlightsPage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import TodayDevotionalPage from './pages/TodayDevotionalPage';
 import DevotionalAdminPage from './pages/DevotionalAdminPage';
@@ -267,6 +268,7 @@ function AppContent() {
             <Route path="/feedback" element={<FeedbackFormPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/journal" element={<JournalPage />} />
+            <Route path="/highlights" element={<HighlightsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
             <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />

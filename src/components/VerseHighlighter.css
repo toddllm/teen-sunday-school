@@ -1,0 +1,344 @@
+.verse-highlighter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.verse-highlighter {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.highlighter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.highlighter-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+  background-color: var(--hover-bg, rgba(0, 0, 0, 0.1));
+}
+
+.verse-preview {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.verse-preview .verse-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+.verse-preview .verse-ref {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+  text-align: right;
+}
+
+.highlighter-section {
+  margin-bottom: 24px;
+}
+
+.highlighter-section label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.color-palette {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.color-option {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+  border-color: var(--primary-color, #4a90e2);
+}
+
+.color-option.selected {
+  border-color: var(--primary-color, #4a90e2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.color-option .checkmark {
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 32px;
+  margin-bottom: 8px;
+}
+
+.tag {
+  background-color: var(--primary-color, #4a90e2);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.2rem;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.tag button:hover {
+  opacity: 1;
+}
+
+.tag-input-container {
+  display: flex;
+  gap: 8px;
+  position: relative;
+}
+
+.tag-input-container input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: var(--input-bg, white);
+  color: var(--text-color);
+}
+
+.tag-input-container input:focus {
+  outline: none;
+  border-color: var(--primary-color, #4a90e2);
+}
+
+.add-tag-btn {
+  padding: 10px 20px;
+  background-color: var(--primary-color, #4a90e2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.add-tag-btn:hover {
+  background-color: var(--primary-hover, #357abd);
+}
+
+.tag-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  margin-top: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.tag-suggestion {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: background-color 0.2s;
+}
+
+.tag-suggestion:hover {
+  background-color: var(--hover-bg, rgba(0, 0, 0, 0.05));
+}
+
+.highlighter-section textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  background-color: var(--input-bg, white);
+  color: var(--text-color);
+}
+
+.highlighter-section textarea:focus {
+  outline: none;
+  border-color: var(--primary-color, #4a90e2);
+}
+
+.highlighter-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color, #ddd);
+}
+
+.primary-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.cancel-btn,
+.save-btn,
+.delete-btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.cancel-btn {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color, #ddd);
+}
+
+.cancel-btn:hover {
+  background-color: var(--hover-bg, rgba(0, 0, 0, 0.05));
+}
+
+.save-btn {
+  background-color: var(--primary-color, #4a90e2);
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: var(--primary-hover, #357abd);
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .verse-preview .verse-text,
+[data-theme="dark"] .verse-preview .verse-ref {
+  color: #000;
+}
+
+[data-theme="dark"] .verse-highlighter {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .verse-highlighter {
+    padding: 16px;
+  }
+
+  .highlighter-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .color-palette {
+    gap: 8px;
+  }
+
+  .color-option {
+    width: 40px;
+    height: 40px;
+  }
+
+  .highlighter-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primary-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .save-btn,
+  .delete-btn {
+    width: 100%;
+  }
+}
