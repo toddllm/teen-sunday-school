@@ -239,6 +239,8 @@
   color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.5;
+}
+
 .checkbox-label div {
   flex: 1;
 }
