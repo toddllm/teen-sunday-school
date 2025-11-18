@@ -396,11 +396,29 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/groups"
+              className={`nav-link ${isActive('/groups') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Groups
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/admin"
               className={`nav-link admin-link ${isActive('/admin') && location.pathname === '/admin' ? 'active' : ''}`}
               onClick={closeMenu}
             >
               Admin
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/organization/dashboard"
+              className={`nav-link ${isActive('/organization') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Organization
             </Link>
           </li>
           {isModerator() && (

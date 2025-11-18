@@ -31,6 +31,10 @@ import SettingsPage from './pages/SettingsPage';
 import SearchPage from './pages/SearchPage';
 import JournalPage from './pages/JournalPage';
 import HighlightsPage from './pages/HighlightsPage';
+import GroupManagementPage from './pages/GroupManagementPage';
+import LoginPage from './pages/LoginPage';
+import OrganizationAdminPage from './pages/OrganizationAdminPage';
+import OrganizationDashboard from './pages/OrganizationDashboard';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import TodayDevotionalPage from './pages/TodayDevotionalPage';
 import DevotionalAdminPage from './pages/DevotionalAdminPage';
@@ -163,6 +167,10 @@ function AppContent() {
             <Route path="/devotionals" element={<TodayDevotionalPage />} />
             <Route path="/devotional/:id" element={<TodayDevotionalPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin/organization" element={<OrganizationAdminPage />} />
+            <Route path="/organization/dashboard" element={<OrganizationDashboard />} />
+            <Route path="/groups" element={<GroupManagementPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
             <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
