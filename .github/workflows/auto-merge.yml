@@ -25,7 +25,7 @@ jobs:
 
       - name: Auto-merge passing PRs
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           # Get open PRs
           prs=$(gh pr list --state open --json number,headRefName --jq '.[].number')
