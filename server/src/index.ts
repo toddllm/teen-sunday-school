@@ -46,6 +46,8 @@ import pollRoutes from './routes/poll.routes';
 import seasonalEventsRoutes from './routes/seasonal-events.routes';
 import topicRoutes from './routes/topic.routes';
 import icebreakerRoutes from './routes/icebreaker.routes';
+import profileRoutes from './routes/profile.routes';
+;
 
 // Import socket handlers
 import { initializeSessionSocket } from './socket/session.socket';
@@ -169,6 +171,8 @@ app.use('/api', pollRoutes);
 app.use('/api', seasonalEventsRoutes);
 app.use('/api', topicRoutes);
 app.use('/api', icebreakerRoutes);
+app.use('/api/me/profile', profileRoutes);
+
 
 // 404 handler
 app.use((req, res) => {
