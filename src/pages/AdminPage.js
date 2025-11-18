@@ -72,6 +72,13 @@ function AdminPage() {
               <p>Track lesson completion and curriculum progress</p>
             </div>
           </Link>
+          <Link to="/admin/incidents" className="quick-access-card">
+            <div className="quick-access-icon">📋</div>
+            <div className="quick-access-content">
+              <h3>Incident Reports</h3>
+              <p>Track behavior and wellbeing incidents</p>
+            </div>
+          </Link>
         </div>
 
         <div className="admin-stats">

@@ -182,10 +182,19 @@ function Navigation() {
           <li className="nav-item">
             <Link
               to="/admin"
-              className={`nav-link admin-link ${isActive('/admin') ? 'active' : ''}`}
+              className={`nav-link admin-link ${isActive('/admin') && location.pathname === '/admin' ? 'active' : ''}`}
               onClick={closeMenu}
             >
               Admin
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/admin/incidents"
+              className={`nav-link ${isActive('/admin/incidents') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Incidents
             </Link>
           </li>
           <li className="nav-item theme-toggle-item">

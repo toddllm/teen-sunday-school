@@ -41,6 +41,7 @@ import GoalsPage from './pages/GoalsPage';
 import CurriculumCoverageReportPage from './pages/CurriculumCoverageReportPage';
 import SignupAnalyticsPage from './pages/SignupAnalyticsPage';
 import ComicGeneratorPage from './pages/ComicGeneratorPage';
+import IncidentReportingPage from './pages/IncidentReportingPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -118,6 +119,7 @@ function App() {
             <Route path="/admin/warmup" element={<WarmupAdminPage />} />
             <Route path="/admin/curriculum-coverage" element={<CurriculumCoverageReportPage />} />
             <Route path="/admin/signup-analytics" element={<SignupAnalyticsPage />} />
+            <Route path="/admin/incidents" element={<IncidentReportingPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/warmup/present" element={<PreClassWarmupPage />} />
             <Route path="/goals" element={<GoalsPage />} />
