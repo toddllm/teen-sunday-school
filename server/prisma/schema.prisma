@@ -656,3 +656,68 @@ enum ScheduleFrequency {
   BEFORE_LESSON // Triggered before lessons (uses offsetDays)
   BEFORE_EVENT  // Triggered before events (uses offsetHours)
 }
+
+// ============================================================================
+// BIBLE CHARACTER GUESS GAME METRICS
+// ============================================================================
+
+model CharacterGuessAttempt {
+  id             String   @id @default(cuid())
+  userId         String?  // Optional - can track anonymous plays
+  organizationId String?
+  lessonId       String?
+
+  // Game details
+  characterId    String   // Character ID from lesson JSON
+  characterName  String   // Character name for easier queries
+  difficulty     String   // easy, medium, hard
+
+  // Attempt details
+  hintsRevealed  Int      // Number of hints revealed before guess
+  isCorrect      Boolean  // Whether they guessed correctly
+  attempts       Int      // Number of attempts made
+  timeSpentMs    Int?     // Time spent on this character (optional)
+
+  // Context
+  mode           String   @default("solo") // solo or group
+  groupId        String?  // If played in group mode
+
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+  @@index([organizationId])
+  @@index([characterId])
+  @@index([lessonId])
+  @@index([createdAt])
+  @@index([isCorrect])
+}
+
+model CharacterGuessMetric {
+  id             String   @id @default(cuid())
+  characterId    String   // Character ID from lesson JSON
+  characterName  String   // Character name
+  organizationId String?
+  lessonId       String?
+
+  // Aggregated metrics
+  totalPlays     Int      @default(0)
+  totalCorrect   Int      @default(0)
+  totalIncorrect Int      @default(0)
+  successRate    Float    @default(0) // Calculated: totalCorrect / totalPlays
+
+  // Hint usage statistics
+  avgHintsUsed   Float    @default(0)
+
+  // Popularity
+  popularityScore Float   @default(0) // Weighted score based on plays and success
+
+  lastPlayedAt   DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([characterId, organizationId, lessonId])
+  @@index([organizationId])
+  @@index([lessonId])
+  @@index([popularityScore])
+  @@index([successRate])
+}

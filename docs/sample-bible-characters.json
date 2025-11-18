@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Moses",
+    "hints": [
+      "I led God's people out of slavery in Egypt",
+      "I received the Ten Commandments on Mount Sinai",
+      "I carried a staff that performed miracles, including parting the Red Sea",
+      "My sister was Miriam and my brother was Aaron"
+    ],
+    "difficulty": "easy",
+    "description": "Moses was a prophet, leader, and lawgiver who led the Israelites out of Egyptian bondage and received God's law on Mount Sinai.",
+    "scriptureRef": "Exodus 1-40"
+  },
+  {
+    "name": "David",
+    "hints": [
+      "I defeated a giant with just a sling and a stone",
+      "I was a shepherd boy before becoming king",
+      "I wrote many psalms and was called a man after God's own heart",
+      "My son Solomon built the temple in Jerusalem"
+    ],
+    "difficulty": "easy",
+    "description": "David was Israel's greatest king, a skilled warrior, musician, and poet who established Jerusalem as the capital.",
+    "scriptureRef": "1 Samuel 16 - 1 Kings 2"
+  },
+  {
+    "name": "Mary (mother of Jesus)",
+    "hints": [
+      "An angel named Gabriel appeared to me with an important message",
+      "I was visited by shepherds and wise men after giving birth",
+      "I treasured and pondered many things in my heart",
+      "I gave birth to Jesus in Bethlehem"
+    ],
+    "difficulty": "easy",
+    "description": "Mary was chosen by God to be the mother of Jesus Christ, demonstrating remarkable faith and obedience.",
+    "scriptureRef": "Luke 1-2, Matthew 1-2"
+  },
+  {
+    "name": "Peter",
+    "hints": [
+      "I was a fisherman before Jesus called me to follow Him",
+      "I walked on water but then began to sink when I took my eyes off Jesus",
+      "I denied knowing Jesus three times before the rooster crowed",
+      "Jesus gave me the keys to the kingdom and called me 'the rock'"
+    ],
+    "difficulty": "medium",
+    "description": "Peter was one of Jesus' closest disciples, known for his bold faith and later became a leader in the early church.",
+    "scriptureRef": "Matthew 4, 14, 16, 26; Acts 1-12"
+  },
+  {
+    "name": "Esther",
+    "hints": [
+      "I was a Jewish orphan raised by my cousin Mordecai",
+      "I became queen of Persia through a beauty contest",
+      "I risked my life by approaching the king uninvited",
+      "I saved my people from a plot to destroy them"
+    ],
+    "difficulty": "medium",
+    "description": "Esther was a brave queen who risked her life to save the Jewish people from genocide in Persia.",
+    "scriptureRef": "Book of Esther"
+  },
+  {
+    "name": "Daniel",
+    "hints": [
+      "I was taken captive to Babylon as a young man",
+      "I refused to eat the king's food and chose vegetables instead",
+      "I interpreted dreams and visions for kings",
+      "I was thrown into a den of lions but God protected me"
+    ],
+    "difficulty": "medium",
+    "description": "Daniel was a faithful prophet who maintained his devotion to God despite being in exile and facing persecution.",
+    "scriptureRef": "Book of Daniel"
+  },
+  {
+    "name": "Ruth",
+    "hints": [
+      "I was from Moab but chose to follow my mother-in-law and her God",
+      "I gleaned grain in the fields of a wealthy man",
+      "I said 'Where you go I will go, and where you stay I will stay'",
+      "I became the great-grandmother of King David"
+    ],
+    "difficulty": "medium",
+    "description": "Ruth demonstrated loyalty, faith, and became part of Jesus' family line through her devotion to Naomi and God.",
+    "scriptureRef": "Book of Ruth"
+  },
+  {
+    "name": "Paul (Saul)",
+    "hints": [
+      "I persecuted Christians before my dramatic conversion on the road to Damascus",
+      "I was blinded by a bright light and heard Jesus speak to me",
+      "I went on three missionary journeys across the Roman Empire",
+      "I wrote many letters that became books of the New Testament"
+    ],
+    "difficulty": "medium",
+    "description": "Paul was transformed from a persecutor of Christians to the greatest missionary and theologian of the early church.",
+    "scriptureRef": "Acts 9, 13-28; Romans - Philemon"
+  },
+  {
+    "name": "Abraham",
+    "hints": [
+      "God called me to leave my homeland and go to a land I had never seen",
+      "God promised to make my descendants as numerous as the stars",
+      "I had a son in my old age when I was 100 years old",
+      "God tested my faith by asking me to sacrifice my son Isaac"
+    ],
+    "difficulty": "easy",
+    "description": "Abraham is known as the father of faith, who trusted God's promises and became the ancestor of the Jewish people.",
+    "scriptureRef": "Genesis 12-25"
+  },
+  {
+    "name": "Joshua",
+    "hints": [
+      "I was Moses' assistant and took over leadership after he died",
+      "I led the Israelites across the Jordan River on dry ground",
+      "The walls of Jericho fell down after we marched around them",
+      "God told me to 'be strong and courageous' as I led His people"
+    ],
+    "difficulty": "medium",
+    "description": "Joshua led the Israelites into the Promised Land and conquered Canaan through faith and obedience to God.",
+    "scriptureRef": "Book of Joshua"
+  },
+  {
+    "name": "Jonah",
+    "hints": [
+      "God called me to preach to the people of Nineveh, but I ran away",
+      "I was swallowed by a great fish for three days and nights",
+      "After being vomited onto dry land, I finally obeyed God",
+      "I was angry when the city I preached to actually repented"
+    ],
+    "difficulty": "easy",
+    "description": "Jonah learned about God's mercy and compassion through his reluctant mission to Nineveh.",
+    "scriptureRef": "Book of Jonah"
+  },
+  {
+    "name": "Joseph (son of Jacob)",
+    "hints": [
+      "My father gave me a special colorful coat",
+      "My brothers sold me into slavery out of jealousy",
+      "I interpreted Pharaoh's dreams about seven years of plenty and famine",
+      "I became second-in-command of all Egypt"
+    ],
+    "difficulty": "medium",
+    "description": "Joseph remained faithful to God through slavery and prison, ultimately saving his family and Egypt from famine.",
+    "scriptureRef": "Genesis 37-50"
+  },
+  {
+    "name": "Deborah",
+    "hints": [
+      "I was both a prophetess and a judge in Israel",
+      "I sat under a palm tree where people came for judgment",
+      "I led Israel's army to victory over the Canaanites",
+      "I sang a victory song after the battle"
+    ],
+    "difficulty": "hard",
+    "description": "Deborah was a wise leader and warrior who judged Israel and led them to victory through faith in God.",
+    "scriptureRef": "Judges 4-5"
+  },
+  {
+    "name": "Gideon",
+    "hints": [
+      "An angel found me threshing wheat in a winepress, hiding from enemies",
+      "God reduced my army from 32,000 to just 300 men",
+      "We defeated the Midianites using trumpets, torches, and jars",
+      "I asked God for signs using a fleece to confirm His will"
+    ],
+    "difficulty": "hard",
+    "description": "Gideon was a reluctant hero who learned to trust God and led Israel to victory with a tiny army.",
+    "scriptureRef": "Judges 6-8"
+  },
+  {
+    "name": "Noah",
+    "hints": [
+      "I was called righteous in a generation of wicked people",
+      "God told me to build a massive boat on dry land",
+      "I gathered two of every kind of animal",
+      "My family and I survived a worldwide flood that lasted 40 days and nights"
+    ],
+    "difficulty": "easy",
+    "description": "Noah obeyed God by building the ark and preserving life through the great flood.",
+    "scriptureRef": "Genesis 6-9"
+  },
+  {
+    "name": "Elijah",
+    "hints": [
+      "I challenged 450 prophets of Baal to a contest on Mount Carmel",
+      "God sent fire from heaven to consume my sacrifice",
+      "I was fed by ravens during a drought",
+      "I was taken up to heaven in a whirlwind with chariots of fire"
+    ],
+    "difficulty": "medium",
+    "description": "Elijah was a powerful prophet who performed many miracles and stood boldly against idolatry in Israel.",
+    "scriptureRef": "1 Kings 17-19, 2 Kings 2"
+  },
+  {
+    "name": "John the Baptist",
+    "hints": [
+      "I ate locusts and wild honey in the wilderness",
+      "I baptized people in the Jordan River, calling them to repentance",
+      "I said 'Behold, the Lamb of God who takes away the sin of the world'",
+      "I baptized Jesus even though I said He should baptize me"
+    ],
+    "difficulty": "medium",
+    "description": "John the Baptist prepared the way for Jesus' ministry through his preaching and baptizing.",
+    "scriptureRef": "Matthew 3, Mark 1, Luke 3, John 1"
+  },
+  {
+    "name": "Samson",
+    "hints": [
+      "I was dedicated to God as a Nazarite from birth",
+      "My supernatural strength came from my uncut hair",
+      "I killed a lion with my bare hands",
+      "A woman named Delilah discovered the secret of my strength"
+    ],
+    "difficulty": "medium",
+    "description": "Samson was a judge with extraordinary strength who struggled with self-control but ultimately defeated Israel's enemies.",
+    "scriptureRef": "Judges 13-16"
+  },
+  {
+    "name": "Nehemiah",
+    "hints": [
+      "I was a cupbearer to the king of Persia",
+      "I wept when I heard about Jerusalem's broken walls",
+      "I led the effort to rebuild Jerusalem's walls in just 52 days",
+      "We worked with a tool in one hand and a weapon in the other"
+    ],
+    "difficulty": "hard",
+    "description": "Nehemiah was a dedicated leader who rebuilt Jerusalem's walls despite opposition, showing determination and faith.",
+    "scriptureRef": "Book of Nehemiah"
+  },
+  {
+    "name": "Timothy",
+    "hints": [
+      "Paul called me his 'true son in the faith'",
+      "My mother Eunice and grandmother Lois taught me the Scriptures",
+      "Paul wrote two letters to me that are in the Bible",
+      "I served as a young pastor and leader in the early church"
+    ],
+    "difficulty": "hard",
+    "description": "Timothy was a young disciple mentored by Paul who became a faithful pastor and leader in the early church.",
+    "scriptureRef": "Acts 16, 1-2 Timothy"
+  }
+]

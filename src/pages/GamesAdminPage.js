@@ -29,6 +29,17 @@ const GamesAdminPage = () => {
   const [gridSize, setGridSize] = useState(10);
   const [message, setMessage] = useState('');
 
+  // Bible Character Riddles state
+  const [characters, setCharacters] = useState([]);
+  const [newCharacter, setNewCharacter] = useState({
+    name: '',
+    hints: ['', '', ''],
+    difficulty: 'medium',
+    description: '',
+    scriptureRef: ''
+  });
+  const [editingCharacterId, setEditingCharacterId] = useState(null);
+
   useEffect(() => {
     if (lesson?.wordGames) {
       setWordGames({
@@ -38,6 +49,9 @@ const GamesAdminPage = () => {
         wordSearch: lesson.wordGames.wordSearch || { words: [], grid: 10 }
       });
       setGridSize(lesson.wordGames.wordSearch?.grid || 10);
+    }
+    if (lesson?.bibleCharacterGames) {
+      setCharacters(lesson.bibleCharacterGames.characters || []);
     }
   }, [lesson]);
 
@@ -126,6 +140,9 @@ const GamesAdminPage = () => {
           words: wordGames.wordSearch.words,
           grid: gridSize
         }
+      },
+      bibleCharacterGames: {
+        characters: characters
       }
     });
     setMessage('✅ Games saved successfully!');
@@ -142,6 +159,237 @@ const GamesAdminPage = () => {
       wordSearch: 'Word Search'
     };
     return names[gameType];
+  };
+
+  const handleAddCharacter = () => {
+    // Validate character
+    if (!newCharacter.name.trim()) {
+      setMessage('Please enter a character name!');
+      return;
+    }
+
+    const validHints = newCharacter.hints.filter(h => h.trim());
+    if (validHints.length < 2) {
+      setMessage('Please provide at least 2 hints!');
+      return;
+    }
+
+    const character = {
+      id: editingCharacterId || `char-${Date.now()}`,
+      name: newCharacter.name.trim(),
+      hints: validHints,
+      difficulty: newCharacter.difficulty,
+      description: newCharacter.description.trim(),
+      scriptureRef: newCharacter.scriptureRef.trim()
+    };
+
+    if (editingCharacterId) {
+      // Update existing character
+      setCharacters(characters.map(c => c.id === editingCharacterId ? character : c));
+      setMessage(`✅ Updated character: ${character.name}`);
+      setEditingCharacterId(null);
+    } else {
+      // Add new character
+      setCharacters([...characters, character]);
+      setMessage(`✅ Added character: ${character.name}`);
+    }
+
+    // Reset form
+    setNewCharacter({
+      name: '',
+      hints: ['', '', ''],
+      difficulty: 'medium',
+      description: '',
+      scriptureRef: ''
+    });
+
+    setTimeout(() => setMessage(''), 3000);
+  };
+
+  const handleEditCharacter = (character) => {
+    setNewCharacter({
+      name: character.name,
+      hints: [...character.hints, '', ''].slice(0, 3), // Ensure 3 hint fields
+      difficulty: character.difficulty,
+      description: character.description || '',
+      scriptureRef: character.scriptureRef || ''
+    });
+    setEditingCharacterId(character.id);
+    // Scroll to form
+    window.scrollTo({ top: document.querySelector('.character-form')?.offsetTop - 100, behavior: 'smooth' });
+  };
+
+  const handleRemoveCharacter = (characterId) => {
+    setCharacters(characters.filter(c => c.id !== characterId));
+    if (editingCharacterId === characterId) {
+      setEditingCharacterId(null);
+      setNewCharacter({
+        name: '',
+        hints: ['', '', ''],
+        difficulty: 'medium',
+        description: '',
+        scriptureRef: ''
+      });
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingCharacterId(null);
+    setNewCharacter({
+      name: '',
+      hints: ['', '', ''],
+      difficulty: 'medium',
+      description: '',
+      scriptureRef: ''
+    });
+  };
+
+  const handleHintChange = (index, value) => {
+    const newHints = [...newCharacter.hints];
+    newHints[index] = value;
+    setNewCharacter({ ...newCharacter, hints: newHints });
+  };
+
+  const renderCharacterSection = () => {
+    return (
+      <div className="game-section character-section">
+        <h3>🕵️ Bible Character Riddles</h3>
+        <p className="game-hint">Create "Who am I?" character guessing games with progressive hints</p>
+
+        <div className="character-form">
+          <h4>{editingCharacterId ? 'Edit Character' : 'Add New Character'}</h4>
+
+          <div className="form-group">
+            <label htmlFor="charName">Character Name *</label>
+            <input
+              type="text"
+              id="charName"
+              value={newCharacter.name}
+              onChange={(e) => setNewCharacter({ ...newCharacter, name: e.target.value })}
+              placeholder="e.g., Moses, David, Mary..."
+              className="word-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Hints (at least 2 required) *</label>
+            {newCharacter.hints.map((hint, index) => (
+              <input
+                key={index}
+                type="text"
+                value={hint}
+                onChange={(e) => handleHintChange(index, e.target.value)}
+                placeholder={`Hint ${index + 1}...`}
+                className="word-input hint-input"
+              />
+            ))}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="difficulty">Difficulty</label>
+            <select
+              id="difficulty"
+              value={newCharacter.difficulty}
+              onChange={(e) => setNewCharacter({ ...newCharacter, difficulty: e.target.value })}
+              className="difficulty-select"
+            >
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              value={newCharacter.description}
+              onChange={(e) => setNewCharacter({ ...newCharacter, description: e.target.value })}
+              placeholder="Brief description shown after guessing..."
+              className="description-input"
+              rows="3"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="scriptureRef">Scripture Reference</label>
+            <input
+              type="text"
+              id="scriptureRef"
+              value={newCharacter.scriptureRef}
+              onChange={(e) => setNewCharacter({ ...newCharacter, scriptureRef: e.target.value })}
+              placeholder="e.g., Exodus 1-40, 1 Samuel 17..."
+              className="word-input"
+            />
+          </div>
+
+          <div className="form-actions">
+            <button onClick={handleAddCharacter} className="add-btn">
+              {editingCharacterId ? 'Update Character' : 'Add Character'}
+            </button>
+            {editingCharacterId && (
+              <button onClick={handleCancelEdit} className="cancel-btn">
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="characters-list">
+          <h4>Added Characters ({characters.length})</h4>
+          {characters.length === 0 ? (
+            <p className="empty-state">No characters added yet</p>
+          ) : (
+            <div className="character-cards">
+              {characters.map((character) => (
+                <div key={character.id} className="character-card">
+                  <div className="character-header">
+                    <h5>{character.name}</h5>
+                    <span className={`difficulty-badge ${character.difficulty}`}>
+                      {character.difficulty}
+                    </span>
+                  </div>
+                  <div className="character-hints">
+                    <strong>Hints:</strong>
+                    <ol>
+                      {character.hints.map((hint, idx) => (
+                        <li key={idx}>{hint}</li>
+                      ))}
+                    </ol>
+                  </div>
+                  {character.description && (
+                    <p className="character-description">
+                      <strong>Description:</strong> {character.description}
+                    </p>
+                  )}
+                  {character.scriptureRef && (
+                    <p className="character-scripture">
+                      <strong>Scripture:</strong> {character.scriptureRef}
+                    </p>
+                  )}
+                  <div className="character-actions">
+                    <button
+                      onClick={() => handleEditCharacter(character)}
+                      className="edit-btn"
+                      title="Edit character"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleRemoveCharacter(character.id)}
+                      className="remove-btn"
+                      title="Remove character"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
   };
 
   const renderWordList = (gameType) => {
@@ -232,6 +480,7 @@ const GamesAdminPage = () => {
       )}
 
       <div className="games-grid">
+        {renderCharacterSection()}
         {renderWordList('wordle')}
         {renderWordList('scramble')}
         {renderWordList('hangman')}
