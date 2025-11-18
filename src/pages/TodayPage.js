@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useStreak, ACTIVITY_TYPES } from '../contexts/StreakContext';
+import { useAudio } from '../contexts/AudioContext';
 import { Link } from 'react-router-dom';
+import AudioPlayer from '../components/AudioPlayer';
 import './TodayPage.css';
 
 function TodayPage() {
@@ -15,7 +17,26 @@ function TodayPage() {
     hasActivityToday
   } = useStreak();
 
+  const {
+    currentTrack,
+    getLastPlayedTrack,
+    getProgress,
+    loadTrack,
+    getListeningStats
+  } = useAudio();
+
   const [newBadges, setNewBadges] = useState([]);
+
+  const lastPlayedTrack = getLastPlayedTrack();
+  const listeningStats = getListeningStats();
+
+  const handleResumeAudio = async () => {
+    if (lastPlayedTrack) {
+      await loadTrack(lastPlayedTrack);
+      // Optionally start playing immediately
+      // await togglePlayPause();
+    }
+  };
 
   const stats = getStats();
   const allBadges = getAllBadges();
@@ -34,6 +55,7 @@ function TodayPage() {
   const activityTypeLabels = {
     [ACTIVITY_TYPES.READING_PLAN_COMPLETED]: 'Reading Plan Day',
     [ACTIVITY_TYPES.CHAPTER_READ]: 'Bible Chapter',
+    [ACTIVITY_TYPES.CHAPTER_LISTENED]: 'Audio Chapter',
     [ACTIVITY_TYPES.PRAYER_LOGGED]: 'Prayer Time',
     [ACTIVITY_TYPES.VERSE_MEMORIZED]: 'Verse Memorized',
     [ACTIVITY_TYPES.LESSON_COMPLETED]: 'Lesson Completed'
@@ -42,6 +64,7 @@ function TodayPage() {
   const activityTypeIcons = {
     [ACTIVITY_TYPES.READING_PLAN_COMPLETED]: '📅',
     [ACTIVITY_TYPES.CHAPTER_READ]: '📖',
+    [ACTIVITY_TYPES.CHAPTER_LISTENED]: '🎧',
     [ACTIVITY_TYPES.PRAYER_LOGGED]: '🙏',
     [ACTIVITY_TYPES.VERSE_MEMORIZED]: '🧠',
     [ACTIVITY_TYPES.LESSON_COMPLETED]: '✅'
@@ -111,6 +134,57 @@ function TodayPage() {
         <div className={`encouragement-message ${atRisk ? 'warning' : ''}`}>
           {getEncouragementMessage()}
         </div>
+
+        {/* Audio Player */}
+        {currentTrack && (
+          <div className="audio-section">
+            <h2>Audio Bible</h2>
+            <AudioPlayer />
+          </div>
+        )}
+
+        {/* Resume Audio */}
+        {!currentTrack && lastPlayedTrack && (
+          <div className="resume-audio-card">
+            <div className="resume-audio-content">
+              <div className="resume-audio-icon">🎧</div>
+              <div className="resume-audio-info">
+                <h3>Continue Listening</h3>
+                <p>{lastPlayedTrack.title}</p>
+                {getProgress(lastPlayedTrack) > 0 && (
+                  <div className="resume-progress">
+                    {Math.floor(getProgress(lastPlayedTrack) / 60)}:
+                    {Math.floor(getProgress(lastPlayedTrack) % 60).toString().padStart(2, '0')} elapsed
+                  </div>
+                )}
+              </div>
+            </div>
+            <button onClick={handleResumeAudio} className="resume-audio-button">
+              Resume
+            </button>
+          </div>
+        )}
+
+        {/* Audio Listening Stats */}
+        {listeningStats.totalChaptersListened > 0 && (
+          <div className="audio-stats-card">
+            <h3>Audio Bible Progress</h3>
+            <div className="audio-stats-grid">
+              <div className="audio-stat-item">
+                <span className="audio-stat-icon">🎧</span>
+                <span className="audio-stat-value">{listeningStats.totalChaptersListened}</span>
+                <span className="audio-stat-label">Chapters Listened</span>
+              </div>
+              <div className="audio-stat-item">
+                <span className="audio-stat-icon">⏱️</span>
+                <span className="audio-stat-value">
+                  {Math.floor(listeningStats.totalListeningTime / 60)}m
+                </span>
+                <span className="audio-stat-label">Listening Time</span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Quick Actions */}
         <div className="quick-actions">

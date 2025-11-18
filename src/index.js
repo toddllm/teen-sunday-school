@@ -5,15 +5,18 @@ import App from './App';
 import { LessonProvider } from './contexts/LessonContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { StreakProvider } from './contexts/StreakContext';
+import { AudioProvider } from './contexts/AudioContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider>
       <StreakProvider>
-        <LessonProvider>
-          <App />
-        </LessonProvider>
+        <AudioProvider>
+          <LessonProvider>
+            <App />
+          </LessonProvider>
+        </AudioProvider>
       </StreakProvider>
     </ThemeProvider>
   </React.StrictMode>

@@ -6,6 +6,7 @@ const StreakContext = createContext();
 export const ACTIVITY_TYPES = {
   READING_PLAN_COMPLETED: 'reading_plan_completed',
   CHAPTER_READ: 'chapter_read',
+  CHAPTER_LISTENED: 'chapter_listened',
   PRAYER_LOGGED: 'prayer_logged',
   VERSE_MEMORIZED: 'verse_memorized',
   LESSON_COMPLETED: 'lesson_completed'
@@ -82,6 +83,22 @@ export const BADGES = [
     description: 'Achieve a 30-day streak (lifetime best)',
     icon: '👑',
     criteria: (stats) => stats.longestStreak >= 30
+  },
+  {
+    id: 'audio_listener',
+    name: 'Audio Listener',
+    description: 'Listen to 10 audio Bible chapters',
+    icon: '🎧',
+    criteria: (stats) => stats.activityCounts.chapter_listened >= 10
+  },
+  {
+    id: 'multimedia_learner',
+    name: 'Multimedia Learner',
+    description: 'Read and listen to at least 5 chapters each',
+    icon: '📻',
+    criteria: (stats) =>
+      stats.activityCounts.chapter_read >= 5 &&
+      stats.activityCounts.chapter_listened >= 5
   }
 ];
 

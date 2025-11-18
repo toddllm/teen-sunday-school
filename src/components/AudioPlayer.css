@@ -1,0 +1,322 @@
+.audio-player {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+}
+
+.audio-player-header {
+  margin-bottom: 20px;
+}
+
+.audio-track-info {
+  text-align: center;
+}
+
+.audio-track-title {
+  margin: 0 0 5px 0;
+  font-size: 1.2em;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.audio-track-subtitle {
+  margin: 0;
+  font-size: 0.9em;
+  color: var(--secondary-text-color, #666);
+  opacity: 0.8;
+}
+
+.audio-progress-container {
+  margin: 20px 0;
+}
+
+.audio-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--progress-bg, rgba(0, 0, 0, 0.1));
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+}
+
+.audio-progress-fill {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 4px;
+  transition: width 0.1s ease;
+  position: relative;
+}
+
+.audio-progress-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background: var(--primary-color);
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: left 0.1s ease;
+  pointer-events: none;
+}
+
+.audio-progress-bar:hover .audio-progress-thumb {
+  width: 20px;
+  height: 20px;
+}
+
+.audio-time-display {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.85em;
+  color: var(--secondary-text-color, #666);
+}
+
+.audio-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.audio-control-button,
+.audio-play-button,
+.audio-speed-button {
+  background: var(--button-bg, #f0f0f0);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+.audio-control-button:hover,
+.audio-play-button:hover,
+.audio-speed-button:hover {
+  background: var(--button-hover-bg, #e0e0e0);
+  transform: scale(1.05);
+}
+
+.audio-control-button:active,
+.audio-play-button:active,
+.audio-speed-button:active {
+  transform: scale(0.95);
+}
+
+.audio-control-button:disabled,
+.audio-play-button:disabled,
+.audio-speed-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: scale(1);
+}
+
+.audio-control-button {
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 60px;
+}
+
+.audio-play-button {
+  padding: 15px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.audio-play-button:hover {
+  background: var(--primary-color-dark, var(--primary-color));
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.audio-speed-button {
+  padding: 10px 15px;
+  min-width: 60px;
+  font-weight: 600;
+}
+
+.control-icon {
+  font-size: 1.2em;
+  display: inline-block;
+}
+
+.audio-play-button .control-icon {
+  font-size: 1.5em;
+}
+
+.control-label {
+  font-size: 0.75em;
+  opacity: 0.8;
+}
+
+.speed-label {
+  font-size: 0.9em;
+}
+
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Compact player styles */
+.audio-player-compact {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+}
+
+.compact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.compact-title {
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.compact-progress {
+  width: 100%;
+  height: 4px;
+  background: var(--progress-bg, rgba(0, 0, 0, 0.1));
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.compact-progress-bar {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 2px;
+  transition: width 0.1s ease;
+}
+
+.compact-play-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2em;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.compact-play-button:hover {
+  background: var(--primary-color-dark, var(--primary-color));
+  transform: scale(1.05);
+}
+
+.compact-play-button:active {
+  transform: scale(0.95);
+}
+
+.compact-play-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: scale(1);
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .audio-player,
+[data-theme="dark"] .audio-player-compact {
+  background: var(--card-bg);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .audio-control-button,
+[data-theme="dark"] .audio-speed-button {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .audio-control-button:hover,
+[data-theme="dark"] .audio-speed-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .audio-progress-bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .compact-progress {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .audio-player {
+    padding: 15px;
+  }
+
+  .audio-track-title {
+    font-size: 1.1em;
+  }
+
+  .audio-controls {
+    gap: 10px;
+  }
+
+  .audio-control-button {
+    min-width: 50px;
+    padding: 8px 12px;
+  }
+
+  .audio-play-button {
+    width: 55px;
+    height: 55px;
+  }
+
+  .audio-speed-button {
+    min-width: 50px;
+    padding: 8px 12px;
+  }
+
+  .control-icon {
+    font-size: 1.1em;
+  }
+
+  .audio-play-button .control-icon {
+    font-size: 1.3em;
+  }
+}
