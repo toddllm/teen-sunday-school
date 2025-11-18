@@ -146,4 +146,39 @@
   .logo-text {
     font-size: 0.9em;
   }
+
+  .user-greeting {
+    padding: 15px 20px;
+  }
+}
+
+/* Auth-related styles */
+.user-greeting {
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 10px 15px;
+  background: var(--bg-color);
+  border-radius: var(--border-radius);
+}
+
+.logout-btn {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #e05555;
+  color: white;
+}
+
+.register-link {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.register-link:hover {
+  background: #45b56a;
+  color: white;
 }

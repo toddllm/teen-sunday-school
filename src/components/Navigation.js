@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 import './Navigation.css';
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const { isAuthenticated, user, logout } = useAuth();
 
   const isActive = (path) => {
     return location.pathname === path || location.pathname.startsWith(path + '/');
@@ -14,6 +17,12 @@ function Navigation() {
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
+
+  const handleLogout = () => {
+    logout();
+    closeMenu();
+    navigate('/');
+  };
 
   return (
     <nav className="navbar">
@@ -39,6 +48,29 @@ function Navigation() {
               Home
             </Link>
           </li>
+
+          {isAuthenticated && (
+            <li className="nav-item">
+              <Link
+                to="/today"
+                className={`nav-link ${isActive('/today') ? 'active' : ''}`}
+                onClick={closeMenu}
+              >
+                Today
+              </Link>
+            </li>
+          )}
+
+          <li className="nav-item">
+            <Link
+              to="/plans"
+              className={`nav-link ${isActive('/plans') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Reading Plans
+            </Link>
+          </li>
+
           <li className="nav-item">
             <Link
               to="/lessons"
@@ -48,6 +80,7 @@ function Navigation() {
               Lessons
             </Link>
           </li>
+
           <li className="nav-item">
             <Link
               to="/bible"
@@ -57,6 +90,7 @@ function Navigation() {
               Bible Tool
             </Link>
           </li>
+
           <li className="nav-item">
             <Link
               to="/admin"
@@ -66,6 +100,7 @@ function Navigation() {
               Admin
             </Link>
           </li>
+
           <li className="nav-item theme-toggle-item">
             <button
               onClick={toggleTheme}
@@ -76,6 +111,45 @@ function Navigation() {
               {theme === 'light' ? '🌙' : '☀️'}
             </button>
           </li>
+
+          {isAuthenticated ? (
+            <>
+              <li className="nav-item user-item">
+                <span className="user-greeting">
+                  Hi, {user?.name?.split(' ')[0] || 'User'}
+                </span>
+              </li>
+              <li className="nav-item">
+                <button
+                  onClick={handleLogout}
+                  className="nav-link logout-btn"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <Link
+                  to="/login"
+                  className={`nav-link ${isActive('/login') ? 'active' : ''}`}
+                  onClick={closeMenu}
+                >
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/register"
+                  className="nav-link register-link"
+                  onClick={closeMenu}
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>
