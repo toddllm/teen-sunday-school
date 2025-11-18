@@ -517,6 +517,10 @@ enum DigestFrequency {
 }
 
 model Notification {
+// DAILY GRATITUDE LOG
+// ============================================================================
+
+model GratitudeEntry {
   id             String   @id @default(cuid())
   userId         String
   organizationId String
@@ -998,4 +1002,21 @@ model GuessReferenceAttempt {
   @@index([userId])
   @@index([sessionId])
   @@index([createdAt])
+  // Content
+  gratitudeText  String   @db.Text
+  mood           String?  // Optional: happy, grateful, blessed, peaceful, joyful, etc.
+  category       String?  // Optional: family, faith, health, friends, school, etc.
+
+  // Tracking
+  entryDate      DateTime // The date this entry is for (date-only, without time)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations would go here if User had a relation back
+  // For now, userId is just a String reference
+
+  @@unique([userId, entryDate]) // One entry per user per day
+  @@index([userId])
+  @@index([organizationId])
+  @@index([entryDate])
 }
