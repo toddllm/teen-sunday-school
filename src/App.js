@@ -49,6 +49,8 @@ import ChronologicalPlanPage from './pages/ChronologicalPlanPage';
 import QuestionsAdminPage from './pages/QuestionsAdminPage';
 import QuestionBoxPage from './pages/QuestionBoxPage';
 import CurriculumCalendarPage from './pages/CurriculumCalendarPage';
+import JoinSessionPage from './pages/JoinSessionPage';
+import StudentSessionView from './pages/StudentSessionView';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -133,6 +135,8 @@ function App() {
             <Route path="/admin/questions" element={<QuestionsAdminPage />} />
             <Route path="/admin/calendar" element={<CurriculumCalendarPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
+            <Route path="/join-session" element={<JoinSessionPage />} />
+            <Route path="/session/student" element={<StudentSessionView />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/warmup/present" element={<PreClassWarmupPage />} />
             <Route path="/goals" element={<GoalsPage />} />

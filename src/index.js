@@ -17,6 +17,7 @@ import { BigStoryProvider } from './contexts/BigStoryContext';
 import { GoalProvider } from './contexts/GoalContext';
 import { QuestionProvider } from './contexts/QuestionContext';
 import { TemplateProvider } from './contexts/TemplateContext';
+import { SessionProvider } from './contexts/SessionContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -36,7 +37,9 @@ root.render(
                           <WeeklyWordProvider>
                           <ReadAloudProvider>
                             <BigStoryProvider>
-                              <App />
+                              <SessionProvider>
+                                <App />
+                              </SessionProvider>
                             </BigStoryProvider>
                           </ReadAloudProvider>
                           </WeeklyWordProvider>
