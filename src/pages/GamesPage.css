@@ -63,7 +63,14 @@
 
 .game-card p {
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.word-count {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 1rem;
 }
 
 .play-btn {
@@ -79,8 +86,14 @@
   transition: background 0.3s;
 }
 
-.play-btn:hover {
+.play-btn:hover:not(:disabled) {
   background: #2980b9;
+}
+
+.play-btn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .error-message {

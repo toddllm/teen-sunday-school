@@ -134,6 +134,21 @@
   color: white;
 }
 
+.btn-success {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #229954;
+  transform: translateY(-2px);
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 0.9em;
+}
+
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;

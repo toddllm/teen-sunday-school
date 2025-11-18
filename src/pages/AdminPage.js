@@ -96,6 +96,9 @@ function AdminPage() {
                         <Link to={`/admin/edit/${lesson.id}`} className="btn btn-small btn-primary" title="Edit">
                           ✏️
                         </Link>
+                        <Link to={`/admin/games/${lesson.id}`} className="btn btn-small btn-success" title="Manage Games">
+                          🎮
+                        </Link>
                         <button
                           onClick={() => handleDuplicate(lesson.id)}
                           className="btn btn-small btn-outline"

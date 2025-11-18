@@ -7,6 +7,7 @@ import LessonViewPage from './pages/LessonViewPage';
 import AdminPage from './pages/AdminPage';
 import LessonCreatorPage from './pages/LessonCreatorPage';
 import GamesPage from './pages/GamesPage';
+import GamesAdminPage from './pages/GamesAdminPage';
 import BibleToolPage from './pages/BibleToolPage';
 import './App.css';
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
+            <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="*" element={<Navigate to="/" />} />
