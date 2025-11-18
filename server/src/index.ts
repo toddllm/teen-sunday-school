@@ -47,6 +47,7 @@ import seasonalEventsRoutes from './routes/seasonal-events.routes';
 import topicRoutes from './routes/topic.routes';
 import icebreakerRoutes from './routes/icebreaker.routes';
 import profileRoutes from './routes/profile.routes';
+import parentRoutes from './routes/parent.routes';
 import seriesRoutes from './routes/series.routes';
 ;
 
@@ -173,6 +174,7 @@ app.use('/api', seasonalEventsRoutes);
 app.use('/api', topicRoutes);
 app.use('/api', icebreakerRoutes);
 app.use('/api', seriesRoutes);
+app.use('/api/parent', parentRoutes);
 app.use('/api/me/profile', profileRoutes);
 
 

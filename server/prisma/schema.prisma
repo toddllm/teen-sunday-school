@@ -67,6 +67,14 @@ model User {
   incidentsAsStudent   IncidentReport[] @relation("IncidentStudent")
   incidentsAssigned    IncidentReport[] @relation("AssignedLeader")
 
+  // Parent-child relationships
+  parentsOf        ParentChild[] @relation("ParentRelation")
+  childrenOf       ParentChild[] @relation("ChildRelation")
+
+  // Parent-specific data
+  parentLogins     ParentLogin[]
+  parentFeedback   ParentFeedback[]
+
   @@index([email])
   @@index([organizationId])
   @@index([externalId])
@@ -2509,4 +2517,54 @@ model SeriesCompletion {
   @@index([seriesId])
   @@index([userId])
   @@index([lessonId])
+}
+
+model ParentChild {
+  id        String   @id @default(cuid())
+  parentId  String
+  childId   String
+
+  // Permission settings
+  canViewProgress    Boolean @default(true)
+  canViewLessons     Boolean @default(true)
+  canViewActivities  Boolean @default(false) // Private teen data - default false
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent User @relation("ParentRelation", fields: [parentId], references: [id], onDelete: Cascade)
+  child  User @relation("ChildRelation", fields: [childId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, childId])
+  @@index([parentId])
+  @@index([childId])
+}
+
+model ParentLogin {
+  id        String   @id @default(cuid())
+  userId    String
+  loginAt   DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([loginAt])
+}
+
+model ParentFeedback {
+  id          String   @id @default(cuid())
+  userId      String
+  rating      Int?     // 1-5 stars
+  comment     String?  @db.Text
+  category    String?  // "content", "usability", "features", etc.
+  lessonId    String?  // Optional: feedback about specific lesson
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([category])
 }
