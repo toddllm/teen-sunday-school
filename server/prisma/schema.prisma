@@ -2369,3 +2369,69 @@ model TopicView {
   @@index([userId])
   @@index([viewedAt])
 }
+model Icebreaker {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Basic information
+  title          String
+  description    String?  @db.Text
+  instructions   String?  @db.Text
+
+  // Categorization
+  category       String   // "get-to-know", "faith-based", "energizer", "deep-discussion"
+  ageGroup       String   // "middle", "high", "college", "all"
+  groupSize      String   // "small", "medium", "large", "any"
+  energyLevel    String   // "low", "medium", "high"
+
+  // Practical details
+  durationMinutes Int     // Duration in minutes
+  materialsNeeded Json?   // Array of materials needed
+  questions       Json?   // Array of questions/prompts
+
+  // Sharing & visibility
+  isPublic       Boolean  @default(false)
+  isTemplate     Boolean  @default(false)
+
+  // Usage tracking
+  usageCount     Int      @default(0)
+  favoriteCount  Int      @default(0)
+
+  // Metadata
+  tags           Json?    // Array of custom tags
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([category])
+  @@index([ageGroup])
+  @@index([isPublic])
+}
+
+model IcebreakerUsage {
+  id            String   @id @default(cuid())
+  icebreakerId  String
+  userId        String?
+  lessonId      String?
+  groupId       String?
+  usedAt        DateTime @default(now())
+
+  @@index([icebreakerId])
+  @@index([userId])
+  @@index([lessonId])
+  @@index([usedAt])
+}
+
+model IcebreakerFavorite {
+  id           String   @id @default(cuid())
+  icebreakerId String
+  userId       String
+  createdAt    DateTime @default(now())
+
+  @@unique([icebreakerId, userId])
+  @@index([icebreakerId])
+  @@index([userId])
+}

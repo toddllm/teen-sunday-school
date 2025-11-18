@@ -61,6 +61,9 @@ import EventCreatorPage from './pages/EventCreatorPage';
 import TopicsPage from './pages/TopicsPage';
 import TopicDetailPage from './pages/TopicDetailPage';
 import TopicsAdminPage from './pages/TopicsAdminPage';
+import IcebreakerAdminPage from './pages/IcebreakerAdminPage';
+import IcebreakerCreatorPage from './pages/IcebreakerCreatorPage';
+import IcebreakerViewPage from './pages/IcebreakerViewPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -153,6 +156,10 @@ function App() {
             <Route path="/topics" element={<TopicsPage />} />
             <Route path="/topics/:id" element={<TopicDetailPage />} />
             <Route path="/admin/topics" element={<TopicsAdminPage />} />
+            <Route path="/admin/icebreakers" element={<IcebreakerAdminPage />} />
+            <Route path="/admin/icebreaker/create" element={<IcebreakerCreatorPage />} />
+            <Route path="/admin/icebreaker/edit/:id" element={<IcebreakerCreatorPage />} />
+            <Route path="/icebreaker/:id" element={<IcebreakerViewPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />
