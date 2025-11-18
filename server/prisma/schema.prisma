@@ -103,6 +103,7 @@ model Group {
   members      GroupMember[]
   mappings     ExternalGroupMapping[]
   lessons      LessonGroup[]
+  sessions     Session[]
 
   @@index([organizationId])
   @@index([externalId])
@@ -122,6 +123,51 @@ model GroupMember {
   @@unique([userId, groupId])
   @@index([userId])
   @@index([groupId])
+}
+
+// ============================================================================
+// SESSIONS & JOIN CODES
+// ============================================================================
+
+model Session {
+  id        String    @id @default(cuid())
+  groupId   String
+  joinCode  String    @unique
+  expiresAt DateTime
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Metrics
+  guestJoins  Int @default(0)  // Count of guest joins
+  memberJoins Int @default(0)  // Count of authenticated member joins
+  codeUses    Int @default(0)  // Total code use attempts
+
+  group  Group          @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  guests SessionGuest[]
+
+  @@index([groupId])
+  @@index([joinCode])
+  @@index([expiresAt])
+  @@index([startedAt])
+}
+
+model SessionGuest {
+  id         String   @id @default(cuid())
+  sessionId  String
+  tempId     String   @unique // Unique identifier for this guest
+  nickname   String
+  joinedAt   DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  // Track if guest later converts to registered user
+  convertedToUserId String?
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@index([tempId])
 }
 
 // ============================================================================

@@ -52,6 +52,50 @@ export async function authenticate(
 }
 
 /**
+ * Optional authentication - attach user if token is provided, otherwise continue
+ */
+export async function optionalAuthenticate(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      // No token provided, continue without user
+      next();
+      return;
+    }
+
+    const token = authHeader.substring(7);
+
+    try {
+      const payload = verifyAccessToken(token);
+
+      // Verify user still exists and is active
+      const user = await prisma.user.findUnique({
+        where: { id: payload.userId },
+        select: { id: true, isActive: true },
+      });
+
+      if (user && user.isActive) {
+        // Attach user to request if valid
+        req.user = { ...payload, isActive: user.isActive };
+      }
+    } catch (error) {
+      // Invalid token, just continue without user
+      logger.debug('Optional auth: Invalid token, continuing as guest');
+    }
+
+    next();
+  } catch (error) {
+    logger.error('Optional authentication error:', error);
+    next();
+  }
+}
+
+/**
  * Require specific role
  */
 export function requireRole(...roles: string[]) {
