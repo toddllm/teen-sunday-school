@@ -1,0 +1,237 @@
+.context-card-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.context-card-modal {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 40px var(--shadow-color);
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.context-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 2px solid var(--border-color);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.context-card-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.close-button:hover {
+  background-color: var(--hover-bg);
+  color: var(--text-color);
+}
+
+.context-card-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.context-section {
+  margin-bottom: 24px;
+}
+
+.context-section:last-of-type {
+  margin-bottom: 16px;
+}
+
+.context-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.context-section p {
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.key-theme {
+  font-weight: 500;
+  color: var(--text-color);
+  background-color: var(--hover-bg);
+  padding: 12px 16px;
+  border-radius: 6px;
+  border-left: 4px solid var(--secondary-color);
+}
+
+.cross-references-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cross-reference-item {
+  background-color: var(--hover-bg);
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.cross-reference-item:last-child {
+  margin-bottom: 0;
+}
+
+.cross-ref-verse {
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.cross-ref-note {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.context-disclaimer {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background-color: var(--hover-bg);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-color);
+}
+
+.context-disclaimer p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.no-context-message {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.no-context-message p:first-child {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  margin-bottom: 16px;
+}
+
+.context-card-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--card-bg);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.close-footer-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.close-footer-button:hover {
+  background-color: var(--dark-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.close-footer-button:active {
+  transform: translateY(0);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .context-card-backdrop {
+    padding: 10px;
+  }
+
+  .context-card-modal {
+    max-height: 95vh;
+  }
+
+  .context-card-header {
+    padding: 16px 20px;
+  }
+
+  .context-card-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .context-card-body {
+    padding: 20px;
+  }
+
+  .context-section h3 {
+    font-size: 1rem;
+  }
+}

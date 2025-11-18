@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../contexts/TranslationContext';
+import { useContextCards } from '../contexts/ContextCardContext';
 import { getChapter, getBooks, getChapters } from '../services/bibleAPI';
+import ContextCardModal from '../components/ContextCardModal';
 import './ParallelBiblePage.css';
 
 const ParallelBiblePage = () => {
@@ -13,6 +15,8 @@ const ParallelBiblePage = () => {
     availableTranslations
   } = useTranslation();
 
+  const { getContextCardByVerseRef } = useContextCards();
+
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState('JHN'); // Default to John
   const [chapters, setChapters] = useState([]);
@@ -22,6 +26,9 @@ const ParallelBiblePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [syncScroll, setSyncScroll] = useState(true);
+  const [showContextCard, setShowContextCard] = useState(false);
+  const [selectedVerseRef, setSelectedVerseRef] = useState(null);
+  const [contextCard, setContextCard] = useState(null);
 
   const primaryScrollRef = useRef(null);
   const secondaryScrollRef = useRef(null);
@@ -137,6 +144,85 @@ const ParallelBiblePage = () => {
       lastScrollSource.current = null;
     }, 100);
   };
+
+  // Handle verse click to show context card
+  const handleVerseClick = (verseNumber) => {
+    // Get the book name from the books array
+    const book = books.find(b => b.id === selectedBook);
+    const bookName = book ? book.name : selectedBook;
+
+    // Construct the verse reference (e.g., "John 3:16")
+    const verseRef = `${bookName} ${selectedChapter}:${verseNumber}`;
+
+    // Look up the context card
+    const card = getContextCardByVerseRef(verseRef);
+
+    setSelectedVerseRef(verseRef);
+    setContextCard(card);
+    setShowContextCard(true);
+  };
+
+  // Add click handlers to verse numbers after content renders
+  useEffect(() => {
+    const addVerseClickHandlers = () => {
+      // Find all verse number spans in both translations
+      const verseNums = document.querySelectorAll('.chapter-text .verse-num');
+
+      verseNums.forEach((verseNum) => {
+        // Make verse numbers clickable
+        verseNum.style.cursor = 'pointer';
+        verseNum.style.transition = 'all 0.2s ease';
+
+        // Add hover effect
+        const handleMouseEnter = () => {
+          verseNum.style.textDecoration = 'underline';
+          verseNum.style.transform = 'scale(1.1)';
+        };
+
+        const handleMouseLeave = () => {
+          verseNum.style.textDecoration = 'none';
+          verseNum.style.transform = 'scale(1)';
+        };
+
+        // Add click handler
+        const handleClick = (e) => {
+          e.preventDefault();
+          const verseNumber = verseNum.textContent.trim();
+          handleVerseClick(verseNumber);
+        };
+
+        verseNum.addEventListener('mouseenter', handleMouseEnter);
+        verseNum.addEventListener('mouseleave', handleMouseLeave);
+        verseNum.addEventListener('click', handleClick);
+
+        // Store the handlers for cleanup
+        verseNum._handlers = {
+          mouseenter: handleMouseEnter,
+          mouseleave: handleMouseLeave,
+          click: handleClick
+        };
+      });
+    };
+
+    // Add handlers after content loads
+    if (primaryContent || secondaryContent) {
+      // Small delay to ensure DOM is updated
+      setTimeout(addVerseClickHandlers, 100);
+    }
+
+    // Cleanup function
+    return () => {
+      const verseNums = document.querySelectorAll('.chapter-text .verse-num');
+      verseNums.forEach((verseNum) => {
+        if (verseNum._handlers) {
+          verseNum.removeEventListener('mouseenter', verseNum._handlers.mouseenter);
+          verseNum.removeEventListener('mouseleave', verseNum._handlers.mouseleave);
+          verseNum.removeEventListener('click', verseNum._handlers.click);
+          delete verseNum._handlers;
+        }
+      });
+    };
+  }, [primaryContent, secondaryContent, selectedBook, selectedChapter, books, getContextCardByVerseRef]);
 
   const primaryTranslationInfo = getTranslationById(primaryTranslation);
   const secondaryTranslationInfo = getTranslationById(secondaryTranslation);
@@ -272,6 +358,14 @@ const ParallelBiblePage = () => {
           </div>
         </div>
       </div>
+
+      {showContextCard && (
+        <ContextCardModal
+          contextCard={contextCard}
+          verseRef={selectedVerseRef}
+          onClose={() => setShowContextCard(false)}
+        />
+      )}
     </div>
   );
 };
