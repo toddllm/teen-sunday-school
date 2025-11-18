@@ -2308,3 +2308,64 @@ model EventActivity {
   @@index([activityType])
   @@index([createdAt])
 }
+model Topic {
+  id             String   @id @default(cuid())
+  organizationId String?  // NULL for global topics, set for org-specific topics
+
+  // Topic details
+  name           String
+  description    String?  @db.Text
+  category       String?  // e.g., "Relationships", "Identity", "Faith & Doubt"
+  tags           String[] // Array of searchable tags
+  popularityRank Int      @default(0) // Higher = more popular
+
+  // Visibility
+  isGlobal       Boolean  @default(true) // Available to all organizations
+  isActive       Boolean  @default(true)
+
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  verses       TopicVerse[]
+  views        TopicView[]
+
+  @@index([organizationId])
+  @@index([category])
+  @@index([popularityRank])
+  @@index([isGlobal])
+}
+
+model TopicVerse {
+  id        String   @id @default(cuid())
+  topicId   String
+  verseRef  String   // e.g., "John 3:16" or "Psalm 23:1-6"
+  note      String?  @db.Text // Optional note about why this verse is relevant
+  sortOrder Int      @default(0) // For custom ordering
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  topic Topic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([topicId, verseRef])
+  @@index([topicId])
+  @@index([verseRef])
+}
+
+model TopicView {
+  id        String   @id @default(cuid())
+  topicId   String
+  userId    String?  // NULL for anonymous views
+  viewedAt  DateTime @default(now())
+
+  // Conversion tracking
+  startedPlan Boolean @default(false) // Did the user start a reading plan from this topic?
+
+  topic Topic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@index([topicId])
+  @@index([userId])
+  @@index([viewedAt])
+}

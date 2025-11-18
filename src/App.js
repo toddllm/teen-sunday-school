@@ -58,6 +58,9 @@ import EventsPage from './pages/EventsPage';
 import EventDetailPage from './pages/EventDetailPage';
 import SeasonalEventsAdminPage from './pages/SeasonalEventsAdminPage';
 import EventCreatorPage from './pages/EventCreatorPage';
+import TopicsPage from './pages/TopicsPage';
+import TopicDetailPage from './pages/TopicDetailPage';
+import TopicsAdminPage from './pages/TopicsAdminPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -147,6 +150,9 @@ function App() {
             <Route path="/admin/events/edit/:id" element={<EventCreatorPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/:id" element={<EventDetailPage />} />
+            <Route path="/topics" element={<TopicsPage />} />
+            <Route path="/topics/:id" element={<TopicDetailPage />} />
+            <Route path="/admin/topics" element={<TopicsAdminPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />

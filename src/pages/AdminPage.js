@@ -98,6 +98,13 @@ function AdminPage() {
             <div className="quick-access-content">
               <h3>Templates</h3>
               <p>Manage lesson templates</p>
+          <Link to="/admin/topics" className="quick-access-card">
+            <div className="quick-access-icon">📑</div>
+            <div className="quick-access-content">
+              <h3>Topics</h3>
+              <p>Manage topical index and verses</p>
+            </div>
+          </Link>
             </div>
           </Link>
         </div>
