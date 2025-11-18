@@ -29,6 +29,8 @@ import FindTheReferencePage from './pages/FindTheReferencePage';
 import OnboardingPage from './pages/OnboardingPage';
 import { useOnboarding } from './contexts/OnboardingContext';
 import DailyGratitudeLogPage from './pages/DailyGratitudeLogPage';
+import WarmupAdminPage from './pages/WarmupAdminPage';
+import PreClassWarmupPage from './pages/PreClassWarmupPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -103,7 +105,9 @@ function App() {
             <Route path="/admin/ai-filters" element={<AIFiltersAdminPage />} />
             <Route path="/admin/weekly-word" element={<WeeklyWordAdminPage />} />
             <Route path="/weekly-word/archive" element={<WeeklyWordArchivePage />} />
+            <Route path="/admin/warmup" element={<WarmupAdminPage />} />
             <Route path="/games/:lessonId" element={<GamesPage />} />
+            <Route path="/warmup/present" element={<PreClassWarmupPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
             <Route path="/bible/miracles" element={<MiraclesExplorerPage />} />
