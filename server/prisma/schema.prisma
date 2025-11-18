@@ -2076,3 +2076,68 @@ model ChallengeMetric {
 
   @@index([challengeId])
 }
+model BibleLocation {
+  id               String   @id @default(cuid())
+  name             String
+  alternateNames   String?  // Comma-separated alternate names
+  latitude         Float
+  longitude        Float
+  summary          String   @db.Text
+  description      String?  @db.Text  // Longer description with historical context
+  keyEvents        Json?    // Array of key events that happened here
+  relatedPassages  Json     // Array of Bible passage references
+  imageUrl         String?  // Optional image of the location
+  region           String?  // Geographic region (e.g., "Galilee", "Judea", "Egypt")
+  modernName       String?  // Modern name if different
+
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  lessonLocations  LessonLocation[]
+  mapViews         BibleMapView[]
+
+  @@index([name])
+  @@index([region])
+  @@index([isActive])
+}
+
+// Junction table: Many-to-many between Lessons and BibleLocations
+model LessonLocation {
+  id         String   @id @default(cuid())
+  lessonId   String
+  locationId String
+  relevance  String?  // Why this location is relevant to this lesson
+  createdAt  DateTime @default(now())
+
+  lesson   Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  location BibleLocation  @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([lessonId, locationId])
+  @@index([lessonId])
+  @@index([locationId])
+}
+
+// Track map views and location clicks for metrics
+model BibleMapView {
+  id           String   @id @default(cuid())
+  locationId   String?  // NULL for general map view
+  userId       String?  // NULL for anonymous views
+  actionType   MapActionType
+  metadata     Json?    // Additional context (e.g., which passage link was clicked)
+  createdAt    DateTime @default(now())
+
+  location BibleLocation? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+
+  @@index([locationId])
+  @@index([userId])
+  @@index([actionType])
+  @@index([createdAt])
+}
+
+enum MapActionType {
+  MAP_VIEW           // User viewed the map
+  LOCATION_VIEW      // User viewed a specific location
+  PASSAGE_CLICK      // User clicked to read a related passage
+  LOCATION_HOVER     // User hovered over a location pin
+}

@@ -1,0 +1,17 @@
+.bible-map-page {
+  height: calc(100vh - 60px); /* Adjust based on your navigation height */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bible-map-page .bible-map-viewer {
+  flex: 1;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .bible-map-page {
+    height: calc(100vh - 56px); /* Smaller nav on mobile */
+  }
+}
