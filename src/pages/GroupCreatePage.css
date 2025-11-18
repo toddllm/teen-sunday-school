@@ -1,0 +1,152 @@
+.group-create-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.create-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.create-header h1 {
+  font-size: 2.5em;
+  color: var(--dark-color);
+  margin-bottom: 10px;
+}
+
+.create-header p {
+  font-size: 1.2em;
+  color: var(--text-secondary);
+}
+
+.group-create-form {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 40px;
+  box-shadow: var(--box-shadow);
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.error-message {
+  background: #fee;
+  border: 1px solid var(--accent-color);
+  color: #c33;
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--dark-color);
+  font-size: 1.05em;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 12px 20px;
+  border: 2px solid var(--input-border);
+  border-radius: var(--border-radius);
+  font-size: 1em;
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-help {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.btn-secondary {
+  background: var(--light-gray);
+  color: var(--dark-color);
+}
+
+.btn-secondary:hover {
+  background: #d5dce4;
+}
+
+.create-info {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.create-info h3 {
+  color: var(--dark-color);
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
+
+.create-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.create-info li {
+  padding: 10px 0;
+  padding-left: 30px;
+  position: relative;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.create-info li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--secondary-color);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+  .create-header h1 {
+    font-size: 2em;
+  }
+
+  .group-create-form,
+  .create-info {
+    padding: 25px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+}

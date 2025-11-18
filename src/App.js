@@ -13,6 +13,9 @@ import GamesAdminPage from './pages/GamesAdminPage';
 import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
+import GroupsListPage from './pages/GroupsListPage';
+import GroupCreatePage from './pages/GroupCreatePage';
+import GroupDetailPage from './pages/GroupDetailPage';
 import './App.css';
 
 function App() {
@@ -27,6 +30,9 @@ function App() {
             <Route path="/badges" element={<BadgesPage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
+            <Route path="/groups" element={<GroupsListPage />} />
+            <Route path="/groups/create" element={<GroupCreatePage />} />
+            <Route path="/groups/:groupId" element={<GroupDetailPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
