@@ -86,6 +86,24 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/question-bank"
+              className={`nav-link ${isActive('/question-bank') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Question Bank
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/session-plans"
+              className={`nav-link ${isActive('/session-plans') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Session Plans
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible"
               className={`nav-link ${isActive('/bible') && location.pathname === '/bible' ? 'active' : ''}`}
               onClick={closeMenu}
