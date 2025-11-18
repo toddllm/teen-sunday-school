@@ -51,6 +51,7 @@ import parentRoutes from './routes/parent.routes';
 import xpRoutes from './routes/xp.routes';
 import quizRoutes from './routes/quiz.routes';
 import lessonDebriefRoutes from './routes/lesson-debrief.routes';
+import taggingTaxonomyRoutes from './routes/tagging-taxonomy.routes';
 import seriesRoutes from './routes/series.routes';
 ;
 
@@ -181,6 +182,7 @@ app.use('/api/parent', parentRoutes);
 app.use('/api', xpRoutes);
 app.use('/api', quizRoutes);
 app.use('/api', lessonDebriefRoutes);
+app.use('/api/taxonomy', taggingTaxonomyRoutes);
 app.use('/api/me/profile', profileRoutes);
 
 
