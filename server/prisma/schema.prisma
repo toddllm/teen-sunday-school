@@ -1289,3 +1289,70 @@ model DoctrineMetric {
   @@index([createdAt])
   @@index([userId])
 }
+
+// ============================================================================
+// BIG STORY OVERVIEW (Creation → New Creation)
+// ============================================================================
+
+model BigStorySection {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Section metadata
+  sectionTitle   String   // "Creation", "Fall", "Redemption Begun", etc.
+  sectionSlug    String   // URL-friendly: "creation", "fall", "redemption-begun"
+  order          Int      // Chronological order (1, 2, 3...)
+  timelineEra    String   // "Beginning", "Old Testament", "Gospels", "Church Age", "Future"
+
+  // Content
+  description    String?  @db.Text
+  keyPassages    Json     // Array of {ref: string, text?: string, notes?: string, isOT: boolean}
+  keyEvents      Json     // Array of strings: major biblical events in this section
+  narrative      Json     // {summary: string, connections: string[], howItFits: string, nextSection?: string}
+
+  // Visual data for timeline
+  visualData     Json?    // {color: string, icon?: string, position?: number}
+
+  // Visibility
+  isPublic       Boolean  @default(false)
+
+  // Authorship
+  createdBy      String?  // User ID
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  metrics        BigStoryMetric[]
+
+  @@unique([organizationId, sectionSlug])
+  @@index([organizationId])
+  @@index([order])
+  @@index([sectionSlug])
+}
+
+model BigStoryMetric {
+  id             String   @id @default(cuid())
+  sectionId      String
+  organizationId String
+
+  // Tracking
+  viewCount      Int      @default(0)
+  lastViewedAt   DateTime @default(now())
+
+  // User engagement
+  userId         String?  // User who viewed
+  featureContext String?  // Where it was accessed
+  timeSpentMs    Int?     // Time spent viewing in milliseconds
+
+  // Lesson usage tracking
+  usedInLesson   Boolean  @default(false)
+  lessonId       String?
+
+  createdAt      DateTime @default(now())
+
+  section BigStorySection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId])
+  @@index([organizationId])
+  @@index([createdAt])
+  @@index([userId])
+}

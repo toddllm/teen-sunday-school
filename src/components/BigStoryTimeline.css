@@ -1,0 +1,115 @@
+.big-story-timeline {
+  overflow-y: auto;
+  flex: 1;
+  padding: 10px;
+}
+
+.timeline-era {
+  margin-bottom: 20px;
+}
+
+.era-label {
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary, #6b7280);
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: var(--era-label-bg, #f3f4f6);
+  border-radius: 4px;
+}
+
+.era-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timeline-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--card-bg, white);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-left: 4px solid #9ca3af;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  width: 100%;
+}
+
+.timeline-section:hover {
+  background: var(--hover-bg, #f9fafb);
+  border-color: var(--hover-border, #d1d5db);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-section.selected {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border-color: #6366f1;
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.2);
+}
+
+.section-icon {
+  font-size: 1.8em;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--icon-bg, #f3f4f6);
+  border-radius: 50%;
+}
+
+.timeline-section.selected .section-icon {
+  background: #eef2ff;
+}
+
+.section-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.section-order {
+  font-size: 0.75em;
+  font-weight: 600;
+  color: var(--text-secondary, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-title {
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--text-color, #1f2937);
+  line-height: 1.3;
+}
+
+.timeline-section.selected .section-title {
+  color: #4f46e5;
+}
+
+/* Scrollbar styling */
+.big-story-timeline::-webkit-scrollbar {
+  width: 8px;
+}
+
+.big-story-timeline::-webkit-scrollbar-track {
+  background: var(--scrollbar-track, #f1f1f1);
+}
+
+.big-story-timeline::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, #c1c1c1);
+  border-radius: 4px;
+}
+
+.big-story-timeline::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover, #a1a1a1);
+}
