@@ -120,6 +120,8 @@ import ReflectionPage from './pages/ReflectionPage';
 import ReadingPreferencesPage from './pages/ReadingPreferencesPage';
 import MemoryVersesPage from './pages/MemoryVersesPage';
 import ReviewSessionPage from './pages/ReviewSessionPage';
+import ProgressPage from './pages/ProgressPage';
+import BookProgressDetail from './pages/BookProgressDetail';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -272,6 +274,8 @@ function AppContent() {
             <Route path="/settings/reading" element={<ReadingPreferencesPage />} />
             <Route path="/memory-verses" element={<MemoryVersesPage />} />
             <Route path="/memory-verses/review" element={<ReviewSessionPage />} />
+            <Route path="/progress" element={<ProgressPage />} />
+            <Route path="/progress/:bookName" element={<BookProgressDetail />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
       </main>

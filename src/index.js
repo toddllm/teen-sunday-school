@@ -40,6 +40,7 @@ import { KidsModeProvider } from './contexts/KidsModeContext';
 import { KidsContentProvider } from './contexts/KidsContentContext';
 import { ReflectionProvider } from './contexts/ReflectionContext';
 import { MemoryVerseProvider } from './contexts/MemoryVerseContext';
+import { BibleProgressProvider } from './contexts/BibleProgressContext';
 import { ABTestProvider } from './contexts/ABTestContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
@@ -105,7 +106,9 @@ root.render(
                                                                         <KidsContentProvider>
                                                                           <ReflectionProvider>
                                                                             <MemoryVerseProvider>
-                                                                              <App />
+                                                                              <BibleProgressProvider>
+                                                                                <App />
+                                                                              </BibleProgressProvider>
                                                                             </MemoryVerseProvider>
                                                                           </ReflectionProvider>
                                                                         </KidsContentProvider>
