@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useOrganizations } from '../contexts/OrganizationContext';
+import { useOrganization } from '../contexts/OrganizationContext';
 import { useGroups } from '../contexts/GroupContext';
 import { useAuth } from '../contexts/AuthContext';
 import './OrganizationDashboard.css';
@@ -9,7 +9,7 @@ const OrganizationDashboard = () => {
   const { orgId } = useParams();
   const navigate = useNavigate();
   const { getOrganizationById, getOrganizationUsers, isOrgAdmin, ROLES } =
-    useOrganizations();
+    useOrganization();
   const {
     getOrganizationGroups,
     getGroupMemberCount,

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useOrganizations } from '../contexts/OrganizationContext';
+import { useOrganization } from '../contexts/OrganizationContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useGroups } from '../contexts/GroupContext';
 import './OrganizationAdminPage.css';
 
 const OrganizationAdminPage = () => {
   const { organizations, createOrganization, updateOrganization, deleteOrganization } =
-    useOrganizations();
+    useOrganization();
   const { currentUser } = useAuth();
   const { getOrganizationGroups, getGroupMemberCount } = useGroups();
 

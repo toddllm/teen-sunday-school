@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useOrganizations } from '../contexts/OrganizationContext';
+import { useOrganization } from '../contexts/OrganizationContext';
 
 /**
  * ProtectedRoute component for role-based access control
@@ -20,7 +20,7 @@ const ProtectedRoute = ({
   redirectTo = '/'
 }) => {
   const { currentUser, isAuthenticated } = useAuth();
-  const { getUserRole, ROLES } = useOrganizations();
+  const { getUserRole, ROLES } = useOrganization();
 
   // Check if user is logged in
   if (requireAuth && !isAuthenticated()) {
