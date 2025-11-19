@@ -90,6 +90,9 @@ import ScavengerHuntAdminPage from './pages/ScavengerHuntAdminPage';
 import SubmissionGalleryPage from './pages/SubmissionGalleryPage';
 import CacheConfigAdminPage from './pages/CacheConfigAdminPage';
 import ErrorDashboardPage from './pages/ErrorDashboardPage';
+import ServiceProjectsAdminPage from './pages/ServiceProjectsAdminPage';
+import ProjectCreatorPage from './pages/ProjectCreatorPage';
+import ProjectPreviewPage from './pages/ProjectPreviewPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -207,6 +210,10 @@ function App() {
             <Route path="/admin/scavenger-hunt" element={<ScavengerHuntAdminPage />} />
             <Route path="/admin/cache-config" element={<CacheConfigAdminPage />} />
             <Route path="/admin/errors" element={<ErrorDashboardPage />} />
+            <Route path="/admin/service-projects" element={<ServiceProjectsAdminPage />} />
+            <Route path="/admin/service-project/create" element={<ProjectCreatorPage />} />
+            <Route path="/admin/service-project/edit/:id" element={<ProjectCreatorPage />} />
+            <Route path="/admin/service-project/preview/:id" element={<ProjectPreviewPage />} />
             <Route path="/admin/scavenger-hunt/:huntId/submissions" element={<SubmissionGalleryPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/scavenger-hunt" element={<ScavengerHuntPage />} />
