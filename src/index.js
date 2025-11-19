@@ -81,33 +81,33 @@ root.render(
                                         <ProfileProvider>
                                           <CharacterProvider>
                                             <QuestionBankProvider>
-                                  <SessionProvider>
-                                    <BugReportProvider>
-                                      <ScavengerHuntProvider>
-                                        <CacheConfigProvider>
-                                          <OutlineProvider>
-                                            <LexiconProvider>
-                                              <ThematicJourneyProvider>
-                                                <CommentaryProvider>
-                                                  <FeedbackProvider>
-                                                    <DevotionalProvider>
-                                                      <App />
-                                                    </DevotionalProvider>
-                                                  </FeedbackProvider>
-                                                </CommentaryProvider>
-                                              </ThematicJourneyProvider>
-                                            </LexiconProvider>
-                                          </OutlineProvider>
-                                        </CacheConfigProvider>
-                                      </ScavengerHuntProvider>
-                                    </BugReportProvider>
+                                              <SessionProvider>
+                                                <BugReportProvider>
+                                                  <ScavengerHuntProvider>
+                                                    <CacheConfigProvider>
+                                                      <OutlineProvider>
+                                                        <LexiconProvider>
+                                                          <ThematicJourneyProvider>
+                                                            <CommentaryProvider>
+                                                              <FeedbackProvider>
+                                                                <DevotionalProvider>
+                                                                  <App />
+                                                                </DevotionalProvider>
+                                                              </FeedbackProvider>
+                                                            </CommentaryProvider>
+                                                          </ThematicJourneyProvider>
+                                                        </LexiconProvider>
+                                                      </OutlineProvider>
+                                                    </CacheConfigProvider>
+                                                  </ScavengerHuntProvider>
+                                                </BugReportProvider>
+                                              </SessionProvider>
                                             </QuestionBankProvider>
                                           </CharacterProvider>
                                         </ProfileProvider>
                                       </IcebreakerProvider>
                                     </TopicProvider>
                                   </SeasonalEventProvider>
-                                  </SessionProvider>
                                 </PollProvider>
                               </MapProvider>
                             </BigStoryProvider>
