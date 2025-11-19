@@ -228,22 +228,37 @@ async function startServer() {
     await prisma.$connect();
     logger.info('✓ Database connected');
 
-    // Initialize notification jobs
+    // Helper function to timeout async operations
+    const withTimeout = <T>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
+      return Promise.race([
+        promise,
+        new Promise<T>((_, reject) =>
+          setTimeout(() => reject(new Error('Operation timed out')), timeoutMs)
+        )
+      ]);
+    };
+
+    // Initialize notification jobs (with timeout to prevent hanging on Redis connection)
     try {
-      const { initializeNotificationJobs } = await import('./jobs/notification.job');
-      await initializeNotificationJobs();
+      await withTimeout(
+        (async () => {
+          const { initializeNotificationJobs } = await import('./jobs/notification.job');
+          await initializeNotificationJobs();
+        })(),
+        2000 // 2 second timeout
+      );
       logger.info('✓ Notification jobs initialized');
     } catch (error) {
-      logger.warn('⚠ Failed to initialize notification jobs:', error);
+      logger.warn('⚠ Skipping notification jobs (Redis not available)');
       // Don't fail server startup if notification jobs fail
     }
 
-    // Initialize challenge jobs
+    // Initialize challenge jobs (with timeout)
     try {
-      await initializeChallengeJobs();
+      await withTimeout(initializeChallengeJobs(), 2000);
       logger.info('✓ Challenge jobs initialized');
     } catch (error) {
-      logger.warn('⚠ Failed to initialize challenge jobs:', error);
+      logger.warn('⚠ Skipping challenge jobs (Redis not available)');
       // Don't fail server startup if challenge jobs fail
     }
 

@@ -22,18 +22,28 @@ model Organization {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users             User[]
-  groups            Group[]
-  integrations      ExternalIntegration[]
-  lessons           Lesson[]
-  lessonSeries      LessonSeries[]
-  aiFilterConfigs   AIFilterConfig[]
-  comparativeThemes ComparativeTheme[]
-  parables     Parable[]
+  users                      User[]
+  groups                     Group[]
+  integrations               ExternalIntegration[]
+  lessons                    Lesson[]
+  lessonSeries               LessonSeries[]
+  aiFilterConfigs            AIFilterConfig[]
+  comparativeThemes          ComparativeTheme[]
+  parables                   Parable[]
   translationComparisonNotes TranslationComparisonNote[]
-  personalGoals PersonalGoal[]
-  comicStoryboards ComicStoryboard[]
-  incidentReports IncidentReport[]
+  personalGoals              PersonalGoal[]
+  comicStoryboards           ComicStoryboard[]
+  incidentReports            IncidentReport[]
+  lessonTemplates            LessonTemplate[]
+  polls                      Poll[]
+  seasonalEvents             SeasonalEvent[]
+  topics                     Topic[]
+  icebreakers                Icebreaker[]
+  tags                       Tag[]
+  proverbOfTheDays           ProverbOfTheDay[]
+  cacheConfig                CacheConfig?
+  errorLogs                  ErrorLog[]
+  errorIncidents             ErrorIncident[]
 
   @@index([slug])
 }
@@ -56,35 +66,39 @@ model User {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  organization          Organization            @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  groupMemberships      GroupMember[]
-  refreshTokens         RefreshToken[]
+  organization           Organization            @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  groupMemberships       GroupMember[]
+  refreshTokens          RefreshToken[]
   notificationPreference NotificationPreference?
-  notifications         Notification[]
-  personalGoals    PersonalGoal[]
-  goalProgress     GoalProgress[]
-  incidentsReported    IncidentReport[] @relation("ReportedBy")
-  incidentsAsStudent   IncidentReport[] @relation("IncidentStudent")
-  incidentsAssigned    IncidentReport[] @relation("AssignedLeader")
+  notifications          Notification[]
+  personalGoals          PersonalGoal[]
+  goalProgress           GoalProgress[]
+  incidentsReported      IncidentReport[]        @relation("ReportedBy")
+  incidentsAsStudent     IncidentReport[]        @relation("IncidentStudent")
+  incidentsAssigned      IncidentReport[]        @relation("AssignedLeader")
 
   // Parent-child relationships
-  parentsOf        ParentChild[] @relation("ParentRelation")
-  childrenOf       ParentChild[] @relation("ChildRelation")
+  parentsOf  ParentChild[] @relation("ParentRelation")
+  childrenOf ParentChild[] @relation("ChildRelation")
 
   // Parent-specific data
-  parentLogins     ParentLogin[]
-  parentFeedback   ParentFeedback[]
+  parentLogins   ParentLogin[]
+  parentFeedback ParentFeedback[]
 
   // XP & Level System
-  xp               UserXP?
-  xpEvents         XPEvent[]
-  rewards          UserReward[]
+  xp       UserXP?
+  xpEvents XPEvent[]
+  rewards  UserReward[]
 
   // Quizzes
-  quizAttempts     QuizAttempt[]
+  quizAttempts QuizAttempt[]
 
   // Lesson Debriefs
-  lessonDebriefs   LessonDebrief[]
+  lessonDebriefs        LessonDebrief[]
+  userReadingPlans      UserReadingPlan[]
+  activities            Activity[]
+  challengeParticipants ChallengeParticipant[]
+  pollResponses         PollResponse[]
 
   @@index([email])
   @@index([organizationId])
@@ -133,11 +147,12 @@ model Group {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  organization Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  members      GroupMember[]
-  mappings     ExternalGroupMapping[]
-  lessons      LessonGroup[]
-  incidentReports IncidentReport[]
+  organization       Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  members            GroupMember[]
+  mappings           ExternalGroupMapping[]
+  lessons            LessonGroup[]
+  incidentReports    IncidentReport[]
+  anonymousQuestions AnonymousQuestion[]
 
   @@index([organizationId])
   @@index([externalId])
@@ -322,11 +337,14 @@ model Lesson {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  groups       LessonGroup[]
-  seriesLessons SeriesLesson[]
-  quizzes      LessonQuiz[]
-  debriefs     LessonDebrief[]
+  organization       Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  groups             LessonGroup[]
+  seriesLessons      SeriesLesson[]
+  quizzes            LessonQuiz[]
+  debriefs           LessonDebrief[]
+  anonymousQuestions AnonymousQuestion[]
+  lessonLocations    LessonLocation[]
+  polls              Poll[]
 
   @@unique([organizationId, quarter, unit, lessonNumber])
   @@index([organizationId])
@@ -339,8 +357,8 @@ model LessonGroup {
   groupId   String
   createdAt DateTime @default(now())
 
-  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  group  Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  lesson          Lesson               @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  group           Group                @relation(fields: [groupId], references: [id], onDelete: Cascade)
   coverageRecords CurriculumCoverage[]
 
   @@unique([lessonId, groupId])
@@ -353,25 +371,25 @@ model LessonGroup {
 // ============================================================================
 
 model CurriculumCoverage {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
-  lessonGroupId  String   // Links to LessonGroup
-  lessonId       String   // Denormalized for easier queries
-  groupId        String   // Denormalized for easier queries
+  lessonGroupId  String // Links to LessonGroup
+  lessonId       String // Denormalized for easier queries
+  groupId        String // Denormalized for easier queries
 
   // Coverage details
-  status         CoverageStatus @default(PLANNED)
-  completedAt    DateTime?
-  scheduledDate  DateTime?
+  status        CoverageStatus @default(PLANNED)
+  completedAt   DateTime?
+  scheduledDate DateTime?
 
   // Progress tracking
-  attendeeCount  Int?     // How many attended
-  notes          String?  @db.Text
+  attendeeCount Int? // How many attended
+  notes         String? @db.Text
 
   // Metadata
-  markedBy       String?  // User ID who marked as complete
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  markedBy  String? // User ID who marked as complete
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   lessonGroup LessonGroup @relation(fields: [lessonGroupId], references: [id], onDelete: Cascade)
 
@@ -384,28 +402,28 @@ model CurriculumCoverage {
 }
 
 enum CoverageStatus {
-  PLANNED       // Scheduled but not yet taught
-  IN_PROGRESS   // Currently teaching
-  COMPLETED     // Finished teaching
-  SKIPPED       // Intentionally skipped
+  PLANNED // Scheduled but not yet taught
+  IN_PROGRESS // Currently teaching
+  COMPLETED // Finished teaching
+  SKIPPED // Intentionally skipped
 }
 
 model CoverageReportMetric {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Report details
-  reportType     String   // "quarter", "unit", "group", "overview"
-  reportParams   Json?    // Parameters used to generate report
+  reportType   String // "quarter", "unit", "group", "overview"
+  reportParams Json? // Parameters used to generate report
 
   // User engagement
-  userId         String?  // User who viewed report
-  viewedAt       DateTime @default(now())
-  timeSpentMs    Int?     // Time spent viewing in milliseconds
+  userId      String? // User who viewed report
+  viewedAt    DateTime @default(now())
+  timeSpentMs Int? // Time spent viewing in milliseconds
 
   // Export tracking
-  exportFormat   String?  // "pdf", "csv", "json" if exported
-  exportedAt     DateTime?
+  exportFormat String? // "pdf", "csv", "json" if exported
+  exportedAt   DateTime?
 
   @@index([organizationId])
   @@index([userId])
@@ -568,38 +586,38 @@ model NotificationPreference {
   userId String @unique
 
   // Email notification settings
-  emailEnabled          Boolean @default(true)
-  emailLessonReminders  Boolean @default(true)
-  emailEventReminders   Boolean @default(true)
-  emailAnnouncements    Boolean @default(true)
-  emailGroupUpdates     Boolean @default(true)
-  emailDigest           Boolean @default(false)  // Daily/weekly digest
-  emailDigestFrequency  DigestFrequency @default(WEEKLY)
+  emailEnabled         Boolean         @default(true)
+  emailLessonReminders Boolean         @default(true)
+  emailEventReminders  Boolean         @default(true)
+  emailAnnouncements   Boolean         @default(true)
+  emailGroupUpdates    Boolean         @default(true)
+  emailDigest          Boolean         @default(false) // Daily/weekly digest
+  emailDigestFrequency DigestFrequency @default(WEEKLY)
 
   // In-app notification settings
-  inAppEnabled          Boolean @default(true)
-  inAppLessonReminders  Boolean @default(true)
-  inAppEventReminders   Boolean @default(true)
-  inAppAnnouncements    Boolean @default(true)
-  inAppGroupUpdates     Boolean @default(true)
+  inAppEnabled         Boolean @default(true)
+  inAppLessonReminders Boolean @default(true)
+  inAppEventReminders  Boolean @default(true)
+  inAppAnnouncements   Boolean @default(true)
+  inAppGroupUpdates    Boolean @default(true)
 
   // Scheduling preferences
-  quietHoursEnabled     Boolean @default(false)
-  quietHoursStart       String? // Time in HH:MM format (e.g., "22:00")
-  quietHoursEnd         String? // Time in HH:MM format (e.g., "08:00")
-  quietHoursTimezone    String  @default("America/New_York")
+  quietHoursEnabled  Boolean @default(false)
+  quietHoursStart    String? // Time in HH:MM format (e.g., "22:00")
+  quietHoursEnd      String? // Time in HH:MM format (e.g., "08:00")
+  quietHoursTimezone String  @default("America/New_York")
 
   // Days of week preferences (ISO 8601: 1=Monday, 7=Sunday)
-  preferredDays         Json?   // Array of day numbers [1,2,3,4,5] for Mon-Fri
+  preferredDays Json? // Array of day numbers [1,2,3,4,5] for Mon-Fri
 
   // Notification timing
-  lessonReminderDays    Int     @default(2)  // Days before lesson to send reminder
-  lessonReminderTime    String  @default("18:00") // Time to send lesson reminders (HH:MM)
-  eventReminderHours    Int     @default(24) // Hours before event to send reminder
+  lessonReminderDays Int    @default(2) // Days before lesson to send reminder
+  lessonReminderTime String @default("18:00") // Time to send lesson reminders (HH:MM)
+  eventReminderHours Int    @default(24) // Hours before event to send reminder
 
   // Batch settings
-  batchNotifications    Boolean @default(false) // Batch multiple notifications together
-  maxNotificationsPerDay Int    @default(10)   // Maximum notifications per day (0 = unlimited)
+  batchNotifications     Boolean @default(false) // Batch multiple notifications together
+  maxNotificationsPerDay Int     @default(10) // Maximum notifications per day (0 = unlimited)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -616,49 +634,48 @@ enum DigestFrequency {
   MONTHLY
 }
 
-model Notification {
-// DAILY GRATITUDE LOG
+// NOTIFICATIONS
 // ============================================================================
 
-model GratitudeEntry {
-  id             String   @id @default(cuid())
+model Notification {
+  id             String @id @default(cuid())
   userId         String
   organizationId String
 
   // Notification content
-  type           NotificationType
-  title          String
-  message        String   @db.Text
-  actionUrl      String?  // Deep link or URL for the notification action
+  type      NotificationType
+  title     String
+  message   String           @db.Text
+  actionUrl String? // Deep link or URL for the notification action
 
   // Delivery settings
   deliveryMethod NotificationDeliveryMethod @default(BOTH)
-  priority       NotificationPriority @default(NORMAL)
+  priority       NotificationPriority       @default(NORMAL)
 
   // Scheduling
-  scheduledFor   DateTime?  // When to send (NULL = send immediately)
-  sentAt         DateTime?
-  readAt         DateTime?
+  scheduledFor DateTime? // When to send (NULL = send immediately)
+  sentAt       DateTime?
+  readAt       DateTime?
 
   // Status tracking
   status         NotificationStatus @default(PENDING)
-  deliveryStatus Json?      // { email: "sent", inApp: "delivered" } with timestamps
+  deliveryStatus Json? // { email: "sent", inApp: "delivered" } with timestamps
 
   // Error handling
-  failureReason  String?    @db.Text
-  retryCount     Int        @default(0)
-  maxRetries     Int        @default(3)
+  failureReason String? @db.Text
+  retryCount    Int     @default(0)
+  maxRetries    Int     @default(3)
 
   // Related entities
-  groupId        String?
-  lessonId       String?
-  eventId        String?
+  groupId  String?
+  lessonId String?
+  eventId  String?
 
   // Metadata
-  metadata       Json?      // Additional context data
+  metadata Json? // Additional context data
 
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -671,16 +688,16 @@ model GratitudeEntry {
 }
 
 enum NotificationType {
-  LESSON_REMINDER       // Upcoming lesson reminder
-  EVENT_REMINDER        // Event reminder
-  ANNOUNCEMENT          // General announcement
-  GROUP_UPDATE          // Group membership or activity update
-  LESSON_ASSIGNED       // New lesson assigned to group
-  COMMENT_REPLY         // Someone replied to your comment
-  MENTION               // Someone mentioned you
-  SYNC_COMPLETE         // Integration sync completed
-  SYNC_ERROR            // Integration sync failed
-  CUSTOM                // Custom notification
+  LESSON_REMINDER // Upcoming lesson reminder
+  EVENT_REMINDER // Event reminder
+  ANNOUNCEMENT // General announcement
+  GROUP_UPDATE // Group membership or activity update
+  LESSON_ASSIGNED // New lesson assigned to group
+  COMMENT_REPLY // Someone replied to your comment
+  MENTION // Someone mentioned you
+  SYNC_COMPLETE // Integration sync completed
+  SYNC_ERROR // Integration sync failed
+  CUSTOM // Custom notification
 }
 
 enum NotificationDeliveryMethod {
@@ -697,79 +714,81 @@ enum NotificationPriority {
 }
 
 enum NotificationStatus {
-  PENDING           // Not yet sent
-  SCHEDULED         // Scheduled for future delivery
-  SENDING           // Currently being sent
-  SENT              // Successfully sent
-  DELIVERED         // Confirmed delivered (for in-app)
-  READ              // User has read the notification
-  FAILED            // Failed to send
-  CANCELLED         // Cancelled before sending
+  PENDING // Not yet sent
+  SCHEDULED // Scheduled for future delivery
+  SENDING // Currently being sent
+  SENT // Successfully sent
+  DELIVERED // Confirmed delivered (for in-app)
+  READ // User has read the notification
+  FAILED // Failed to send
+  CANCELLED // Cancelled before sending
 }
 
 model NotificationSchedule {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   organizationId String
-  groupId        String?  // NULL = applies to all groups in org
+  groupId        String? // NULL = applies to all groups in org
 
   // Schedule metadata
-  name           String
-  description    String?  @db.Text
+  name        String
+  description String? @db.Text
 
   // Notification template
   notificationType NotificationType
-  title          String
-  message        String   @db.Text
-  actionUrl      String?
+  title            String
+  message          String           @db.Text
+  actionUrl        String?
 
   // Recurrence settings
-  frequency      ScheduleFrequency
-  dayOfWeek      Int?     // 1-7 (Monday-Sunday) for WEEKLY
-  dayOfMonth     Int?     // 1-31 for MONTHLY
-  timeOfDay      String   // HH:MM format (e.g., "18:00")
-  timezone       String   @default("America/New_York")
+  frequency  ScheduleFrequency
+  dayOfWeek  Int? // 1-7 (Monday-Sunday) for WEEKLY
+  dayOfMonth Int? // 1-31 for MONTHLY
+  timeOfDay  String // HH:MM format (e.g., "18:00")
+  timezone   String            @default("America/New_York")
 
   // Offset settings
-  offsetDays     Int      @default(0)  // Days before/after the trigger event
-  offsetHours    Int      @default(0)  // Additional hours offset
+  offsetDays  Int @default(0) // Days before/after the trigger event
+  offsetHours Int @default(0) // Additional hours offset
 
   // Targeting
-  targetRoles    Json?    // Array of roles to notify ["TEACHER", "ORG_ADMIN"]
-  targetUserIds  Json?    // Specific user IDs to notify
+  targetRoles   Json? // Array of roles to notify ["TEACHER", "ORG_ADMIN"]
+  targetUserIds Json? // Specific user IDs to notify
 
   // Status
-  isActive       Boolean  @default(true)
-  lastRunAt      DateTime?
-  nextRunAt      DateTime?
+  isActive  Boolean   @default(true)
+  lastRunAt DateTime?
+  nextRunAt DateTime?
+}
+
 // SONG / LYRICS INTEGRATION
 // ============================================================================
 
 model SongRef {
-  id             String   @id @default(cuid())
-  organizationId String?  // NULL = globally available song
+  id             String  @id @default(cuid())
+  organizationId String? // NULL = globally available song
 
   // Song metadata
-  title          String
-  artist         String
-  linkUrl        String?  @db.Text // Link to song (YouTube, Spotify, etc.)
-  themeTags      String[] // Array of theme tags (worship, faith, grace, etc.)
+  title     String
+  artist    String
+  linkUrl   String?  @db.Text // Link to song (YouTube, Spotify, etc.)
+  themeTags String[] // Array of theme tags (worship, faith, grace, etc.)
 
   // Bible references this song relates to
-  relatedVerses  Json     // Array of verse references: ["JHN.3.16", "ROM.8.28", ...]
+  relatedVerses Json // Array of verse references: ["JHN.3.16", "ROM.8.28", ...]
 
   // For match game (short snippet or paraphrase, max 10 words)
-  gameSnippet    String?  @db.Text
-  gameTheme      String?  // Primary theme for matching
+  gameSnippet String? @db.Text
+  gameTheme   String? // Primary theme for matching
 
   // Admin curation
-  isApproved     Boolean  @default(false)
-  curatedBy      String?  // Admin user ID who approved
+  isApproved Boolean @default(false)
+  curatedBy  String? // Admin user ID who approved
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  playlistItems  SongPlaylistItem[]
-  metrics        SongMetric[]
+  playlistItems SongPlaylistItem[]
+  metrics       SongMetric[]
 
   @@index([organizationId])
   @@index([isApproved])
@@ -777,62 +796,66 @@ model SongRef {
 }
 
 model SongPlaylist {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
-  userId         String   // Leader who created the playlist
+  userId         String // Leader who created the playlist
 
   // Playlist metadata
-  name           String
-  description    String?  @db.Text
-  lessonId       String?  // Optional link to a specific lesson
+  name        String
+  description String? @db.Text
+  lessonId    String? // Optional link to a specific lesson
 
-  isPublic       Boolean  @default(false) // Share with other leaders
+  isPublic          Boolean            @default(false) // Share with other leaders
+  songPlaylistItems SongPlaylistItem[]
+}
+
 // SUBSTITUTE TEACHER ASSIGNMENTS
 // ============================================================================
 
 model SubstituteAssignment {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Assignment details
-  substituteId   String   // User ID of the substitute teacher
-  groupId        String   // Group they're substituting for
-  scheduledDate  DateTime // Date of the class
-  lessonId       String?  // Pre-assigned lesson (optional)
+  substituteId  String // User ID of the substitute teacher
+  groupId       String // Group they're substituting for
+  scheduledDate DateTime // Date of the class
+  lessonId      String? // Pre-assigned lesson (optional)
 
   // Regular teacher info (for context)
   regularTeacherId String? // User ID of regular teacher
 
   // Quick-start materials
-  notes          String?  @db.Text // Special instructions from regular teacher
+  notes             String? @db.Text // Special instructions from regular teacher
   emergencyContacts Json? // Array of {name: string, phone: string, role: string}
   customMaterials   Json? // Links to additional resources
 
   // Status tracking
-  status         SubstituteStatus @default(SCHEDULED)
-  acceptedAt     DateTime?
-  completedAt    DateTime?
+  status      SubstituteStatus @default(SCHEDULED)
+  acceptedAt  DateTime?
+  completedAt DateTime?
 
   // Feedback
   substituteNotes String? @db.Text // Notes from substitute after class
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([organizationId])
   @@index([groupId])
-  @@index([isActive])
-  @@index([nextRunAt])
+  @@index([substituteId])
+  @@index([scheduledDate])
+  @@index([status])
 }
 
 enum ScheduleFrequency {
-  ONCE          // One-time scheduled notification
+  ONCE // One-time scheduled notification
   DAILY
   WEEKLY
   BIWEEKLY
   MONTHLY
   BEFORE_LESSON // Triggered before lessons (uses offsetDays)
-  BEFORE_EVENT  // Triggered before events (uses offsetHours)
+  BEFORE_EVENT // Triggered before events (uses offsetHours)
 }
 
 // ============================================================================
@@ -840,27 +863,27 @@ enum ScheduleFrequency {
 // ============================================================================
 
 model CharacterGuessAttempt {
-  id             String   @id @default(cuid())
-  userId         String?  // Optional - can track anonymous plays
+  id             String  @id @default(cuid())
+  userId         String? // Optional - can track anonymous plays
   organizationId String?
   lessonId       String?
 
   // Game details
-  characterId    String   // Character ID from lesson JSON
-  characterName  String   // Character name for easier queries
-  difficulty     String   // easy, medium, hard
+  characterId   String // Character ID from lesson JSON
+  characterName String // Character name for easier queries
+  difficulty    String // easy, medium, hard
 
   // Attempt details
-  hintsRevealed  Int      // Number of hints revealed before guess
-  isCorrect      Boolean  // Whether they guessed correctly
-  attempts       Int      // Number of attempts made
-  timeSpentMs    Int?     // Time spent on this character (optional)
+  hintsRevealed Int // Number of hints revealed before guess
+  isCorrect     Boolean // Whether they guessed correctly
+  attempts      Int // Number of attempts made
+  timeSpentMs   Int? // Time spent on this character (optional)
 
   // Context
-  mode           String   @default("solo") // solo or group
-  groupId        String?  // If played in group mode
+  mode    String  @default("solo") // solo or group
+  groupId String? // If played in group mode
 
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   @@index([userId])
   @@index([organizationId])
@@ -871,27 +894,27 @@ model CharacterGuessAttempt {
 }
 
 model CharacterGuessMetric {
-  id             String   @id @default(cuid())
-  characterId    String   // Character ID from lesson JSON
-  characterName  String   // Character name
+  id             String  @id @default(cuid())
+  characterId    String // Character ID from lesson JSON
+  characterName  String // Character name
   organizationId String?
   lessonId       String?
 
   // Aggregated metrics
-  totalPlays     Int      @default(0)
-  totalCorrect   Int      @default(0)
-  totalIncorrect Int      @default(0)
-  successRate    Float    @default(0) // Calculated: totalCorrect / totalPlays
+  totalPlays     Int   @default(0)
+  totalCorrect   Int   @default(0)
+  totalIncorrect Int   @default(0)
+  successRate    Float @default(0) // Calculated: totalCorrect / totalPlays
 
   // Hint usage statistics
-  avgHintsUsed   Float    @default(0)
+  avgHintsUsed Float @default(0)
 
   // Popularity
-  popularityScore Float   @default(0) // Weighted score based on plays and success
+  popularityScore Float @default(0) // Weighted score based on plays and success
 
-  lastPlayedAt   DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  lastPlayedAt DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@unique([characterId, organizationId, lessonId])
   @@index([organizationId])
@@ -905,33 +928,33 @@ model CharacterGuessMetric {
 // ============================================================================
 
 model WeeklyWord {
-  id             String   @id @default(cuid())
-  organizationId String?  // NULL = shared across all organizations
+  id             String  @id @default(cuid())
+  organizationId String? // NULL = shared across all organizations
 
   // Word details
-  lemma          String   // Original word in Greek/Hebrew script
-  language       Language // GREEK or HEBREW
-  transliteration String  // Romanized version for pronunciation
-  gloss          String   // English meaning/translation
+  lemma           String // Original word in Greek/Hebrew script
+  language        Language // GREEK or HEBREW
+  transliteration String // Romanized version for pronunciation
+  gloss           String // English meaning/translation
 
   // Content
-  blurb          String   @db.Text // Short explanation/teaching
-  verseRefs      Json     // Array of verse references: ["John 3:16", "Romans 8:28"]
-  verseTexts     Json?    // Optional: cached verse texts for performance
+  blurb      String @db.Text // Short explanation/teaching
+  verseRefs  Json // Array of verse references: ["John 3:16", "Romans 8:28"]
+  verseTexts Json? // Optional: cached verse texts for performance
 
   // Scheduling
-  weekStart      DateTime // Start date of the week this word is featured
-  weekEnd        DateTime // End date (typically weekStart + 7 days)
+  weekStart DateTime // Start date of the week this word is featured
+  weekEnd   DateTime // End date (typically weekStart + 7 days)
 
   // Metadata
-  isFeatured     Boolean  @default(false) // Currently featured word
-  isActive       Boolean  @default(true)  // Archived words set to false
+  isFeatured Boolean @default(false) // Currently featured word
+  isActive   Boolean @default(true) // Archived words set to false
 
-  createdBy      String?  // User ID of creator (admin)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID of creator (admin)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  metrics        WeeklyWordMetric[]
+  metrics WeeklyWordMetric[]
 
   @@index([organizationId])
   @@index([weekStart])
@@ -946,19 +969,19 @@ enum Language {
 }
 
 model WeeklyWordMetric {
-  id           String   @id @default(cuid())
-  wordId       String
-  userId       String?  // NULL = anonymous view
+  id     String  @id @default(cuid())
+  wordId String
+  userId String? // NULL = anonymous view
 
   // Interaction types
-  eventType    WeeklyWordEventType
-  verseRef     String?  // Which verse was clicked (if applicable)
+  eventType WeeklyWordEventType
+  verseRef  String? // Which verse was clicked (if applicable)
 
   // Context
-  viewSource   String?  // "today_page", "dashboard", "archive"
-  sessionId    String?  // For tracking unique sessions
+  viewSource String? // "today_page", "dashboard", "archive"
+  sessionId  String? // For tracking unique sessions
 
-  createdAt    DateTime @default(now())
+  createdAt DateTime @default(now())
 
   word WeeklyWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
 
@@ -969,10 +992,10 @@ model WeeklyWordMetric {
 }
 
 enum WeeklyWordEventType {
-  VIEW          // Card viewed
-  VERSE_CLICK   // Clicked to read a verse
-  SHARE         // Shared the word
-  ARCHIVE_VIEW  // Viewed in archive
+  VIEW // Card viewed
+  VERSE_CLICK // Clicked to read a verse
+  SHARE // Shared the word
+  ARCHIVE_VIEW // Viewed in archive
 }
 
 // ============================================================================
@@ -980,25 +1003,25 @@ enum WeeklyWordEventType {
 // ============================================================================
 
 model InterlinearVerse {
-  id        String   @id @default(cuid())
-  verseRef  String   @unique // Verse reference (e.g., "JHN.3.16")
+  id       String @id @default(cuid())
+  verseRef String @unique // Verse reference (e.g., "JHN.3.16")
 
   // Interlinear data as JSON array
   // Each token contains: { original, transliteration, gloss, strongsNumber?, morphology? }
   tokensJson Json
 
   // Metadata
-  language   String   @default("greek") // "greek" or "hebrew"
-  translation String  @default("NA28")  // Source text (NA28, BHS, etc.)
+  language    String @default("greek") // "greek" or "hebrew"
+  translation String @default("NA28") // Source text (NA28, BHS, etc.)
 
   // Curation flags
-  isKeyVerse Boolean  @default(false)  // Is this a curated key verse?
-  category   String?                   // "salvation", "love", "faith", etc.
+  isKeyVerse Boolean @default(false) // Is this a curated key verse?
+  category   String? // "salvation", "love", "faith", etc.
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  metrics    InterlinearMetric[]
+  metrics InterlinearMetric[]
 
   @@index([verseRef])
   @@index([isKeyVerse])
@@ -1006,22 +1029,22 @@ model InterlinearVerse {
 }
 
 model InterlinearMetric {
-  id        String   @id @default(cuid())
-  verseId   String
+  id      String @id @default(cuid())
+  verseId String
 
   // Context
   organizationId String?
   userId         String?
 
   // Interaction details
-  action         String   // "view", "word_click", "copy", etc.
-  wordIndex      Int?     // Which word was clicked/interacted with
+  action    String // "view", "word_click", "copy", etc.
+  wordIndex Int? // Which word was clicked/interacted with
 
   // Metadata
-  featureName    String?  // Where the interlinear was accessed from
-  sessionId      String?  // Session tracking
+  featureName String? // Where the interlinear was accessed from
+  sessionId   String? // Session tracking
 
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   verse InterlinearVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
 
@@ -1030,21 +1053,16 @@ model InterlinearMetric {
   @@index([userId])
   @@index([createdAt])
   @@index([action])
-  items          SongPlaylistItem[]
-
-  @@index([organizationId])
-  @@index([userId])
-  @@index([lessonId])
 }
 
 model SongPlaylistItem {
-  id          String   @id @default(cuid())
-  playlistId  String
-  songId      String
-  orderIndex  Int      // Order in playlist
-  notes       String?  @db.Text // Leader notes for this song
+  id         String  @id @default(cuid())
+  playlistId String
+  songId     String
+  orderIndex Int // Order in playlist
+  notes      String? @db.Text // Leader notes for this song
 
-  createdAt   DateTime @default(now())
+  createdAt DateTime @default(now())
 
   playlist SongPlaylist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
   song     SongRef      @relation(fields: [songId], references: [id], onDelete: Cascade)
@@ -1055,19 +1073,19 @@ model SongPlaylistItem {
 }
 
 model SongMetric {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   songId         String
   organizationId String?
 
   // Metric type
-  metricType     SongMetricType
+  metricType SongMetricType
 
   // Context
-  userId         String?  // User who interacted
-  groupId        String?  // Group context if applicable
-  passageRef     String?  // Bible passage being viewed (e.g., "JHN.3.16")
+  userId     String? // User who interacted
+  groupId    String? // Group context if applicable
+  passageRef String? // Bible passage being viewed (e.g., "JHN.3.16")
 
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   song SongRef @relation(fields: [songId], references: [id], onDelete: Cascade)
 
@@ -1079,29 +1097,31 @@ model SongMetric {
 }
 
 enum SongMetricType {
-  VIEW           // Song was viewed in related songs section
-  LINK_CLICK     // External link was clicked
-  GAME_PLAY      // Song was used in match game
-  PLAYLIST_ADD   // Song was added to a playlist
+  VIEW // Song was viewed in related songs section
+  LINK_CLICK // External link was clicked
+  GAME_PLAY // Song was used in match game
+  PLAYLIST_ADD // Song was added to a playlist
+}
+
 // BIBLE REFERENCE GAME
 // ============================================================================
 
 model GuessReferenceQuestion {
-  id              String   @id @default(cuid())
-  verseReference  String   // e.g., "John 3:16"
-  displayText     String   @db.Text // The verse text or paraphrase
-  correctAnswer   String   // The correct reference
-  distractorRefs  Json     // Array of distractor references, e.g., ["John 3:17", "Romans 3:16", "Genesis 1:1"]
+  id             String @id @default(cuid())
+  verseReference String // e.g., "John 3:16"
+  displayText    String @db.Text // The verse text or paraphrase
+  correctAnswer  String // The correct reference
+  distractorRefs Json // Array of distractor references, e.g., ["John 3:17", "Romans 3:16", "Genesis 1:1"]
 
   // Optional categorization
-  book            String?  // Book name for filtering
-  difficulty      String?  @default("medium") // "easy", "medium", "hard"
-  isActive        Boolean  @default(true)
+  book       String? // Book name for filtering
+  difficulty String? @default("medium") // "easy", "medium", "hard"
+  isActive   Boolean @default(true)
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  attempts        GuessReferenceAttempt[]
+  attempts GuessReferenceAttempt[]
 
   @@index([book])
   @@index([difficulty])
@@ -1109,203 +1129,179 @@ model GuessReferenceQuestion {
 }
 
 model GuessReferenceAttempt {
-  id              String   @id @default(cuid())
-  questionId      String
-  userId          String?  // Optional - tracks logged-in users
-  sessionId       String?  // For tracking anonymous sessions
+  id         String  @id @default(cuid())
+  questionId String
+  userId     String? // Optional - tracks logged-in users
+  sessionId  String? // For tracking anonymous sessions
 
-  selectedAnswer  String   // The reference the user selected
-  isCorrect       Boolean  // Whether they got it right
-  timeToAnswerMs  Int?     // Time taken to answer in milliseconds
+  selectedAnswer String // The reference the user selected
+  isCorrect      Boolean // Whether they got it right
+  timeToAnswerMs Int? // Time taken to answer in milliseconds
 
   // Game context
-  gameMode        String?  // e.g., "random", "book:John", "plan:123"
-  roundNumber     Int?     // Position in the game session
+  gameMode    String? // e.g., "random", "book:John", "plan:123"
+  roundNumber Int? // Position in the game session
 
-  createdAt       DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  question        GuessReferenceQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  question GuessReferenceQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@index([questionId])
   @@index([userId])
   @@index([sessionId])
   @@index([createdAt])
-  // Content
-  gratitudeText  String   @db.Text
-  mood           String?  // Optional: happy, grateful, blessed, peaceful, joyful, etc.
-  category       String?  // Optional: family, faith, health, friends, school, etc.
-
-  // Tracking
-  entryDate      DateTime // The date this entry is for (date-only, without time)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  // Relations would go here if User had a relation back
-  // For now, userId is just a String reference
-
-  @@unique([userId, entryDate]) // One entry per user per day
-  @@index([userId])
-  @@index([organizationId])
-  @@index([entryDate])
-  @@index([substituteId])
-  @@index([groupId])
-  @@index([scheduledDate])
-  @@index([status])
 }
 
 enum SubstituteStatus {
-  SCHEDULED     // Assignment created
-  ACCEPTED      // Substitute confirmed
-  IN_PROGRESS   // Class is happening
-  COMPLETED     // Class finished
-  CANCELLED     // Assignment cancelled
+  SCHEDULED // Assignment created
+  ACCEPTED // Substitute confirmed
+  IN_PROGRESS // Class is happening
+  COMPLETED // Class finished
+  CANCELLED // Assignment cancelled
 }
 
 // Quick-access presets for substitute teachers
 model QuickStartPreset {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Preset details
-  name           String
-  description    String?
+  name        String
+  description String?
 
   // Included resources
-  includeSlides          Boolean @default(true)
-  includeGames           Boolean @default(true)
-  includeDiscussion      Boolean @default(true)
-  includeScripture       Boolean @default(true)
-  includeGroupRoster     Boolean @default(true)
-  includeEmergencyInfo   Boolean @default(true)
+  includeSlides        Boolean @default(true)
+  includeGames         Boolean @default(true)
+  includeDiscussion    Boolean @default(true)
+  includeScripture     Boolean @default(true)
+  includeGroupRoster   Boolean @default(true)
+  includeEmergencyInfo Boolean @default(true)
 
   // Time-saving options
-  autoLoadPresentation   Boolean @default(true)
-  simplifiedView         Boolean @default(true) // Hide advanced features
+  autoLoadPresentation Boolean @default(true)
+  simplifiedView       Boolean @default(true) // Hide advanced features
 
   // Template materials for emergency use
-  backupActivities       Json?   // Array of simple activities if lesson unavailable
-  iceBreakers            Json?   // Quick icebreaker activities
+  backupActivities Json? // Array of simple activities if lesson unavailable
+  iceBreakers      Json? // Quick icebreaker activities
 
-  isDefault      Boolean @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([organizationId])
   @@index([isDefault])
+}
+
 // PARABLES EXPLORER
 // ============================================================================
 
 model Parable {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Parable metadata
-  title          String
-  reference      String   // e.g., "Matthew 13:3-8"
-  category       String?  // e.g., "Kingdom of God", "Grace", "Judgment", "Faith"
+  title     String
+  reference String // e.g., "Matthew 13:3-8"
+  category  String? // e.g., "Kingdom of God", "Grace", "Judgment", "Faith"
 
   // Content
-  parableText    String   @db.Text // The actual parable text
-  interpretation String?  @db.Text // What the parable means/teaches
+  parableText       String  @db.Text // The actual parable text
+  interpretation    String? @db.Text // What the parable means/teaches
   historicalContext String? @db.Text // Historical and cultural background
 
   // Teaching points and application
-  applicationPoints Json?  // Array of strings with practical applications
-  keyTheme       String?  // Main theme or teaching
+  applicationPoints Json? // Array of strings with practical applications
+  keyTheme          String? // Main theme or teaching
 
   // Related content
-  crossReferences Json?   // Array of {ref: string, description?: string}
-  relatedParables Json?   // Array of parable IDs or references
+  crossReferences Json? // Array of {ref: string, description?: string}
+  relatedParables Json? // Array of parable IDs or references
+  organization    Organization @relation(fields: [organizationId], references: [id])
+}
+
 // TRANSLATION COMPARISON NOTES (Teen-Friendly)
 // ============================================================================
 
 model TranslationComparisonNote {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Note metadata
-  title          String
-  description    String?  @db.Text
-  passageRef     String   // Primary passage reference (e.g., "John 3:16")
+  title       String
+  description String? @db.Text
+  passageRef  String // Primary passage reference (e.g., "John 3:16")
 
   // Translation data
   // Array of {code: "NIV", name: "New International Version", text: "passage text", focus?: "key phrase"}
-  translations   Json
+  translations Json
 
   // Comparison points (teen-friendly explanations)
   // Array of {aspect: "Word Choice", difference: "NIV uses 'love' while KJV uses 'loved'", teenExplanation: "Both mean the same thing..."}
   comparisonPoints Json
 
   // Additional teen-friendly content
-  teenSummary    String?  @db.Text  // Simple summary for teens
-  whyItMatters   String?  @db.Text  // Why this comparison is important
-  keyTakeaway    String?  @db.Text  // Main point for teens to remember
+  teenSummary  String? @db.Text // Simple summary for teens
+  whyItMatters String? @db.Text // Why this comparison is important
+  keyTakeaway  String? @db.Text // Main point for teens to remember
 
   // Categorization
-  category       String?  // e.g., "word-choice", "context", "cultural", "theological"
-  difficulty     String?  // "beginner", "intermediate", "advanced"
-  tags           Json?    // Array of tags for filtering
+  category   String? // e.g., "word-choice", "context", "cultural", "theological"
+  difficulty String? // "beginner", "intermediate", "advanced"
+  tags       Json? // Array of tags for filtering
 
   // Visibility
-  isPublic       Boolean  @default(false)
+  isPublic Boolean @default(false)
 
   // Authorship
-  createdBy      String?  // User ID
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  metrics      ParableMetric[]
+  organization          Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  metrics               ParableMetric[]
+  comparisonNoteMetrics ComparisonNoteMetric[]
 
   @@index([organizationId])
   @@index([category])
   @@index([title])
-  @@index([reference])
+  @@index([passageRef])
 }
 
 model ParableMetric {
-  id             String   @id @default(cuid())
-  parableId      String
-  metrics      ComparisonNoteMetric[]
+  id                          String                     @id @default(cuid())
+  parableId                   String
+  metrics                     ComparisonNoteMetric[]
+  translationComparisonNote   TranslationComparisonNote? @relation(fields: [translationComparisonNoteId], references: [id])
+  translationComparisonNoteId String?
 
-  @@index([organizationId])
-  @@index([passageRef])
-  @@index([category])
-  @@index([difficulty])
+  @@index([parableId])
 }
 
 model ComparisonNoteMetric {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   noteId         String
   organizationId String
 
   // Tracking
-  viewCount      Int      @default(0)
-  lastViewedAt   DateTime @default(now())
+  viewCount    Int      @default(0)
+  lastViewedAt DateTime @default(now())
 
   // User engagement
-  userId         String?  // User who viewed
-  featureContext String?  // Where it was accessed (e.g., "explorer", "lesson", "search")
-  featureContext String?  // Where it was accessed (e.g., "browse", "passage_lookup", "search")
-  timeSpentMs    Int?     // Time spent viewing in milliseconds
+  userId         String? // User who viewed
+  featureContext String? // Where it was accessed (e.g., "explorer", "lesson", "search")
+  timeSpentMs    Int? // Time spent viewing in milliseconds
 
-  // Lesson usage tracking
-  usedInLesson   Boolean  @default(false)
-  lessonId       String?
+  createdAt DateTime @default(now())
 
-  createdAt      DateTime @default(now())
-
-  parable Parable @relation(fields: [parableId], references: [id], onDelete: Cascade)
-
-  @@index([parableId])
-  // User feedback (optional)
-  wasHelpful     Boolean?  // Did the teen find this helpful?
-
-  createdAt      DateTime @default(now())
-
-  note TranslationComparisonNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  note            TranslationComparisonNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  parableMetric   ParableMetric?            @relation(fields: [parableMetricId], references: [id])
+  parableMetricId String?
 
   @@index([noteId])
+  @@index([organizationId])
+}
+
 // DOCTRINE OVERVIEW CARDS
 // ============================================================================
 
@@ -1390,33 +1386,33 @@ model DoctrineMetric {
 // ============================================================================
 
 model BigStorySection {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Section metadata
-  sectionTitle   String   // "Creation", "Fall", "Redemption Begun", etc.
-  sectionSlug    String   // URL-friendly: "creation", "fall", "redemption-begun"
-  order          Int      // Chronological order (1, 2, 3...)
-  timelineEra    String   // "Beginning", "Old Testament", "Gospels", "Church Age", "Future"
+  sectionTitle String // "Creation", "Fall", "Redemption Begun", etc.
+  sectionSlug  String // URL-friendly: "creation", "fall", "redemption-begun"
+  order        Int // Chronological order (1, 2, 3...)
+  timelineEra  String // "Beginning", "Old Testament", "Gospels", "Church Age", "Future"
 
   // Content
-  description    String?  @db.Text
-  keyPassages    Json     // Array of {ref: string, text?: string, notes?: string, isOT: boolean}
-  keyEvents      Json     // Array of strings: major biblical events in this section
-  narrative      Json     // {summary: string, connections: string[], howItFits: string, nextSection?: string}
+  description String? @db.Text
+  keyPassages Json // Array of {ref: string, text?: string, notes?: string, isOT: boolean}
+  keyEvents   Json // Array of strings: major biblical events in this section
+  narrative   Json // {summary: string, connections: string[], howItFits: string, nextSection?: string}
 
   // Visual data for timeline
-  visualData     Json?    // {color: string, icon?: string, position?: number}
+  visualData Json? // {color: string, icon?: string, position?: number}
 
   // Visibility
-  isPublic       Boolean  @default(false)
+  isPublic Boolean @default(false)
 
   // Authorship
-  createdBy      String?  // User ID
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  metrics        BigStoryMetric[]
+  metrics BigStoryMetric[]
 
   @@unique([organizationId, sectionSlug])
   @@index([organizationId])
@@ -1425,24 +1421,24 @@ model BigStorySection {
 }
 
 model BigStoryMetric {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   sectionId      String
   organizationId String
 
   // Tracking
-  viewCount      Int      @default(0)
-  lastViewedAt   DateTime @default(now())
+  viewCount    Int      @default(0)
+  lastViewedAt DateTime @default(now())
 
   // User engagement
-  userId         String?  // User who viewed
-  featureContext String?  // Where it was accessed
-  timeSpentMs    Int?     // Time spent viewing in milliseconds
+  userId         String? // User who viewed
+  featureContext String? // Where it was accessed
+  timeSpentMs    Int? // Time spent viewing in milliseconds
 
   // Lesson usage tracking
-  usedInLesson   Boolean  @default(false)
-  lessonId       String?
+  usedInLesson Boolean @default(false)
+  lessonId     String?
 
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   section BigStorySection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
@@ -1457,27 +1453,27 @@ model BigStoryMetric {
 // ============================================================================
 
 model PersonalGoal {
-  id              String   @id @default(cuid())
-  organizationId  String
-  userId          String
+  id             String @id @default(cuid())
+  organizationId String
+  userId         String
 
   // Goal details
-  title           String
-  description     String?  @db.Text
-  category        GoalCategory
-  targetDate      DateTime?
-  status          GoalStatus @default(IN_PROGRESS)
-  priority        GoalPriority @default(MEDIUM)
+  title       String
+  description String?      @db.Text
+  category    GoalCategory
+  targetDate  DateTime?
+  status      GoalStatus   @default(IN_PROGRESS)
+  priority    GoalPriority @default(MEDIUM)
 
   // Privacy & metadata
-  isPrivate       Boolean  @default(true)
-  metadata        Json?    // Flexible storage for tags, notes, custom fields
+  isPrivate Boolean @default(true)
+  metadata  Json? // Flexible storage for tags, notes, custom fields
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization    Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   progressUpdates GoalProgress[]
 
   @@index([organizationId])
@@ -1487,17 +1483,17 @@ model PersonalGoal {
 }
 
 model GoalProgress {
-  id          String   @id @default(cuid())
-  goalId      String
-  userId      String
+  id     String @id @default(cuid())
+  goalId String
+  userId String
 
   // Progress tracking
-  note        String?  @db.Text
-  progress    Int      // 0-100 percentage
-  timestamp   DateTime @default(now())
+  note      String?  @db.Text
+  progress  Int // 0-100 percentage
+  timestamp DateTime @default(now())
 
-  goal        PersonalGoal @relation(fields: [goalId], references: [id], onDelete: Cascade)
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  goal PersonalGoal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([goalId])
   @@index([goalId, timestamp])
@@ -1537,24 +1533,24 @@ enum GoalPriority {
 // ============================================================================
 
 model SignupFunnelEvent {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   organizationId String
-  userId         String?  // NULL until account is created
+  userId         String? // NULL until account is created
 
   // Event tracking
-  eventType      SignupEventType
-  sessionId      String   // To group events from same signup session
+  eventType SignupEventType
+  sessionId String // To group events from same signup session
 
   // Context
   userAgent      String?
   ipAddress      String?
-  referralSource String?  // Where they came from (e.g., "invite_link", "direct", "social_media")
+  referralSource String? // Where they came from (e.g., "invite_link", "direct", "social_media")
 
   // Metadata
-  metadata       Json?    // Additional event-specific data
+  metadata Json? // Additional event-specific data
 
   // Timing
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   @@index([organizationId])
   @@index([userId])
@@ -1564,12 +1560,12 @@ model SignupFunnelEvent {
 }
 
 enum SignupEventType {
-  SIGNUP_STARTED       // User visited signup page
-  ACCOUNT_CREATED      // User successfully created account
-  PROFILE_COMPLETED    // User completed additional profile info
-  GROUP_JOINED         // User joined their first group
-  FIRST_LOGIN          // User logged in for the first time
-  EMAIL_VERIFIED       // User verified their email (future feature)
+  SIGNUP_STARTED // User visited signup page
+  ACCOUNT_CREATED // User successfully created account
+  PROFILE_COMPLETED // User completed additional profile info
+  GROUP_JOINED // User joined their first group
+  FIRST_LOGIN // User logged in for the first time
+  EMAIL_VERIFIED // User verified their email (future feature)
   ONBOARDING_COMPLETED // User completed onboarding flow
 }
 
@@ -1578,38 +1574,38 @@ enum SignupEventType {
 // ============================================================================
 
 model ComicStoryboard {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Comic metadata
-  title          String
-  description    String?  @db.Text
+  title       String
+  description String? @db.Text
 
   // Bible verses
-  verseReferences Json    // Array of verse references used across panels
+  verseReferences Json // Array of verse references used across panels
 
   // Panel data
-  panels         Json     // Array of {verseRef: string, imagePrompt?: string, caption?: string, position: number, imageData?: string}
+  panels Json // Array of {verseRef: string, imagePrompt?: string, caption?: string, position: number, imageData?: string}
 
   // Layout configuration
-  layoutType     String   // 'single', '2-panel-horizontal', '2-panel-vertical', '3-panel', '4-panel-grid', '6-panel-grid'
+  layoutType String // 'single', '2-panel-horizontal', '2-panel-vertical', '3-panel', '4-panel-grid', '6-panel-grid'
 
   // Visual settings
-  stylePreset    String   @default("comic") // 'comic', 'watercolor', 'sketch', 'minimalist'
-  backgroundColor String  @default("#FFFFFF")
-  textColor      String   @default("#000000")
-  fontFamily     String   @default("Arial")
+  stylePreset     String @default("comic") // 'comic', 'watercolor', 'sketch', 'minimalist'
+  backgroundColor String @default("#FFFFFF")
+  textColor       String @default("#000000")
+  fontFamily      String @default("Arial")
 
   // Sharing & visibility
-  isPublic       Boolean  @default(false)
-  isTemplate     Boolean  @default(false)
+  isPublic   Boolean @default(false)
+  isTemplate Boolean @default(false)
 
   // Authorship
-  createdBy      String?  // User ID
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   metrics      ComicMetric[]
 
   @@index([organizationId])
@@ -1619,26 +1615,26 @@ model ComicStoryboard {
 }
 
 model ComicMetric {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   comicId        String
   organizationId String
 
   // Usage tracking
-  viewCount      Int      @default(0)
-  downloadCount  Int      @default(0)
-  shareCount     Int      @default(0)
-  lastViewedAt   DateTime @default(now())
+  viewCount     Int      @default(0)
+  downloadCount Int      @default(0)
+  shareCount    Int      @default(0)
+  lastViewedAt  DateTime @default(now())
 
   // User engagement
-  userId         String?  // User who viewed/used
-  featureContext String?  // Where it was accessed
-  timeSpentMs    Int?     // Time spent creating/editing
+  userId         String? // User who viewed/used
+  featureContext String? // Where it was accessed
+  timeSpentMs    Int? // Time spent creating/editing
 
   // Lesson integration
-  usedInLesson   Boolean  @default(false)
-  lessonId       String?
+  usedInLesson Boolean @default(false)
+  lessonId     String?
 
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   comic ComicStoryboard @relation(fields: [comicId], references: [id], onDelete: Cascade)
 
@@ -1653,52 +1649,52 @@ model ComicMetric {
 // ============================================================================
 
 model IncidentReport {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Reporting details
-  reportedById   String?  // User ID (nullable for anonymous reports)
-  reportedAt     DateTime @default(now())
+  reportedById String? // User ID (nullable for anonymous reports)
+  reportedAt   DateTime @default(now())
 
   // Subject information
-  studentName    String?  // Name if not registered user
-  studentId      String?  // Link to User if exists
-  groupId        String?  // Which group/class
+  studentName String? // Name if not registered user
+  studentId   String? // Link to User if exists
+  groupId     String? // Which group/class
 
   // Incident information
-  incidentType   IncidentType
-  severity       SeverityLevel
-  incidentDate   DateTime
-  location       String?
-  description    String   @db.Text
+  incidentType IncidentType
+  severity     SeverityLevel
+  incidentDate DateTime
+  location     String?
+  description  String        @db.Text
 
   // Witnesses/involved parties
-  witnessNames   String?  @db.Text
-  othersInvolved String?  @db.Text
+  witnessNames   String? @db.Text
+  othersInvolved String? @db.Text
 
   // Follow-up tracking
-  status         IncidentStatus @default(PENDING)
-  assignedTo     String?  // Leader/staff user ID
-  leaderNotes    String?  @db.Text
-  actionTaken    String?  @db.Text
-  followUpDate   DateTime?
-  resolvedAt     DateTime?
+  status       IncidentStatus @default(PENDING)
+  assignedTo   String? // Leader/staff user ID
+  leaderNotes  String?        @db.Text
+  actionTaken  String?        @db.Text
+  followUpDate DateTime?
+  resolvedAt   DateTime?
 
   // Notification tracking
-  isConfidential Boolean  @default(true)
-  parentNotified Boolean  @default(false)
+  isConfidential   Boolean   @default(true)
+  parentNotified   Boolean   @default(false)
   parentNotifiedAt DateTime?
 
   // Timestamps
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  reportedBy     User? @relation("ReportedBy", fields: [reportedById], references: [id], onDelete: SetNull)
-  student        User? @relation("IncidentStudent", fields: [studentId], references: [id], onDelete: SetNull)
-  assignedLeader User? @relation("AssignedLeader", fields: [assignedTo], references: [id], onDelete: SetNull)
-  group          Group? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  reportedBy     User?        @relation("ReportedBy", fields: [reportedById], references: [id], onDelete: SetNull)
+  student        User?        @relation("IncidentStudent", fields: [studentId], references: [id], onDelete: SetNull)
+  assignedLeader User?        @relation("AssignedLeader", fields: [assignedTo], references: [id], onDelete: SetNull)
+  group          Group?       @relation(fields: [groupId], references: [id], onDelete: SetNull)
 
   @@index([organizationId])
   @@index([reportedById])
@@ -1712,44 +1708,45 @@ model IncidentReport {
 }
 
 enum IncidentType {
-  BEHAVIORAL     // Disruptive behavior
-  SAFETY         // Safety concern
-  MEDICAL        // Medical incident
-  EMOTIONAL      // Emotional distress
-  CONFLICT       // Student conflict
-  BULLYING       // Bullying incident
-  ATTENDANCE     // Attendance issue
-  VANDALISM      // Property damage
-  POLICY         // Policy violation
-  OTHER          // Other concerns
+  BEHAVIORAL // Disruptive behavior
+  SAFETY // Safety concern
+  MEDICAL // Medical incident
+  EMOTIONAL // Emotional distress
+  CONFLICT // Student conflict
+  BULLYING // Bullying incident
+  ATTENDANCE // Attendance issue
+  VANDALISM // Property damage
+  POLICY // Policy violation
+  OTHER // Other concerns
 }
 
 enum SeverityLevel {
-  LOW            // Minor issue, informational
-  MEDIUM         // Moderate concern, requires attention
-  HIGH           // Serious issue, urgent action needed
-  CRITICAL       // Emergency, immediate intervention required
+  LOW // Minor issue, informational
+  MEDIUM // Moderate concern, requires attention
+  HIGH // Serious issue, urgent action needed
+  CRITICAL // Emergency, immediate intervention required
 }
 
 enum IncidentStatus {
-  PENDING        // Newly reported, not yet reviewed
-  ACKNOWLEDGED   // Leader has seen and acknowledged
-  IN_PROGRESS    // Being addressed/investigated
-  RESOLVED       // Completed and closed
-  ESCALATED      // Sent to higher authority/external
+  PENDING // Newly reported, not yet reviewed
+  ACKNOWLEDGED // Leader has seen and acknowledged
+  IN_PROGRESS // Being addressed/investigated
+  RESOLVED // Completed and closed
+  ESCALATED // Sent to higher authority/external
 }
+
 model TimelineEvent {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
-  dateRange   String   // e.g., "2000 BC", "586-538 BC", "c. 30 AD"
-  description String   @db.Text
-  order       Int      // For chronological ordering
-  category    String?  // e.g., "Creation", "Patriarchs", "Exodus", "Kings", "Exile", "Jesus", "Early Church"
+  dateRange   String // e.g., "2000 BC", "586-538 BC", "c. 30 AD"
+  description String  @db.Text
+  order       Int // For chronological ordering
+  category    String? // e.g., "Creation", "Patriarchs", "Exodus", "Kings", "Exile", "Jesus", "Early Church"
   imageUrl    String?
 
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   readingSegments TimelineReadingSegment[]
 
@@ -1758,11 +1755,11 @@ model TimelineEvent {
 }
 
 model TimelineReadingSegment {
-  id        String   @id @default(cuid())
-  eventId   String
-  passages  Json     // Array of Bible passage references: ["Genesis 1-2", "Psalm 8"]
-  order     Int      // Order within the event
-  notes     String?  @db.Text
+  id       String  @id @default(cuid())
+  eventId  String
+  passages Json // Array of Bible passage references: ["Genesis 1-2", "Psalm 8"]
+  order    Int // Order within the event
+  notes    String? @db.Text
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1774,27 +1771,27 @@ model TimelineReadingSegment {
 }
 
 model ReadingPlan {
-  id             String   @id @default(cuid())
-  organizationId String?  // NULL for global/default plans
+  id             String  @id @default(cuid())
+  organizationId String? // NULL for global/default plans
 
-  title          String
-  description    String   @db.Text
-  planType       PlanType @default(CUSTOM)
-  duration       Int      // Days
+  title       String
+  description String   @db.Text
+  planType    PlanType @default(CUSTOM)
+  duration    Int // Days
 
   // Plan structure
-  days           Json     // Array of day objects with passages, notes, etc.
-  tags           String[]
+  days Json // Array of day objects with passages, notes, etc.
+  tags String[]
 
   // Visibility
-  status         PlanStatus @default(DRAFT)
-  isPublic       Boolean    @default(false)
+  status   PlanStatus @default(DRAFT)
+  isPublic Boolean    @default(false)
 
-  createdBy      String?  // User ID
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  enrollments    UserReadingPlan[]
+  enrollments UserReadingPlan[]
 
   @@index([organizationId])
   @@index([planType])
@@ -1803,10 +1800,10 @@ model ReadingPlan {
 }
 
 enum PlanType {
-  CHRONOLOGICAL  // Timeline-based chronological plan
-  TOPICAL        // Topic-based plan
-  BOOK           // Book-by-book plan
-  CUSTOM         // Custom created plan
+  CHRONOLOGICAL // Timeline-based chronological plan
+  TOPICAL // Topic-based plan
+  BOOK // Book-by-book plan
+  CUSTOM // Custom created plan
 }
 
 enum PlanStatus {
@@ -1816,16 +1813,16 @@ enum PlanStatus {
 }
 
 model UserReadingPlan {
-  id        String   @id @default(cuid())
-  userId    String
-  planId    String
+  id     String @id @default(cuid())
+  userId String
+  planId String
 
-  startedAt DateTime @default(now())
+  startedAt   DateTime  @default(now())
   completedAt DateTime?
-  currentDay  Int      @default(1)
+  currentDay  Int       @default(1)
 
   // Progress tracking
-  progress  Json     // { dayNumber: { completed: true, completedAt: ISO8601 } }
+  progress Json // { dayNumber: { completed: true, completedAt: ISO8601 } }
 
   // Stats
   totalDays     Int
@@ -1834,7 +1831,7 @@ model UserReadingPlan {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   plan ReadingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
 
   @@unique([userId, planId])
@@ -1848,7 +1845,7 @@ model Activity {
   id           String       @id @default(cuid())
   userId       String
   activityType ActivityType
-  metadata     Json?        // Additional data (e.g., verse reference, plan id)
+  metadata     Json? // Additional data (e.g., verse reference, plan id)
   timestamp    DateTime     @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -1867,23 +1864,24 @@ enum ActivityType {
   LESSON_COMPLETED
   TIMELINE_PROGRESS
 }
+
 model AnonymousQuestion {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   groupId   String
-  sessionId String?  // Optional link to Lesson
+  sessionId String? // Optional link to Lesson
 
   // Question details
-  category  QuestionCategory
-  body      String   @db.Text
+  category QuestionCategory
+  body     String           @db.Text
 
   // Status tracking
-  status    QuestionStatus @default(UNANSWERED)
+  status QuestionStatus @default(UNANSWERED)
 
   // Answer details
-  answeredBy     String?   // User ID of the leader who answered
-  answeredAt     DateTime?
-  answerText     String?   @db.Text
-  answerMethod   AnswerMethod?
+  answeredBy   String? // User ID of the leader who answered
+  answeredAt   DateTime?
+  answerText   String?       @db.Text
+  answerMethod AnswerMethod?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1899,9 +1897,9 @@ model AnonymousQuestion {
 }
 
 enum QuestionCategory {
-  BIBLE     // Questions about Bible interpretation, theology
-  LIFE      // Questions about daily life, relationships
-  DOUBT     // Questions about faith, doubts, struggles
+  BIBLE // Questions about Bible interpretation, theology
+  LIFE // Questions about daily life, relationships
+  DOUBT // Questions about faith, doubts, struggles
 }
 
 enum QuestionStatus {
@@ -1911,14 +1909,15 @@ enum QuestionStatus {
 }
 
 enum AnswerMethod {
-  WRITTEN    // Written answer provided in system
-  IN_CLASS   // Answered during class/session
+  WRITTEN // Written answer provided in system
+  IN_CLASS // Answered during class/session
 }
+
 model LessonTemplate {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   organizationId String
   name           String
-  description    String?  @db.Text
+  description    String? @db.Text
 
   // Template structure - ordered list of sections with metadata
   // Example: [
@@ -1928,15 +1927,15 @@ model LessonTemplate {
   //   { "id": "apply", "name": "Application", "type": "content", "timeEstimate": 10 },
   //   { "id": "game", "name": "Game Time", "type": "game", "timeEstimate": 20 }
   // ]
-  sectionsJson   Json
+  sectionsJson Json
 
-  isActive       Boolean  @default(true)
-  createdBy      String?  // User ID who created the template
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  isActive  Boolean  @default(true)
+  createdBy String? // User ID who created the template
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  usageMetrics   TemplateUsageMetric[]
+  organization Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  usageMetrics TemplateUsageMetric[]
 
   @@index([organizationId])
   @@index([isActive])
@@ -1945,8 +1944,8 @@ model LessonTemplate {
 model TemplateUsageMetric {
   id         String   @id @default(cuid())
   templateId String
-  lessonId   String?  // Optional - lesson might be deleted later
-  createdBy  String?  // User ID who used the template
+  lessonId   String? // Optional - lesson might be deleted later
+  createdBy  String? // User ID who used the template
   createdAt  DateTime @default(now())
 
   template LessonTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
@@ -1954,23 +1953,24 @@ model TemplateUsageMetric {
   @@index([templateId])
   @@index([createdAt])
 }
-model Session {
-  id                String   @id @default(cuid())
-  code              String   @unique // 4-6 character join code
-  organizationId    String
-  lessonId          String
-  teacherId         String   // User ID of the teacher
-  groupId           String?  // Optional: limit to specific group
 
-  currentSlideIndex Int      @default(0)
+model Session {
+  id             String  @id @default(cuid())
+  code           String  @unique // 4-6 character join code
+  organizationId String
+  lessonId       String
+  teacherId      String // User ID of the teacher
+  groupId        String? // Optional: limit to specific group
+
+  currentSlideIndex Int           @default(0)
   status            SessionStatus @default(ACTIVE)
 
-  startedAt         DateTime @default(now())
-  endedAt           DateTime?
-  lastActivityAt    DateTime @default(now())
+  startedAt      DateTime  @default(now())
+  endedAt        DateTime?
+  lastActivityAt DateTime  @default(now())
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   participants SessionParticipant[]
   notes        SessionNote[]
@@ -1990,21 +1990,21 @@ enum SessionStatus {
 }
 
 model SessionParticipant {
-  id            String   @id @default(cuid())
-  sessionId     String
-  userId        String?  // NULL if anonymous
-  anonymousId   String?  // For tracking anonymous participants
-  displayName   String?  // Optional display name for anonymous users
+  id          String  @id @default(cuid())
+  sessionId   String
+  userId      String? // NULL if anonymous
+  anonymousId String? // For tracking anonymous participants
+  displayName String? // Optional display name for anonymous users
 
-  joinedAt      DateTime @default(now())
-  lastSeenAt    DateTime @default(now())
-  leftAt        DateTime?
+  joinedAt   DateTime  @default(now())
+  lastSeenAt DateTime  @default(now())
+  leftAt     DateTime?
 
   // Tracking
-  currentSlide  Int      @default(0)
-  isActive      Boolean  @default(true)
+  currentSlide Int     @default(0)
+  isActive     Boolean @default(true)
 
-  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  session Session       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   notes   SessionNote[]
 
   @@index([sessionId])
@@ -2014,15 +2014,15 @@ model SessionParticipant {
 }
 
 model SessionNote {
-  id              String   @id @default(cuid())
-  sessionId       String
-  participantId   String
-  slideIndex      Int
+  id            String @id @default(cuid())
+  sessionId     String
+  participantId String
+  slideIndex    Int
 
-  content         String   @db.Text
+  content String @db.Text
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   session     Session            @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   participant SessionParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
@@ -2032,21 +2032,56 @@ model SessionNote {
   @@index([slideIndex])
   @@index([createdAt])
 }
+
+// GROUP CHALLENGES
+// ============================================================================
+
+model GroupChallenge {
+  id             String @id @default(cuid())
+  groupId        String
+  organizationId String
+
+  // Challenge details
+  name         String
+  description  String @db.Text
+  goal         Int // Target number (e.g., read 100 chapters)
+  activityType String // What counts: "CHAPTER_READ", "VERSE_MEMORIZED", etc.
+
+  // Timeline
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  participants  ChallengeParticipant[]
+  contributions ChallengeContribution[]
+  metrics       ChallengeMetric?
+
+  @@index([groupId])
+  @@index([organizationId])
+  @@index([isActive])
+  @@index([startDate])
+  @@index([endDate])
+}
+
 model ChallengeParticipant {
-  id          String   @id @default(cuid())
+  id          String @id @default(cuid())
   challengeId String
   userId      String
 
   // Participation tracking
-  joinedAt    DateTime @default(now())
-  isActive    Boolean  @default(true)
+  joinedAt DateTime @default(now())
+  isActive Boolean  @default(true)
 
   // Individual stats
-  totalContributions Int @default(0)
+  totalContributions Int       @default(0)
   lastContributionAt DateTime?
 
   challenge GroupChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([challengeId, userId])
   @@index([challengeId])
@@ -2054,19 +2089,19 @@ model ChallengeParticipant {
 }
 
 model ChallengeContribution {
-  id          String   @id @default(cuid())
+  id          String @id @default(cuid())
   challengeId String
   userId      String
 
   // Contribution details
-  amount      Int      // How much this action contributed (usually 1)
+  amount Int // How much this action contributed (usually 1)
 
   // Source tracking (what activity generated this)
-  sourceActivityType String  // e.g., "CHAPTER_READ", "VERSE_MEMORIZED"
+  sourceActivityType String // e.g., "CHAPTER_READ", "VERSE_MEMORIZED"
   sourceActivityId   String? // Reference to the original activity
-  sourceMetadata     Json?   // Additional context
+  sourceMetadata     Json? // Additional context
 
-  createdAt   DateTime @default(now())
+  createdAt DateTime @default(now())
 
   challenge GroupChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
 
@@ -2077,17 +2112,17 @@ model ChallengeContribution {
 }
 
 model ChallengeMetric {
-  id          String   @id @default(cuid())
-  challengeId String   @unique
+  id          String @id @default(cuid())
+  challengeId String @unique
 
   // Aggregate stats
-  totalProgress      Int @default(0)
+  totalProgress      Int   @default(0)
   progressPercentage Float @default(0)
-  participantCount   Int @default(0)
-  activeParticipants Int @default(0)
+  participantCount   Int   @default(0)
+  activeParticipants Int   @default(0)
 
   // Top contributors (JSON array of {userId, contributions})
-  topContributors    Json?
+  topContributors Json?
 
   // Time-based metrics
   averageContributionsPerDay Float?
@@ -2099,26 +2134,27 @@ model ChallengeMetric {
 
   @@index([challengeId])
 }
+
 model BibleLocation {
-  id               String   @id @default(cuid())
-  name             String
-  alternateNames   String?  // Comma-separated alternate names
-  latitude         Float
-  longitude        Float
-  summary          String   @db.Text
-  description      String?  @db.Text  // Longer description with historical context
-  keyEvents        Json?    // Array of key events that happened here
-  relatedPassages  Json     // Array of Bible passage references
-  imageUrl         String?  // Optional image of the location
-  region           String?  // Geographic region (e.g., "Galilee", "Judea", "Egypt")
-  modernName       String?  // Modern name if different
+  id              String  @id @default(cuid())
+  name            String
+  alternateNames  String? // Comma-separated alternate names
+  latitude        Float
+  longitude       Float
+  summary         String  @db.Text
+  description     String? @db.Text // Longer description with historical context
+  keyEvents       Json? // Array of key events that happened here
+  relatedPassages Json // Array of Bible passage references
+  imageUrl        String? // Optional image of the location
+  region          String? // Geographic region (e.g., "Galilee", "Judea", "Egypt")
+  modernName      String? // Modern name if different
 
-  isActive         Boolean  @default(true)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  lessonLocations  LessonLocation[]
-  mapViews         BibleMapView[]
+  lessonLocations LessonLocation[]
+  mapViews        BibleMapView[]
 
   @@index([name])
   @@index([region])
@@ -2130,11 +2166,11 @@ model LessonLocation {
   id         String   @id @default(cuid())
   lessonId   String
   locationId String
-  relevance  String?  // Why this location is relevant to this lesson
+  relevance  String? // Why this location is relevant to this lesson
   createdAt  DateTime @default(now())
 
-  lesson   Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  location BibleLocation  @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  lesson   Lesson        @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  location BibleLocation @relation(fields: [locationId], references: [id], onDelete: Cascade)
 
   @@unique([lessonId, locationId])
   @@index([lessonId])
@@ -2143,12 +2179,12 @@ model LessonLocation {
 
 // Track map views and location clicks for metrics
 model BibleMapView {
-  id           String   @id @default(cuid())
-  locationId   String?  // NULL for general map view
-  userId       String?  // NULL for anonymous views
-  actionType   MapActionType
-  metadata     Json?    // Additional context (e.g., which passage link was clicked)
-  createdAt    DateTime @default(now())
+  id         String        @id @default(cuid())
+  locationId String? // NULL for general map view
+  userId     String? // NULL for anonymous views
+  actionType MapActionType
+  metadata   Json? // Additional context (e.g., which passage link was clicked)
+  createdAt  DateTime      @default(now())
 
   location BibleLocation? @relation(fields: [locationId], references: [id], onDelete: SetNull)
 
@@ -2159,36 +2195,37 @@ model BibleMapView {
 }
 
 enum MapActionType {
-  MAP_VIEW           // User viewed the map
-  LOCATION_VIEW      // User viewed a specific location
-  PASSAGE_CLICK      // User clicked to read a related passage
-  LOCATION_HOVER     // User hovered over a location pin
+  MAP_VIEW // User viewed the map
+  LOCATION_VIEW // User viewed a specific location
+  PASSAGE_CLICK // User clicked to read a related passage
+  LOCATION_HOVER // User hovered over a location pin
 }
+
 model Poll {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   organizationId String
-  lessonId       String?  // Optional: associate with a lesson (lessons act as "sessions")
+  lessonId       String? // Optional: associate with a lesson (lessons act as "sessions")
 
   // Poll content
-  question       String   @db.Text
-  options        Json?    // Array of options for multiple choice polls
-  type           PollType @default(MULTIPLE_CHOICE)
-  status         PollStatus @default(DRAFT)
+  question String     @db.Text
+  options  Json? // Array of options for multiple choice polls
+  type     PollType   @default(MULTIPLE_CHOICE)
+  status   PollStatus @default(DRAFT)
 
   // Metadata
-  createdBy      String   // User ID of the teacher/leader
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  activatedAt    DateTime? // When poll was made active
-  closedAt       DateTime? // When poll was closed
+  createdBy   String // User ID of the teacher/leader
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  activatedAt DateTime? // When poll was made active
+  closedAt    DateTime? // When poll was closed
 
   // Results configuration
-  showResultsLive Boolean  @default(true)  // Show results as responses come in
+  showResultsLive        Boolean @default(true) // Show results as responses come in
   allowMultipleResponses Boolean @default(false) // Allow users to change their answer
 
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  lesson         Lesson? @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  responses      PollResponse[]
+  organization Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  lesson       Lesson?        @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  responses    PollResponse[]
 
   @@index([organizationId])
   @@index([lessonId])
@@ -2197,73 +2234,74 @@ model Poll {
 }
 
 model PollResponse {
-  id           String   @id @default(cuid())
-  pollId       String
+  id     String @id @default(cuid())
+  pollId String
 
   // User identification (one must be provided)
-  userId       String?  // For logged-in users
-  anonymousId  String?  // For anonymous responses (session-based)
+  userId      String? // For logged-in users
+  anonymousId String? // For anonymous responses (session-based)
 
   // Response data
-  answer       Json     // Flexible: single choice, multiple choices, or text
+  answer Json // Flexible: single choice, multiple choices, or text
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  poll         Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
-  user         User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  poll Poll  @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
+  @@unique([pollId, userId]) // Prevent duplicate responses from same user (unless allowMultipleResponses is true)
   @@index([pollId])
   @@index([userId])
   @@index([anonymousId])
-  @@unique([pollId, userId]) // Prevent duplicate responses from same user (unless allowMultipleResponses is true)
 }
 
 enum PollType {
-  MULTIPLE_CHOICE  // Single or multiple selection from options
-  OPEN_ENDED       // Free text response
-  RATING           // 1-5 star or numeric rating
+  MULTIPLE_CHOICE // Single or multiple selection from options
+  OPEN_ENDED // Free text response
+  RATING // 1-5 star or numeric rating
 }
 
 enum PollStatus {
-  DRAFT            // Created but not yet launched
-  ACTIVE           // Currently accepting responses
-  CLOSED           // No longer accepting responses
+  DRAFT // Created but not yet launched
+  ACTIVE // Currently accepting responses
+  CLOSED // No longer accepting responses
 }
+
 model SeasonalEvent {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Event details
-  title          String
-  description    String   @db.Text
-  season         EventSeason // Type of seasonal event
+  title       String
+  description String      @db.Text
+  season      EventSeason // Type of seasonal event
 
   // Timing
-  startDate      DateTime
-  endDate        DateTime
+  startDate DateTime
+  endDate   DateTime
 
   // Visual elements
-  icon           String?  // Emoji or icon identifier
-  bannerColor    String?  // Hex color for banner
-  bannerImage    String?  // URL or path to banner image
+  icon        String? // Emoji or icon identifier
+  bannerColor String? // Hex color for banner
+  bannerImage String? // URL or path to banner image
 
   // Event mechanics
-  challenges     Json?    // Array of challenge definitions
-  rewards        Json?    // XP multipliers, special badges, etc.
+  challenges Json? // Array of challenge definitions
+  rewards    Json? // XP multipliers, special badges, etc.
 
   // Reading plan integration
   readingPlanIds String[] // Array of reading plan IDs for this event
 
   // Status
-  isActive       Boolean  @default(true)
-  isPinned       Boolean  @default(false) // Pin to top of events list
+  isActive Boolean @default(true)
+  isPinned Boolean @default(false) // Pin to top of events list
 
-  createdBy      String?  // User ID who created the event
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID who created the event
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization   Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   participations EventParticipation[]
   activities     EventActivity[]
 
@@ -2275,36 +2313,36 @@ model SeasonalEvent {
 }
 
 enum EventSeason {
-  ADVENT          // Advent season (4 weeks before Christmas)
-  CHRISTMAS       // Christmas season
-  LENT            // Lent season (40 days before Easter)
-  EASTER          // Easter season
-  PENTECOST       // Pentecost
-  SUMMER          // Summer challenge
-  FALL            // Fall challenge
-  CUSTOM          // Custom seasonal event
+  ADVENT // Advent season (4 weeks before Christmas)
+  CHRISTMAS // Christmas season
+  LENT // Lent season (40 days before Easter)
+  EASTER // Easter season
+  PENTECOST // Pentecost
+  SUMMER // Summer challenge
+  FALL // Fall challenge
+  CUSTOM // Custom seasonal event
 }
 
 model EventParticipation {
-  id          String   @id @default(cuid())
-  userId      String
-  eventId     String
+  id      String @id @default(cuid())
+  userId  String
+  eventId String
 
   // Progress tracking
-  progress    Int      @default(0)  // 0-100 percentage
-  pointsEarned Int     @default(0)
+  progress     Int @default(0) // 0-100 percentage
+  pointsEarned Int @default(0)
 
   // Completion
-  isCompleted Boolean  @default(false)
+  isCompleted Boolean   @default(false)
   completedAt DateTime?
 
   // Rewards
-  rewardsEarned Json?  // Array of earned rewards/badges
+  rewardsEarned Json? // Array of earned rewards/badges
 
-  startedAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  startedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  event       SeasonalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event SeasonalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@unique([userId, eventId])
   @@index([userId])
@@ -2313,42 +2351,43 @@ model EventParticipation {
 }
 
 model EventActivity {
-  id          String   @id @default(cuid())
-  eventId     String
-  userId      String
+  id      String @id @default(cuid())
+  eventId String
+  userId  String
 
   // Activity details
-  activityType String  // "reading_completed", "challenge_completed", "daily_check_in"
-  points       Int     @default(0)
-  metadata     Json?   // Additional activity data
+  activityType String // "reading_completed", "challenge_completed", "daily_check_in"
+  points       Int    @default(0)
+  metadata     Json? // Additional activity data
 
-  createdAt   DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  event       SeasonalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event SeasonalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@index([eventId])
   @@index([userId])
   @@index([activityType])
   @@index([createdAt])
 }
+
 model Topic {
-  id             String   @id @default(cuid())
-  organizationId String?  // NULL for global topics, set for org-specific topics
+  id             String  @id @default(cuid())
+  organizationId String? // NULL for global topics, set for org-specific topics
 
   // Topic details
   name           String
   description    String?  @db.Text
-  category       String?  // e.g., "Relationships", "Identity", "Faith & Doubt"
+  category       String? // e.g., "Relationships", "Identity", "Faith & Doubt"
   tags           String[] // Array of searchable tags
   popularityRank Int      @default(0) // Higher = more popular
 
   // Visibility
-  isGlobal       Boolean  @default(true) // Available to all organizations
-  isActive       Boolean  @default(true)
+  isGlobal Boolean @default(true) // Available to all organizations
+  isActive Boolean @default(true)
 
-  createdBy      String?  // User ID
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   verses       TopicVerse[]
@@ -2361,11 +2400,11 @@ model Topic {
 }
 
 model TopicVerse {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   topicId   String
-  verseRef  String   // e.g., "John 3:16" or "Psalm 23:1-6"
-  note      String?  @db.Text // Optional note about why this verse is relevant
-  sortOrder Int      @default(0) // For custom ordering
+  verseRef  String // e.g., "John 3:16" or "Psalm 23:1-6"
+  note      String? @db.Text // Optional note about why this verse is relevant
+  sortOrder Int     @default(0) // For custom ordering
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -2378,10 +2417,10 @@ model TopicVerse {
 }
 
 model TopicView {
-  id        String   @id @default(cuid())
-  topicId   String
-  userId    String?  // NULL for anonymous views
-  viewedAt  DateTime @default(now())
+  id       String   @id @default(cuid())
+  topicId  String
+  userId   String? // NULL for anonymous views
+  viewedAt DateTime @default(now())
 
   // Conversion tracking
   startedPlan Boolean @default(false) // Did the user start a reading plan from this topic?
@@ -2392,39 +2431,40 @@ model TopicView {
   @@index([userId])
   @@index([viewedAt])
 }
+
 model Icebreaker {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Basic information
-  title          String
-  description    String?  @db.Text
-  instructions   String?  @db.Text
+  title        String
+  description  String? @db.Text
+  instructions String? @db.Text
 
   // Categorization
-  category       String   // "get-to-know", "faith-based", "energizer", "deep-discussion"
-  ageGroup       String   // "middle", "high", "college", "all"
-  groupSize      String   // "small", "medium", "large", "any"
-  energyLevel    String   // "low", "medium", "high"
+  category    String // "get-to-know", "faith-based", "energizer", "deep-discussion"
+  ageGroup    String // "middle", "high", "college", "all"
+  groupSize   String // "small", "medium", "large", "any"
+  energyLevel String // "low", "medium", "high"
 
   // Practical details
-  durationMinutes Int     // Duration in minutes
-  materialsNeeded Json?   // Array of materials needed
-  questions       Json?   // Array of questions/prompts
+  durationMinutes Int // Duration in minutes
+  materialsNeeded Json? // Array of materials needed
+  questions       Json? // Array of questions/prompts
 
   // Sharing & visibility
-  isPublic       Boolean  @default(false)
-  isTemplate     Boolean  @default(false)
+  isPublic   Boolean @default(false)
+  isTemplate Boolean @default(false)
 
   // Usage tracking
-  usageCount     Int      @default(0)
-  favoriteCount  Int      @default(0)
+  usageCount    Int @default(0)
+  favoriteCount Int @default(0)
 
   // Metadata
-  tags           Json?    // Array of custom tags
-  createdBy      String?  // User ID
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  tags      Json? // Array of custom tags
+  createdBy String? // User ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
@@ -2435,12 +2475,12 @@ model Icebreaker {
 }
 
 model IcebreakerUsage {
-  id            String   @id @default(cuid())
-  icebreakerId  String
-  userId        String?
-  lessonId      String?
-  groupId       String?
-  usedAt        DateTime @default(now())
+  id           String   @id @default(cuid())
+  icebreakerId String
+  userId       String?
+  lessonId     String?
+  groupId      String?
+  usedAt       DateTime @default(now())
 
   @@index([icebreakerId])
   @@index([userId])
@@ -2464,33 +2504,33 @@ model IcebreakerFavorite {
 // ============================================================================
 
 model LessonSeries {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Series metadata
-  title          String
-  subtitle       String?
-  description    String?  @db.Text
-  tags           String[] // Array of tags for filtering/categorization
+  title       String
+  subtitle    String?
+  description String?  @db.Text
+  tags        String[] // Array of tags for filtering/categorization
 
   // Target audience
-  ageMin         Int?
-  ageMax         Int?
+  ageMin Int?
+  ageMax Int?
 
   // Visual
-  thumbnailUrl   String?
+  thumbnailUrl String?
 
   // Creator & tracking
-  createdBy      String   // User ID of creator
-  isPublic       Boolean  @default(false)
-  isActive       Boolean  @default(true)
+  createdBy String // User ID of creator
+  isPublic  Boolean @default(false)
+  isActive  Boolean @default(true)
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  lessons        SeriesLesson[]
-  completions    SeriesCompletion[]
+  organization Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  lessons      SeriesLesson[]
+  completions  SeriesCompletion[]
 
   @@index([organizationId])
   @@index([createdBy])
@@ -2502,14 +2542,14 @@ model SeriesLesson {
   id            String    @id @default(cuid())
   seriesId      String
   lessonId      String
-  orderIndex    Int       // Position in series (0-based)
+  orderIndex    Int // Position in series (0-based)
   scheduledDate DateTime? // Optional scheduled date for this lesson
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  series        LessonSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
-  lesson        Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  series LessonSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  lesson Lesson       @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([seriesId, lessonId])
   @@unique([seriesId, orderIndex])
@@ -2518,13 +2558,13 @@ model SeriesLesson {
 }
 
 model SeriesCompletion {
-  id           String   @id @default(cuid())
-  seriesId     String
-  userId       String
-  lessonId     String   // Which lesson in the series was completed
-  completedAt  DateTime @default(now())
+  id          String   @id @default(cuid())
+  seriesId    String
+  userId      String
+  lessonId    String // Which lesson in the series was completed
+  completedAt DateTime @default(now())
 
-  series       LessonSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  series LessonSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
 
   @@unique([seriesId, userId, lessonId])
   @@index([seriesId])
@@ -2533,14 +2573,14 @@ model SeriesCompletion {
 }
 
 model ParentChild {
-  id        String   @id @default(cuid())
-  parentId  String
-  childId   String
+  id       String @id @default(cuid())
+  parentId String
+  childId  String
 
   // Permission settings
-  canViewProgress    Boolean @default(true)
-  canViewLessons     Boolean @default(true)
-  canViewActivities  Boolean @default(false) // Private teen data - default false
+  canViewProgress   Boolean @default(true)
+  canViewLessons    Boolean @default(true)
+  canViewActivities Boolean @default(false) // Private teen data - default false
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -2567,13 +2607,13 @@ model ParentLogin {
 }
 
 model ParentFeedback {
-  id          String   @id @default(cuid())
-  userId      String
-  rating      Int?     // 1-5 stars
-  comment     String?  @db.Text
-  category    String?  // "content", "usability", "features", etc.
-  lessonId    String?  // Optional: feedback about specific lesson
-  createdAt   DateTime @default(now())
+  id        String   @id @default(cuid())
+  userId    String
+  rating    Int? // 1-5 stars
+  comment   String?  @db.Text
+  category  String? // "content", "usability", "features", etc.
+  lessonId  String? // Optional: feedback about specific lesson
+  createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -2581,6 +2621,7 @@ model ParentFeedback {
   @@index([createdAt])
   @@index([category])
 }
+
 model UserXP {
   id        String   @id @default(cuid())
   userId    String   @unique
@@ -2589,8 +2630,8 @@ model UserXP {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  events XPEvent[]
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events  XPEvent[]
   rewards UserReward[]
 
   @@index([userId])
@@ -2598,14 +2639,14 @@ model UserXP {
 }
 
 model XPEvent {
-  id          String   @id @default(cuid())
+  id          String       @id @default(cuid())
   userId      String
   userXPId    String
   actionType  XPActionType
   amount      Int
   description String?
-  metadata    Json?    // Additional context (e.g., lessonId, chapterId, etc.)
-  createdAt   DateTime @default(now())
+  metadata    Json? // Additional context (e.g., lessonId, chapterId, etc.)
+  createdAt   DateTime     @default(now())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userXP UserXP @relation(fields: [userXPId], references: [id], onDelete: Cascade)
@@ -2617,15 +2658,15 @@ model XPEvent {
 }
 
 enum XPActionType {
-  CHAPTER_READ         // 10 XP
-  READING_PLAN_DAY     // 15 XP
-  LESSON_COMPLETED     // 20 XP
-  QUIZ_CORRECT         // 5 XP per correct answer
-  PRAYER_LOGGED        // 10 XP
-  VERSE_MEMORIZED      // 25 XP
-  JOURNAL_ENTRY        // 10 XP
-  DAILY_LOGIN          // 5 XP
-  STREAK_BONUS         // Variable XP based on streak
+  CHAPTER_READ // 10 XP
+  READING_PLAN_DAY // 15 XP
+  LESSON_COMPLETED // 20 XP
+  QUIZ_CORRECT // 5 XP per correct answer
+  PRAYER_LOGGED // 10 XP
+  VERSE_MEMORIZED // 25 XP
+  JOURNAL_ENTRY // 10 XP
+  DAILY_LOGIN // 5 XP
+  STREAK_BONUS // Variable XP based on streak
 }
 
 model Reward {
@@ -2633,8 +2674,8 @@ model Reward {
   type        RewardType
   name        String
   description String?
-  unlockLevel Int        // Level required to unlock
-  data        Json?      // Reward data (avatar URL, theme colors, etc.)
+  unlockLevel Int // Level required to unlock
+  data        Json? // Reward data (avatar URL, theme colors, etc.)
   isActive    Boolean    @default(true)
   createdAt   DateTime   @default(now())
 
@@ -2668,20 +2709,21 @@ model UserReward {
   @@index([userXPId])
   @@index([rewardId])
 }
-model LessonQuiz {
-  id          String   @id @default(cuid())
-  lessonId    String
-  title       String
-  description String?
-  passingScore Int?    // Percentage required to pass (0-100)
-  timeLimit   Int?    // Time limit in minutes (null = no limit)
-  showCorrectAnswers Boolean @default(true) // Show correct answers after completion
-  allowRetakes Boolean @default(true)
-  isActive    Boolean @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
-  lesson    Lesson          @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+model LessonQuiz {
+  id                 String   @id @default(cuid())
+  lessonId           String
+  title              String
+  description        String?
+  passingScore       Int? // Percentage required to pass (0-100)
+  timeLimit          Int? // Time limit in minutes (null = no limit)
+  showCorrectAnswers Boolean  @default(true) // Show correct answers after completion
+  allowRetakes       Boolean  @default(true)
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  lesson    Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   questions QuizQuestion[]
   attempts  QuizAttempt[]
 
@@ -2690,17 +2732,17 @@ model LessonQuiz {
 }
 
 model QuizQuestion {
-  id            String   @id @default(cuid())
+  id            String       @id @default(cuid())
   quizId        String
-  questionText  String   @db.Text
+  questionText  String       @db.Text
   type          QuestionType
-  options       Json?    // Array of options for MCQ/true-false
-  correctAnswer String   @db.Text // Can be index, text, or JSON depending on type
-  explanation   String?  @db.Text // Optional explanation shown after answering
-  points        Int      @default(1)
-  orderIndex    Int      // Order in which questions appear
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  options       Json? // Array of options for MCQ/true-false
+  correctAnswer String       @db.Text // Can be index, text, or JSON depending on type
+  explanation   String?      @db.Text // Optional explanation shown after answering
+  points        Int          @default(1)
+  orderIndex    Int // Order in which questions appear
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
   quiz LessonQuiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
@@ -2716,15 +2758,15 @@ enum QuestionType {
 }
 
 model QuizAttempt {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   quizId      String
   userId      String
-  startedAt   DateTime @default(now())
+  startedAt   DateTime  @default(now())
   completedAt DateTime?
-  answersJson Json     // Stores user's answers
-  score       Float?   // Percentage score (0-100)
+  answersJson Json // Stores user's answers
+  score       Float? // Percentage score (0-100)
   passed      Boolean? // Whether they passed based on passingScore
-  timeSpent   Int?     // Time spent in seconds
+  timeSpent   Int? // Time spent in seconds
 
   quiz LessonQuiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
   user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -2733,20 +2775,21 @@ model QuizAttempt {
   @@index([userId])
   @@index([completedAt])
 }
+
 model LessonDebrief {
-  id          String   @id @default(cuid())
-  lessonId    String
-  groupId     String?  // Which group this debrief is for
-  sessionId   String?  // Future: link to session tracking
-  authorId    String
+  id        String  @id @default(cuid())
+  lessonId  String
+  groupId   String? // Which group this debrief is for
+  sessionId String? // Future: link to session tracking
+  authorId  String
 
   // Debrief content
-  notes       String   @db.Text
+  notes       String    @db.Text
   sessionDate DateTime? // When the lesson was taught
 
   // Metadata
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -2756,6 +2799,7 @@ model LessonDebrief {
   @@index([sessionDate])
   @@index([groupId])
 }
+
 model Tag {
   id             String @id @default(cuid())
   organizationId String
@@ -2844,47 +2888,47 @@ model TagMetric {
 }
 
 model ProverbOfTheDay {
-  id             String   @id @default(cuid())
-  organizationId String?  // NULL = available to all organizations
+  id             String  @id @default(cuid())
+  organizationId String? // NULL = available to all organizations
 
   // Proverb reference
-  book           String   @default("Proverbs")
-  chapter        Int
-  verseStart     Int
-  verseEnd       Int?     // For multi-verse proverbs
-  reference      String   // e.g., "Proverbs 3:5-6"
+  book       String @default("Proverbs")
+  chapter    Int
+  verseStart Int
+  verseEnd   Int? // For multi-verse proverbs
+  reference  String // e.g., "Proverbs 3:5-6"
 
   // Content
-  proverbText    String   @db.Text
-  translation    String   @default("NIV")
+  proverbText String @db.Text
+  translation String @default("NIV")
 
   // Teen application
-  teenTitle      String   // Catchy title for teens (e.g., "Trust the GPS, Not Your Directions")
-  teenApplication String  @db.Text // Teen-focused explanation/application
-  modernExample  String?  @db.Text // Optional contemporary example for teens
+  teenTitle        String // Catchy title for teens (e.g., "Trust the GPS, Not Your Directions")
+  teenApplication  String  @db.Text // Teen-focused explanation/application
+  modernExample    String? @db.Text // Optional contemporary example for teens
   discussionPrompt String? @db.Text // Optional discussion question
 
   // Categorization
-  tags           Json?    // Array of tags: ["faith", "trust", "wisdom", etc.]
-  category       String?  // Main category: "relationships", "wisdom", "integrity", etc.
-  difficulty     String   @default("MEDIUM") // "EASY", "MEDIUM", "HARD" (reading level)
+  tags       Json? // Array of tags: ["faith", "trust", "wisdom", etc.]
+  category   String? // Main category: "relationships", "wisdom", "integrity", etc.
+  difficulty String  @default("MEDIUM") // "EASY", "MEDIUM", "HARD" (reading level)
 
   // Scheduling
-  scheduledDate  DateTime? // When to display this proverb
-  isActive       Boolean  @default(true)
-  isPinned       Boolean  @default(false) // Pinned proverbs stay visible longer
+  scheduledDate DateTime? // When to display this proverb
+  isActive      Boolean   @default(true)
+  isPinned      Boolean   @default(false) // Pinned proverbs stay visible longer
 
   // Authorship
-  createdBy      String?  // User ID
-  approvedBy     String?  // Admin who approved it
-  approvedAt     DateTime?
+  createdBy  String? // User ID
+  approvedBy String? // Admin who approved it
+  approvedAt DateTime?
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  views          ProverbView[]
-  interactions   ProverbInteraction[]
+  organization Organization?        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  views        ProverbView[]
+  interactions ProverbInteraction[]
 
   @@index([organizationId])
   @@index([scheduledDate])
@@ -2894,16 +2938,16 @@ model ProverbOfTheDay {
 }
 
 model ProverbView {
-  id        String   @id @default(cuid())
-  proverbId String
-  userId    String?
+  id             String  @id @default(cuid())
+  proverbId      String
+  userId         String?
   organizationId String?
 
   // Engagement metrics
-  timeSpentMs Int?    // Time spent viewing in milliseconds
+  timeSpentMs Int? // Time spent viewing in milliseconds
   completed   Boolean @default(false) // Did user read to the end
 
-  viewedAt  DateTime @default(now())
+  viewedAt DateTime @default(now())
 
   proverb ProverbOfTheDay @relation(fields: [proverbId], references: [id], onDelete: Cascade)
 
@@ -2914,19 +2958,19 @@ model ProverbView {
 }
 
 model ProverbInteraction {
-  id             String   @id @default(cuid())
+  id             String  @id @default(cuid())
   proverbId      String
   userId         String?
   organizationId String?
 
   // Interaction type
-  interactionType String  // "like", "share", "save", "discuss", "bookmark"
+  interactionType String // "like", "share", "save", "discuss", "bookmark"
 
   // Optional feedback
-  notes          String?  @db.Text
-  rating         Int?     // 1-5 star rating
+  notes  String? @db.Text
+  rating Int? // 1-5 star rating
 
-  createdAt      DateTime @default(now())
+  createdAt DateTime @default(now())
 
   proverb ProverbOfTheDay @relation(fields: [proverbId], references: [id], onDelete: Cascade)
 
@@ -2942,41 +2986,41 @@ model ProverbInteraction {
 // ============================================================================
 
 model PassageSummary {
-  id             String   @id @default(cuid())
-  organizationId String?  // NULL = public/shared summary
+  id             String  @id @default(cuid())
+  organizationId String? // NULL = public/shared summary
 
   // Passage identification
-  verseId        String   // e.g., "JHN.3.16" or "JHN.3.16-JHN.3.21" for ranges
-  verseReference String   // e.g., "John 3:16" or "John 3:16-21" (human-readable)
-  bibleId        String   // Bible translation ID (e.g., "de4e12af7f28f599-02" for NIV)
-  passageText    String   @db.Text
+  verseId        String // e.g., "JHN.3.16" or "JHN.3.16-JHN.3.21" for ranges
+  verseReference String // e.g., "John 3:16" or "John 3:16-21" (human-readable)
+  bibleId        String // Bible translation ID (e.g., "de4e12af7f28f599-02" for NIV)
+  passageText    String @db.Text
 
   // AI-generated content
-  summary        String   @db.Text  // 2-3 sentence overview
-  keyPoints      Json     // Array of key insights/takeaways
-  historicalContext String? @db.Text // Historical and cultural background
-  literaryContext String? @db.Text // Literary context and structure
+  summary              String  @db.Text // 2-3 sentence overview
+  keyPoints            Json // Array of key insights/takeaways
+  historicalContext    String? @db.Text // Historical and cultural background
+  literaryContext      String? @db.Text // Literary context and structure
   practicalApplication String? @db.Text // Modern application for teens
 
   // AI metadata
-  generatedBy    String   @default("ai")
-  aiModel        String?  // e.g., "gpt-4", "claude-3-sonnet"
-  aiProvider     String?  // e.g., "openai", "anthropic"
+  generatedBy String  @default("ai")
+  aiModel     String? // e.g., "gpt-4", "claude-3-sonnet"
+  aiProvider  String? // e.g., "openai", "anthropic"
 
   // Content filtering
-  contentFiltered Boolean  @default(false)
-  filterCategory FilterCategory?
+  contentFiltered Boolean         @default(false)
+  filterCategory  FilterCategory?
 
   // User engagement
-  viewCount      Int      @default(0)
-  lastViewedAt   DateTime @default(now())
+  viewCount    Int      @default(0)
+  lastViewedAt DateTime @default(now())
 
   // Authorship
-  createdBy      String?  // User ID who generated the summary
-  userId         String?  // For user-specific summaries
+  createdBy String? // User ID who generated the summary
+  userId    String? // For user-specific summaries
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([verseId, bibleId, organizationId])
   @@index([verseId])
@@ -2990,45 +3034,45 @@ model PassageSummary {
 // ============================================================================
 
 model CacheConfig {
-  id             String   @id @default(cuid())
+  id             String @id @default(cuid())
   organizationId String
 
   // Content types to cache
-  cacheLessons      Boolean  @default(true)
-  cacheReadingPlans Boolean  @default(true)
-  cacheScriptures   Boolean  @default(true)
-  cacheImages       Boolean  @default(false)
-  cacheAudio        Boolean  @default(false)
+  cacheLessons      Boolean @default(true)
+  cacheReadingPlans Boolean @default(true)
+  cacheScriptures   Boolean @default(true)
+  cacheImages       Boolean @default(false)
+  cacheAudio        Boolean @default(false)
 
   // Cache size limits (in MB)
-  maxCacheSize   Int      @default(50)
+  maxCacheSize Int @default(50)
 
   // Offline strategy
-  strategy       CacheStrategy @default(CACHE_FIRST)
+  strategy CacheStrategy @default(CACHE_FIRST)
 
   // Auto-cache settings
-  autoCache      Boolean  @default(true)
-  autoSync       Boolean  @default(true)
-  syncFrequency  CacheSyncFrequency @default(DAILY)
+  autoCache     Boolean            @default(true)
+  autoSync      Boolean            @default(true)
+  syncFrequency CacheSyncFrequency @default(DAILY)
 
   // Specific content to cache (JSON arrays of IDs)
-  cachedLessonIds Json?   // Array of lesson IDs to pre-cache
-  cachedPlanIds   Json?   // Array of reading plan IDs to pre-cache
+  cachedLessonIds Json? // Array of lesson IDs to pre-cache
+  cachedPlanIds   Json? // Array of reading plan IDs to pre-cache
 
   // Cache policies for specific content types
-  lessonCachePolicy  CachePolicy @default(ALL_RECENT) // ALL, ALL_RECENT, SELECTED_ONLY
-  planCachePolicy    CachePolicy @default(ALL_ACTIVE)
+  lessonCachePolicy CachePolicy @default(ALL_RECENT) // ALL, ALL_RECENT, SELECTED_ONLY
+  planCachePolicy   CachePolicy @default(ALL_ACTIVE)
 
   // Retention settings
-  retentionDays  Int      @default(30) // Days to keep cached content
+  retentionDays Int @default(30) // Days to keep cached content
 
   // Last sync tracking
-  lastSyncAt     DateTime?
-  nextSyncAt     DateTime?
+  lastSyncAt DateTime?
+  nextSyncAt DateTime?
 
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
@@ -3037,10 +3081,10 @@ model CacheConfig {
 }
 
 enum CacheStrategy {
-  CACHE_FIRST     // Try cache first, fallback to network
-  NETWORK_FIRST   // Try network first, fallback to cache
-  CACHE_ONLY      // Only use cache
-  NETWORK_ONLY    // Only use network
+  CACHE_FIRST // Try cache first, fallback to network
+  NETWORK_FIRST // Try network first, fallback to cache
+  CACHE_ONLY // Only use cache
+  NETWORK_ONLY // Only use network
 }
 
 enum CacheSyncFrequency {
@@ -3051,11 +3095,11 @@ enum CacheSyncFrequency {
 }
 
 enum CachePolicy {
-  ALL             // Cache all content
-  ALL_RECENT      // Cache all content from last 3 months
-  ALL_ACTIVE      // Cache all active/published content
-  SELECTED_ONLY   // Only cache items specified in cachedLessonIds/cachedPlanIds
-  NONE            // Don't cache this type
+  ALL // Cache all content
+  ALL_RECENT // Cache all content from last 3 months
+  ALL_ACTIVE // Cache all active/published content
+  SELECTED_ONLY // Only cache items specified in cachedLessonIds/cachedPlanIds
+  NONE // Don't cache this type
 }
 
 // ============================================================================
@@ -3063,38 +3107,38 @@ enum CachePolicy {
 // ============================================================================
 
 model ErrorLog {
-  id              String   @id @default(cuid())
-  organizationId  String?
+  id             String  @id @default(cuid())
+  organizationId String?
 
   // Error details
-  errorType       ErrorType
-  errorMessage    String   @db.Text
-  errorStack      String?  @db.Text
-  errorCode       String?
+  errorType    ErrorType
+  errorMessage String    @db.Text
+  errorStack   String?   @db.Text
+  errorCode    String?
 
   // Request context
-  httpMethod      String?
-  httpPath        String?
-  httpStatusCode  Int?
-  userId          String?
-  ipAddress       String?
-  userAgent       String?
+  httpMethod     String?
+  httpPath       String?
+  httpStatusCode Int?
+  userId         String?
+  ipAddress      String?
+  userAgent      String?
 
   // Application context
-  service         String   // 'api', 'frontend', 'job-queue'
-  environment     String   // 'production', 'development'
-  version         String?
+  service     String // 'api', 'frontend', 'job-queue'
+  environment String // 'production', 'development'
+  version     String?
 
   // Categorization
-  severity        ErrorSeverity
-  category        ErrorCategory?
-  tags            Json?
+  severity ErrorSeverity
+  category ErrorCategory?
+  tags     Json?
 
   // Resolution tracking
-  status          IncidentStatus @default(OPEN)
-  assignedTo      String?
-  resolvedAt      DateTime?
-  resolution      String?  @db.Text
+  status     IncidentStatus @default(PENDING)
+  assignedTo String?
+  resolvedAt DateTime?
+  resolution String?        @db.Text
 
   // Metadata
   metadata        Json?
@@ -3103,9 +3147,9 @@ model ErrorLog {
   lastSeenAt      DateTime @default(now())
   createdAt       DateTime @default(now())
 
-  organization    Organization? @relation(fields: [organizationId], references: [id])
-  incident        ErrorIncident? @relation(fields: [incidentId], references: [id])
-  incidentId      String?
+  organization Organization?  @relation(fields: [organizationId], references: [id])
+  incident     ErrorIncident? @relation(fields: [incidentId], references: [id])
+  incidentId   String?
 
   @@index([organizationId])
   @@index([errorType])
@@ -3117,40 +3161,40 @@ model ErrorLog {
 }
 
 model ErrorIncident {
-  id              String   @id @default(cuid())
-  organizationId  String?
+  id             String  @id @default(cuid())
+  organizationId String?
 
-  title           String
-  description     String?  @db.Text
-  status          IncidentStatus @default(OPEN)
-  severity        ErrorSeverity
+  title       String
+  description String?        @db.Text
+  status      IncidentStatus @default(PENDING)
+  severity    ErrorSeverity
 
   // Assignment
-  assignedTo      String?
-  reportedBy      String?
+  assignedTo String?
+  reportedBy String?
 
   // Timeline
-  detectedAt      DateTime @default(now())
-  acknowledgedAt  DateTime?
-  resolvedAt      DateTime?
-  closedAt        DateTime?
+  detectedAt     DateTime  @default(now())
+  acknowledgedAt DateTime?
+  resolvedAt     DateTime?
+  closedAt       DateTime?
 
   // Related errors
-  errorLogs       ErrorLog[]
-  affectedUsers   Int      @default(0)
+  errorLogs     ErrorLog[]
+  affectedUsers Int        @default(0)
 
   // Resolution
-  rootCause       String?  @db.Text
-  solution        String?  @db.Text
-  preventionSteps String?  @db.Text
+  rootCause       String? @db.Text
+  solution        String? @db.Text
+  preventionSteps String? @db.Text
 
   // Notifications
   notificationsSent Json?
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization    Organization? @relation(fields: [organizationId], references: [id])
+  organization Organization? @relation(fields: [organizationId], references: [id])
 
   @@index([organizationId])
   @@index([status])
@@ -3173,11 +3217,11 @@ enum ErrorType {
 }
 
 enum ErrorSeverity {
-  CRITICAL    // System down, data loss
-  HIGH        // Major feature broken
-  MEDIUM      // Minor feature degraded
-  LOW         // Minor issue, workaround exists
-  INFO        // Informational
+  CRITICAL // System down, data loss
+  HIGH // Major feature broken
+  MEDIUM // Minor feature degraded
+  LOW // Minor issue, workaround exists
+  INFO // Informational
 }
 
 enum ErrorCategory {
@@ -3189,12 +3233,4 @@ enum ErrorCategory {
   DATABASE
   FRONTEND
   JOB_QUEUE
-}
-
-enum IncidentStatus {
-  OPEN
-  ACKNOWLEDGED
-  INVESTIGATING
-  RESOLVED
-  CLOSED
 }

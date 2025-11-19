@@ -12,8 +12,7 @@ import {
   assignIncident,
   resolveIncident,
 } from '../controllers/error-dashboard.controller';
-import { authenticate } from '../middleware/auth';
-import { requireOrgAdmin } from '../middleware/permissions';
+import { authenticate, requireOrgAdmin } from '../middleware/auth';
 
 const router = express.Router();
 
