@@ -89,8 +89,12 @@ root.render(
                                             <LexiconProvider>
                                               <ThematicJourneyProvider>
                                                 <CommentaryProvider>
-                                                  <FeedbackProvider>                                                  <App />
-                                                    </DevotionalProvider>                                                    <DevotionalProvider>                                                  </FeedbackProvider>                                                </CommentaryProvider>
+                                                  <FeedbackProvider>
+                                                    <DevotionalProvider>
+                                                      <App />
+                                                    </DevotionalProvider>
+                                                  </FeedbackProvider>
+                                                </CommentaryProvider>
                                               </ThematicJourneyProvider>
                                             </LexiconProvider>
                                           </OutlineProvider>
