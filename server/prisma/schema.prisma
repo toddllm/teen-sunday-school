@@ -3057,3 +3057,144 @@ enum CachePolicy {
   SELECTED_ONLY   // Only cache items specified in cachedLessonIds/cachedPlanIds
   NONE            // Don't cache this type
 }
+
+// ============================================================================
+// ERROR TRACKING & INCIDENT MANAGEMENT
+// ============================================================================
+
+model ErrorLog {
+  id              String   @id @default(cuid())
+  organizationId  String?
+
+  // Error details
+  errorType       ErrorType
+  errorMessage    String   @db.Text
+  errorStack      String?  @db.Text
+  errorCode       String?
+
+  // Request context
+  httpMethod      String?
+  httpPath        String?
+  httpStatusCode  Int?
+  userId          String?
+  ipAddress       String?
+  userAgent       String?
+
+  // Application context
+  service         String   // 'api', 'frontend', 'job-queue'
+  environment     String   // 'production', 'development'
+  version         String?
+
+  // Categorization
+  severity        ErrorSeverity
+  category        ErrorCategory?
+  tags            Json?
+
+  // Resolution tracking
+  status          IncidentStatus @default(OPEN)
+  assignedTo      String?
+  resolvedAt      DateTime?
+  resolution      String?  @db.Text
+
+  // Metadata
+  metadata        Json?
+  occurrenceCount Int      @default(1)
+  firstSeenAt     DateTime @default(now())
+  lastSeenAt      DateTime @default(now())
+  createdAt       DateTime @default(now())
+
+  organization    Organization? @relation(fields: [organizationId], references: [id])
+  incident        ErrorIncident? @relation(fields: [incidentId], references: [id])
+  incidentId      String?
+
+  @@index([organizationId])
+  @@index([errorType])
+  @@index([severity])
+  @@index([status])
+  @@index([createdAt])
+  @@index([service])
+  @@index([incidentId])
+}
+
+model ErrorIncident {
+  id              String   @id @default(cuid())
+  organizationId  String?
+
+  title           String
+  description     String?  @db.Text
+  status          IncidentStatus @default(OPEN)
+  severity        ErrorSeverity
+
+  // Assignment
+  assignedTo      String?
+  reportedBy      String?
+
+  // Timeline
+  detectedAt      DateTime @default(now())
+  acknowledgedAt  DateTime?
+  resolvedAt      DateTime?
+  closedAt        DateTime?
+
+  // Related errors
+  errorLogs       ErrorLog[]
+  affectedUsers   Int      @default(0)
+
+  // Resolution
+  rootCause       String?  @db.Text
+  solution        String?  @db.Text
+  preventionSteps String?  @db.Text
+
+  // Notifications
+  notificationsSent Json?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  organization    Organization? @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([status])
+  @@index([severity])
+  @@index([createdAt])
+}
+
+enum ErrorType {
+  AUTHENTICATION_ERROR
+  AUTHORIZATION_ERROR
+  VALIDATION_ERROR
+  DATABASE_ERROR
+  EXTERNAL_API_ERROR
+  INTEGRATION_ERROR
+  RATE_LIMIT_ERROR
+  TIMEOUT_ERROR
+  INTERNAL_ERROR
+  NETWORK_ERROR
+  CONFIGURATION_ERROR
+}
+
+enum ErrorSeverity {
+  CRITICAL    // System down, data loss
+  HIGH        // Major feature broken
+  MEDIUM      // Minor feature degraded
+  LOW         // Minor issue, workaround exists
+  INFO        // Informational
+}
+
+enum ErrorCategory {
+  SYNC
+  AUTHENTICATION
+  AUTHORIZATION
+  INTEGRATION
+  API
+  DATABASE
+  FRONTEND
+  JOB_QUEUE
+}
+
+enum IncidentStatus {
+  OPEN
+  ACKNOWLEDGED
+  INVESTIGATING
+  RESOLVED
+  CLOSED
+}

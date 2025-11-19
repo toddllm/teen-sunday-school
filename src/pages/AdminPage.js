@@ -138,6 +138,13 @@ function AdminPage() {
               <p>Configure offline content pre-caching</p>
             </div>
           </Link>
+          <Link to="/admin/errors" className="quick-access-card">
+            <div className="quick-access-icon">🚨</div>
+            <div className="quick-access-content">
+              <h3>Error & Incident Dashboard</h3>
+              <p>Monitor and manage application health</p>
+            </div>
+          </Link>
           <Link to="/admin/templates" className="quick-access-card">
             <div className="quick-access-icon">📝</div>
             <div className="quick-access-content">
