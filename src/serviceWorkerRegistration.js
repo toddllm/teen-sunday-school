@@ -116,3 +116,41 @@ export function requestBackgroundSync() {
     });
   }
 }
+
+// Update cache configuration
+export function updateCacheConfig(config) {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then((registration) => {
+      if (registration.active) {
+        registration.active.postMessage({
+          type: 'UPDATE_CACHE_CONFIG',
+          config
+        });
+      }
+    });
+  }
+}
+
+// Clear cache
+export function clearCache() {
+  if ('caches' in window) {
+    return caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          return caches.delete(cacheName);
+        })
+      );
+    });
+  }
+  return Promise.resolve();
+}
+
+// Pre-cache content
+export function preCacheContent(urls) {
+  if ('caches' in window) {
+    return caches.open('precache-v1').then((cache) => {
+      return cache.addAll(urls);
+    });
+  }
+  return Promise.resolve();
+}
