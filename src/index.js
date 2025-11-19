@@ -35,6 +35,8 @@ import { FeedbackProvider } from './contexts/FeedbackContext';
 import { DevotionalProvider } from './contexts/DevotionalContext';
 import { UserProvider } from './contexts/UserContext';
 import { CommentProvider } from './contexts/CommentContext';
+import { KidsModeProvider } from './contexts/KidsModeContext';
+import { KidsContentProvider } from './contexts/KidsContentContext';
 import { ABTestProvider } from './contexts/ABTestContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
@@ -95,7 +97,11 @@ root.render(
                                                                 <DevotionalProvider>
                                                                   <UserProvider>
                                                                     <CommentProvider>
-                                                                      <App />
+                                                                      <KidsModeProvider>
+                                                                        <KidsContentProvider>
+                                                                          <App />
+                                                                        </KidsContentProvider>
+                                                                      </KidsModeProvider>
                                                                     </CommentProvider>
                                                                   </UserProvider>
                                                                 </DevotionalProvider>

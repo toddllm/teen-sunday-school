@@ -1,0 +1,492 @@
+.kids-story-view {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: calc(100vh - 80px);
+}
+
+/* Header */
+.story-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.back-button {
+  background: #4A90E2;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: #357ABD;
+  transform: translateX(-4px);
+}
+
+.back-icon {
+  font-size: 1.3rem;
+}
+
+.story-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.favorite-button {
+  background: white;
+  border: 3px solid #FF6B9D;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorite-button:hover {
+  transform: scale(1.1);
+}
+
+.favorite-button.is-favorite {
+  background: #FF6B9D;
+  animation: heartbeat 0.5s ease;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Title Section */
+.story-title-section {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+  border-radius: 20px;
+}
+
+.story-emoji {
+  font-size: 6rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.story-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1976D2;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.story-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.meta-item {
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #2C3E50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.meta-icon {
+  font-size: 1.2rem;
+}
+
+/* Controls */
+.story-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.kids-btn {
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: inherit;
+}
+
+.kids-btn-large {
+  padding: 1rem 2rem;
+  font-size: 1.3rem;
+}
+
+.kids-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.kids-btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 1.4rem;
+}
+
+.kids-btn-primary {
+  background: #4A90E2;
+  color: white;
+}
+
+.kids-btn-primary:hover {
+  background: #357ABD;
+}
+
+.kids-btn-secondary {
+  background: #9B59B6;
+  color: white;
+}
+
+.kids-btn-secondary:hover {
+  background: #8E44AD;
+}
+
+.kids-btn-success {
+  background: #27AE60;
+  color: white;
+}
+
+.kids-btn-success:hover {
+  background: #229954;
+}
+
+.kids-btn-danger {
+  background: #E74C3C;
+  color: white;
+}
+
+.kids-btn-danger:hover {
+  background: #C0392B;
+}
+
+.kids-btn-outline {
+  background: white;
+  color: #4A90E2;
+  border: 3px solid #4A90E2;
+}
+
+.kids-btn-outline:hover {
+  background: #4A90E2;
+  color: white;
+}
+
+/* Story Content */
+.story-content-section {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.story-content {
+  line-height: 2;
+  color: #2C3E50;
+}
+
+.story-paragraph {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+  font-weight: 500;
+}
+
+/* Memory Verse */
+.memory-verse-section {
+  background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  border: 3px solid #FBC02D;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #F57F17;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-icon {
+  font-size: 2rem;
+}
+
+.memory-verse {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 15px;
+  border-left: 5px solid #FBC02D;
+}
+
+.verse-text {
+  font-size: 1.4rem;
+  font-style: italic;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.verse-reference {
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* Bible References */
+.bible-refs-section {
+  background: linear-gradient(135deg, #E1F5FE 0%, #B3E5FC 100%);
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+
+.bible-refs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.bible-ref-tag {
+  background: white;
+  color: #0277BD;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid #0277BD;
+}
+
+/* Questions */
+.questions-section {
+  margin-bottom: 2rem;
+}
+
+.questions-list {
+  background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-top: 1.5rem;
+}
+
+.question-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+}
+
+.question-item:hover {
+  transform: translateX(5px);
+  border-color: #9B59B6;
+}
+
+.question-item.completed {
+  background: #E8F5E9;
+  border-color: #4CAF50;
+}
+
+.question-number {
+  background: #9B59B6;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.question-item.completed .question-number {
+  background: #4CAF50;
+}
+
+.question-text {
+  flex: 1;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2C3E50;
+  margin: 0;
+}
+
+.question-check {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.congrats-message {
+  background: #4CAF50;
+  color: white;
+  padding: 1.5rem;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  animation: celebrate 0.5s ease;
+}
+
+@keyframes celebrate {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.congrats-icon {
+  font-size: 1.8rem;
+  margin: 0 0.5rem;
+}
+
+/* Completion */
+.completion-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Summary */
+.story-summary {
+  background: #F5F7FA;
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border-left: 5px solid #4A90E2;
+}
+
+.story-summary p {
+  font-size: 1.2rem;
+  color: #555;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Navigation */
+.story-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Not Found */
+.story-not-found {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.not-found-emoji {
+  font-size: 8rem;
+  margin-bottom: 1rem;
+}
+
+.story-not-found h2 {
+  font-size: 2rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .kids-story-view {
+    padding: 1rem;
+  }
+
+  .story-emoji {
+    font-size: 4rem;
+  }
+
+  .story-title {
+    font-size: 2rem;
+  }
+
+  .story-meta {
+    gap: 0.75rem;
+  }
+
+  .meta-item {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .story-content-section {
+    padding: 1.5rem;
+  }
+
+  .story-paragraph {
+    font-size: 1.1rem;
+  }
+
+  .kids-btn-large {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .verse-text {
+    font-size: 1.2rem;
+  }
+
+  .question-text {
+    font-size: 1rem;
+  }
+
+  .story-navigation {
+    flex-direction: column;
+  }
+
+  .story-navigation .kids-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
