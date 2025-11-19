@@ -28,37 +28,41 @@ const CurriculumCalendarPage = () => {
   const [teachers, setTeachers] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  // Mock data for groups - Replace with actual API call
+  // Fetch groups, lessons, and teachers from API
   useEffect(() => {
-    // TODO: Fetch groups from API
-    setGroups([
-      { id: 'group-1', name: 'High School' },
-      { id: 'group-2', name: 'Middle School' },
-    ]);
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
 
-    // TODO: Fetch lessons from API
-    setLessons([
-      {
-        id: 'lesson-1',
-        title: 'Faith and Works',
-        quarter: 1,
-        unit: 1,
-        lessonNumber: 1,
-      },
-      {
-        id: 'lesson-2',
-        title: 'The Beatitudes',
-        quarter: 1,
-        unit: 1,
-        lessonNumber: 2,
-      },
-    ]);
+        // Fetch groups
+        const groupsResponse = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/api/groups`, { headers });
+        if (groupsResponse.ok) {
+          const groupsData = await groupsResponse.json();
+          setGroups(groupsData.groups || groupsData.data || groupsData);
+        }
 
-    // TODO: Fetch teachers from API
-    setTeachers([
-      { id: 'teacher-1', firstName: 'John', lastName: 'Smith' },
-      { id: 'teacher-2', firstName: 'Sarah', lastName: 'Johnson' },
-    ]);
+        // Fetch lessons
+        const lessonsResponse = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/api/lessons`, { headers });
+        if (lessonsResponse.ok) {
+          const lessonsData = await lessonsResponse.json();
+          setLessons(lessonsData.lessons || lessonsData.data || lessonsData);
+        }
+
+        // Fetch teachers/users with teacher role
+        const usersResponse = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/api/users?role=TEACHER`, { headers });
+        if (usersResponse.ok) {
+          const usersData = await usersResponse.json();
+          setTeachers(usersData.users || usersData.data || usersData);
+        }
+      } catch (err) {
+        console.error('Error fetching calendar data:', err);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // Fetch schedules when group or month changes

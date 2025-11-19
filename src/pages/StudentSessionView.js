@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import { useSession } from '../contexts/SessionContext';
 import { useLessons } from '../contexts/LessonContext';
 import './StudentSessionView.css';
@@ -118,7 +119,7 @@ function StudentSessionView() {
           <div className="slide-viewer">
             <div
               className="slide-content"
-              dangerouslySetInnerHTML={{ __html: currentSlide.html }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(currentSlide.html) }}
             />
             {currentSlide.discussionTime && (
               <div className="discussion-timer">
