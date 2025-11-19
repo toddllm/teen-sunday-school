@@ -21,6 +21,7 @@ const ModerationPage = () => {
   const { lessons } = useLessons();
   const [filterStatus, setFilterStatus] = useState('pending');
   const [filterReason, setFilterReason] = useState('all');
+  const [selectedReport, setSelectedReport] = useState(null);
 
   // Get all data before conditional return
   const allReports = getAllReports();
