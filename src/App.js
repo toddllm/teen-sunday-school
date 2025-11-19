@@ -81,8 +81,7 @@ import IcebreakerAdminPage from './pages/IcebreakerAdminPage';
 import IcebreakerCreatorPage from './pages/IcebreakerCreatorPage';
 import IcebreakerViewPage from './pages/IcebreakerViewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
-import CharactersPage from './pages/CharactersPage';
-import CharacterDetailPage from './pages/CharacterDetailPage';
+import CharacterIndexPage from './pages/CharacterIndexPage';
 import QuestionBankPage from './pages/QuestionBankPage';
 import BulkImportPage from './pages/BulkImportPage';
 import ImportMonitorPage from './pages/ImportMonitorPage';
@@ -236,8 +235,7 @@ function AppContent() {
             <Route path="/bible/maps" element={<BibleMapPage />} />
             <Route path="/bible/ai-summary" element={<AIPassageSummaryPage />} />
             <Route path="/bible/sermon-outline" element={<SermonOutlinePage />} />
-            <Route path="/characters" element={<CharactersPage />} />
-            <Route path="/characters/:id" element={<CharacterDetailPage />} />
+            <Route path="/characters" element={<CharacterIndexPage />} />
             <Route path="/question-bank" element={<QuestionBankPage />} />
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
