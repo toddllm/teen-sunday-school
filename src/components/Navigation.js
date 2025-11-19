@@ -144,6 +144,15 @@ function Navigation() {
           </li>
           <li className="nav-item">
             <Link
+              to="/search"
+              className={`nav-link ${isActive('/search') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Search
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible"
               className={`nav-link ${isActive('/bible') && location.pathname === '/bible' ? 'active' : ''}`}
               onClick={closeMenu}

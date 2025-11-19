@@ -55,6 +55,7 @@ import { ServiceProjectProvider } from './contexts/ServiceProjectContext';
 import { OutlineProvider } from './contexts/OutlineContext';
 import { QAProvider } from './contexts/QAContext';
 import { OfflineProvider } from './contexts/OfflineContext';
+import { SearchProvider } from './contexts/SearchContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -113,7 +114,9 @@ root.render(
                                                                                 <PrayerProvider>
                                                                                   <QAProvider>
                                                                                     <OfflineProvider>
-                                                                                      <App />
+                                                                                      <SearchProvider>
+                                                                                        <App />
+                                                                                      </SearchProvider>
                                                                                     </OfflineProvider>
                                                                                   </QAProvider>
                                                                                 </PrayerProvider>
