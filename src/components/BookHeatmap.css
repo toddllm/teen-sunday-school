@@ -1,0 +1,108 @@
+.book-heatmap {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.book-heatmap h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.book-heatmap .testament-section {
+  margin-bottom: 30px;
+}
+
+.book-heatmap .testament-section h4 {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.book-heatmap-tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.book-heatmap-tooltip .tooltip-label {
+  margin: 0 0 5px 0;
+  font-weight: bold;
+}
+
+.book-heatmap-tooltip .tooltip-value {
+  margin: 0;
+  color: #a5f3fc;
+}
+
+.book-heatmap .empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 4px;
+}
+
+.heatmap-legend .legend-label {
+  margin-right: 15px;
+  font-weight: 600;
+  color: #666;
+}
+
+.heatmap-legend .legend-colors {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heatmap-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.heatmap-legend .legend-color {
+  width: 30px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+
+.heatmap-legend .legend-item span {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Dark mode support */
+body.dark-mode .book-heatmap {
+  background: #1f2937;
+}
+
+body.dark-mode .book-heatmap h3,
+body.dark-mode .book-heatmap .testament-section h4 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .heatmap-legend {
+  background: #374151;
+}
+
+body.dark-mode .heatmap-legend .legend-label,
+body.dark-mode .heatmap-legend .legend-item span {
+  color: #d1d5db;
+}

@@ -5,10 +5,12 @@ import CrossReferencePanel from '../components/CrossReferencePanel';
 import PassageMetrics from '../components/PassageMetrics';
 import ReadAloudControls from '../components/ReadAloudControls';
 import { createBiblePassageSpeech } from '../services/readAloudService';
+import { useEngagementAnalytics } from '../contexts/EngagementAnalyticsContext';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
   const navigate = useNavigate();
+  const { trackPassageRead, trackCrossReference } = useEngagementAnalytics();
   const [reference, setReference] = useState('');
   const [verse, setVerse] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,6 +31,7 @@ const BibleToolPage = () => {
       // Add to history if it's a successful search
       if (result && result.reference) {
         setHistory(prev => [...prev, result.reference]);
+        trackPassageRead(result.reference, 'ESV');
       }
     } catch (err) {
       setError('Could not find that verse. Please check the reference and try again.');
@@ -45,6 +48,9 @@ const BibleToolPage = () => {
     setReference(crossRefText);
     setLoading(true);
     setError('');
+
+    // Track cross-reference click (from current verse to new verse)
+    const fromReference = verse?.reference || null;
     setVerse(null);
 
     try {
@@ -53,6 +59,12 @@ const BibleToolPage = () => {
       // Add to history
       if (result && result.reference) {
         setHistory(prev => [...prev, result.reference]);
+        // Track engagement
+        trackPassageRead(result.reference, 'ESV');
+        // Track cross-reference if coming from another verse
+        if (fromReference) {
+          trackCrossReference(fromReference, result.reference);
+        }
       }
     } catch (err) {
       setError('Could not find that verse. Please check the reference and try again.');

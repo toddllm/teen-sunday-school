@@ -18,6 +18,12 @@
   color: var(--dark-color);
 }
 
+.admin-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .quick-access {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
