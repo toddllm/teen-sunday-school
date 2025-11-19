@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getVerseText } from '../services/bibleAPI';
 import CrossReferencePanel from '../components/CrossReferencePanel';
 import PassageMetrics from '../components/PassageMetrics';
@@ -7,6 +8,7 @@ import { createBiblePassageSpeech } from '../services/readAloudService';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
+  const navigate = useNavigate();
   const [reference, setReference] = useState('');
   const [verse, setVerse] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -56,6 +58,14 @@ const BibleToolPage = () => {
       setError('Could not find that verse. Please check the reference and try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGenerateOutline = () => {
+    if (verse && verse.reference) {
+      navigate('/bible/sermon-outline', {
+        state: { passageRef: verse.reference },
+      });
     }
   };
 
@@ -124,6 +134,15 @@ const BibleToolPage = () => {
 
             <div className="verse-text">
               {verse.text}
+            </div>
+            <div className="verse-actions">
+              <button
+                onClick={handleGenerateOutline}
+                className="outline-btn"
+                title="Create a teaching outline from this passage"
+              >
+                📝 Generate Teaching Outline
+              </button>
             </div>
           </div>
 
