@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import ErrorBoundary from './components/ErrorBoundary';
 import { LessonProvider } from './contexts/LessonContext';
 import { PlanProvider } from './contexts/PlanContext';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -64,7 +65,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ABTestProvider>
+    <ErrorBoundary>
+      <ABTestProvider>
       <OrganizationProvider>
         <AuthProvider>
         <ThemeProvider>
@@ -179,6 +181,7 @@ root.render(
         </AuthProvider>
       </OrganizationProvider>
     </ABTestProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
 

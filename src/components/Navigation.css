@@ -218,6 +218,84 @@
   background: var(--hover-bg);
 }
 
+/* Dropdown Menus */
+.nav-dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 20px;
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.dropdown-toggle:hover {
+  background: var(--hover-bg);
+  color: var(--primary-color);
+}
+
+.dropdown-arrow {
+  font-size: 0.7em;
+  margin-left: 4px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  min-width: 220px;
+  list-style: none;
+  padding: 8px 0;
+  margin: 5px 0 0 0;
+  z-index: 1001;
+}
+
+.dropdown-menu li {
+  width: 100%;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 20px;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: var(--transition);
+  font-size: 0.95em;
+}
+
+.dropdown-menu a:hover {
+  background: var(--hover-bg);
+  color: var(--primary-color);
+}
+
+.notification-badge-inline {
+  display: inline-block;
+  background: var(--danger-color, #f44336);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 8px;
+  min-width: 18px;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .nav-toggle {
     display: flex;
@@ -233,12 +311,13 @@
     gap: 0;
     box-shadow: 0 4px 10px var(--shadow-color);
     max-height: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     transition: max-height 0.3s ease;
   }
 
   .nav-menu.active {
-    max-height: 600px;
+    max-height: 90vh;
   }
 
   .nav-item {
@@ -274,6 +353,29 @@
 
   .theme-toggle-item {
     padding: 10px 20px;
+  }
+
+  /* Mobile Dropdown Styles */
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    border: none;
+    background: var(--bg-secondary, #f8f9fa);
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dropdown-menu a {
+    padding: 12px 20px 12px 40px;
+    font-size: 0.9em;
+  }
+
+  .dropdown-toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-radius: 0;
   }
 }
 
