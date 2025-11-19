@@ -41,6 +41,7 @@ import { KidsContentProvider } from './contexts/KidsContentContext';
 import { ReflectionProvider } from './contexts/ReflectionContext';
 import { MemoryVerseProvider } from './contexts/MemoryVerseContext';
 import { BibleProgressProvider } from './contexts/BibleProgressContext';
+import { PrayerProvider } from './contexts/PrayerContext';
 import { ABTestProvider } from './contexts/ABTestContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
