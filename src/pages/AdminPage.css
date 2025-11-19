@@ -100,6 +100,57 @@
   font-size: 1.1em;
 }
 
+.admin-tools {
+  margin-bottom: 40px;
+}
+
+.admin-tools h2 {
+  color: var(--dark-color);
+  margin-bottom: 20px;
+}
+
+.admin-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.admin-tool-card {
+  background: var(--card-bg);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  transition: var(--transition);
+  border: 2px solid transparent;
+}
+
+.admin-tool-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.tool-icon {
+  font-size: 3em;
+  flex-shrink: 0;
+}
+
+.tool-info h3 {
+  color: var(--dark-color);
+  margin: 0 0 8px 0;
+  font-size: 1.2em;
+}
+
+.tool-info p {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.95em;
+}
+
 .admin-content {
   background: var(--card-bg);
   padding: 30px;

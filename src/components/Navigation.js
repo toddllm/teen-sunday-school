@@ -284,7 +284,14 @@ function Navigation() {
               onClick={closeMenu}
             >
               Substitute
-            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/feedback"
+              className={`nav-link ${isActive('/feedback') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Feedback            </Link>
           </li>
           <li className="nav-item">
             <Link
