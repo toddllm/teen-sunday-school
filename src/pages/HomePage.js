@@ -2,11 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLessons } from '../contexts/LessonContext';
 import { useOnboarding } from '../contexts/OnboardingContext';
+import { useOrganization } from '../contexts/OrganizationContext';
 import './HomePage.css';
 
 function HomePage() {
   const { lessons } = useLessons();
   const { userProfile, getRecommendations } = useOnboarding();
+  const { organization } = useOrganization();
   const recommendations = getRecommendations();
 
   // Personalized greetings and CTAs based on role
@@ -47,9 +49,18 @@ function HomePage() {
 
   const roleContent = getRoleBasedContent();
 
+  const heroStyle = organization?.backgroundImage
+    ? {
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${organization.backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }
+    : {};
+
   return (
     <div className="home-page">
-      <section className="hero">
+      <section className="hero" style={heroStyle}>
         <div className="hero-content">
           <h1>{roleContent.greeting}</h1>
           <p className="hero-subtitle">

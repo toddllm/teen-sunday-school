@@ -11,6 +11,7 @@ import { TranslationProvider } from './contexts/TranslationContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 import { LexiconProvider } from './contexts/LexiconContext';
 import { ThematicJourneyProvider } from './contexts/ThematicJourneyContext';
+import { OrganizationProvider } from './contexts/OrganizationContext';
 import { WeeklyWordProvider } from './contexts/WeeklyWordContext';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { ReadAloudProvider } from './contexts/ReadAloudContext';
@@ -45,8 +46,9 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <ThemeProvider>
+    <OrganizationProvider>
+      <AuthProvider>
+        <ThemeProvider>
         <ReadingMetricsProvider>
           <AccessibilityProvider>
             <OnboardingProvider>
@@ -120,6 +122,7 @@ root.render(
         </ReadingMetricsProvider>
       </ThemeProvider>
     </AuthProvider>
+    </OrganizationProvider>
   </React.StrictMode>
 );
 
