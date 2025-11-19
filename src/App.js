@@ -82,6 +82,7 @@ import QuizResultsPage from './pages/QuizResultsPage';
 import BugReportPage from './pages/BugReportPage';
 import AdminBugReportsPage from './pages/AdminBugReportsPage';
 import CohortProgressTrackingPage from './pages/CohortProgressTrackingPage';
+import ProverbsAdminPage from './pages/ProverbsAdminPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -194,6 +195,7 @@ function App() {
             <Route path="/admin/bug-reports" element={<AdminBugReportsPage />} />
             <Route path="/bug-report" element={<BugReportPage />} />
             <Route path="/admin/cohort-progress" element={<CohortProgressTrackingPage />} />
+            <Route path="/admin/proverbs" element={<ProverbsAdminPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />
