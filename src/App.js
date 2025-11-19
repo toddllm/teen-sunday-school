@@ -13,8 +13,10 @@ import LessonCreatorPage from './pages/LessonCreatorPage';
 import GamesPage from './pages/GamesPage';
 import GamesAdminPage from './pages/GamesAdminPage';
 import ExperimentAdminPage from './pages/ExperimentAdminPage';
-import ExperimentResultsPage from './pages/ExperimentResultsPage';import FeedbackFormPage from './pages/FeedbackFormPage';
-import FeedbackAdminPage from './pages/FeedbackAdminPage';import TranslationAdminPage from './pages/TranslationAdminPage';
+import ExperimentResultsPage from './pages/ExperimentResultsPage';
+import FeedbackFormPage from './pages/FeedbackFormPage';
+import FeedbackAdminPage from './pages/FeedbackAdminPage';
+import TranslationAdminPage from './pages/TranslationAdminPage';
 import PlansAdminPage from './pages/PlansAdminPage';
 import PlanCreatorPage from './pages/PlanCreatorPage';
 import PlanPreviewPage from './pages/PlanPreviewPage';
@@ -25,7 +27,8 @@ import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import TodayDevotionalPage from './pages/TodayDevotionalPage';
 import DevotionalAdminPage from './pages/DevotionalAdminPage';
-import DevotionalEditorPage from './pages/DevotionalEditorPage';import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
+import DevotionalEditorPage from './pages/DevotionalEditorPage';
+import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
 import OrganizationSettingsPage from './pages/OrganizationSettingsPage';
 import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
 import ReadingMetricsSettingsPage from './pages/ReadingMetricsSettingsPage';
@@ -80,6 +83,7 @@ import IcebreakerViewPage from './pages/IcebreakerViewPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import CharactersPage from './pages/CharactersPage';
 import CharacterDetailPage from './pages/CharacterDetailPage';
+import QuestionBankPage from './pages/QuestionBankPage';
 import BulkImportPage from './pages/BulkImportPage';
 import ImportMonitorPage from './pages/ImportMonitorPage';
 import SeriesBrowsePage from './pages/SeriesBrowsePage';
@@ -127,51 +131,7 @@ function AppContent() {
         {showNavigation && <Navigation />}
         <main className="main-content">
           <Routes>
-          <Route path="/onboarding" element={<OnboardingPage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/today" element={<TodayPage />} />
-          <Route path="/badges" element={<BadgesPage />} />
-          <Route path="/lessons" element={<LessonsPage />} />
-          <Route path="/lesson/:id" element={<LessonViewPage />} />
-          <Route path="/devotionals" element={<TodayDevotionalPage />} />
-          <Route path="/devotional/:id" element={<TodayDevotionalPage />} />          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/admin/create" element={<LessonCreatorPage />} />
-          <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
-          <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
-          <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
-          <Route path="/admin/branding" element={<OrganizationSettingsPage />} />
-          <Route path="/admin/translations" element={<TranslationAdminPage />} />
-          <Route path="/admin/feedback" element={<FeedbackAdminPage />} />          <Route path="/admin/plans" element={<PlansAdminPage />} />
-          <Route path="/admin/devotionals" element={<DevotionalAdminPage />} />
-          <Route path="/admin/devotionals/create" element={<DevotionalEditorPage />} />
-          <Route path="/admin/devotionals/edit/:id" element={<DevotionalEditorPage />} />          <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
-          <Route path="/admin/experiments" element={<ExperimentAdminPage />} />
-          <Route path="/admin/experiments/:experimentId/results" element={<ExperimentResultsPage />} />          <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
-          <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
-          <Route path="/admin/ai-filters" element={<AIFiltersAdminPage />} />
-          <Route path="/games/:lessonId" element={<GamesPage />} />
-          <Route path="/bible" element={<BibleToolPage />} />
-          <Route path="/bible/parallel" element={<ParallelBiblePage />} />
-          <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />
-          <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
-          <Route path="/bible/original-language" element={<OriginalLanguagePage />} />
-          <Route path="/settings/translations" element={<TranslationSettingsPage />} />
-          <Route path="/feedback" element={<FeedbackFormPage />} />          <Route path="/journeys" element={<ThematicJourneysPage />} />
-          <Route path="/journeys/:journeyId" element={<JourneyDetailPage />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </main>
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <Router>
-      <div className="App">
-        <Navigation />
-        <main className="main-content">
-          <Routes>
+            <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/today" element={<TodayPage />} />
             <Route path="/gratitude" element={<DailyGratitudeLogPage />} />
@@ -179,12 +139,17 @@ function App() {
             <Route path="/streak-protection" element={<StreakProtectionPage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
-          <Route path="/devotionals" element={<TodayDevotionalPage />} />
-          <Route path="/devotional/:id" element={<TodayDevotionalPage />} />            <Route path="/presenter/:id" element={<PresenterViewPage />} />
+            <Route path="/presenter/:id" element={<PresenterViewPage />} />
+            <Route path="/devotionals" element={<TodayDevotionalPage />} />
+            <Route path="/devotional/:id" element={<TodayDevotionalPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
             <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
+            <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
+            <Route path="/admin/branding" element={<OrganizationSettingsPage />} />
+            <Route path="/admin/translations" element={<TranslationAdminPage />} />
+            <Route path="/admin/feedback" element={<FeedbackAdminPage />} />
             <Route path="/admin/templates" element={<TemplatesAdminPage />} />
             <Route path="/admin/templates/create" element={<TemplateEditorPage />} />
             <Route path="/admin/templates/edit/:id" element={<TemplateEditorPage />} />
@@ -192,9 +157,13 @@ function App() {
             <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
             <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
             <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
+            <Route path="/admin/devotionals" element={<DevotionalAdminPage />} />
+            <Route path="/admin/devotionals/create" element={<DevotionalEditorPage />} />
+            <Route path="/admin/devotionals/edit/:id" element={<DevotionalEditorPage />} />
+            <Route path="/admin/experiments" element={<ExperimentAdminPage />} />
+            <Route path="/admin/experiments/:experimentId/results" element={<ExperimentResultsPage />} />
             <Route path="/admin/ai-filters" element={<AIFiltersAdminPage />} />
             <Route path="/admin/weekly-word" element={<WeeklyWordAdminPage />} />
-            <Route path="/weekly-word/archive" element={<WeeklyWordArchivePage />} />
             <Route path="/admin/warmup" element={<WarmupAdminPage />} />
             <Route path="/admin/curriculum-coverage" element={<CurriculumCoverageReportPage />} />
             <Route path="/admin/signup-analytics" element={<SignupAnalyticsPage />} />
@@ -205,49 +174,50 @@ function App() {
             <Route path="/admin/events" element={<SeasonalEventsAdminPage />} />
             <Route path="/admin/events/create" element={<EventCreatorPage />} />
             <Route path="/admin/events/edit/:id" element={<EventCreatorPage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/events/:id" element={<EventDetailPage />} />
-            <Route path="/topics" element={<TopicsPage />} />
-            <Route path="/topics/:id" element={<TopicDetailPage />} />
             <Route path="/admin/topics" element={<TopicsAdminPage />} />
             <Route path="/admin/icebreakers" element={<IcebreakerAdminPage />} />
             <Route path="/admin/icebreaker/create" element={<IcebreakerCreatorPage />} />
             <Route path="/admin/icebreaker/edit/:id" element={<IcebreakerCreatorPage />} />
-            <Route path="/icebreaker/:id" element={<IcebreakerViewPage />} />
             <Route path="/admin/bulk-import" element={<BulkImportPage />} />
             <Route path="/admin/imports" element={<ImportMonitorPage />} />
             <Route path="/admin/imports/:jobId" element={<ImportMonitorPage />} />
             <Route path="/admin/series" element={<SeriesAdminPage />} />
             <Route path="/admin/series/create" element={<SeriesEditorPage />} />
             <Route path="/admin/series/edit/:id" element={<SeriesEditorPage />} />
-            <Route path="/series" element={<SeriesBrowsePage />} />
-            <Route path="/series/:id" element={<SeriesViewPage />} />
             <Route path="/admin/quiz/create/:lessonId" element={<QuizAdminPage />} />
             <Route path="/admin/quiz/edit/:lessonId/:quizId" element={<QuizAdminPage />} />
-            <Route path="/quiz/:quizId" element={<QuizTakePage />} />
-            <Route path="/quiz/:quizId/results" element={<QuizResultsPage />} />
             <Route path="/admin/bug-reports" element={<AdminBugReportsPage />} />
-            <Route path="/bug-report" element={<BugReportPage />} />
             <Route path="/admin/cohort-progress" element={<CohortProgressTrackingPage />} />
             <Route path="/admin/proverbs" element={<ProverbsAdminPage />} />
-            <Route path="/sermon-illustrations" element={<SermonIllustrationPage />} />
             <Route path="/admin/scavenger-hunt" element={<ScavengerHuntAdminPage />} />
+            <Route path="/admin/scavenger-hunt/:huntId/submissions" element={<SubmissionGalleryPage />} />
             <Route path="/admin/cache-config" element={<CacheConfigAdminPage />} />
             <Route path="/admin/errors" element={<ErrorDashboardPage />} />
             <Route path="/admin/service-projects" element={<ServiceProjectsAdminPage />} />
             <Route path="/admin/service-project/create" element={<ProjectCreatorPage />} />
             <Route path="/admin/service-project/edit/:id" element={<ProjectCreatorPage />} />
             <Route path="/admin/service-project/preview/:id" element={<ProjectPreviewPage />} />
-            <Route path="/admin/scavenger-hunt/:huntId/submissions" element={<SubmissionGalleryPage />} />
+            <Route path="/weekly-word/archive" element={<WeeklyWordArchivePage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/events/:id" element={<EventDetailPage />} />
+            <Route path="/topics" element={<TopicsPage />} />
+            <Route path="/topics/:id" element={<TopicDetailPage />} />
+            <Route path="/icebreaker/:id" element={<IcebreakerViewPage />} />
+            <Route path="/series" element={<SeriesBrowsePage />} />
+            <Route path="/series/:id" element={<SeriesViewPage />} />
+            <Route path="/quiz/:quizId" element={<QuizTakePage />} />
+            <Route path="/quiz/:quizId/results" element={<QuizResultsPage />} />
+            <Route path="/bug-report" element={<BugReportPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/scavenger-hunt" element={<ScavengerHuntPage />} />
             <Route path="/scavenger-hunt/:huntId" element={<ScavengerHuntPage />} />
+            <Route path="/sermon-illustrations" element={<SermonIllustrationPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />
             <Route path="/session/student" element={<StudentSessionView />} />
-            <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/warmup/present" element={<PreClassWarmupPage />} />
             <Route path="/goals" element={<GoalsPage />} />
+            <Route path="/games/:lessonId" element={<GamesPage />} />
             <Route path="/bible" element={<BibleToolPage />} />
             <Route path="/bible/parallel" element={<ParallelBiblePage />} />
             <Route path="/bible/miracles" element={<MiraclesExplorerPage />} />
@@ -259,6 +229,7 @@ function App() {
             <Route path="/bible/meme-generator" element={<MemeGeneratorPage />} />
             <Route path="/bible/find-reference" element={<FindTheReferencePage />} />
             <Route path="/bible/journaling" element={<ScriptureJournalingPage />} />
+            <Route path="/bible/original-language" element={<OriginalLanguagePage />} />
             <Route path="/bible/comic-generator" element={<ComicGeneratorPage />} />
             <Route path="/bible/timeline" element={<TimelinePage />} />
             <Route path="/bible/chronological-plan" element={<ChronologicalPlanPage />} />
@@ -270,17 +241,26 @@ function App() {
             <Route path="/question-bank" element={<QuestionBankPage />} />
             <Route path="/translation-comparisons" element={<TranslationComparisonPage />} />
             <Route path="/translation-comparisons/:noteId" element={<TranslationComparisonPage />} />
+            <Route path="/journeys" element={<ThematicJourneysPage />} />
+            <Route path="/journeys/:journeyId" element={<JourneyDetailPage />} />
+            <Route path="/feedback" element={<FeedbackFormPage />} />
             <Route path="/settings/translations" element={<TranslationSettingsPage />} />
-          <Route path="/feedback" element={<FeedbackFormPage />} />            <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
+            <Route path="/settings/accessibility" element={<AccessibilitySettingsPage />} />
             <Route path="/settings/reading-metrics" element={<ReadingMetricsSettingsPage />} />
             <Route path="/settings/profile" element={<ProfileSettingsPage />} />
             <Route path="/parent" element={<ParentOverviewPage />} />
             <Route path="/substitute" element={<SubstituteDashboardPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
-        </main>
-      </div>
-      </EngagementAnalyticsProvider>
+      </main>
+    </div>
+    </EngagementAnalyticsProvider>
+  );
+}
+
+function App() {
+  return (
+    <Router>
       <AppContent />
     </Router>
   );
