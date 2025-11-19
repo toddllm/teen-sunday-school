@@ -34,6 +34,7 @@ import { SeriesProvider } from './contexts/SeriesContext';
 import { XPProvider } from './contexts/XPContext';
 import { QuizProvider } from './contexts/QuizContext';
 import { BugReportProvider } from './contexts/BugReportContext';
+import { ScavengerHuntProvider } from './contexts/ScavengerHuntContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -69,7 +70,9 @@ root.render(
                                             <QuestionBankProvider>
                                   <SessionProvider>
                                     <BugReportProvider>
-                                      <App />
+                                      <ScavengerHuntProvider>
+                                        <App />
+                                      </ScavengerHuntProvider>
                                     </BugReportProvider>
                                             </QuestionBankProvider>
                                           </CharacterProvider>

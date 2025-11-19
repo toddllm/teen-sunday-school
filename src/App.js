@@ -85,6 +85,9 @@ import CohortProgressTrackingPage from './pages/CohortProgressTrackingPage';
 import ProverbsAdminPage from './pages/ProverbsAdminPage';
 import AIPassageSummaryPage from './pages/AIPassageSummaryPage';
 import SermonIllustrationPage from './pages/SermonIllustrationPage';
+import ScavengerHuntPage from './pages/ScavengerHuntPage';
+import ScavengerHuntAdminPage from './pages/ScavengerHuntAdminPage';
+import SubmissionGalleryPage from './pages/SubmissionGalleryPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -199,7 +202,11 @@ function App() {
             <Route path="/admin/cohort-progress" element={<CohortProgressTrackingPage />} />
             <Route path="/admin/proverbs" element={<ProverbsAdminPage />} />
             <Route path="/sermon-illustrations" element={<SermonIllustrationPage />} />
+            <Route path="/admin/scavenger-hunt" element={<ScavengerHuntAdminPage />} />
+            <Route path="/admin/scavenger-hunt/:huntId/submissions" element={<SubmissionGalleryPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
+            <Route path="/scavenger-hunt" element={<ScavengerHuntPage />} />
+            <Route path="/scavenger-hunt/:huntId" element={<ScavengerHuntPage />} />
             <Route path="/questions" element={<QuestionBoxPage />} />
             <Route path="/join-session" element={<JoinSessionPage />} />
             <Route path="/session/student" element={<StudentSessionView />} />
