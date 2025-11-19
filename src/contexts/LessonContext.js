@@ -89,6 +89,7 @@ export const LessonProvider = ({ children }) => {
     const newLesson = {
       ...lesson,
       id: `lesson-${Date.now()}`,
+      groupIds: lesson.groupIds || [], // Support for group assignment
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -127,6 +128,46 @@ export const LessonProvider = ({ children }) => {
     }
   };
 
+  // Assign lesson to group(s)
+  const assignLessonToGroup = (lessonId, groupId) => {
+    const lesson = getLessonById(lessonId);
+    if (lesson) {
+      const groupIds = lesson.groupIds || [];
+      if (!groupIds.includes(groupId)) {
+        updateLesson(lessonId, {
+          groupIds: [...groupIds, groupId]
+        });
+      }
+    }
+  };
+
+  // Unassign lesson from group
+  const unassignLessonFromGroup = (lessonId, groupId) => {
+    const lesson = getLessonById(lessonId);
+    if (lesson) {
+      const groupIds = lesson.groupIds || [];
+      updateLesson(lessonId, {
+        groupIds: groupIds.filter(id => id !== groupId)
+      });
+    }
+  };
+
+  // Get all lessons assigned to a specific group
+  const getLessonsByGroup = (groupId) => {
+    return lessons.filter(lesson => {
+      const groupIds = lesson.groupIds || [];
+      return groupIds.includes(groupId);
+    });
+  };
+
+  // Get all lessons assigned to multiple groups
+  const getLessonsByGroups = (groupIds) => {
+    return lessons.filter(lesson => {
+      const lessonGroupIds = lesson.groupIds || [];
+      return groupIds.some(groupId => lessonGroupIds.includes(groupId));
+    });
+  };
+
   const value = {
     lessons,
     loading,
@@ -134,7 +175,11 @@ export const LessonProvider = ({ children }) => {
     updateLesson,
     deleteLesson,
     getLessonById,
-    duplicateLesson
+    duplicateLesson,
+    assignLessonToGroup,
+    unassignLessonFromGroup,
+    getLessonsByGroup,
+    getLessonsByGroups
   };
 
   return (
