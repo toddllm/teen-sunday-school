@@ -11,7 +11,8 @@ export const ACTIVITY_TYPES = {
   LESSON_COMPLETED: 'lesson_completed',
   EVENT_JOINED: 'event_joined',
   EVENT_ACTIVITY: 'event_activity',
-  EVENT_COMPLETED: 'event_completed'
+  EVENT_COMPLETED: 'event_completed',
+  REFLECTION_COMPLETED: 'reflection_completed'
 };
 
 // Badge definitions

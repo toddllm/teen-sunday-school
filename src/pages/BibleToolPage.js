@@ -5,6 +5,7 @@ import CrossReferencePanel from '../components/CrossReferencePanel';
 import CommentaryPanel from '../components/CommentaryPanel';
 import PassageMetrics from '../components/PassageMetrics';
 import ReadAloudControls from '../components/ReadAloudControls';
+import ReflectionPrompts from '../components/ReflectionPrompts';
 import { createBiblePassageSpeech } from '../services/readAloudService';
 import { useEngagementAnalytics } from '../contexts/EngagementAnalyticsContext';
 import { useTranslation } from '../contexts/TranslationContext';
@@ -20,6 +21,7 @@ const BibleToolPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [history, setHistory] = useState([]);
+  const [showReflection, setShowReflection] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -163,6 +165,12 @@ const BibleToolPage = () => {
               >
                 📝 Generate Teaching Outline
               </button>
+              <button
+                onClick={() => setShowReflection(true)}
+                className="reflection-btn"
+              >
+                Reflect on this passage
+              </button>
             </div>
           </div>
 
@@ -207,6 +215,13 @@ const BibleToolPage = () => {
           ))}
         </div>
       </div>
+
+      {showReflection && verse && (
+        <ReflectionPrompts
+          passageRef={verse.id || reference}
+          onClose={() => setShowReflection(false)}
+        />
+      )}
     </div>
   );
 };
