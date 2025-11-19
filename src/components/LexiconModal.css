@@ -1,0 +1,342 @@
+/**
+ * LexiconModal Styles
+ */
+
+/* Backdrop */
+.lexicon-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Container */
+.lexicon-modal {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 40px var(--shadow-color);
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.lexicon-modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.lexicon-header-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lexicon-title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lexicon-lemma {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  line-height: 1.2;
+}
+
+.lexicon-transliteration {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.lexicon-language-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.lexicon-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.lexicon-bookmark-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: var(--transition);
+  color: var(--text-secondary);
+}
+
+.lexicon-bookmark-btn:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.lexicon-bookmark-btn.bookmarked {
+  color: #f59e0b;
+  border-color: #f59e0b;
+}
+
+.lexicon-close-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: var(--transition);
+  color: var(--text-secondary);
+  line-height: 1;
+}
+
+.lexicon-close-btn:hover {
+  background-color: var(--hover-bg);
+  color: var(--text-color);
+}
+
+/* Body */
+.lexicon-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.lexicon-context {
+  padding: 0.75rem 1rem;
+  background-color: var(--hover-bg);
+  border-left: 3px solid var(--primary-color);
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* Sections */
+.lexicon-section {
+  margin-bottom: 1.5rem;
+}
+
+.lexicon-section:last-child {
+  margin-bottom: 0;
+}
+
+.lexicon-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 0.75rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Primary Gloss */
+.lexicon-primary-gloss {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+/* Glosses */
+.lexicon-glosses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.lexicon-gloss-tag {
+  padding: 0.4rem 0.75rem;
+  background-color: var(--hover-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  transition: var(--transition);
+}
+
+.lexicon-gloss-tag:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+/* Definition */
+.lexicon-definition {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+/* Metadata */
+.lexicon-metadata {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--hover-bg);
+  border-radius: var(--border-radius);
+}
+
+.lexicon-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lexicon-meta-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.lexicon-meta-value {
+  font-size: 1rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* References */
+.lexicon-references {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lexicon-reference-item {
+  padding: 1rem;
+  background-color: var(--hover-bg);
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--accent-color);
+  transition: var(--transition);
+}
+
+.lexicon-reference-item:hover {
+  background-color: var(--border-color);
+  transform: translateX(2px);
+}
+
+.lexicon-reference-header {
+  margin-bottom: 0.5rem;
+}
+
+.lexicon-reference-ref {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+}
+
+.lexicon-reference-text {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Footer */
+.lexicon-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.lexicon-btn-secondary {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lexicon-btn-secondary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lexicon-backdrop {
+    padding: 0;
+  }
+
+  .lexicon-modal {
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .lexicon-lemma {
+    font-size: 1.5rem;
+  }
+
+  .lexicon-metadata {
+    grid-template-columns: 1fr;
+  }
+
+  .lexicon-modal-header {
+    padding: 1rem;
+  }
+
+  .lexicon-modal-body {
+    padding: 1rem;
+  }
+}

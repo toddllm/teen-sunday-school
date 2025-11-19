@@ -23,6 +23,7 @@ import TranslationSettingsPage from './pages/TranslationSettingsPage';
 import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
 import ReadingMetricsSettingsPage from './pages/ReadingMetricsSettingsPage';
 import QuoteImageGeneratorPage from './pages/QuoteImageGeneratorPage';
+import OriginalLanguagePage from './pages/OriginalLanguagePage';
 import MemeGeneratorPage from './pages/MemeGeneratorPage';
 import ScriptureJournalingPage from './pages/ScriptureJournalingPage';
 import AIFiltersAdminPage from './pages/AIFiltersAdminPage';
@@ -135,6 +136,7 @@ function AppContent() {
           <Route path="/bible/parallel" element={<ParallelBiblePage />} />
           <Route path="/bible/themes" element={<ComparativeThemeViewPage />} />
           <Route path="/bible/quote-generator" element={<QuoteImageGeneratorPage />} />
+          <Route path="/bible/original-language" element={<OriginalLanguagePage />} />
           <Route path="/settings/translations" element={<TranslationSettingsPage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
