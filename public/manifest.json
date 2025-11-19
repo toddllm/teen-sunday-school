@@ -1,67 +1,33 @@
 {
-  "short_name": "Teen SS",
-  "name": "Teen Sunday School",
-  "description": "Interactive Bible study lessons and reading plans for teens",
+  "short_name": "Teen Sunday School",
+  "name": "Teen Sunday School - Bible Study App",
+  "description": "A comprehensive Bible study app for teens with lessons, games, notes, highlights, and offline reading capabilities",
   "icons": [
     {
-      "src": "/logo192.png",
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "/logo512.png",
+      "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
-  "theme_color": "#3b82f6",
+  "theme_color": "#4f46e5",
   "background_color": "#ffffff",
   "orientation": "portrait-primary",
   "scope": "/",
   "categories": ["education", "lifestyle", "books"],
-  "lang": "en-US",
-  "dir": "ltr",
-  "prefer_related_applications": false,
-  "related_applications": [],
   "screenshots": [],
-  "share_target": {
-    "action": "/share",
-    "method": "GET",
-    "enctype": "application/x-www-form-urlencoded",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  },
-  "shortcuts": [
-    {
-      "name": "Today's Lesson",
-      "short_name": "Lesson",
-      "description": "View today's Bible study lesson",
-      "url": "/lessons",
-      "icons": [
-        {
-          "src": "/logo192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Reading Plan",
-      "short_name": "Reading",
-      "description": "Continue your reading plan",
-      "url": "/plans",
-      "icons": [
-        {
-          "src": "/logo192.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ]
+  "prefer_related_applications": false
 }

@@ -1,67 +1,38 @@
-/**
- * Service Worker for Teen Sunday School
- * Handles offline caching and PWA functionality
- */
+/* eslint-disable no-restricted-globals */
 
-const CACHE_VERSION = 'v1';
-const CACHE_NAME = `teen-sunday-school-${CACHE_VERSION}`;
+// Service Worker for Teen Sunday School App
+// Provides offline caching for app shell and assets
 
-// Cache configuration loaded from API
-let cacheConfig = {
-  strategy: 'CACHE_FIRST',
-  cacheLessons: true,
-  cacheReadingPlans: true,
-  cacheScriptures: true,
-  cacheImages: false,
-  cacheAudio: false,
-  maxCacheSize: 50 * 1024 * 1024, // 50 MB in bytes
-};
-
-// Static assets to cache immediately
-const STATIC_ASSETS = [
+const CACHE_NAME = 'teen-sunday-school-v1';
+const urlsToCache = [
   '/',
   '/index.html',
   '/static/css/main.css',
   '/static/js/main.js',
-  '/manifest.json',
+  '/manifest.json'
 ];
 
-// API endpoints that should be cached
-const CACHEABLE_API_PATTERNS = [
-  /\/api\/lessons/,
-  /\/api\/reading-plans/,
-  /\/api\/scriptures/,
-];
-
-// ============================================================================
-// INSTALL EVENT
-// ============================================================================
-
+// Install event - cache app shell
 self.addEventListener('install', (event) => {
   console.log('[Service Worker] Installing...');
-
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] Caching static assets');
-      return cache.addAll(STATIC_ASSETS.filter(asset => asset !== '/')).catch((error) => {
-        console.error('[Service Worker] Failed to cache static assets:', error);
-        // Continue even if some assets fail
-        return Promise.resolve();
-      });
-    })
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('[Service Worker] Caching app shell');
+        return cache.addAll(urlsToCache.map(url => new Request(url, { cache: 'reload' })))
+          .catch(err => {
+            console.log('[Service Worker] Cache addAll error:', err);
+            // Don't fail the install if some resources can't be cached
+            return Promise.resolve();
+          });
+      })
   );
-
-  // Force the waiting service worker to become the active service worker
   self.skipWaiting();
 });
 
-// ============================================================================
-// ACTIVATE EVENT
-// ============================================================================
-
+// Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   console.log('[Service Worker] Activating...');
-
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -74,268 +45,106 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-
-  // Claim all clients immediately
-  return self.clients.claim();
+  self.clients.claim();
 });
 
-// ============================================================================
-// FETCH EVENT
-// ============================================================================
-
+// Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET requests
-  if (request.method !== 'GET') {
+  // Skip cross-origin requests
+  if (url.origin !== location.origin) {
+    // For Bible API requests, try network first, then cache
+    if (url.hostname === 'api.scripture.api.bible') {
+      event.respondWith(
+        fetch(request)
+          .then(response => {
+            // Clone the response before caching
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(request, responseToCache);
+            });
+            return response;
+          })
+          .catch(() => {
+            // If network fails, try to get from cache
+            return caches.match(request);
+          })
+      );
+    }
     return;
   }
 
-  // Skip chrome extensions and other non-http(s) requests
-  if (!url.protocol.startsWith('http')) {
-    return;
-  }
-
-  // Determine if this request should be cached
-  const shouldCache = shouldCacheRequest(request);
-
-  if (!shouldCache) {
-    return;
-  }
-
-  // Apply caching strategy
+  // For app resources, use cache-first strategy
   event.respondWith(
-    applyCachingStrategy(request, cacheConfig.strategy)
+    caches.match(request)
+      .then((response) => {
+        if (response) {
+          console.log('[Service Worker] Serving from cache:', request.url);
+          return response;
+        }
+
+        console.log('[Service Worker] Fetching from network:', request.url);
+        return fetch(request).then((response) => {
+          // Don't cache non-successful responses
+          if (!response || response.status !== 200 || response.type === 'error') {
+            return response;
+          }
+
+          // Clone the response
+          const responseToCache = response.clone();
+
+          // Cache the fetched response
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, responseToCache);
+          });
+
+          return response;
+        });
+      })
+      .catch((error) => {
+        console.log('[Service Worker] Fetch error:', error);
+        // Return a fallback response if available
+        return caches.match('/index.html');
+      })
   );
 });
 
-// ============================================================================
-// MESSAGE EVENT (for config updates)
-// ============================================================================
+// Background sync for offline actions
+self.addEventListener('sync', (event) => {
+  console.log('[Service Worker] Background sync triggered:', event.tag);
 
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'UPDATE_CACHE_CONFIG') {
-    console.log('[Service Worker] Updating cache config:', event.data.config);
-    cacheConfig = { ...cacheConfig, ...event.data.config };
-  }
-
-  if (event.data && event.data.type === 'CLEAR_CACHE') {
-    console.log('[Service Worker] Clearing cache');
+  if (event.tag === 'sync-offline-changes') {
     event.waitUntil(
-      caches.keys().then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => caches.delete(cacheName))
-        );
-      }).then(() => {
-        return caches.open(CACHE_NAME);
-      })
-    );
-  }
-
-  if (event.data && event.data.type === 'PRE_CACHE_CONTENT') {
-    console.log('[Service Worker] Pre-caching content:', event.data.urls);
-    event.waitUntil(
-      caches.open(CACHE_NAME).then((cache) => {
-        return cache.addAll(event.data.urls);
+      // This would trigger sync in the app
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'SYNC_REQUESTED'
+          });
+        });
       })
     );
   }
 });
 
-// ============================================================================
-// HELPER FUNCTIONS
-// ============================================================================
+// Listen for messages from the app
+self.addEventListener('message', (event) => {
+  console.log('[Service Worker] Message received:', event.data);
 
-/**
- * Determine if a request should be cached
- */
-function shouldCacheRequest(request) {
-  const url = new URL(request.url);
-
-  // Always cache static assets
-  if (url.pathname.startsWith('/static/')) {
-    return true;
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
   }
 
-  // Check if API endpoint matches cacheable patterns
-  if (url.pathname.startsWith('/api/')) {
-    // Check lessons
-    if (cacheConfig.cacheLessons && url.pathname.includes('/lessons')) {
-      return true;
-    }
-
-    // Check reading plans
-    if (cacheConfig.cacheReadingPlans && url.pathname.includes('/plans')) {
-      return true;
-    }
-
-    // Check scriptures
-    if (cacheConfig.cacheScriptures && url.pathname.includes('/scriptures')) {
-      return true;
-    }
-
-    return false;
+  if (event.data && event.data.type === 'CACHE_URLS') {
+    const urlsToCache = event.data.urls;
+    event.waitUntil(
+      caches.open(CACHE_NAME).then(cache => {
+        return cache.addAll(urlsToCache);
+      })
+    );
   }
+});
 
-  // Check images
-  if (cacheConfig.cacheImages && isImageRequest(request)) {
-    return true;
-  }
-
-  // Check audio
-  if (cacheConfig.cacheAudio && isAudioRequest(request)) {
-    return true;
-  }
-
-  return false;
-}
-
-/**
- * Check if request is for an image
- */
-function isImageRequest(request) {
-  const url = new URL(request.url);
-  const extension = url.pathname.split('.').pop().toLowerCase();
-  return ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'].includes(extension);
-}
-
-/**
- * Check if request is for audio
- */
-function isAudioRequest(request) {
-  const url = new URL(request.url);
-  const extension = url.pathname.split('.').pop().toLowerCase();
-  return ['mp3', 'wav', 'ogg', 'm4a'].includes(extension);
-}
-
-/**
- * Apply the configured caching strategy
- */
-async function applyCachingStrategy(request, strategy) {
-  switch (strategy) {
-    case 'CACHE_FIRST':
-      return cacheFirst(request);
-    case 'NETWORK_FIRST':
-      return networkFirst(request);
-    case 'CACHE_ONLY':
-      return cacheOnly(request);
-    case 'NETWORK_ONLY':
-      return networkOnly(request);
-    default:
-      return cacheFirst(request);
-  }
-}
-
-/**
- * Cache First Strategy
- * Try cache first, fallback to network
- */
-async function cacheFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
-
-  if (cached) {
-    console.log('[Service Worker] Cache hit:', request.url);
-    return cached;
-  }
-
-  try {
-    console.log('[Service Worker] Cache miss, fetching:', request.url);
-    const response = await fetch(request);
-
-    // Only cache successful responses
-    if (response.ok) {
-      await cache.put(request, response.clone());
-    }
-
-    return response;
-  } catch (error) {
-    console.error('[Service Worker] Fetch failed:', error);
-
-    // Return offline page if available
-    const offlinePage = await cache.match('/offline.html');
-    if (offlinePage) {
-      return offlinePage;
-    }
-
-    // Return generic offline response
-    return new Response('Offline - Content not available', {
-      status: 503,
-      statusText: 'Service Unavailable',
-      headers: new Headers({
-        'Content-Type': 'text/plain',
-      }),
-    });
-  }
-}
-
-/**
- * Network First Strategy
- * Try network first, fallback to cache
- */
-async function networkFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
-
-  try {
-    console.log('[Service Worker] Fetching from network:', request.url);
-    const response = await fetch(request);
-
-    // Cache successful responses
-    if (response.ok) {
-      await cache.put(request, response.clone());
-    }
-
-    return response;
-  } catch (error) {
-    console.log('[Service Worker] Network failed, trying cache:', request.url);
-    const cached = await cache.match(request);
-
-    if (cached) {
-      return cached;
-    }
-
-    // Return offline page if available
-    const offlinePage = await cache.match('/offline.html');
-    if (offlinePage) {
-      return offlinePage;
-    }
-
-    return new Response('Offline - Content not available', {
-      status: 503,
-      statusText: 'Service Unavailable',
-      headers: new Headers({
-        'Content-Type': 'text/plain',
-      }),
-    });
-  }
-}
-
-/**
- * Cache Only Strategy
- * Only use cached content
- */
-async function cacheOnly(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
-
-  if (cached) {
-    return cached;
-  }
-
-  return new Response('Content not cached', {
-    status: 404,
-    statusText: 'Not Found',
-    headers: new Headers({
-      'Content-Type': 'text/plain',
-    }),
-  });
-}
-
-/**
- * Network Only Strategy
- * Always fetch from network, no caching
- */
-async function networkOnly(request) {
-  return fetch(request);
-}
+console.log('[Service Worker] Loaded');
