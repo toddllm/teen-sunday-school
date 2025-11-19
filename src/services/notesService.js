@@ -274,4 +274,3 @@ class NotesService {
 // Export singleton instance
 const notesService = new NotesService();
 export default notesService;
-export { HIGHLIGHT_COLORS };
