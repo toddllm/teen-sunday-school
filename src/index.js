@@ -12,6 +12,7 @@ import { ContextCardProvider } from './contexts/ContextCardContext';
 import { LexiconProvider } from './contexts/LexiconContext';
 import { ThematicJourneyProvider } from './contexts/ThematicJourneyContext';
 import { OrganizationProvider } from './contexts/OrganizationContext';
+import { CommentaryProvider } from './contexts/CommentaryContext';
 import { WeeklyWordProvider } from './contexts/WeeklyWordContext';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { ReadAloudProvider } from './contexts/ReadAloudContext';
@@ -84,7 +85,9 @@ root.render(
                                           <OutlineProvider>
                                             <LexiconProvider>
                                               <ThematicJourneyProvider>
-                                                <App />
+                                                <CommentaryProvider>
+                                                  <App />
+                                                </CommentaryProvider>
                                               </ThematicJourneyProvider>
                                             </LexiconProvider>
                                           </OutlineProvider>
