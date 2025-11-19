@@ -306,6 +306,7 @@ function Navigation() {
               onClick={closeMenu}
             >
               Substitute
+            </Link>
           </li>
           <li className="nav-item">
             <Link
