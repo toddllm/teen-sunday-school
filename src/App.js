@@ -12,6 +12,7 @@ import AdminPage from './pages/AdminPage';
 import LessonCreatorPage from './pages/LessonCreatorPage';
 import GamesPage from './pages/GamesPage';
 import GamesAdminPage from './pages/GamesAdminPage';
+import TranslationAdminPage from './pages/TranslationAdminPage';
 import PlansAdminPage from './pages/PlansAdminPage';
 import PlanCreatorPage from './pages/PlanCreatorPage';
 import PlanPreviewPage from './pages/PlanPreviewPage';
@@ -134,6 +135,7 @@ function AppContent() {
           <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
           <Route path="/admin/branding" element={<OrganizationSettingsPage />} />
+          <Route path="/admin/translations" element={<TranslationAdminPage />} />
           <Route path="/admin/plans" element={<PlansAdminPage />} />
           <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
           <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />

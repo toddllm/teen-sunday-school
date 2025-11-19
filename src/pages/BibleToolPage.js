@@ -6,11 +6,13 @@ import PassageMetrics from '../components/PassageMetrics';
 import ReadAloudControls from '../components/ReadAloudControls';
 import { createBiblePassageSpeech } from '../services/readAloudService';
 import { useEngagementAnalytics } from '../contexts/EngagementAnalyticsContext';
+import { useTranslation } from '../contexts/TranslationContext';
 import './BibleToolPage.css';
 
 const BibleToolPage = () => {
   const navigate = useNavigate();
   const { trackPassageRead, trackCrossReference } = useEngagementAnalytics();
+  const { primaryTranslation, trackTranslationUsage } = useTranslation();
   const [reference, setReference] = useState('');
   const [verse, setVerse] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -28,6 +30,8 @@ const BibleToolPage = () => {
     try {
       const result = await getVerseText(reference);
       setVerse(result);
+      // Track translation usage for analytics
+      trackTranslationUsage(primaryTranslation);
       // Add to history if it's a successful search
       if (result && result.reference) {
         setHistory(prev => [...prev, result.reference]);
@@ -56,6 +60,8 @@ const BibleToolPage = () => {
     try {
       const result = await getVerseText(crossRefText);
       setVerse(result);
+      // Track translation usage for analytics
+      trackTranslationUsage(primaryTranslation);
       // Add to history
       if (result && result.reference) {
         setHistory(prev => [...prev, result.reference]);
