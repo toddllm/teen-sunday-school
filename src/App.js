@@ -122,6 +122,7 @@ import MemoryVersesPage from './pages/MemoryVersesPage';
 import ReviewSessionPage from './pages/ReviewSessionPage';
 import ProgressPage from './pages/ProgressPage';
 import BookProgressDetail from './pages/BookProgressDetail';
+import PrayerListPage from './pages/PrayerListPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -276,6 +277,7 @@ function AppContent() {
             <Route path="/memory-verses/review" element={<ReviewSessionPage />} />
             <Route path="/progress" element={<ProgressPage />} />
             <Route path="/progress/:bookName" element={<BookProgressDetail />} />
+            <Route path="/prayer" element={<PrayerListPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
       </main>

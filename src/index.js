@@ -107,7 +107,9 @@ root.render(
                                                                           <ReflectionProvider>
                                                                             <MemoryVerseProvider>
                                                                               <BibleProgressProvider>
-                                                                                <App />
+                                                                                <PrayerProvider>
+                                                                                  <App />
+                                                                                </PrayerProvider>
                                                                               </BibleProgressProvider>
                                                                             </MemoryVerseProvider>
                                                                           </ReflectionProvider>
