@@ -107,7 +107,8 @@ function Navigation() {
               className={`nav-link ${isActive('/devotionals') || isActive('/devotional') ? 'active' : ''}`}
               onClick={closeMenu}
             >
-              Devotionals            </Link>
+              Devotionals
+            </Link>
           </li>
           <li className="nav-item">
             <Link
@@ -115,7 +116,9 @@ function Navigation() {
               className={`nav-link ${isActive('/admin/experiments') ? 'active' : ''}`}
               onClick={closeMenu}
             >
-              Experiments          </li>
+              Experiments
+            </Link>
+          </li>
           <li className="nav-item">
             <Link
               to="/question-bank"
@@ -310,7 +313,8 @@ function Navigation() {
               className={`nav-link ${isActive('/feedback') ? 'active' : ''}`}
               onClick={closeMenu}
             >
-              Feedback            </Link>
+              Feedback
+            </Link>
           </li>
           <li className="nav-item">
             <Link
