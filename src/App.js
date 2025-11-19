@@ -12,7 +12,8 @@ import AdminPage from './pages/AdminPage';
 import LessonCreatorPage from './pages/LessonCreatorPage';
 import GamesPage from './pages/GamesPage';
 import GamesAdminPage from './pages/GamesAdminPage';
-import FeedbackFormPage from './pages/FeedbackFormPage';
+import ExperimentAdminPage from './pages/ExperimentAdminPage';
+import ExperimentResultsPage from './pages/ExperimentResultsPage';import FeedbackFormPage from './pages/FeedbackFormPage';
 import FeedbackAdminPage from './pages/FeedbackAdminPage';import TranslationAdminPage from './pages/TranslationAdminPage';
 import PlansAdminPage from './pages/PlansAdminPage';
 import PlanCreatorPage from './pages/PlanCreatorPage';
@@ -144,7 +145,8 @@ function AppContent() {
           <Route path="/admin/devotionals" element={<DevotionalAdminPage />} />
           <Route path="/admin/devotionals/create" element={<DevotionalEditorPage />} />
           <Route path="/admin/devotionals/edit/:id" element={<DevotionalEditorPage />} />          <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
-          <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
+          <Route path="/admin/experiments" element={<ExperimentAdminPage />} />
+          <Route path="/admin/experiments/:experimentId/results" element={<ExperimentResultsPage />} />          <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
           <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
           <Route path="/admin/ai-filters" element={<AIFiltersAdminPage />} />
           <Route path="/games/:lessonId" element={<GamesPage />} />

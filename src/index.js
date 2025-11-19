@@ -32,7 +32,7 @@ import { ProfileProvider } from './contexts/ProfileContext';
 import { CharacterProvider } from './contexts/CharacterContext';
 import { FeedbackProvider } from './contexts/FeedbackContext';import { QuestionBankProvider } from './contexts/QuestionBankContext';
 import { DevotionalProvider } from './contexts/DevotionalContext';import { ContextCardProvider } from './contexts/ContextCardContext';
-import { AuthProvider } from './contexts/AuthContext';
+import { ABTestProvider } from './contexts/ABTestContext';import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
 import { SeriesProvider } from './contexts/SeriesContext';
 import { XPProvider } from './contexts/XPContext';
@@ -47,7 +47,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <OrganizationProvider>
+    <ABTestProvider>    <OrganizationProvider>
       <AuthProvider>
         <ThemeProvider>
         <ReadingMetricsProvider>
@@ -126,7 +126,7 @@ root.render(
       </ThemeProvider>
     </AuthProvider>
     </OrganizationProvider>
-  </React.StrictMode>
+    </ABTestProvider>  </React.StrictMode>
 );
 
 // Register service worker for offline functionality
