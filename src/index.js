@@ -10,6 +10,7 @@ import { StreakProvider } from './contexts/StreakContext';
 import { TranslationProvider } from './contexts/TranslationContext';
 import { ContextCardProvider } from './contexts/ContextCardContext';
 import { LexiconProvider } from './contexts/LexiconContext';
+import { ThematicJourneyProvider } from './contexts/ThematicJourneyContext';
 import { WeeklyWordProvider } from './contexts/WeeklyWordContext';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { ReadAloudProvider } from './contexts/ReadAloudContext';
@@ -80,7 +81,9 @@ root.render(
                                         <CacheConfigProvider>
                                           <OutlineProvider>
                                             <LexiconProvider>
-                                              <App />
+                                              <ThematicJourneyProvider>
+                                                <App />
+                                              </ThematicJourneyProvider>
                                             </LexiconProvider>
                                           </OutlineProvider>
                                         </CacheConfigProvider>
