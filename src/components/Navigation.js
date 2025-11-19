@@ -9,6 +9,7 @@ import './Navigation.css';
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [showUserSwitcher, setShowUserSwitcher] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { organization } = useOrganization();
@@ -20,7 +21,18 @@ function Navigation() {
   };
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => setIsOpen(false);
+  const closeMenu = () => {
+    setIsOpen(false);
+    setOpenDropdown(null);
+  };
+
+  const toggleDropdown = (dropdown) => {
+    setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+  const isDropdownActive = (paths) => {
+    return paths.some(path => isActive(path));
+  };
 
   return (
     <nav className="navbar">
@@ -52,6 +64,7 @@ function Navigation() {
               Home
             </Link>
           </li>
+
           <li className="nav-item">
             <Link
               to="/today"
@@ -61,391 +74,203 @@ function Navigation() {
               Today
             </Link>
           </li>
-          <li className="nav-item">
-            <Link
-              to="/gratitude"
-              className={`nav-link ${isActive('/gratitude') ? 'active' : ''}`}
-              onClick={closeMenu}
+
+          {/* Bible Tools Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/bible']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle"
+              onClick={() => toggleDropdown('bible')}
             >
-              Gratitude
-            </Link>
+              Bible Tools <span className="dropdown-arrow">{openDropdown === 'bible' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'bible' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/bible" onClick={closeMenu}>Bible Reader</Link></li>
+                <li><Link to="/bible/read" onClick={closeMenu}>Bible Read</Link></li>
+                <li><Link to="/bible/qa" onClick={closeMenu}>Bible Q&A</Link></li>
+                <li><Link to="/bible/parallel" onClick={closeMenu}>Parallel Translations</Link></li>
+                <li><Link to="/bible/original-language" onClick={closeMenu}>Original Language</Link></li>
+                <li><Link to="/bible/ai-summary" onClick={closeMenu}>AI Summary</Link></li>
+                <li><Link to="/search" onClick={closeMenu}>Search</Link></li>
+                <li><Link to="/translation-comparisons" onClick={closeMenu}>Translation Notes</Link></li>
+              </ul>
+            )}
           </li>
-          <li className="nav-item">
-            <Link
-              to="/badges"
-              className={`nav-link ${isActive('/badges') ? 'active' : ''}`}
-              onClick={closeMenu}
+
+          {/* Study Resources Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/bible/miracles', '/bible/parables', '/bible/timeline', '/bible/maps', '/characters']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle"
+              onClick={() => toggleDropdown('study')}
             >
-              Badges
-            </Link>
+              Study Resources <span className="dropdown-arrow">{openDropdown === 'study' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'study' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/bible/miracles" onClick={closeMenu}>Miracles Explorer</Link></li>
+                <li><Link to="/bible/parables" onClick={closeMenu}>Parables Explorer</Link></li>
+                <li><Link to="/bible/themes" onClick={closeMenu}>Comparative Themes</Link></li>
+                <li><Link to="/bible/doctrine" onClick={closeMenu}>Doctrine Overview</Link></li>
+                <li><Link to="/bible/big-story" onClick={closeMenu}>Big Story</Link></li>
+                <li><Link to="/bible/timeline" onClick={closeMenu}>Bible Timeline</Link></li>
+                <li><Link to="/bible/chronological-plan" onClick={closeMenu}>Chronological Plan</Link></li>
+                <li><Link to="/bible/maps" onClick={closeMenu}>Bible Maps</Link></li>
+                <li><Link to="/characters" onClick={closeMenu}>Character Index</Link></li>
+                <li><Link to="/question-bank" onClick={closeMenu}>Question Bank</Link></li>
+              </ul>
+            )}
           </li>
-          <li className="nav-item">
-            <Link
-              to="/events"
-              className={`nav-link ${isActive('/events') ? 'active' : ''}`}
-              onClick={closeMenu}
+
+          {/* Lessons & Content Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/lessons', '/devotionals', '/series', '/events', '/topics', '/journeys']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle"
+              onClick={() => toggleDropdown('content')}
             >
-              Events
-            </Link>
+              Lessons & Content <span className="dropdown-arrow">{openDropdown === 'content' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'content' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/lessons" onClick={closeMenu}>All Lessons</Link></li>
+                <li><Link to="/devotionals" onClick={closeMenu}>Devotionals</Link></li>
+                <li><Link to="/series" onClick={closeMenu}>Series</Link></li>
+                <li><Link to="/topics" onClick={closeMenu}>Topics</Link></li>
+                <li><Link to="/events" onClick={closeMenu}>Events</Link></li>
+                <li><Link to="/journeys" onClick={closeMenu}>Thematic Journeys</Link></li>
+              </ul>
+            )}
           </li>
-          <li className="nav-item">
-            <Link
-              to="/lessons"
-              className={`nav-link ${isActive('/lessons') || isActive('/lesson') ? 'active' : ''}`}
-              onClick={closeMenu}
+
+          {/* Personal Tools Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/journal', '/highlights', '/memory-verses', '/prayer', '/gratitude', '/reflections']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle"
+              onClick={() => toggleDropdown('personal')}
             >
-              Lessons
-            </Link>
+              Personal <span className="dropdown-arrow">{openDropdown === 'personal' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'personal' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/journal" onClick={closeMenu}>Journal</Link></li>
+                <li><Link to="/highlights" onClick={closeMenu}>Highlights</Link></li>
+                <li><Link to="/bible/journaling" onClick={closeMenu}>Scripture Journaling</Link></li>
+                <li><Link to="/memory-verses" onClick={closeMenu}>Memory Verses</Link></li>
+                <li><Link to="/prayer" onClick={closeMenu}>Prayer List</Link></li>
+                <li><Link to="/gratitude" onClick={closeMenu}>Gratitude Log</Link></li>
+                <li><Link to="/reflections" onClick={closeMenu}>Reflections</Link></li>
+              </ul>
+            )}
           </li>
-          <li className="nav-item">
-            <Link
-              to="/journeys"
-              className={`nav-link ${isActive('/journeys') ? 'active' : ''}`}
-              onClick={closeMenu}
+
+          {/* Creative Tools Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/bible/meme-generator', '/bible/quote-generator', '/bible/comic-generator']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle"
+              onClick={() => toggleDropdown('creative')}
             >
-              Journeys
-            </Link>
+              Creative <span className="dropdown-arrow">{openDropdown === 'creative' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'creative' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/bible/meme-generator" onClick={closeMenu}>Meme Generator</Link></li>
+                <li><Link to="/bible/quote-generator" onClick={closeMenu}>Quote Generator</Link></li>
+                <li><Link to="/bible/comic-generator" onClick={closeMenu}>Comic Generator</Link></li>
+                <li><Link to="/sermon-illustrations" onClick={closeMenu}>Sermon Illustrations</Link></li>
+                <li><Link to="/bible/sermon-outline" onClick={closeMenu}>Sermon Outlines</Link></li>
+              </ul>
+            )}
           </li>
-          <li className="nav-item">
-            <Link
-              to="/devotionals"
-              className={`nav-link ${isActive('/devotionals') || isActive('/devotional') ? 'active' : ''}`}
-              onClick={closeMenu}
+
+          {/* Games & Activities Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/challenges', '/scavenger-hunt', '/bible/find-reference']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle"
+              onClick={() => toggleDropdown('games')}
             >
-              Devotionals
-            </Link>
+              Games <span className="dropdown-arrow">{openDropdown === 'games' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'games' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/challenges" onClick={closeMenu}>Challenges</Link></li>
+                <li><Link to="/scavenger-hunt" onClick={closeMenu}>Scavenger Hunt</Link></li>
+                <li><Link to="/bible/find-reference" onClick={closeMenu}>Find the Reference</Link></li>
+                <li><Link to="/questions" onClick={closeMenu}>Question Box</Link></li>
+              </ul>
+            )}
           </li>
-          <li className="nav-item">
-            <Link
-              to="/admin/experiments"
-              className={`nav-link ${isActive('/admin/experiments') ? 'active' : ''}`}
-              onClick={closeMenu}
+
+          {/* Progress Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/progress', '/badges', '/goals']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle"
+              onClick={() => toggleDropdown('progress')}
             >
-              Experiments
-            </Link>
+              Progress <span className="dropdown-arrow">{openDropdown === 'progress' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'progress' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/progress" onClick={closeMenu}>Reading Progress</Link></li>
+                <li><Link to="/badges" onClick={closeMenu}>Badges</Link></li>
+                <li><Link to="/goals" onClick={closeMenu}>Goals</Link></li>
+              </ul>
+            )}
           </li>
-          <li className="nav-item">
-            <Link
-              to="/question-bank"
-              className={`nav-link ${isActive('/question-bank') ? 'active' : ''}`}
-              onClick={closeMenu}
+
+          {/* Admin Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/admin']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle admin-link"
+              onClick={() => toggleDropdown('admin')}
             >
-              Question Bank
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/session-plans"
-              className={`nav-link ${isActive('/session-plans') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Session Plans
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/search"
-              className={`nav-link ${isActive('/search') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Search
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/journal"
-              className={`nav-link ${isActive('/journal') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Journal
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/highlights"
-              className={`nav-link ${isActive('/highlights') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Highlights
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible"
-              className={`nav-link ${isActive('/bible') && location.pathname === '/bible' ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Bible Tool
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/qa"
-              className={`nav-link ${isActive('/bible/qa') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Bible Q&A
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/parallel"
-              className={`nav-link ${isActive('/bible/parallel') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Parallel Bible
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/reflections"
-              className={`nav-link ${isActive('/reflections') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Reflections
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/memory-verses"
-              className={`nav-link ${isActive('/memory-verses') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Memory Verses
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/progress"
-              className={`nav-link ${isActive('/progress') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Reading Progress
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/prayer"
-              className={`nav-link ${isActive('/prayer') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Prayer List
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/miracles"
-              className={`nav-link ${isActive('/bible/miracles') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Miracles
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/parables"
-              className={`nav-link ${isActive('/bible/parables') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Parables Explorer
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/quote-generator"
-              className={`nav-link ${isActive('/bible/quote-generator') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Quote Generator
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/original-language"
-              className={`nav-link ${isActive('/bible/original-language') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Original Language
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/meme-generator"
-              className={`nav-link ${isActive('/bible/meme-generator') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Meme Generator
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/ai-summary"
-              className={`nav-link ${isActive('/bible/ai-summary') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              AI Passage Summary
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/sermon-outline"
-              className={`nav-link ${isActive('/bible/sermon-outline') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Sermon Outlines
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/maps"
-              className={`nav-link ${isActive('/bible/maps') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Bible Maps
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/sermon-illustrations"
-              className={`nav-link ${isActive('/sermon-illustrations') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Sermon Illustrations
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/scavenger-hunt"
-              className={`nav-link ${isActive('/scavenger-hunt') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Scavenger Hunt
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/find-reference"
-              className={`nav-link ${isActive('/bible/find-reference') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Find the Reference
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/journaling"
-              className={`nav-link ${isActive('/bible/journaling') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Scripture Journaling
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/translation-comparisons"
-              className={`nav-link ${isActive('/translation-comparisons') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Translation Notes
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/bible/timeline"
-              className={`nav-link ${isActive('/bible/timeline') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Bible Timeline
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/settings/translations"
-              className={`nav-link ${isActive('/settings/translations') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Translation Settings
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/settings/accessibility"
-              className={`nav-link ${isActive('/settings/accessibility') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Accessibility
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/substitute"
-              className={`nav-link ${isActive('/substitute') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Substitute
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/feedback"
-              className={`nav-link ${isActive('/feedback') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Feedback
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/groups"
-              className={`nav-link ${isActive('/groups') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Groups
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/admin"
-              className={`nav-link admin-link ${isActive('/admin') && location.pathname === '/admin' ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Admin
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/organization/dashboard"
-              className={`nav-link ${isActive('/organization') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Organization
-            </Link>
-          </li>
-          {isModerator() && (
-            <li className="nav-item">
-              <Link
-                to="/admin/moderation"
-                className={`nav-link moderation-link ${isActive('/admin/moderation') ? 'active' : ''}`}
-                onClick={closeMenu}
-              >
-                Moderation
-                {getReportsByStatus('pending').length > 0 && (
-                  <span className="notification-badge">
-                    {getReportsByStatus('pending').length}
-                  </span>
+              Admin <span className="dropdown-arrow">{openDropdown === 'admin' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'admin' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/admin" onClick={closeMenu}>Dashboard</Link></li>
+                <li><Link to="/admin/create" onClick={closeMenu}>Create Lesson</Link></li>
+                <li><Link to="/admin/analytics" onClick={closeMenu}>Analytics</Link></li>
+                <li><Link to="/admin/experiments" onClick={closeMenu}>Experiments</Link></li>
+                {isModerator() && (
+                  <li>
+                    <Link to="/admin/moderation" onClick={closeMenu}>
+                      Moderation
+                      {getReportsByStatus('pending').length > 0 && (
+                        <span className="notification-badge-inline">
+                          {getReportsByStatus('pending').length}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
                 )}
-              </Link>
-            </li>
-          )}
-          <li className="nav-item">
-            <Link
-              to="/admin/incidents"
-              className={`nav-link ${isActive('/admin/incidents') ? 'active' : ''}`}
-              onClick={closeMenu}
-            >
-              Incidents
-            </Link>
+                <li><Link to="/admin/incidents" onClick={closeMenu}>Incidents</Link></li>
+                <li><Link to="/groups" onClick={closeMenu}>Groups</Link></li>
+                <li><Link to="/organization/dashboard" onClick={closeMenu}>Organization</Link></li>
+              </ul>
+            )}
           </li>
+
+          {/* Settings Dropdown */}
+          <li className={`nav-item nav-dropdown ${isDropdownActive(['/settings']) ? 'active' : ''}`}>
+            <button
+              className="nav-link dropdown-toggle"
+              onClick={() => toggleDropdown('settings')}
+            >
+              Settings <span className="dropdown-arrow">{openDropdown === 'settings' ? '▲' : '▼'}</span>
+            </button>
+            {openDropdown === 'settings' && (
+              <ul className="dropdown-menu">
+                <li><Link to="/settings" onClick={closeMenu}>General Settings</Link></li>
+                <li><Link to="/settings/profile" onClick={closeMenu}>Profile</Link></li>
+                <li><Link to="/settings/accessibility" onClick={closeMenu}>Accessibility</Link></li>
+                <li><Link to="/settings/translations" onClick={closeMenu}>Translations</Link></li>
+                <li><Link to="/settings/reading" onClick={closeMenu}>Reading Preferences</Link></li>
+                <li><Link to="/feedback" onClick={closeMenu}>Feedback</Link></li>
+                <li><Link to="/bug-report" onClick={closeMenu}>Report a Bug</Link></li>
+              </ul>
+            )}
+          </li>
+
+          {/* Theme Toggle */}
           <li className="nav-item theme-toggle-item">
             <button
               onClick={toggleTheme}
@@ -456,6 +281,8 @@ function Navigation() {
               {theme === 'light' ? '🌙' : '☀️'}
             </button>
           </li>
+
+          {/* User Switcher */}
           <li className="nav-item user-switcher-item">
             <button
               onClick={() => setShowUserSwitcher(!showUserSwitcher)}
