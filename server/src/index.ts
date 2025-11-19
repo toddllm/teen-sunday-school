@@ -49,6 +49,7 @@ import icebreakerRoutes from './routes/icebreaker.routes';
 import profileRoutes from './routes/profile.routes';
 import parentRoutes from './routes/parent.routes';
 import proverbRoutes from './routes/proverb.routes';
+import aiSummaryRoutes from './routes/ai-summary.routes';
 import xpRoutes from './routes/xp.routes';
 import quizRoutes from './routes/quiz.routes';
 import lessonDebriefRoutes from './routes/lesson-debrief.routes';
@@ -186,6 +187,7 @@ app.use('/api', lessonDebriefRoutes);
 app.use('/api/taxonomy', taggingTaxonomyRoutes);
 app.use('/api/me/profile', profileRoutes);
 app.use('/api/proverbs', proverbRoutes);
+app.use('/api/ai/passage-summary', aiSummaryRoutes);
 
 
 // 404 handler

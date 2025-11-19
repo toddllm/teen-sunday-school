@@ -83,6 +83,7 @@ import BugReportPage from './pages/BugReportPage';
 import AdminBugReportsPage from './pages/AdminBugReportsPage';
 import CohortProgressTrackingPage from './pages/CohortProgressTrackingPage';
 import ProverbsAdminPage from './pages/ProverbsAdminPage';
+import AIPassageSummaryPage from './pages/AIPassageSummaryPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -218,6 +219,7 @@ function App() {
             <Route path="/bible/timeline" element={<TimelinePage />} />
             <Route path="/bible/chronological-plan" element={<ChronologicalPlanPage />} />
             <Route path="/bible/maps" element={<BibleMapPage />} />
+            <Route path="/bible/ai-summary" element={<AIPassageSummaryPage />} />
             <Route path="/characters" element={<CharactersPage />} />
             <Route path="/characters/:id" element={<CharacterDetailPage />} />
             <Route path="/question-bank" element={<QuestionBankPage />} />

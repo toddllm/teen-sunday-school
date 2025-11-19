@@ -2936,3 +2936,51 @@ model ProverbInteraction {
   @@index([interactionType])
   @@index([createdAt])
 }
+
+// ============================================================================
+// AI PASSAGE SUMMARY / PREVIEW
+// ============================================================================
+
+model PassageSummary {
+  id             String   @id @default(cuid())
+  organizationId String?  // NULL = public/shared summary
+
+  // Passage identification
+  verseId        String   // e.g., "JHN.3.16" or "JHN.3.16-JHN.3.21" for ranges
+  verseReference String   // e.g., "John 3:16" or "John 3:16-21" (human-readable)
+  bibleId        String   // Bible translation ID (e.g., "de4e12af7f28f599-02" for NIV)
+  passageText    String   @db.Text
+
+  // AI-generated content
+  summary        String   @db.Text  // 2-3 sentence overview
+  keyPoints      Json     // Array of key insights/takeaways
+  historicalContext String? @db.Text // Historical and cultural background
+  literaryContext String? @db.Text // Literary context and structure
+  practicalApplication String? @db.Text // Modern application for teens
+
+  // AI metadata
+  generatedBy    String   @default("ai")
+  aiModel        String?  // e.g., "gpt-4", "claude-3-sonnet"
+  aiProvider     String?  // e.g., "openai", "anthropic"
+
+  // Content filtering
+  contentFiltered Boolean  @default(false)
+  filterCategory FilterCategory?
+
+  // User engagement
+  viewCount      Int      @default(0)
+  lastViewedAt   DateTime @default(now())
+
+  // Authorship
+  createdBy      String?  // User ID who generated the summary
+  userId         String?  // For user-specific summaries
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([verseId, bibleId, organizationId])
+  @@index([verseId])
+  @@index([bibleId])
+  @@index([organizationId])
+  @@index([createdAt])
+}
