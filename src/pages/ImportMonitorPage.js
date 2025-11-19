@@ -17,17 +17,6 @@ const ImportMonitorPage = () => {
   const [pagination, setPagination] = useState(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
 
-  // Check if user is org admin
-  if (!isOrgAdmin()) {
-    return (
-      <div className="import-monitor-page">
-        <div className="error-message">
-          You do not have permission to access this page.
-        </div>
-      </div>
-    );
-  }
-
   // Load import jobs list
   const loadJobs = async () => {
     try {
@@ -146,6 +135,17 @@ const ImportMonitorPage = () => {
     return (
       <div className="import-monitor-page">
         <div className="loading">Loading import jobs...</div>
+      </div>
+    );
+  }
+
+  // Check if user is org admin
+  if (!isOrgAdmin()) {
+    return (
+      <div className="import-monitor-page">
+        <div className="error-message">
+          You do not have permission to access this page.
+        </div>
       </div>
     );
   }

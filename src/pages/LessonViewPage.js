@@ -22,17 +22,7 @@ function LessonViewPage() {
     participants,
   } = useSession();
 
-  if (!lesson) {
-    return (
-      <div className="container">
-        <div className="error-message">
-          Lesson not found. <Link to="/lessons">Back to Lessons</Link>
-        </div>
-      </div>
-    );
-  }
-
-  const slides = lesson.slides || [];
+  const slides = lesson?.slides || [];
 
   // Sync slide index when in live session mode
   useEffect(() => {
@@ -99,6 +89,16 @@ function LessonViewPage() {
       window.speechSynthesis.speak(utterance);
     }
   };
+
+  if (!lesson) {
+    return (
+      <div className="container">
+        <div className="error-message">
+          Lesson not found. <Link to="/lessons">Back to Lessons</Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="lesson-view-page">

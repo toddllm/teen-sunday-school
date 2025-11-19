@@ -80,7 +80,7 @@ const QuizTakePage = () => {
   };
 
   const handleSubmit = async () => {
-    if (!confirm('Are you sure you want to submit your quiz?')) {
+    if (!window.confirm('Are you sure you want to submit your quiz?')) {
       return;
     }
 
