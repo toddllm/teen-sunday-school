@@ -22,7 +22,9 @@ import TemplateEditorPage from './pages/TemplateEditorPage';
 import BibleToolPage from './pages/BibleToolPage';
 import ParallelBiblePage from './pages/ParallelBiblePage';
 import TranslationSettingsPage from './pages/TranslationSettingsPage';
-import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
+import TodayDevotionalPage from './pages/TodayDevotionalPage';
+import DevotionalAdminPage from './pages/DevotionalAdminPage';
+import DevotionalEditorPage from './pages/DevotionalEditorPage';import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
 import OrganizationSettingsPage from './pages/OrganizationSettingsPage';
 import AccessibilitySettingsPage from './pages/AccessibilitySettingsPage';
 import ReadingMetricsSettingsPage from './pages/ReadingMetricsSettingsPage';
@@ -130,7 +132,8 @@ function AppContent() {
           <Route path="/badges" element={<BadgesPage />} />
           <Route path="/lessons" element={<LessonsPage />} />
           <Route path="/lesson/:id" element={<LessonViewPage />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/devotionals" element={<TodayDevotionalPage />} />
+          <Route path="/devotional/:id" element={<TodayDevotionalPage />} />          <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/create" element={<LessonCreatorPage />} />
           <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />
           <Route path="/admin/games/:lessonId" element={<GamesAdminPage />} />
@@ -138,7 +141,9 @@ function AppContent() {
           <Route path="/admin/branding" element={<OrganizationSettingsPage />} />
           <Route path="/admin/translations" element={<TranslationAdminPage />} />
           <Route path="/admin/feedback" element={<FeedbackAdminPage />} />          <Route path="/admin/plans" element={<PlansAdminPage />} />
-          <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
+          <Route path="/admin/devotionals" element={<DevotionalAdminPage />} />
+          <Route path="/admin/devotionals/create" element={<DevotionalEditorPage />} />
+          <Route path="/admin/devotionals/edit/:id" element={<DevotionalEditorPage />} />          <Route path="/admin/plan/create" element={<PlanCreatorPage />} />
           <Route path="/admin/plan/edit/:id" element={<PlanCreatorPage />} />
           <Route path="/admin/plan/preview/:id" element={<PlanPreviewPage />} />
           <Route path="/admin/ai-filters" element={<AIFiltersAdminPage />} />
@@ -172,7 +177,8 @@ function App() {
             <Route path="/streak-protection" element={<StreakProtectionPage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lesson/:id" element={<LessonViewPage />} />
-            <Route path="/presenter/:id" element={<PresenterViewPage />} />
+          <Route path="/devotionals" element={<TodayDevotionalPage />} />
+          <Route path="/devotional/:id" element={<TodayDevotionalPage />} />            <Route path="/presenter/:id" element={<PresenterViewPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/create" element={<LessonCreatorPage />} />
             <Route path="/admin/edit/:id" element={<LessonCreatorPage />} />

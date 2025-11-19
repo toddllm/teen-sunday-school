@@ -1,0 +1,366 @@
+/* Today Devotional Page Styles */
+
+.today-devotional-page {
+  padding: 2rem 0;
+  min-height: 100vh;
+}
+
+.today-devotional-page .container {
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+}
+
+/* Main Content */
+.devotional-content {
+  background: var(--card-bg, white);
+  border-radius: 8px;
+  padding: 2.5rem;
+  box-shadow: var(--box-shadow, 0 2px 8px rgba(0,0,0,0.1));
+}
+
+/* Header */
+.devotional-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color, #e0e0e0);
+}
+
+.today-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--primary-color, #4a90e2);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.devotional-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted, #666);
+  font-size: 0.9rem;
+}
+
+.meta-separator {
+  opacity: 0.5;
+}
+
+.devotional-title {
+  font-size: 2.5rem;
+  margin: 0.5rem 0;
+  color: var(--text-color);
+  line-height: 1.2;
+}
+
+.devotional-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted, #666);
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
+.devotional-author {
+  font-size: 1rem;
+  color: var(--text-muted, #666);
+  margin-top: 0.5rem;
+}
+
+/* Passages */
+.devotional-passages {
+  background: var(--bg-color, #f8f9fa);
+  border-left: 4px solid var(--primary-color, #4a90e2);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 4px;
+}
+
+.devotional-passages h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-size: 1.1rem;
+}
+
+.passage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.passage-ref {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.passage-icon {
+  font-size: 1.2rem;
+}
+
+.passage-text {
+  font-weight: 600;
+  color: var(--primary-color, #4a90e2);
+}
+
+/* Body Content */
+.devotional-body {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-color);
+  margin: 2rem 0;
+}
+
+.devotional-body p {
+  margin-bottom: 1.2rem;
+}
+
+.devotional-body strong {
+  color: var(--primary-color, #4a90e2);
+  font-weight: 600;
+}
+
+.devotional-body blockquote {
+  border-left: 4px solid var(--accent-color, #ffa726);
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--text-muted, #666);
+}
+
+.devotional-body ul,
+.devotional-body ol {
+  margin: 1rem 0 1rem 2rem;
+}
+
+.devotional-body li {
+  margin-bottom: 0.5rem;
+}
+
+/* Tags */
+.devotional-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+.devotional-tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: var(--accent-color-light, #e3f2fd);
+  color: var(--accent-color, #1976d2);
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Footer */
+.devotional-footer {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--border-color, #e0e0e0);
+  text-align: center;
+}
+
+.share-section p {
+  color: var(--text-muted, #666);
+  font-size: 0.95rem;
+}
+
+/* Sidebar */
+.devotional-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar-section {
+  background: var(--card-bg, white);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow, 0 2px 8px rgba(0,0,0,0.1));
+}
+
+.sidebar-section h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--border-color, #e0e0e0);
+  padding-bottom: 0.5rem;
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sidebar-item {
+  display: block;
+  padding: 0.75rem;
+  background: var(--bg-color, #f8f9fa);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: all 0.2s;
+}
+
+.sidebar-item:hover {
+  background: var(--primary-color, #4a90e2);
+  color: white;
+  transform: translateX(4px);
+}
+
+.sidebar-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted, #666);
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-item:hover .sidebar-date {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebar-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* No Devotional State */
+.no-devotional {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.no-devotional h1 {
+  color: var(--text-color);
+  margin-bottom: 2rem;
+}
+
+.empty-state {
+  background: var(--card-bg, white);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: var(--box-shadow, 0 2px 8px rgba(0,0,0,0.1));
+}
+
+.devotional-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.devotional-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.devotional-card-small {
+  background: var(--bg-color, #f8f9fa);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid var(--border-color, #e0e0e0);
+  transition: all 0.3s;
+}
+
+.devotional-card-small:hover {
+  border-color: var(--primary-color, #4a90e2);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-date {
+  font-size: 0.8rem;
+  color: var(--text-muted, #666);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.devotional-card-small h3 {
+  margin: 0.5rem 0;
+  color: var(--text-color);
+  font-size: 1.1rem;
+}
+
+.card-subtitle {
+  margin: 0.5rem 0 0 0;
+  color: var(--text-muted, #666);
+  font-size: 0.9rem;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .devotional-passages {
+  background: #2c2c2c;
+  border-left-color: var(--primary-color);
+}
+
+[data-theme="dark"] .sidebar-item {
+  background: #2c2c2c;
+}
+
+[data-theme="dark"] .sidebar-item:hover {
+  background: var(--primary-color);
+}
+
+[data-theme="dark"] .devotional-card-small {
+  background: #2c2c2c;
+  border-color: #444;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .today-devotional-page .container {
+    grid-template-columns: 1fr;
+  }
+
+  .devotional-sidebar {
+    order: 2;
+  }
+
+  .devotional-content {
+    padding: 1.5rem;
+  }
+
+  .devotional-title {
+    font-size: 2rem;
+  }
+
+  .devotional-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .devotional-title {
+    font-size: 1.75rem;
+  }
+
+  .devotional-body {
+    font-size: 1rem;
+  }
+
+  .devotional-content {
+    padding: 1rem;
+  }
+}

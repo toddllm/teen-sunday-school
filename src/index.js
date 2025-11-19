@@ -31,7 +31,7 @@ import { IcebreakerProvider } from './contexts/IcebreakerContext';
 import { ProfileProvider } from './contexts/ProfileContext';
 import { CharacterProvider } from './contexts/CharacterContext';
 import { FeedbackProvider } from './contexts/FeedbackContext';import { QuestionBankProvider } from './contexts/QuestionBankContext';
-import { ContextCardProvider } from './contexts/ContextCardContext';
+import { DevotionalProvider } from './contexts/DevotionalContext';import { ContextCardProvider } from './contexts/ContextCardContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
 import { SeriesProvider } from './contexts/SeriesContext';
@@ -87,7 +87,7 @@ root.render(
                                               <ThematicJourneyProvider>
                                                 <CommentaryProvider>
                                                   <FeedbackProvider>                                                  <App />
-                                                  </FeedbackProvider>                                                </CommentaryProvider>
+                                                    </DevotionalProvider>                                                    <DevotionalProvider>                                                  </FeedbackProvider>                                                </CommentaryProvider>
                                               </ThematicJourneyProvider>
                                             </LexiconProvider>
                                           </OutlineProvider>

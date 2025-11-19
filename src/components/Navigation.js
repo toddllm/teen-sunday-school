@@ -99,7 +99,14 @@ function Navigation() {
               onClick={closeMenu}
             >
               Journeys
-            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="/devotionals"
+              className={`nav-link ${isActive('/devotionals') || isActive('/devotional') ? 'active' : ''}`}
+              onClick={closeMenu}
+            >
+              Devotionals            </Link>
           </li>
           <li className="nav-item">
             <Link
