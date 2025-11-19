@@ -30,9 +30,11 @@ import { TopicProvider } from './contexts/TopicContext';
 import { IcebreakerProvider } from './contexts/IcebreakerContext';
 import { ProfileProvider } from './contexts/ProfileContext';
 import { CharacterProvider } from './contexts/CharacterContext';
-import { FeedbackProvider } from './contexts/FeedbackContext';import { QuestionBankProvider } from './contexts/QuestionBankContext';
-import { DevotionalProvider } from './contexts/DevotionalContext';import { ContextCardProvider } from './contexts/ContextCardContext';
-import { ABTestProvider } from './contexts/ABTestContext';import { AuthProvider } from './contexts/AuthContext';
+import { QuestionBankProvider } from './contexts/QuestionBankContext';
+import { FeedbackProvider } from './contexts/FeedbackContext';
+import { DevotionalProvider } from './contexts/DevotionalContext';
+import { ABTestProvider } from './contexts/ABTestContext';
+import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
 import { SeriesProvider } from './contexts/SeriesContext';
 import { XPProvider } from './contexts/XPContext';
@@ -47,8 +49,9 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ABTestProvider>    <OrganizationProvider>
-      <AuthProvider>
+    <ABTestProvider>
+      <OrganizationProvider>
+        <AuthProvider>
         <ThemeProvider>
         <ReadingMetricsProvider>
           <AccessibilityProvider>
@@ -124,9 +127,10 @@ root.render(
           </AccessibilityProvider>
         </ReadingMetricsProvider>
       </ThemeProvider>
-    </AuthProvider>
-    </OrganizationProvider>
-    </ABTestProvider>  </React.StrictMode>
+        </AuthProvider>
+      </OrganizationProvider>
+    </ABTestProvider>
+  </React.StrictMode>
 );
 
 // Register service worker for offline functionality
