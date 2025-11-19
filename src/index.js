@@ -36,7 +36,7 @@ import { DevotionalProvider } from './contexts/DevotionalContext';
 import { UserProvider } from './contexts/UserContext';
 import { CommentProvider } from './contexts/CommentContext';
 import { KidsModeProvider } from './contexts/KidsModeContext';
-import { KidsContentProvider } from './contexts/KidsContentProvider';
+import { KidsContentProvider } from './contexts/KidsContentContext';
 import { ReflectionProvider } from './contexts/ReflectionContext';
 import { ABTestProvider } from './contexts/ABTestContext';
 import { AuthProvider } from './contexts/AuthContext';
