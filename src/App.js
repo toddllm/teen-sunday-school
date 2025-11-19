@@ -88,6 +88,7 @@ import SermonIllustrationPage from './pages/SermonIllustrationPage';
 import ScavengerHuntPage from './pages/ScavengerHuntPage';
 import ScavengerHuntAdminPage from './pages/ScavengerHuntAdminPage';
 import SubmissionGalleryPage from './pages/SubmissionGalleryPage';
+import CacheConfigAdminPage from './pages/CacheConfigAdminPage';
 import './App.css';
 
 // Component to handle onboarding check and navigation visibility
@@ -203,6 +204,7 @@ function App() {
             <Route path="/admin/proverbs" element={<ProverbsAdminPage />} />
             <Route path="/sermon-illustrations" element={<SermonIllustrationPage />} />
             <Route path="/admin/scavenger-hunt" element={<ScavengerHuntAdminPage />} />
+            <Route path="/admin/cache-config" element={<CacheConfigAdminPage />} />
             <Route path="/admin/scavenger-hunt/:huntId/submissions" element={<SubmissionGalleryPage />} />
             <Route path="/challenges" element={<ChallengesPage />} />
             <Route path="/scavenger-hunt" element={<ScavengerHuntPage />} />
