@@ -33,6 +33,8 @@ import { CharacterProvider } from './contexts/CharacterContext';
 import { QuestionBankProvider } from './contexts/QuestionBankContext';
 import { FeedbackProvider } from './contexts/FeedbackContext';
 import { DevotionalProvider } from './contexts/DevotionalContext';
+import { UserProvider } from './contexts/UserContext';
+import { CommentProvider } from './contexts/CommentContext';
 import { ABTestProvider } from './contexts/ABTestContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ReadingMetricsProvider } from './contexts/ReadingMetricsContext';
@@ -91,7 +93,11 @@ root.render(
                                                             <CommentaryProvider>
                                                               <FeedbackProvider>
                                                                 <DevotionalProvider>
-                                                                  <App />
+                                                                  <UserProvider>
+                                                                    <CommentProvider>
+                                                                      <App />
+                                                                    </CommentProvider>
+                                                                  </UserProvider>
                                                                 </DevotionalProvider>
                                                               </FeedbackProvider>
                                                             </CommentaryProvider>

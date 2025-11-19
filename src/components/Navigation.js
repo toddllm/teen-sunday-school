@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useOrganization } from '../contexts/OrganizationContext';
+import { useUser } from '../contexts/UserContext';
+import { useComments } from '../contexts/CommentContext';
 import './Navigation.css';
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showUserSwitcher, setShowUserSwitcher] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { organization } = useOrganization();
+  const { currentUser, users, switchUser, isModerator } = useUser();
+  const { getReportsByStatus } = useComments();
 
   const isActive = (path) => {
     return location.pathname === path || location.pathname.startsWith(path + '/');
@@ -326,6 +331,22 @@ function Navigation() {
               Admin
             </Link>
           </li>
+          {isModerator() && (
+            <li className="nav-item">
+              <Link
+                to="/admin/moderation"
+                className={`nav-link moderation-link ${isActive('/admin/moderation') ? 'active' : ''}`}
+                onClick={closeMenu}
+              >
+                Moderation
+                {getReportsByStatus('pending').length > 0 && (
+                  <span className="notification-badge">
+                    {getReportsByStatus('pending').length}
+                  </span>
+                )}
+              </Link>
+            </li>
+          )}
           <li className="nav-item">
             <Link
               to="/admin/incidents"
@@ -344,6 +365,33 @@ function Navigation() {
             >
               {theme === 'light' ? '🌙' : '☀️'}
             </button>
+          </li>
+          <li className="nav-item user-switcher-item">
+            <button
+              onClick={() => setShowUserSwitcher(!showUserSwitcher)}
+              className="user-switcher-btn"
+              title="Switch user"
+            >
+              👤 {currentUser?.name || 'Guest'}
+            </button>
+            {showUserSwitcher && (
+              <div className="user-switcher-dropdown">
+                {users.map(user => (
+                  <button
+                    key={user.id}
+                    onClick={() => {
+                      switchUser(user.id);
+                      setShowUserSwitcher(false);
+                      closeMenu();
+                    }}
+                    className={`user-option ${currentUser?.id === user.id ? 'active' : ''}`}
+                  >
+                    {user.name}
+                    <span className="user-role">{user.role}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </li>
         </ul>
       </div>
