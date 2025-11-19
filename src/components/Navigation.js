@@ -99,6 +99,7 @@ function Navigation() {
               onClick={closeMenu}
             >
               Journeys
+            </Link>
           </li>
           <li className="nav-item">
             <Link
@@ -158,6 +159,10 @@ function Navigation() {
               onClick={closeMenu}
             >
               Miracles
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
               to="/bible/parables"
               className={`nav-link ${isActive('/bible/parables') ? 'active' : ''}`}
               onClick={closeMenu}
