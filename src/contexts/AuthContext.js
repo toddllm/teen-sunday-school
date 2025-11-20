@@ -108,6 +108,31 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const quickLogin = (name, email) => {
+    // Quick login for demo purposes
+    const demoUser = {
+      id: email,
+      name,
+      email,
+      role: email.includes('admin') ? 'org_admin' : email.includes('leader') ? 'leader' : 'member'
+    };
+
+    const demoOrg = {
+      id: 'demo-org',
+      name: 'Demo Organization'
+    };
+
+    localStorage.setItem('auth_token', 'demo-token');
+    localStorage.setItem('user', JSON.stringify(demoUser));
+    localStorage.setItem('organization', JSON.stringify(demoOrg));
+
+    setUser(demoUser);
+    setOrganization(demoOrg);
+    setIsAuthenticated(true);
+
+    return { success: true };
+  };
+
   const logout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
@@ -129,6 +154,7 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated,
     login,
     register,
+    quickLogin,
     logout,
     isOrgAdmin
   };

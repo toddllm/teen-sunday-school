@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useChallenges } from '../contexts/ChallengeContext';
+import { useAuth } from '../contexts/AuthContext';
 import ChallengeCard from '../components/challenges/ChallengeCard';
 import Leaderboard from '../components/challenges/Leaderboard';
 import ProgressBar from '../components/challenges/ProgressBar';
 import './ChallengesPage.css';
 
 const ChallengesPage = () => {
+  const { user } = useAuth();
   const {
     activeChallenges,
     loading,
@@ -103,7 +105,7 @@ const ChallengesPage = () => {
   // Detail view
   if (selectedChallenge && challengeDetails) {
     const isParticipant = challengeDetails.participants?.some(
-      p => p.userId === 'current-user-id' // TODO: Replace with actual user ID
+      p => p.userId === user?.id
     );
 
     return (
@@ -162,7 +164,7 @@ const ChallengesPage = () => {
           )}
 
           {leaderboard && leaderboard.length > 0 && (
-            <Leaderboard entries={leaderboard} currentUserId="current-user-id" />
+            <Leaderboard entries={leaderboard} currentUserId={user?.id} />
           )}
 
           {challengeDetails.celebrationMessage &&

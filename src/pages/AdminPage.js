@@ -36,11 +36,13 @@ function AdminPage() {
             </Link>
             <Link to="/admin/translations" className="btn btn-secondary">
               🌍 Manage Translations
+            </Link>
             <Link to="/admin/feedback" className="btn btn-secondary">
               📬 Feedback
+            </Link>
             <Link to="/admin/devotionals" className="btn btn-secondary">
               📖 Devotionals
-            </Link>            </Link>            </Link>
+            </Link>
             <Link to="/admin/create" className="btn btn-primary">
               + Create New Lesson
             </Link>
