@@ -11,6 +11,8 @@ const LessonCreatorPage = () => {
   const { templates, recordTemplateUsage } = useTemplates();
 
   const [selectedTemplateId, setSelectedTemplateId] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -54,23 +56,39 @@ const LessonCreatorPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
-    if (id) {
-      updateLesson(id, formData);
-    } else {
-      const lessonId = addLesson(formData);
-
-      // Record template usage if a template was used
-      if (selectedTemplateId && lessonId) {
-        try {
-          await recordTemplateUsage(selectedTemplateId, lessonId);
-        } catch (err) {
-          console.error('Failed to record template usage:', err);
-        }
-      }
+    // Validation
+    if (!formData.title || !formData.title.trim()) {
+      setError('Lesson title is required');
+      setLoading(false);
+      return;
     }
 
-    navigate('/admin');
+    try {
+      if (id) {
+        updateLesson(id, formData);
+      } else {
+        const lessonId = addLesson(formData);
+
+        // Record template usage if a template was used
+        if (selectedTemplateId && lessonId) {
+          try {
+            await recordTemplateUsage(selectedTemplateId, lessonId);
+          } catch (err) {
+            console.error('Failed to record template usage:', err);
+            // Don't block navigation on template recording failure
+          }
+        }
+      }
+
+      // Successfully saved, navigate back
+      navigate('/admin');
+    } catch (err) {
+      setError(err.message || 'Failed to save lesson');
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -91,6 +109,8 @@ const LessonCreatorPage = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="lesson-form">
+        {error && <div className="error-message" style={{ padding: '10px', marginBottom: '20px', backgroundColor: '#fee', border: '1px solid #fcc', borderRadius: '4px', color: '#c00' }}>{error}</div>}
+
         {!id && templates.length > 0 && (
           <div className="form-group" style={{
             padding: '20px',
@@ -156,11 +176,11 @@ const LessonCreatorPage = () => {
         </div>
 
         <div className="form-actions">
-          <button type="button" onClick={() => navigate('/admin')} className="cancel-btn">
+          <button type="button" onClick={() => navigate('/admin')} className="cancel-btn" disabled={loading}>
             Cancel
           </button>
-          <button type="submit" className="save-btn">
-            {id ? 'Update Lesson' : 'Create Lesson'}
+          <button type="submit" className="save-btn" disabled={loading}>
+            {loading ? 'Saving...' : (id ? 'Update Lesson' : 'Create Lesson')}
           </button>
         </div>
       </form>

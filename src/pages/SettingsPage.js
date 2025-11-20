@@ -9,6 +9,8 @@ const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('downloads');
   const [downloadingTranslations, setDownloadingTranslations] = useState({});
   const [downloadProgress, setDownloadProgress] = useState({});
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     refreshStorageInfo();
@@ -16,6 +18,8 @@ const SettingsPage = () => {
 
   const handleDownload = async (translationId) => {
     try {
+      setError('');
+      setSuccessMessage('');
       setDownloadingTranslations(prev => ({ ...prev, [translationId]: true }));
 
       trackAnalytics('translation_download_started', { translationId });
@@ -34,12 +38,13 @@ const SettingsPage = () => {
         delete newProgress[translationId];
         return newProgress;
       });
+      setSuccessMessage('Translation downloaded successfully!');
 
     } catch (error) {
       console.error('Download failed:', error);
       trackAnalytics('translation_download_failed', { translationId, error: error.message });
       setDownloadingTranslations(prev => ({ ...prev, [translationId]: false }));
-      alert(`Download failed: ${error.message}`);
+      setError(`Download failed: ${error.message}`);
     }
   };
 
@@ -60,21 +65,27 @@ const SettingsPage = () => {
     }
 
     try {
+      setError('');
+      setSuccessMessage('');
       await offlineStorage.deleteTranslation(translationId);
       await refreshStorageInfo();
       trackAnalytics('translation_deleted', { translationId });
+      setSuccessMessage('Translation deleted successfully!');
     } catch (error) {
       console.error('Delete failed:', error);
-      alert(`Failed to delete translation: ${error.message}`);
+      setError(`Failed to delete translation: ${error.message}`);
     }
   };
 
   const handleSync = async () => {
     try {
+      setError('');
+      setSuccessMessage('');
       await syncPendingChanges();
+      setSuccessMessage('Sync completed successfully!');
     } catch (error) {
       console.error('Sync failed:', error);
-      alert(`Sync failed: ${error.message}`);
+      setError(`Sync failed: ${error.message}`);
     }
   };
 
@@ -108,6 +119,18 @@ const SettingsPage = () => {
           )}
         </div>
       </div>
+
+      {error && (
+        <div className="error-message" style={{ padding: '10px', margin: '10px 0', backgroundColor: '#fee', border: '1px solid #fcc', borderRadius: '4px', color: '#c00' }}>
+          {error}
+        </div>
+      )}
+
+      {successMessage && (
+        <div className="success-message" style={{ padding: '10px', margin: '10px 0', backgroundColor: '#efe', border: '1px solid #cfc', borderRadius: '4px', color: '#060' }}>
+          {successMessage}
+        </div>
+      )}
 
       <div className="settings-tabs">
         <button

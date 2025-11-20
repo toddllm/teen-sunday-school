@@ -7,6 +7,8 @@ function FeedbackFormPage() {
   const navigate = useNavigate();
   const { addFeedback } = useFeedback();
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,36 +24,45 @@ function FeedbackFormPage() {
       ...prev,
       [name]: value
     }));
+    setError(''); // Clear error on change
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
     // Validate required fields
     if (!formData.subject.trim() || !formData.message.trim()) {
-      alert('Please fill in both subject and message fields.');
+      setError('Please fill in both subject and message fields.');
+      setLoading(false);
       return;
     }
 
-    // Add feedback
-    addFeedback(formData);
+    try {
+      // Add feedback
+      await addFeedback(formData);
 
-    // Show success message
-    setSubmitted(true);
+      // Show success message
+      setSubmitted(true);
 
-    // Reset form after delay and redirect
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        category: 'general',
-        subject: '',
-        message: '',
-        priority: 'medium'
-      });
-      setSubmitted(false);
-      navigate('/');
-    }, 2500);
+      // Reset form after delay and redirect
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          category: 'general',
+          subject: '',
+          message: '',
+          priority: 'medium'
+        });
+        setSubmitted(false);
+        navigate('/');
+      }, 2500);
+    } catch (err) {
+      setError(err.message || 'Failed to submit feedback. Please try again.');
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
@@ -77,6 +88,8 @@ function FeedbackFormPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="feedback-form">
+            {error && <div className="error-message" style={{ padding: '10px', marginBottom: '20px', backgroundColor: '#fee', border: '1px solid #fcc', borderRadius: '4px', color: '#c00' }}>{error}</div>}
+
             <div className="form-row">
               <div className="form-group">
                 <label className="form-label" htmlFor="name">
@@ -202,11 +215,11 @@ function FeedbackFormPage() {
             </div>
 
             <div className="form-actions">
-              <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+              <button type="button" className="btn btn-secondary" onClick={handleCancel} disabled={loading}>
                 Cancel
               </button>
-              <button type="submit" className="btn btn-primary">
-                Submit Feedback
+              <button type="submit" className="btn btn-primary" disabled={loading}>
+                {loading ? 'Submitting...' : 'Submit Feedback'}
               </button>
             </div>
           </form>

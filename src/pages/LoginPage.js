@@ -13,6 +13,7 @@ const LoginPage = () => {
     password: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -22,40 +23,63 @@ const LoginPage = () => {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
       if (isLoginMode) {
-        login(formData.email, formData.password);
-        navigate('/');
+        const result = await login(formData.email, formData.password);
+        if (result.success) {
+          navigate('/');
+        } else {
+          setError(result.message || 'Login failed');
+          setLoading(false);
+        }
       } else {
         if (!formData.name) {
           setError('Name is required for registration');
+          setLoading(false);
           return;
         }
-        register(formData);
-        login(formData.email, formData.password);
-        navigate('/');
+        const registerResult = await register(formData.email, formData.password, formData.name, '');
+        if (registerResult.success) {
+          navigate('/');
+        } else {
+          setError(registerResult.message || 'Registration failed');
+          setLoading(false);
+        }
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'An error occurred');
+      setLoading(false);
     }
   };
 
   const handleQuickLogin = (role) => {
+    setError('');
+    setLoading(true);
+
     try {
+      let result;
       if (role === 'admin') {
-        quickLogin('Admin User', 'admin@example.com');
+        result = quickLogin('Admin User', 'admin@example.com');
       } else if (role === 'leader') {
-        quickLogin('Group Leader', 'leader@example.com');
+        result = quickLogin('Group Leader', 'leader@example.com');
       } else {
-        quickLogin('Member User', 'member@example.com');
+        result = quickLogin('Member User', 'member@example.com');
       }
-      navigate('/');
+
+      if (result.success) {
+        navigate('/');
+      } else {
+        setError('Quick login failed');
+        setLoading(false);
+      }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'An error occurred');
+      setLoading(false);
     }
   };
 
@@ -106,8 +130,8 @@ const LoginPage = () => {
             />
           </div>
 
-          <button type="submit" className="btn-primary">
-            {isLoginMode ? 'Login' : 'Register'}
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? 'Please wait...' : (isLoginMode ? 'Login' : 'Register')}
           </button>
         </form>
 
@@ -144,6 +168,7 @@ const LoginPage = () => {
               type="button"
               onClick={() => handleQuickLogin('admin')}
               className="btn-secondary"
+              disabled={loading}
             >
               Login as Admin
             </button>
@@ -151,6 +176,7 @@ const LoginPage = () => {
               type="button"
               onClick={() => handleQuickLogin('leader')}
               className="btn-secondary"
+              disabled={loading}
             >
               Login as Leader
             </button>
@@ -158,6 +184,7 @@ const LoginPage = () => {
               type="button"
               onClick={() => handleQuickLogin('member')}
               className="btn-secondary"
+              disabled={loading}
             >
               Login as Member
             </button>

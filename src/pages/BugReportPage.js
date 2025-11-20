@@ -6,6 +6,8 @@ import './BugReportPage.css';
 const BugReportPage = () => {
   const { submitBugReport } = useBugReports();
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -23,36 +25,45 @@ const BugReportPage = () => {
       ...prev,
       [name]: value
     }));
+    setError(''); // Clear error on change
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
     if (!formData.title.trim() || !formData.description.trim()) {
-      alert('Please fill in at least the title and description.');
+      setError('Please fill in at least the title and description.');
+      setLoading(false);
       return;
     }
 
-    // Submit the bug report
-    submitBugReport(formData);
+    try {
+      // Submit the bug report
+      await submitBugReport(formData);
 
-    // Show success message
-    setSubmitted(true);
+      // Show success message
+      setSubmitted(true);
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setFormData({
-        title: '',
-        description: '',
-        category: 'bug',
-        severity: 'medium',
-        stepsToReproduce: '',
-        expectedBehavior: '',
-        actualBehavior: '',
-        userEmail: ''
-      });
-      setSubmitted(false);
-    }, 3000);
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setFormData({
+          title: '',
+          description: '',
+          category: 'bug',
+          severity: 'medium',
+          stepsToReproduce: '',
+          expectedBehavior: '',
+          actualBehavior: '',
+          userEmail: ''
+        });
+        setSubmitted(false);
+      }, 3000);
+    } catch (err) {
+      setError(err.message || 'Failed to submit bug report. Please try again.');
+      setLoading(false);
+    }
   };
 
   const handleExportDiagnostics = () => {
@@ -77,6 +88,8 @@ const BugReportPage = () => {
       ) : (
         <>
           <form className="bug-report-form" onSubmit={handleSubmit}>
+            {error && <div className="error-message" style={{ padding: '10px', marginBottom: '20px', backgroundColor: '#fee', border: '1px solid #fcc', borderRadius: '4px', color: '#c00' }}>{error}</div>}
+
             <div className="form-section">
               <h2>Bug Information</h2>
 
@@ -199,8 +212,8 @@ const BugReportPage = () => {
             </div>
 
             <div className="form-actions">
-              <button type="submit" className="btn-primary">
-                Submit Bug Report
+              <button type="submit" className="btn-primary" disabled={loading}>
+                {loading ? 'Submitting...' : 'Submit Bug Report'}
               </button>
               <button
                 type="button"
